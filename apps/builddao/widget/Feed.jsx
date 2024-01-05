@@ -2,6 +2,9 @@ const { Feed } = VM.require("devs.near/widget/Module.Feed");
 
 Feed = Feed || (() => <></>); // make sure you have this or else it can break
 
+const { Post } = VM.require("buildhub.near/widget/components.post");
+Post = Post || (() => <></>);
+
 const Container = styled.div`
   display: grid;
   grid-template-columns: repeat(5, minmax(0, 1fr));
@@ -42,14 +45,10 @@ const CustomFeed = ({ name, hashtag }) => {
         },
       ]}
       Item={(p) => (
-        <Widget
-          loading={<div className="w-100" style={{ height: "200px" }} />}
-          src="/*__@appAccount__*//widget/Post"
-          props={{
-            accountId: p.accountId,
-            blockHeight: p.blockHeight,
-            noBorder: true,
-          }}
+        <Post
+          accountId={p.accountId}
+          blockHeight={p.blockHeight}
+          noBorder={true}
         />
       )}
     />
