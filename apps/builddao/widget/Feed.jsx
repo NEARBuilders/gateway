@@ -4,6 +4,7 @@ Feed = Feed || (() => <></>); // make sure you have this or else it can break
 
 const { Post } = VM.require("buildhub.near/widget/components.post");
 Post = Post || (() => <></>);
+const v = props.v;
 
 const Container = styled.div`
   display: grid;
@@ -24,7 +25,7 @@ const MainContent = styled.div`
   grid-column: span 4 / span 4;
 `;
 
-const [currentFeed, setCurrentFeed] = useState("resolutions");
+const [currentFeed, setCurrentFeed] = useState(v || "resolutions");
 const [template, setTemplate] = useState("What did you have in mind?");
 
 const CustomFeed = ({ name, hashtag }) => {
@@ -102,6 +103,27 @@ const feedsDict = {
 **🛑 BLOCKERS: **
 - @anyone that is causing a blocker or outline any blockers in general`,
   },
+  documentation: {
+    key: "documentation",
+    label: "Documentation",
+    icon: "bi-book",
+    name: "documentation",
+    template: `## TITLE
+(posted via [Build DAO Gateway](https://nearbuilders.org/feed))
+
+**WHAT IS _____?**
+- [context]
+- [why is it important?]
+
+**EXAMPLE**
+- [how can this be demonstrated?]
+- [what is the expected outcome?]
+
+**USAGE**
+- [where is it used?]
+- [how to use it]
+`,
+  }
 };
 
 const feeds = Object.keys(feedsDict);
