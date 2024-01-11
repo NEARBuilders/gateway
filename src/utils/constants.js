@@ -18,3 +18,11 @@ export const navbarNavigationItems = [
     href: "/resources"
   },
 ]
+
+export const mobileNavbarNavigationItems = [
+ ...navbarNavigationItems, 
+ {
+  label: "Docs",
+  href: documentationHref
+ } 
+]

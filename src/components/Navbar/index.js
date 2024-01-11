@@ -162,7 +162,7 @@ export function Navbar() {
             <img src={logoLink} />
           </a>
         </div>
-        <div className="d-none d-md-flex flex-grow-1 flex-shrink-1 justify-content-center align-items-center gap-3 list-unstyled">
+        <div className="d-none d-lg-flex flex-grow-1 flex-shrink-1 justify-content-center align-items-center gap-3">
           {navbarNavigationItems.map(({ href, label }) => {
             const isActive = window.location.href === window.location.origin.concat(href)
 

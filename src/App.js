@@ -1,3 +1,4 @@
+import React from "react"
 import "App.scss"
 import "bootstrap-icons/font/bootstrap-icons.css"
 import "bootstrap/dist/js/bootstrap.bundle"
@@ -5,7 +6,6 @@ import "error-polyfill"
 import {
   EthersProviderContext,
 } from "near-social-vm"
-import React from "react"
 import "react-bootstrap-typeahead/css/Typeahead.bs5.css"
 import "react-bootstrap-typeahead/css/Typeahead.css"
 

@@ -1,52 +1,50 @@
 import React, { createContext, useCallback, useEffect, useState } from "react"
-import { setupWalletSelector } from "@near-wallet-selector/core";
-import { setupHereWallet } from "@near-wallet-selector/here-wallet";
-import { setupMeteorWallet } from "@near-wallet-selector/meteor-wallet";
-import { setupModal } from "@near-wallet-selector/modal-ui";
-import "@near-wallet-selector/modal-ui/styles.css";
-import { setupMyNearWallet } from "@near-wallet-selector/my-near-wallet";
-import { setupNearWallet } from "@near-wallet-selector/near-wallet";
-import { setupNeth } from "@near-wallet-selector/neth";
-import { setupNightly } from "@near-wallet-selector/nightly";
-import { setupSender } from "@near-wallet-selector/sender";
-import "App.scss";
-import Big from "big.js";
-import "bootstrap-icons/font/bootstrap-icons.css";
-import "bootstrap/dist/js/bootstrap.bundle";
-import { isValidAttribute } from "dompurify";
-import "error-polyfill";
+import { setupWalletSelector } from "@near-wallet-selector/core"
+import { setupHereWallet } from "@near-wallet-selector/here-wallet"
+import { setupMeteorWallet } from "@near-wallet-selector/meteor-wallet"
+import { setupModal } from "@near-wallet-selector/modal-ui"
+import "@near-wallet-selector/modal-ui/styles.css"
+import { setupMyNearWallet } from "@near-wallet-selector/my-near-wallet"
+import { setupNearWallet } from "@near-wallet-selector/near-wallet"
+import { setupNeth } from "@near-wallet-selector/neth"
+import { setupNightly } from "@near-wallet-selector/nightly"
+import { setupSender } from "@near-wallet-selector/sender"
+import "App.scss"
+import Big from "big.js"
+import "bootstrap-icons/font/bootstrap-icons.css"
+import "bootstrap/dist/js/bootstrap.bundle"
+import { isValidAttribute } from "dompurify"
+import "error-polyfill"
 import {
   useAccount,
   useInitNear,
   useNear,
   utils,
 } from "near-social-vm";
-import "react-bootstrap-typeahead/css/Typeahead.bs5.css";
-import "react-bootstrap-typeahead/css/Typeahead.css";
-import { Link } from "react-router-dom";
-import { NetworkId, Widgets } from "../data/widgets";
-import { useBosLoaderInitializer } from "../hooks/useBosLoaderInitializer";
-import { documentationHref } from "../utils/constants"
+import "react-bootstrap-typeahead/css/Typeahead.bs5.css"
+import "react-bootstrap-typeahead/css/Typeahead.css"
+import { Link } from "react-router-dom"
+import { NetworkId, Widgets } from "@/data/widgets"
+import { useBosLoaderInitializer } from "@/hooks/useBosLoaderInitializer"
+import { documentationHref } from "@/utils/constants"
 
-const refreshAllowanceObj = {};
+const refreshAllowanceObj = {}
 
 export const AppContext = createContext({})
 
 export function AppContextProvider({ children }) {
-  console.log("RENDERED")
-
-  const [connected, setConnected] = useState(false);
-  const [signedIn, setSignedIn] = useState(false);
-  const [signedAccountId, setSignedAccountId] = useState(null);
-  const [availableStorage, setAvailableStorage] = useState(null);
-  const [walletModal, setWalletModal] = useState(null);
-  const [widgetSrc, setWidgetSrc] = useState(null);
+  const [connected, setConnected] = useState(false)
+  const [signedIn, setSignedIn] = useState(false)
+  const [signedAccountId, setSignedAccountId] = useState(null)
+  const [availableStorage, setAvailableStorage] = useState(null)
+  const [walletModal, setWalletModal] = useState(null)
+  const [widgetSrc, setWidgetSrc] = useState(null)
 
   useBosLoaderInitializer();
 
-  const { initNear } = useInitNear();
-  const near = useNear();
-  const account = useAccount();
+  const { initNear } = useInitNear()
+  const near = useNear()
+  const account = useAccount()
 
   const accountId = account.accountId;
 
