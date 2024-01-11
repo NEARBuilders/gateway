@@ -1,22 +1,24 @@
-import { Widget } from "near-social-vm";
-import React, { useEffect, useState } from "react";
-import { useQuery } from "../hooks/useQuery";
-import { useHashRouterLegacy } from "../hooks/useHashRouterLegacy";
-import { useBosLoaderStore } from "../stores/bos-loader";
+import { Widget } from "near-social-vm"
+import React, { useContext, useEffect, useState } from "react"
+import { useQuery } from "@/hooks/useQuery"
+import { useHashRouterLegacy } from "@/hooks/useHashRouterLegacy"
+import { useBosLoaderStore } from "@/stores/bos-loader"
+import { AppContext } from "@/context/AppContext"
 
-export default function FeedPage(props) {
-  useHashRouterLegacy();
-  const redirectMapStore = useBosLoaderStore();
+export default function FeedPage() {
+  useHashRouterLegacy()
+  const redirectMapStore = useBosLoaderStore()
 
-  const src = props.widgets.feed;
+  const { widgets, requestSignIn } = useContext(AppContext)
 
-  const query = useQuery();
-  const [widgetProps, setWidgetProps] = useState({});
+  const src = widgets.feed;
+
+  const query = useQuery()
+  const [widgetProps, setWidgetProps] = useState({})
 
   useEffect(() => {
     setWidgetProps(Object.fromEntries([...query.entries()]));
-  }, [query]);
-
+  }, [query])
 
   return (
     <div className="container-xl mt-3" style={{ backgroundColor: "#0b0c14" }}>
@@ -26,8 +28,8 @@ export default function FeedPage(props) {
         config={{
           redirectMap: redirectMapStore.redirectMap,
         }}
-        props={{ requestSignIn: props.requestSignIn, ...widgetProps }}
+        props={{ requestSignIn, ...widgetProps }}
       />
     </div>
-  );
+  )
 }

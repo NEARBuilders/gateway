@@ -1,8 +1,10 @@
-import React, { useCallback, useState } from "react";
-import styled from "styled-components";
-import { UserDropdown } from "./desktop/UserDropdown";
-import { Widget } from "near-social-vm";
-import { useBosLoaderStore } from "../../stores/bos-loader";
+import React, { useCallback, useContext, useState } from "react"
+import styled from "styled-components"
+import { UserDropdown } from "./desktop/UserDropdown"
+import { Widget } from "near-social-vm"
+import { useBosLoaderStore } from "@/stores/bos-loader"
+import { AppContext } from "@/context/AppContext"
+import { navbarNavigationItems } from "@/utils/constants"
 
 const StyledNavbar = styled.nav`
   display: flex;
@@ -136,13 +138,15 @@ const MobileLink = styled.a`
 const logoLink =
   "https://ipfs.near.social/ipfs/bafkreihbwho3qfvnu4yss3eh5jrx6uxhrlzdgtdjyzyjrpa6odro6wdxya";
 
-export function Navbar(props) {
-  const redirectStore = useBosLoaderStore();
-  const [dropdown, setDropdown] = useState(false);
+export function Navbar() {
+  const redirectStore = useBosLoaderStore()
+  const [dropdown, setDropdown] = useState(false)
+
+  const props = useContext(AppContext)
 
   const toggleDropdown = useCallback(() => {
     setDropdown((prev) => !prev);
-  }, []);
+  }, [])
 
   return (
     <div
@@ -157,39 +161,20 @@ export function Navbar(props) {
             <img src={logoLink} />
           </a>
         </div>
-        <div className="d-none flex-grow-1 justify-content-center d-md-flex align-items-center gap-3">
-          <NavLink
-            href="/"
-            className={`${window.location.href === `${window.location.origin}/` && "active"
-              }`}
-          >
-            Home
-          </NavLink>
-          <NavLink
-            href="/edit"
-            className={`${window.location.href === `${window.location.origin}/edit` &&
-              "active"
-              }`}
-          >
-            Editor
-          </NavLink>
-          <NavLink href={props.documentationHref}>Docs</NavLink>
-          <NavLink
-            href="/feed"
-            className={`${window.location.href === `${window.location.origin}/feed` &&
-              "active"
-              }`}
-          >
-            Feed
-          </NavLink>
-          <NavLink
-            href="/resources"
-            className={`${window.location.href === `${window.location.origin}/resources` &&
-              "active"
-              }`}
-          >
-            Resources
-          </NavLink>
+        <div className="d-flex flex-grow-1 flex-shrink-1 justify-content-center d-md-flex align-items-center gap-3 list-unstyled">
+          {navbarNavigationItems.map(({ href, label }) => {
+            const isActive = window.location.href === window.location.origin.concat(href)
+
+            return (
+              <NavLink
+                key={label}
+                href={href}
+                className={isActive && "active"}
+              >
+                {label}
+              </NavLink>
+            )
+          })}
         </div>
         <div className="d-none d-md-block flex-grow-1" style={{ flexBasis: 0 }}>
           {!props.signedIn && (
@@ -284,5 +269,5 @@ export function Navbar(props) {
         </div>
       </StyledNavbar>
     </div>
-  );
+  )
 }

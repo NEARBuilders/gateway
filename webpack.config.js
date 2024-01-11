@@ -56,6 +56,7 @@ module.exports = function (env) {
           react: path.resolve(__dirname, "./node_modules/react"),
           "react-dom": path.resolve(__dirname, "./node_modules/react-dom"),
           "near-api-js": path.resolve(__dirname, "./node_modules/near-api-js"),
+          '@': path.resolve(__dirname, './src/'),
         },
       },
       plugins: [

@@ -1,37 +1,38 @@
-import React, { useCallback, useEffect, useMemo, useState } from "react";
-import ls from "local-storage";
-import prettier from "prettier";
-import parserBabel from "prettier/parser-babel";
-import { useHistory, useParams } from "react-router-dom";
-import Editor, { useMonaco } from "@monaco-editor/react";
+import React, { useCallback, useContext, useEffect, useMemo, useState } from "react"
+import ls from "local-storage"
+import prettier from "prettier"
+import parserBabel from "prettier/parser-babel"
+import { useHistory, useParams } from "react-router-dom"
+import Editor, { useMonaco } from "@monaco-editor/react"
 import {
   Widget,
   useCache,
   useNear,
   CommitButton,
   useAccountId,
-} from "near-social-vm";
-import { Nav, OverlayTrigger, Tooltip } from "react-bootstrap";
-import RenameModal from "../components/Editor/RenameModal";
-import OpenModal from "../components/Editor/OpenModal";
+} from "near-social-vm"
+import { Nav, OverlayTrigger, Tooltip } from "react-bootstrap"
+import RenameModal from "../components/Editor/RenameModal"
+import OpenModal from "../components/Editor/OpenModal"
 import {
   FileTab,
   Filetype,
   StorageDomain,
   StorageType,
   toPath,
-} from "../components/Editor/FileTab";
-import { useHashRouterLegacy } from "../hooks/useHashRouterLegacy";
-import vmTypesDeclaration from "raw-loader!near-social-vm-types";
-import styled from "styled-components";
-import { useBosLoaderStore } from "../stores/bos-loader";
+} from "../components/Editor/FileTab"
+import { useHashRouterLegacy } from "../hooks/useHashRouterLegacy"
+import vmTypesDeclaration from "raw-loader!near-social-vm-types"
+import styled from "styled-components"
+import { useBosLoaderStore } from "../stores/bos-loader"
+import { AppContext } from "context/AppContext"
 
-const LsKey = "social.near:v01:";
-const EditorLayoutKey = LsKey + "editorLayout:";
-const WidgetPropsKey = LsKey + "widgetProps:";
-const EditorUncommittedPreviewsKey = LsKey + "editorUncommittedPreviews:";
+const LsKey = "social.near:v01:"
+const EditorLayoutKey = LsKey + "editorLayout:"
+const WidgetPropsKey = LsKey + "widgetProps:"
+const EditorUncommittedPreviewsKey = LsKey + "editorUncommittedPreviews:"
 
-const DefaultEditorCode = "return <div>Hello World</div>;";
+const DefaultEditorCode = "return <div>Hello World</div>;"
 
 const NavPill = styled.button`
   all: unset;
@@ -104,58 +105,57 @@ const Layout = {
   Split: "Split",
 };
 
-export default function EditorPage(props) {
-  useHashRouterLegacy();
-  const { widgetSrc } = useParams();
-  const history = useHistory();
-  const redirectMapStore = useBosLoaderStore();
-  const setWidgetSrc = props.setWidgetSrc;
+export default function EditorPage() {
+  const { setWidgetSrc, widgets } = useContext(AppContext)
 
-  const [loading, setLoading] = useState(false);
-  const [code, setCode] = useState(undefined);
-  const [path, setPath] = useState(undefined);
-  const [files, setFiles] = useState(undefined);
-  const [lastPath, setLastPath] = useState(undefined);
-  const [showRenameModal, setShowRenameModal] = useState(false);
-  const [showOpenModal, setShowOpenModal] = useState(false);
-  const [allSaved, setAllSaved] = useState({});
-  const [uncommittedPreviews, setUncommittedPreviews] = useState(
-    ls.get(EditorUncommittedPreviewsKey) ?? false
-  );
-  const [widgetConfig, setWidgetConfig] = useState(undefined);
+  useHashRouterLegacy()
+  const { widgetSrc } = useParams()
+  const history = useHistory()
+  const redirectMapStore = useBosLoaderStore()
 
-  const [renderCode, setRenderCode] = useState(code);
+  const [code, setCode] = useState(undefined)
+  const [path, setPath] = useState(undefined)
+  const [files, setFiles] = useState(undefined)
+  const [lastPath, setLastPath] = useState(undefined)
+  const [showRenameModal, setShowRenameModal] = useState(false)
+  const [showOpenModal, setShowOpenModal] = useState(false)
+  const [allSaved, setAllSaved] = useState({})
+  const [widgetConfig, setWidgetConfig] = useState(undefined)
+
+  const [renderCode, setRenderCode] = useState(code)
   const [widgetProps, setWidgetProps] = useState(
     ls.get(WidgetPropsKey) || "{}"
-  );
-  const [parsedWidgetProps, setParsedWidgetProps] = useState({});
-  const [propsError, setPropsError] = useState(null);
-  const [metadata, setMetadata] = useState(undefined);
-  const near = useNear();
-  const cache = useCache();
-  const accountId = useAccountId();
+  )
+  const [parsedWidgetProps, setParsedWidgetProps] = useState({})
+  const [propsError, setPropsError] = useState(null)
+  const [metadata, setMetadata] = useState(undefined)
+  const near = useNear()
+  const cache = useCache()
+  const accountId = useAccountId()
 
-  const [tab, setTab] = useState(Tab.Editor);
+  const [tab, setTab] = useState(Tab.Editor)
   const [layout, setLayoutState] = useState(
     ls.get(EditorLayoutKey) || Layout.Tabs
-  );
-  const [previewKey, setPreviewKey] = useState("");
+  )
+  const [previewKey, setPreviewKey] = useState("")
 
-  const monaco = useMonaco();
+  const monaco = useMonaco()
+
+  const uncommittedPreviews =  ls.get(EditorUncommittedPreviewsKey) ?? false
 
   useEffect(() => {
     if (monaco) {
-      monaco.languages.typescript.javascriptDefaults.setEagerModelSync(true);
+      monaco.languages.typescript.javascriptDefaults.setEagerModelSync(true)
       monaco.languages.typescript.javascriptDefaults.addExtraLib(
         vmTypesDeclaration
-      );
+      )
     }
-  }, [monaco]);
+  }, [monaco])
 
   const setLayout = useCallback(
     (layout) => {
-      ls.set(EditorLayoutKey, layout);
-      setLayoutState(layout);
+      ls.set(EditorLayoutKey, layout)
+      setLayoutState(layout)
     },
     [setLayoutState]
   );
@@ -165,7 +165,7 @@ export default function EditorPage(props) {
       edit: null,
       view: widgetSrc,
     });
-  }, [widgetSrc, setWidgetSrc]);
+  }, [widgetSrc, setWidgetSrc])
 
   const updateCode = useCallback(
     (path, code) => {
@@ -199,26 +199,26 @@ export default function EditorPage(props) {
 
   const removeFromFiles = useCallback(
     (path) => {
-      path = JSON.stringify(path);
+      path = JSON.stringify(path)
       setFiles((files) =>
         files.filter((file) => JSON.stringify(file) !== path)
-      );
-      setLastPath(path);
+      )
+      setLastPath(path)
     },
     [setFiles, setLastPath]
-  );
+  )
 
   const addToFiles = useCallback(
     (path) => {
-      const jpath = JSON.stringify(path);
+      const jpath = JSON.stringify(path)
       setFiles((files) => {
-        const newFiles = [...files];
+        const newFiles = [...files]
         if (!files.find((file) => JSON.stringify(file) === jpath)) {
-          newFiles.push(path);
+          newFiles.push(path)
         }
-        return newFiles;
+        return newFiles
       });
-      setLastPath(path);
+      setLastPath(path)
     },
     [setFiles, setLastPath]
   );
@@ -231,20 +231,19 @@ export default function EditorPage(props) {
           type: StorageType.Files,
         },
         { files, lastPath }
-      );
+      )
     }
-  }, [files, lastPath, cache]);
+  }, [files, lastPath, cache])
 
   const openFile = useCallback(
     (path, code) => {
-      setPath(path);
-      addToFiles(path);
-      setMetadata(undefined);
-      setRenderCode(null);
+      setPath(path)
+      addToFiles(path)
+      setMetadata(undefined)
+      setRenderCode(null)
       if (code !== undefined) {
-        updateCode(path, code);
+        updateCode(path, code)
       } else {
-        setLoading(true);
         cache
           .asyncLocalStorageGet(StorageDomain, {
             path,
@@ -253,19 +252,16 @@ export default function EditorPage(props) {
           .then(({ code }) => {
             updateCode(path, code);
           })
-          .finally(() => {
-            setLoading(false);
-          });
       }
     },
     [updateCode, addToFiles]
-  );
+  )
 
   const updateSaved = useCallback((jp, saved, localCode) => {
     setAllSaved((allSaved) => {
-      return Object.assign({}, allSaved, { [jp]: saved || localCode });
-    });
-  }, []);
+      return Object.assign({}, allSaved, { [jp]: saved || localCode })
+    })
+  }, [])
 
   const loadFile = useCallback(
     (nameOrPath) => {
@@ -275,7 +271,7 @@ export default function EditorPage(props) {
       const widgetSrc =
         nameOrPath.indexOf("/") >= 0
           ? nameOrPath
-          : `${accountId}/widget/${nameOrPath}`;
+          : `${accountId}/widget/${nameOrPath}`
       const c = () => {
         const code = cache.socialGet(
           near,
@@ -284,46 +280,46 @@ export default function EditorPage(props) {
           undefined,
           undefined,
           c
-        );
+        )
         if (code) {
           // const name = widgetSrc.split("/").slice(2).join("/");
-          openFile(toPath(Filetype.Widget, widgetSrc), code);
+          openFile(toPath(Filetype.Widget, widgetSrc), code)
         }
-      };
+      }
 
-      c();
+      c()
     },
     [accountId, openFile, toPath, near, cache]
-  );
+  )
 
   const generateNewName = useCallback(
     (type) => {
       for (let i = 0; ; i++) {
-        const name = `Draft-${i}`;
-        const path = toPath(type, name);
-        path.unnamed = true;
-        const jPath = JSON.stringify(path);
+        const name = `Draft-${i}`
+        const path = toPath(type, name)
+        path.unnamed = true
+        const jPath = JSON.stringify(path)
         if (!files?.find((file) => JSON.stringify(file) === jPath)) {
-          return path;
+          return path
         }
       }
     },
     [toPath, files]
-  );
+  )
 
   const createFile = useCallback(
     (type) => {
-      const path = generateNewName(type);
-      openFile(path, DefaultEditorCode);
+      const path = generateNewName(type)
+      openFile(path, DefaultEditorCode)
     },
     [generateNewName, openFile]
-  );
+  )
 
   const renameFile = useCallback(
     (newName, code) => {
-      const newPath = toPath(path.type, newName);
-      const jNewPath = JSON.stringify(newPath);
-      const jPath = JSON.stringify(path);
+      const newPath = toPath(path.type, newName)
+      const jNewPath = JSON.stringify(newPath)
+      const jPath = JSON.stringify(path)
       setFiles((files) => {
         const newFiles = files.filter(
           (file) => JSON.stringify(file) !== jNewPath
@@ -334,9 +330,9 @@ export default function EditorPage(props) {
         }
         return newFiles;
       });
-      setLastPath(newPath);
-      setPath(newPath);
-      updateCode(newPath, code);
+      setLastPath(newPath)
+      setPath(newPath)
+      updateCode(newPath, code)
     },
     [path, toPath, updateCode]
   );
@@ -345,31 +341,31 @@ export default function EditorPage(props) {
     cache
       .asyncLocalStorageGet(StorageDomain, { type: StorageType.Files })
       .then((value) => {
-        const { files, lastPath } = value || {};
-        setFiles(files || []);
-        setLastPath(lastPath);
-      });
-  }, [cache]);
+        const { files, lastPath } = value || {}
+        setFiles(files || [])
+        setLastPath(lastPath)
+      })
+  }, [cache])
 
   useEffect(() => {
     if (!near || !files) {
-      return;
+      return
     }
     if (widgetSrc) {
       if (widgetSrc === "new") {
-        createFile(Filetype.Widget);
+        createFile(Filetype.Widget)
       } else {
         loadFile(widgetSrc);
       }
       history.replace(`/edit/`);
     } else if (path === undefined) {
       if (files.length === 0) {
-        createFile(Filetype.Widget);
+        createFile(Filetype.Widget)
       } else {
-        openFile(lastPath, undefined);
+        openFile(lastPath, undefined)
       }
     }
-  }, [near, createFile, lastPath, files, path, widgetSrc, openFile, loadFile]);
+  }, [near, createFile, lastPath, files, path, widgetSrc, openFile, loadFile])
 
   const reformat = useCallback(
     (path, code) => {
@@ -389,10 +385,10 @@ export default function EditorPage(props) {
   const reformatProps = useCallback(
     (props) => {
       try {
-        const formattedProps = JSON.stringify(JSON.parse(props), null, 2);
-        setWidgetProps(formattedProps);
+        const formattedProps = JSON.stringify(JSON.parse(props), null, 2)
+        setWidgetProps(formattedProps)
       } catch (e) {
-        console.log(e);
+        console.log(e)
       }
     },
     [setWidgetProps]
@@ -401,12 +397,12 @@ export default function EditorPage(props) {
   const closeCommitted = useCallback(
     (path, allSaved) => {
       setFiles((files) => {
-        files = files.filter((file) => allSaved[JSON.stringify(file)] !== true);
+        files = files.filter((file) => allSaved[JSON.stringify(file)] !== true)
         if (allSaved[JSON.stringify(path)] === true) {
           if (files.length > 0) {
-            openFile(files[files.length - 1], undefined);
+            openFile(files[files.length - 1], undefined)
           } else {
-            createFile(Filetype.Widget);
+            createFile(Filetype.Widget)
           }
         }
         return files;
@@ -415,25 +411,25 @@ export default function EditorPage(props) {
     [openFile, createFile]
   );
 
-  const layoutClass = layout === Layout.Split ? "w-50" : "";
+  const layoutClass = layout === Layout.Split ? "w-50" : ""
 
   const onLayoutChange = useCallback(
     (e) => {
-      const layout = e.target.value;
+      const layout = e.target.value
       if (layout === Layout.Split && tab === Tab.Widget) {
-        setTab(Tab.Editor);
+        setTab(Tab.Editor)
       }
-      setLayout(layout);
+      setLayout(layout)
     },
     [setLayout, tab, setTab]
-  );
+  )
 
   const pathToSrc = useCallback(
     (path) => {
-      return `${accountId}/${path?.type}/${path?.name}`;
+      return `${accountId}/${path?.type}/${path?.name}`
     },
     [accountId]
-  );
+  )
 
   const generateWidgetConfig = useCallback(
     (uncommittedPreviews) => {
@@ -449,16 +445,16 @@ export default function EditorPage(props) {
                     {
                       code,
                     },
-                  ];
+                  ]
                 })
             ),
           }
         : undefined;
     },
     [allSaved, pathToSrc]
-  );
+  )
 
-  const widgetName = path?.name;
+  const widgetName = path?.name
 
   const commitButton = (
     <CommitButton
@@ -486,16 +482,16 @@ export default function EditorPage(props) {
     >
       Save Widget
     </CommitButton>
-  );
+  )
 
-  const widgetPath = `${accountId}/${path?.type}/${path?.name}`;
-  const jpath = JSON.stringify(path);
+  const widgetPath = `${accountId}/${path?.type}/${path?.name}`
+  const jpath = JSON.stringify(path)
 
   const renderPreview = (code) => {
-    setWidgetConfig(generateWidgetConfig(uncommittedPreviews));
-    setRenderCode(code);
-    setPreviewKey(`preview-${Date.now()}`);
-  };
+    setWidgetConfig(generateWidgetConfig(uncommittedPreviews))
+    setRenderCode(code)
+    setPreviewKey(`preview-${Date.now()}`)
+  }
 
   return (
     <Container>
@@ -572,10 +568,10 @@ export default function EditorPage(props) {
             </NavPill>
           </Nav.Item>
         </Nav>
-        {props.widgets.editorComponentSearch && (
+        {widgets.editorComponentSearch && (
           <CustomSearch style={{ marginBottom: "-0.5rem" }}>
             <Widget
-              src={props.widgets.editorComponentSearch}
+              src={widgets.editorComponentSearch}
               props={useMemo(
                 () => ({
                   extraButtons: ({ widgetName, widgetPath, onHide }) => (
@@ -726,7 +722,7 @@ export default function EditorPage(props) {
                     Props
                   </button>
                 </li>
-                {props.widgets.widgetMetadataEditor && (
+                {widgets.widgetMetadataEditor && (
                   <li className="nav-item">
                     <button
                       style={{
@@ -862,7 +858,7 @@ export default function EditorPage(props) {
               </div>
               <div
                 className={`${
-                  tab === Tab.Metadata && props.widgets.widgetMetadataEditor
+                  tab === Tab.Metadata && widgets.widgetMetadataEditor
                     ? ""
                     : "visually-hidden"
                 }`}
@@ -876,7 +872,7 @@ export default function EditorPage(props) {
                   }}
                 >
                   <Widget
-                    src={props.widgets.widgetMetadataEditor}
+                    src={widgets.widgetMetadataEditor}
                     key={`metadata-editor-${jpath}`}
                     config={{
                       redirectMap: redirectMapStore.redirectMap,
@@ -928,7 +924,7 @@ export default function EditorPage(props) {
                   <div className="d-inline-block position-relative overflow-hidden mt-4">
                     <Widget
                       key={`metadata-${jpath}`}
-                      src={props.widgets.widgetMetadata}
+                      src={widgets.widgetMetadata}
                       config={{
                         redirectMap: redirectMapStore.redirectMap,
                       }}
@@ -945,5 +941,5 @@ export default function EditorPage(props) {
         </div>
       </div>
     </Container>
-  );
+  )
 }

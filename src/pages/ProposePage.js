@@ -1,9 +1,10 @@
-import React from "react";
-import { Widget } from "near-social-vm";
-import { useBosLoaderStore } from "../stores/bos-loader";
+import React from "react"
+import { Widget } from "near-social-vm"
+import { useBosLoaderStore } from "@/stores/bos-loader"
 
 export default function ProposePage(props) {
-  const redirectMapStore = useBosLoaderStore();
+  const { redirectMap } = useBosLoaderStore()
+  
   return (
     <div className="h-100">
       <Widget
@@ -12,7 +13,7 @@ export default function ProposePage(props) {
           ...props,
         }}
         config={{
-          redirectMap: redirectMapStore.redirectMap,
+          redirectMap,
         }}
       />
     </div>

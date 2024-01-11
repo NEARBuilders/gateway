@@ -1,23 +1,24 @@
-import React, { useEffect, useState } from "react";
-import { Widget } from "near-social-vm";
-import { useParams } from "react-router-dom";
-import { useQuery } from "../hooks/useQuery";
-import { useHashRouterLegacy } from "../hooks/useHashRouterLegacy";
-import { useBosLoaderStore } from "../stores/bos-loader";
+import React, { useContext, useEffect, useState } from "react"
+import { Widget } from "near-social-vm"
+import { useParams } from "react-router-dom"
+import { useQuery } from "@/hooks/useQuery"
+import { useHashRouterLegacy } from "@/hooks/useHashRouterLegacy"
+import { useBosLoaderStore } from "@/stores/bos-loader"
+import { AppContext } from "context/AppContext"
 
-export default function ViewPage(props) {
-  useHashRouterLegacy();
+export default function ViewPage() {
+  useHashRouterLegacy()
 
-  const { widgetSrc } = useParams();
-  const query = useQuery();
-  const [widgetProps, setWidgetProps] = useState({});
-  const redirectMapStore = useBosLoaderStore();
+  const { setWidgetSrc, widgets } = useContext(AppContext)
+  const { widgetSrc } = useParams()
+  const query = useQuery()
+  const [widgetProps, setWidgetProps] = useState({})
+  const redirectMapStore = useBosLoaderStore()
 
   const src =
-    widgetSrc || window?.InjectedConfig?.defaultWidget || props.widgets.default;
-  const showMenu = !window?.InjectedConfig?.hideMenu;
-  const setWidgetSrc = props.setWidgetSrc;
-  const viewSourceWidget = props.widgets.viewSource;
+    widgetSrc || window?.InjectedConfig?.defaultWidget || widgets.default
+  const showMenu = !window?.InjectedConfig?.hideMenu
+  const viewSourceWidget = widgets.viewSource
 
   useEffect(() => {
     setWidgetProps(Object.fromEntries([...query.entries()]));
@@ -35,9 +36,9 @@ export default function ViewPage(props) {
               edit: src,
               view: src,
             }
-      );
-    }, 1);
-  }, [src, query, setWidgetSrc, viewSourceWidget]);
+      )
+    }, 1)
+  }, [src, query, setWidgetSrc, viewSourceWidget])
 
   return showMenu ? (
     <div>
@@ -59,5 +60,5 @@ export default function ViewPage(props) {
         redirectMap: redirectMapStore.redirectMap,
       }}
     />
-  );
+  )
 }

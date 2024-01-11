@@ -1,9 +1,12 @@
-import React from "react";
-import { Widget } from "near-social-vm";
-import { useBosLoaderStore } from "../stores/bos-loader";
+import React, { useContext } from "react"
+import { Widget } from "near-social-vm"
+import { useBosLoaderStore } from "@/stores/bos-loader"
+import { AppContext } from "context/AppContext"
 
-export default function LibraryPage(props) {
+export default function LibraryPage() {
     const redirectMapStore = useBosLoaderStore();
+    const props = useContext(AppContext)
+
     return (
         <div className="h-100">
             <Widget

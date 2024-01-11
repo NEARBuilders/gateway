@@ -1,7 +1,6 @@
-import styled from "styled-components";
-
-import React, { useState } from "react";
-import { useFlags } from "../hooks/useFlags";
+import React, { useState } from "react"
+import styled from "styled-components"
+import { useFlags } from "../hooks/useFlags"
 
 const Container = styled.div`
   display: flex;
@@ -29,8 +28,8 @@ const InputGrid = styled.div`
 `;
 
 export default function Flags() {
-  const [flags, setFlags] = useFlags();
-  const [url, setUrl] = useState(flags?.bosLoaderUrl || "");
+  const [flags, setFlags] = useFlags()
+  const [url, setUrl] = useState(flags?.bosLoaderUrl || "")
 
   return (
     <Container className="container-xl">
@@ -56,15 +55,5 @@ export default function Flags() {
         </button>
       </Form>
     </Container>
-  );
-}
-
-{
-  /* <Widget
-src="devs.near/widget/SetFlagButton"
-props={{
-  url: "https://everything.dev",
-  setFlags: setFlags,
-}}
-/> */
+  )
 }
