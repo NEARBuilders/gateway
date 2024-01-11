@@ -1,15 +1,16 @@
-import React, { useCallback } from "react";
-import { Widget, useNear, useAccount } from "near-social-vm";
-import styled from "styled-components";
-import { User } from "../../icons/User";
-import { LogOut } from "../../icons/LogOut";
-import { Withdraw } from "../../icons/Withdraw";
-import { NavLink } from "react-router-dom";
-import PretendModal from "../PretendModal";
-import { Pretend } from "../../icons/Pretend";
-import { StopPretending } from "../../icons/StopPretending";
-import { QR } from "../../icons/QR";
-import MobileQRModal from "../MobileQRModal";
+import React, { useCallback, useContext } from "react"
+import { Widget, useNear, useAccount } from "near-social-vm"
+import styled from "styled-components"
+import { User } from "@/components/icons/User"
+import { LogOut } from "@/components/icons/LogOut"
+import { Withdraw } from "@/components/icons/Withdraw"
+import { NavLink } from "react-router-dom"
+import PretendModal from "../PretendModal"
+import { Pretend } from "@/components/icons/Pretend"
+import { StopPretending } from "@/components/icons/StopPretending"
+import { QR } from "@/components/icons/QR"
+import MobileQRModal from "../MobileQRModal"
+import { AppContext } from "context/AppContext"
 
 const StyledDropdown = styled.div`
   button,
@@ -94,9 +95,11 @@ const StyledDropdown = styled.div`
   }
 `;
 
-export function UserDropdown(props) {
-  const near = useNear();
-  const account = useAccount();
+export function UserDropdown() {
+  const { widgets, logOut, availableStorage } = useContext(AppContext)
+
+  const near = useNear()
+  const account = useAccount()
 
   const withdrawStorage = useCallback(async () => {
     await near.contract.storage_withdraw({}, undefined, "1");
@@ -116,7 +119,7 @@ export function UserDropdown(props) {
           aria-expanded="false"
         >
           <Widget
-            src={props.widgets.profileImage}
+            src={widgets.profileImage}
             props={{
               accountId: account.accountId,
               className: "d-inline-block",
@@ -124,9 +127,9 @@ export function UserDropdown(props) {
             }}
           />
           <div className="profile-info">
-            {props.widgets.profileName && (
+            {widgets.profileName && (
               <div className="profile-name">
-                <Widget src={props.widgets.profileName} />
+                <Widget src={widgets.profileName} />
               </div>
             )}
             <div className="profile-username">{account.accountId}</div>
@@ -141,7 +144,7 @@ export function UserDropdown(props) {
             <NavLink
               className="dropdown-item"
               type="button"
-              to={`/${props.widgets.profilePage}?accountId=${account.accountId}`}
+              to={`/${widgets.profilePage}?accountId=${account.accountId}`}
             >
               <User />
               My Profile
@@ -154,7 +157,7 @@ export function UserDropdown(props) {
               onClick={() => withdrawStorage()}
             >
               <Withdraw />
-              Withdraw {props.availableStorage.div(1000).toFixed(2)}kb
+              Withdraw {availableStorage.div(1000).toFixed(2)}kb
             </button>
           </li>
           {account.pretendAccountId ? (
@@ -195,7 +198,7 @@ export function UserDropdown(props) {
             <button
               className="dropdown-item"
               type="button"
-              onClick={() => props.logOut()}
+              onClick={logOut}
             >
               <LogOut />
               Sign Out
@@ -206,7 +209,7 @@ export function UserDropdown(props) {
       <PretendModal
         show={showPretendModal}
         onHide={() => setShowPretendModal(false)}
-        widgets={props.widgets}
+        widgets={widgets}
       />
       <MobileQRModal
         show={showMobileQR}

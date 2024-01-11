@@ -8,8 +8,6 @@ export default function JoinPage() {
   const redirectMapStore = useBosLoaderStore()
   const { signedIn, ...rest } = useContext(AppContext)
 
-  console.log("signedIn", signedIn)
-
   const CurrentView = signedIn
     ? "buildhub.near/widget/create-something"
     : "buildhub.near/widget/login";
