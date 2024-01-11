@@ -1,11 +1,11 @@
 import React, { useCallback, useContext, useState } from "react"
 import styled from "styled-components"
-import { UserDropdown } from "./desktop/UserDropdown"
+import { UserDropdown } from "../desktop/UserDropdown"
 import { Widget } from "near-social-vm"
 import { useBosLoaderStore } from "@/stores/bos-loader"
 import { AppContext } from "@/context/AppContext"
 import { navbarNavigationItems } from "@/utils/constants"
-import { mobileNavbarNavigationItems } from "utils/constants"
+import { mobileNavbarNavigationItems } from "@/utils/constants"
 
 const StyledNavbar = styled.nav`
   display: flex;

@@ -1,7 +1,7 @@
 import React from "react"
 import styled from "styled-components"
 import { Navigation } from "@/components/Navbar/Navigation"
-import { SigninOrJoinNow } from "components/Navbar/SinginOrJoinNow"
+import { SigninOrJoinNow } from "components/navigation/Navbar/SinginOrJoinNow"
 
 const StyledNavbar = styled.nav`
   display: flex;
