@@ -1,13 +1,9 @@
-const { Feed } = VM.require("devs.near/widget/Module.Feed");
-
-Feed = Feed || (() => <></>); // ensure it's defined or set to a default component
+const { Feed } = VM.require("devs.near/widget/Module.Feed") || (() => <></>);
+const { Post } = VM.require("buildhub.near/widget/components") || (() => <></>);
 
 const { type, hashtag } = props;
 type = hashtag;
 hashtag = type;
-
-const { Post } = VM.require("buildhub.near/widget/components");
-Post = Post || (() => <></>);
 
 function formatDate(date) {
   const options = { year: "numeric", month: "short", day: "numeric" };

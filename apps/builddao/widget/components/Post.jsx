@@ -1,6 +1,4 @@
-const { User } = VM.require("buildhub.near/widget/components");
-
-User = User || (() => <></>);
+const { User } = VM.require("buildhub.near/widget/components") || (() => <></>);
 
 const StyledPost = styled.div`
   margin-bottom: 1rem;

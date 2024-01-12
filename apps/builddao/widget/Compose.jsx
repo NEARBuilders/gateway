@@ -1,7 +1,7 @@
-const { Avatar, Button } = VM.require("buildhub.near/widget/components");
-
-Avatar = Avatar || (() => <></>);
-Button = Button || (() => <></>);
+const { Avatar, Button } = VM.require("buildhub.near/widget/components") || {
+  Button: () => <></>,
+  Avatar: () => <></>,
+};
 
 const draftKey = props.feed.name || "draft";
 const draft = Storage.privateGet(draftKey);

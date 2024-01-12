@@ -1,7 +1,5 @@
 const { Feed } = VM.require("devs.near/widget/Module.Feed") || (() => <></>);
 
-Feed = Feed || (() => <></>); // make sure you have this or else it can break
-
 return (
   <Feed
     index={{
