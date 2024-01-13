@@ -1,5 +1,6 @@
 const { Feed } = VM.require("devs.near/widget/Module.Feed") || (() => <></>);
-const { Post } = VM.require("buildhub.near/widget/components") || (() => <></>);
+const { Post, Button } = VM.require("buildhub.near/widget/components") || (() => <></>);
+
 
 const { type, hashtag } = props;
 type = hashtag;
@@ -9,25 +10,6 @@ function formatDate(date) {
   const options = { year: "numeric", month: "short", day: "numeric" };
   return date.toLocaleDateString("en-US", options);
 }
-
-const Container = styled.div`
-  display: grid;
-  grid-template-columns: repeat(5, minmax(0, 1fr));
-  gap: 1rem;
-
-  @media screen and (max-width: 768px) {
-    display: flex;
-    flex-direction: column;
-  }
-`;
-
-const StyledAside = styled.div`
-  grid-column: span 1 / span 1;
-`;
-
-const MainContent = styled.div`
-  grid-column: span 4 / span 4;
-`;
 
 const feeds = {
   resolutions: {
@@ -49,12 +31,13 @@ const feeds = {
 **📊 MEASURING SUCCESS:**
 - [Metric 1 for Success]
 - [Metric 2 for Success]
-`,
+`
   },
   updates: {
     label: "Updates",
     icon: "bi-bell",
     name: "update",
+    hashtag: "update",
     template: `### BUILDER UPDATE:  ${formatDate(new Date())}
 (posted via [Build DAO Gateway](https://nearbuilders.org/feed?hashtag=update))
 
@@ -69,12 +52,13 @@ const feeds = {
 **🛑 BLOCKERS**
 - [what's blocking you?]
 - [how can someone help?]
-`,
+`
   },
   documentation: {
     label: "Documentation",
     icon: "bi-book",
     name: "documentation",
+    hashtag: "documentation",
     template: `## TITLE
 (posted via [Build DAO Gateway](https://nearbuilders.org/feed?hashtag=documentation))
 
@@ -89,23 +73,25 @@ const feeds = {
 **USAGE**
 - [where is it used?]
 - [how to use it]
-`,
+`
   },
   question: {
     label: "Question",
     icon: "bi-question-lg",
     name: "question",
+    hashtag: "question",
     template: `## what is your question?
 (posted via [Build DAO Gateway](https://nearbuilders.org/feed?hashtag=question))
 
 [what are you thinking about?]
 [why are you asking?]
-`,
+`
   },
   opportunity: {
     label: "Opportunity",
     icon: "bi-briefcase",
     name: "opportunity",
+    hashtag: "opportunity",
     template: `## TITLE
 (posted via [Build DAO Gateway](https://nearbuilders.org/feed?hashtag=opportunity))
 
@@ -113,13 +99,14 @@ const feeds = {
 
 [explain the motivation or reason]
 
-`,
+`
   },
   idea: {
     label: "Idea",
     icon: "bi-lightbulb",
     name: "idea",
-    template: ``,
+    hashtag: "idea",
+    template: ``
   },
   task: {
     label: "Task",
@@ -133,74 +120,86 @@ const feeds = {
 
 **Context or additional information:**
 - [Provide any context or details]
-`,
+`
   },
   bookmarks: {
     label: "Bookmarks",
     icon: "bi-bookmark",
-    name: "bookmark",
-  },
+    name: "bookmark"
+  }
 };
 
 const [activeFeed, setActiveFeed] = useState(type || "resolutions");
 const [template, setTemplate] = useState("What did you have in mind?");
 
 return (
-  <Container>
-    <StyledAside key={JSON.stringify(feeds)}>
-      <Widget
-        src="buildhub.near/widget/Aside"
-        props={{
-          active: activeFeed,
-          setActiveRoute: setActiveFeed,
-          routes: feeds,
-        }}
-      />
-    </StyledAside>
-    <MainContent>
-      {context.accountId ? (
-        activeFeed !== "bookmarks" ? (
-          <Widget
-            src="/*__@appAccount__*//widget/Compose"
-            props={{
-              feed: feeds[activeFeed],
-              template: feeds[activeFeed].template,
-            }}
-          />
-        ) : (
-          <Widget src="/*__@appAccount__*//widget/Bookmarks" />
-        )
-      ) : (
-        <Widget
-          src="/*__@appAccount__*//widget/components.login-now"
-          props={props}
-        />
-      )}
-      {activeFeed !== "bookmarks" && (
-        <Feed
-          index={[
-            {
-              action: "hashtag",
-              key: activeFeed,
-              options: {
-                limit: 10,
-                order: "desc",
-                accountId: props.accounts,
-              },
-              cacheOptions: {
-                ignoreCache: true,
-              },
-            },
-          ]}
-          Item={(p) => (
-            <Post
-              accountId={p.accountId}
-              blockHeight={p.blockHeight}
-              noBorder={true}
+  <Widget
+    src="/*__@appAccount__*//widget/components.AsideWithMainContent"
+    props={{
+      sideContent: Object.keys(feeds || {}).map((route) => {
+        const data = feeds[route];
+        return (
+          <Button
+            id={route}
+            variant={activeFeed === route ? "primary" : "outline"}
+            onClick={() => setActiveFeed(route)}
+            className={
+              "align-self-stretch flex-shrink-0 justify-content-start fw-medium"
+            }
+            style={{ fontSize: "14px" }}
+          >
+            <i className={`bi ${data.icon} `}></i>
+            {data.label}
+          </Button>
+        );
+      }),
+      mainContent: (
+        <>
+          {context.accountId ? (
+            activeFeed !== "bookmarks" ? (
+              <Widget
+                src="/*__@appAccount__*//widget/Compose"
+                props={{
+                  feed: feeds[activeFeed],
+                  template: feeds[activeFeed].template
+                }}
+              />
+            ) : (
+              <Widget src="/*__@appAccount__*//widget/Bookmarks" />
+            )
+          ) : (
+            <Widget
+              src="/*__@appAccount__*//widget/components.login-now"
+              props={props}
             />
           )}
-        />
-      )}
-    </MainContent>
-  </Container>
+          {activeFeed !== "bookmarks" && (
+            <Feed
+              index={[
+                {
+                  action: "hashtag",
+                  key: feeds[activeFeed].hashtag,
+                  options: {
+                    limit: 10,
+                    order: "desc",
+                    accountId: context.accountId
+                  },
+                  cacheOptions: {
+                    ignoreCache: true
+                  }
+                }
+              ]}
+              Item={(p) => (
+                <Post
+                  accountId={p.accountId}
+                  blockHeight={p.blockHeight}
+                  noBorder={true}
+                />
+              )}
+            />
+          )}
+        </>
+      )
+    }}
+  />
 );
