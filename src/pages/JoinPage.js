@@ -9,7 +9,7 @@ export default function JoinPage() {
   const { signedIn, ...rest } = useContext(AppContext)
 
   const CurrentView = signedIn
-    ? "buildhub.near/widget/create-something"
+    ? "buildhub.near/widget/JoinSection"
     : "buildhub.near/widget/login";
 
   return (

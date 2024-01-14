@@ -1,5 +1,8 @@
 const { Avatar, Button } = VM.require("buildhub.near/widget/components");
 
+Avatar = Avatar || (() => <></>);
+Button = Button || (() => <></>);
+
 const draftKey = props.feed.name || "draft";
 const draft = Storage.privateGet(draftKey);
 
@@ -400,15 +403,20 @@ const LabelSelect = styled.div`
   }
 `;
 
-return (
-  <PostCreator>
+const avatarComponent = useMemo(() => {
+  return (
     <div className="d-flex align-items-start gap-2">
       <Avatar accountId={context.accountId} />
       <div>
         <p className="mb-0 text-white">{context.accountId}</p>
       </div>
     </div>
+  );
+}, [context.accountId]);
 
+return (
+  <PostCreator>
+    {avatarComponent}
     <div style={{ border: "none" }}>
       {view === "editor" ? (
         <TextareaWrapper
