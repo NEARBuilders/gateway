@@ -1,4 +1,4 @@
-const { MarkdownView } = VM.require("buildhub.near/widget/md-view");
+const { MarkdownView } = VM.require("buildhub.near/widget/MDView");
 const { Button } = VM.require("buildhub.near/widget/components.Button");
 
 Button || (Button = () => <></>);

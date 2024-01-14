@@ -13,7 +13,7 @@ module.exports = function (env) {
   return merge(
     {
       mode,
-      entry: `${paths.srcPath}/index.js`,
+      entry: `${paths.srcPath}/index.jsx`,
       output: {
         path: paths.distPath,
         filename: "[name].bundle.js",
@@ -28,7 +28,7 @@ module.exports = function (env) {
             },
           },
           {
-            test: /\.js$/,
+            test: /\.(js|jsx)$/,
             use: ["babel-loader"],
             exclude: path.resolve(__dirname, "node_modules"),
           },

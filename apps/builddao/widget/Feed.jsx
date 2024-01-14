@@ -174,7 +174,7 @@ return (
             )
           ) : (
             <Widget
-              src="/*__@appAccount__*//widget/components.login-now"
+              src="/*__@appAccount__*//widget/components.LoginNow"
               props={props}
             />
           )}

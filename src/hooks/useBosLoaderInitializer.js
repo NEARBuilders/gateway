@@ -1,6 +1,6 @@
 import { useCallback, useEffect } from 'react';
 
-import { useBosLoaderStore } from '../stores/bos-loader';
+import { useBosLoaderStore } from '../stores/BOSLoader';
 
 import { useFlags } from './useFlags';
 

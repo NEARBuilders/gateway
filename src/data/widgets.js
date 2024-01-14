@@ -20,7 +20,7 @@ const TestnetWidgets = {
 
 const MainnetWidgets = {
   image: "mob.near/widget/Image",
-  default: "buildhub.near/widget/home",
+  default: "buildhub.near/widget/Home",
   feed: "buildhub.near/widget/Feed",
   resources: "buildhub.near/widget/Resources",
   viewSource: "mob.near/widget/WidgetSource",
