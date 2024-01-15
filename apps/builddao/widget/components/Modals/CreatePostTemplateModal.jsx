@@ -1,185 +1,33 @@
 const { Avatar, Button, InputField, TextEditor } = VM.require(
   "buildhub.near/widget/components"
 );
+
 const { Modal } = VM.require("rambo-dev.near/widget/ModalComponent");
 const { PlusIcon } = VM.require("rambo-dev.near/widget/PlusIcon");
 
-Button = Button || (() => <></>);
+const H3 = styled.h3`
+  font-family: "Aekonik", sans-serif;
+  font-weight: 500;
+  font-size: 1.5rem;
+  line-height: 140%;
+`;
 
-const draftKey = props.feed.name || "draft";
-const draft = Storage.privateGet(draftKey);
+const FiltersSection = styled.div`
+  width: 100%;
+`;
 
-if (draft === null) {
-  return "";
-}
-
-const [view, setView] = useState("editor");
-const [postContent, setPostContent] = useState("");
-const [hideAdvanced, setHideAdvanced] = useState(true);
-const [labels, setLabels] = useState([]);
-const [templateTitle, setTemplateTitle] = useState("");
-const [templateContent, setTemplateContent] = useState("");
-
-setPostContent(draft || props.template);
-
-function generateUID() {
-  const maxHex = 0xffffffff;
-  const randomNumber = Math.floor(Math.random() * maxHex);
-  return randomNumber.toString(16).padStart(8, "0");
-}
-
-function tagsFromLabels(labels) {
-  return labels.reduce(
-    (newLabels, label) => ({
-      ...newLabels,
-      [label]: "",
-    }),
-    {}
-  );
-}
-
-const extractMentions = (text) => {
-  const mentionRegex =
-    /@((?:(?:[a-z\d]+[-_])*[a-z\d]+\.)*(?:[a-z\d]+[-_])*[a-z\d]+)/gi;
-  mentionRegex.lastIndex = 0;
-  const accountIds = new Set();
-  for (const match of text.matchAll(mentionRegex)) {
-    if (
-      !/[\w`]/.test(match.input.charAt(match.index - 1)) &&
-      !/[/\w`]/.test(match.input.charAt(match.index + match[0].length)) &&
-      match[1].length >= 2 &&
-      match[1].length <= 64
-    ) {
-      accountIds.add(match[1].toLowerCase());
-    }
-  }
-  return [...accountIds];
-};
-
-const extractHashtags = (text) => {
-  const hashtagRegex = /#(\w+)/gi;
-  hashtagRegex.lastIndex = 0;
-  const hashtags = new Set();
-  for (const match of text.matchAll(hashtagRegex)) {
-    if (
-      !/[\w`]/.test(match.input.charAt(match.index - 1)) &&
-      !/[/\w`]/.test(match.input.charAt(match.index + match[0].length))
-    ) {
-      hashtags.add(match[1].toLowerCase());
-    }
-  }
-  return [...hashtags];
-};
-
-const extractMentionNotifications = (text, item) =>
-  extractMentions(text || "")
-    .filter((accountId) => accountId !== context.accountId)
-    .map((accountId) => ({
-      key: accountId,
-      value: {
-        type: "mention",
-        item,
-      },
-    }));
-
-function checkAndAppendHashtag(input, target) {
-  if (input.toLowerCase().includes(`#${target.toLowerCase()}`)) {
-    return input;
-  } else {
-    return input + ` #${target}`;
-  }
-}
-
-const postToCustomFeed = ({ feed, text, labels }) => {
-  const postId = generateUID();
-  if (!labels) labels = [];
-
-  labels = labels.map((label) => label.toLowerCase());
-  labels.push(feed.name.toLowerCase());
-
-  const requiredHashtags = ["build"];
-  if (feed.hashtag) requiredHashtags.push(feed.hashtag.toLowerCase());
-  requiredHashtags.push(feed.name.toLowerCase());
-
-  text = text + `\n\n`;
-
-  requiredHashtags.forEach((hashtag) => {
-    text = checkAndAppendHashtag(text, hashtag);
-  });
-
-  const data = {
-    // [feed.name]: {
-    //   [postId]: {
-    //     "": JSON.stringify({
-    //       type: "md",
-    //       text,
-    //       labels,
-    //     }),
-    //     metadata: {
-    //       type: feed.name,
-    //       tags: tagsFromLabels(labels),
-    //     },
-    //   },
-    // },
-    post: {
-      main: JSON.stringify({
-        type: "md",
-        text,
-        // tags: tagsFromLabels(labels),
-        // postType: feed.name,
-      }),
-    },
-    index: {
-      post: JSON.stringify({ key: "main", value: { type: "md" } }),
-      // every: JSON.stringify({ key: feed.name, value: { type: "md" } }),
-    },
-  };
-
-  const item = {
-    type: "social",
-    path: `${context.accountId}/post/main`,
-  };
-
-  const notifications = extractMentionNotifications(text, item);
-
-  if (notifications.length) {
-    data.index.notify = JSON.stringify(
-      notifications.length > 1 ? notifications : notifications[0]
-    );
-  }
-
-  const hashtags = extractHashtags(text);
-
-  if (hashtags.length) {
-    data.index.hashtag = JSON.stringify(
-      hashtags.map((hashtag) => ({
-        key: hashtag,
-        value: item,
-      }))
-    );
-  }
-
-  return Social.set(data, {
-    force: true,
-    onCommit: () => {
-      // console.log(`Commited ${feed}: #${postId}`);
-    },
-    onCancel: () => {
-      // console.log(`Cancelled ${feed}: #${postId}`);
-    },
-  });
-};
-
-const PostCreator = styled.div`
+const ModalContainer = styled.div`
+  width: 552px;
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
+  gap: 24px 0;
+  flex-grow: 1;
+`;
 
-  padding: 1rem;
-  background: #23242b;
-  border-radius: 12px;
-
-  margin-bottom: 1rem;
+const SaveTemplateWrapper = styled.div`
+  display: flex;
+  width: 100%;
+  justify-content: flex-end;
 `;
 
 const TextareaWrapper = styled.div`
@@ -378,205 +226,92 @@ const MarkdownPreview = styled.div`
   }
 `;
 
-const LabelSelect = styled.div`
-  label {
-    color: #fff;
-  }
+State.init({
+  templateTitle: "",
+  templateContent: "",
+});
 
-  .rbt-input-multi {
-    background: #23242b !important;
-    color: #fff !important;
-  }
-
-  .rbt-token {
-    background: #202020 !important;
-    color: #fff !important;
-  }
-
-  .rbt-menu {
-    background: #23242b !important;
-    color: #fff !important;
-
-    .dropdown-item {
-      color: #fff !important;
-      transition: all 300ms;
-
-      &:hover {
-        background: #202020;
-      }
-    }
-  }
-`;
-
-const avatarComponent = useMemo(() => {
-  return (
-    <div className="d-flex align-items-start gap-2">
-      <Avatar accountId={context.accountId} />
-      <div>
-        <p className="mb-0 text-white">{context.accountId}</p>
-      </div>
-    </div>
-  );
-}, [context.accountId]);
-
-const FiltersSection = styled.div`
-  width: 100%;
-`;
-
-const ModalContainer = styled.div`
-  width: 552px;
-  display: flex;
-  flex-direction: column;
-  gap: 24px 0;
-  flex-grow: 1;
-`;
-
-const H3 = styled.h3`
-  font-family: "Aekonik", sans-serif;
-  font-weight: 500;
-  font-size: 1.5rem;
-  line-height: 140%;
-`;
-
-const SaveTemplateWrapper = styled.div`
-  display: flex;
-  width: 100%;
-  justify-content: flex-end;
-`;
-
-State.init({});
-
-function onSaveTemplate() {
+function onSaveTemplate(title, content) {
   const existentTemplates = Storage.get("postTemplates");
 
   if (existentTemplates === null) {
     Storage.set("postTemplates", [
       {
-        title: "",
-        content: "",
+        title,
+        content,
       },
     ]);
   } else {
     Storage.set("postTemplates", [
       ...existentTemplates,
       {
-        title: "",
-        content: "",
+        title,
+        content,
       },
     ]);
   }
 }
 
-const isValidTemplateToCreate =
-  state.templateTitle.length > 0 && state.templateContent.length > 0;
+function CreatePostTemplateModal() {
+  return (
+    <Modal
+      key="create"
+      toggle={
+        <Button variant="outline">
+          <PlusIcon />
+          Add New
+        </Button>
+      }
+    >
+      <ModalContainer>
+        <H3>Add new markdown template</H3>
 
-return (
-  <PostCreator>
-    {avatarComponent}
-    <FiltersSection>
-      <Modal
-        key="create"
-        toggle={
-          <Button variant="outline">
-            <PlusIcon />
-            Add New
-          </Button>
-        }
-      >
-        <ModalContainer>
-          <H3>Add new markdown template</H3>
+        <InputField
+          key="templateTitleInput"
+          label="Title"
+          placeholder="Name your template"
+          value={state.templateTitle}
+          onChange={(e) => {
+            State.update({
+              templateTitle: e.target.value,
+            });
+          }}
+        />
 
-          <InputField
-            key="templateTitle"
-            label="Title"
-            placeholder="Name your template"
-            value={templateTitle}
-            onChange={(e) => {
-              setTemplateTitle(e.target.value);
-            }}
-          />
-
-          <TextareaWrapper
-            className="markdown-editor"
-            data-value={"templateContent"}
-            key={"templateContent"}
-          >
-            <Widget
-              src="mob.near/widget/MarkdownEditorIframe"
-              props={{
-                initialText: "# Hello World",
-                embedCss: MarkdownEditor,
-                onChange: (v) => {
-                  setTemplateContent(v);
-                  //   Storage.privateSet(draftKey, v || "");
-                },
-              }}
-            />
-          </TextareaWrapper>
-
-          <SaveTemplateWrapper>
-            <Button disabled onClick={console.log("jahja")} variant="primary">
-              Save Template
-            </Button>
-          </SaveTemplateWrapper>
-        </ModalContainer>
-      </Modal>
-    </FiltersSection>
-
-    <div style={{ border: "none" }}>
-      {view === "editor" ? (
         <TextareaWrapper
           className="markdown-editor"
-          data-value={postContent || ""}
-          key={props.feed.name}
+          data-value={"templateContent"}
+          key={"templateContent"}
         >
           <Widget
             src="mob.near/widget/MarkdownEditorIframe"
             props={{
-              initialText: postContent,
+              initialText: "# Hello World",
               embedCss: MarkdownEditor,
               onChange: (v) => {
-                setPostContent(v);
-                Storage.privateSet(draftKey, v || "");
+                State.update({
+                  templateContent: v,
+                });
               },
             }}
           />
         </TextareaWrapper>
-      ) : (
-        <MarkdownPreview>
-          <Widget
-            src="devhub.near/widget/devhub.components.molecule.MarkdownViewer"
-            props={{ text: postContent }}
-          />
-        </MarkdownPreview>
-      )}
-    </div>
 
-    <div className="d-flex gap-3 align-self-end">
-      <Button
-        variant="outline"
-        onClick={() => setView(view === "editor" ? "preview" : "editor")}
-        style={{ fontSize: 14 }}
-      >
-        {view === "editor" ? (
-          <>
-            Preview <i className="bi bi-eye"></i>
-          </>
-        ) : (
-          <>
-            Edit <i className="bi bi-pencil-square"></i>
-          </>
-        )}
-      </Button>
-      <Button
-        variant="primary"
-        style={{ fontSize: 14 }}
-        onClick={() =>
-          postToCustomFeed({ feed: props.feed, text: postContent, labels })
-        }
-      >
-        Post {props.feed.name}
-      </Button>
-    </div>
-  </PostCreator>
-);
+        <SaveTemplateWrapper>
+          <Button
+            disabled={isValidTemplateToCreate}
+            onClick={() => {
+              // TO-D0
+              console.log("ja");
+            }}
+            variant="primary"
+          >
+            Save Template
+          </Button>
+        </SaveTemplateWrapper>
+      </ModalContainer>
+    </Modal>
+  );
+}
+
+return { CreatePostTemplateModal };
