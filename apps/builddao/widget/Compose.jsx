@@ -417,6 +417,7 @@ const avatarComponent = useMemo(() => {
 return (
   <PostCreator>
     {avatarComponent}
+    <Button>Add New</Button>
     <div style={{ border: "none" }}>
       {view === "editor" ? (
         <TextareaWrapper
