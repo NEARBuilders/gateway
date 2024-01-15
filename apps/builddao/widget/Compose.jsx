@@ -1,7 +1,6 @@
 const { Avatar, Button, InputField, TextEditor } = VM.require(
   "buildhub.near/widget/components"
 );
-const { PlusIcon } = VM.require("buildhub.near/widget/components.Icons.PlusIcon");
 const { CreatePostTemplateModal } = VM.require("buildhub.near/widget/components.Modals.CreatePostTemplateModal");
 
 Button = Button || (() => <></>);

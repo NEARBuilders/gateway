@@ -1,9 +1,7 @@
-const { Avatar, Button, InputField, TextEditor } = VM.require(
+const { Avatar, Button, InputField, TextEditor, Modal } = VM.require(
   "buildhub.near/widget/components"
 );
-
-const { Modal } = VM.require("rambo-dev.near/widget/ModalComponent");
-const { PlusIcon } = VM.require("rambo-dev.near/widget/PlusIcon");
+const { PlusIcon } = VM.require("buildhub.near/widget/components.Icons.PlusIcon");
 
 const H3 = styled.h3`
   font-family: "Aekonik", sans-serif;
