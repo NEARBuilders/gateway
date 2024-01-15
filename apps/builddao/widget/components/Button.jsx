@@ -61,7 +61,7 @@ const StyledButton = styled.button`
   }
 `;
 
-function Button({ id, children, variant, type, onClick, className, style, disabled }) {
+function Button({ id, children, variant, type, onClick, className, style, disabled = false }) {
   return (
     <StyledButton
       id={id}
