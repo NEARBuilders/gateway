@@ -1,8 +1,12 @@
 const { Avatar, Button, InputField, TextEditor, Modal } = VM.require(
   "buildhub.near/widget/components"
 );
-const { PlusIcon } = VM.require("buildhub.near/widget/components.Icons.PlusIcon");
-const { H3 } = VM.require("buildhub.near/widget/components.Text.H3");
+const { H3 } = VM.require(
+  "buildhub.near/widget/components.Text.H3"
+);
+const { PlusIcon } = VM.require(
+  "buildhub.near/widget/components.Icons.PlusIcon"
+);
 
 const FiltersSection = styled.div`
   width: 100%;
@@ -221,7 +225,20 @@ const MarkdownPreview = styled.div`
 State.init({
   templateTitle: "",
   templateContent: "# Hello World",
+  isOpen: false,
 });
+
+function onOpen() {
+  State.update({
+    isOpen: true,
+  });
+}
+
+function onClose() {
+  State.update({
+    isOpen: false,
+  });
+}
 
 function onSaveTemplate(title, content) {
   const existentTemplates = Storage.get("postTemplates");
@@ -234,20 +251,42 @@ function onSaveTemplate(title, content) {
       },
     ]);
   } else {
-    Storage.set("postTemplates", [
-      ...existentTemplates,
-      {
-        title,
-        content,
-      },
-    ]);
+    const alreadyExistsTemplate = existentTemplates.filter((template) => {
+      return template.title === title;
+    })[0];
+
+    if (alreadyExistsTemplate !== undefined) {
+      const allButExistent = existentTemplates.filter((template) => {
+        return template.title !== title;
+      });
+
+      Storage.set("postTemplates", [
+        ...allButExistent,
+        {
+          title,
+          content,
+        },
+      ]);
+    } else {
+      Storage.set("postTemplates", [
+        ...existentTemplates,
+        {
+          title,
+          content,
+        },
+      ]);
+    }
   }
+  onClose();
 }
 
 function CreatePostTemplateModal() {
   return (
     <Modal
+      open={state.isOpen}
       key="create"
+      onOpen={onOpen}
+      onClose={onClose}
       toggle={
         <Button variant="outline">
           <PlusIcon />
@@ -290,15 +329,17 @@ function CreatePostTemplateModal() {
         </TextareaWrapper>
 
         <SaveTemplateWrapper>
-          <Button
-            disabled={isValidTemplateToCreate}
-            onClick={() => {
-              onSaveTemplate(templateTitle, templateContent)
-            }}
-            variant="primary"
-          >
-            Save Template
-          </Button>
+          <Dialog.Trigger asChild>
+            <Button
+              disabled={isValidTemplateToCreate}
+              onClick={() => {
+                onSaveTemplate(state.templateTitle, state.templateContent);
+              }}
+              variant="primary"
+            >
+              Save Template
+            </Button>
+          </Dialog.Trigger>
         </SaveTemplateWrapper>
       </ModalContainer>
     </Modal>
