@@ -2,13 +2,7 @@ const { Avatar, Button, InputField, TextEditor, Modal } = VM.require(
   "buildhub.near/widget/components"
 );
 const { PlusIcon } = VM.require("buildhub.near/widget/components.Icons.PlusIcon");
-
-const H3 = styled.h3`
-  font-family: "Aekonik", sans-serif;
-  font-weight: 500;
-  font-size: 1.5rem;
-  line-height: 140%;
-`;
+const { H3 } = VM.require("buildhub.near/widget/components.Text.H3");
 
 const FiltersSection = styled.div`
   width: 100%;
