@@ -44,7 +44,6 @@ function InputField({
   placeholder,
   value,
   onChange,
-  maxWidth,
 }) {
   return (
     <InputContainer>
@@ -55,7 +54,6 @@ function InputField({
         onChange={onChange}
         placeholder={placeholder}
         type={type ?? "text"}
-        maxWidth={maxWidth}
       />
     </InputContainer>
   );

@@ -408,6 +408,17 @@ const LabelSelect = styled.div`
   }
 `;
 
+const avatarComponent = useMemo(() => {
+  return (
+    <div className="d-flex align-items-start gap-2">
+      <Avatar accountId={context.accountId} />
+      <div>
+        <p className="mb-0 text-white">{context.accountId}</p>
+      </div>
+    </div>
+  );
+}, [context.accountId]);
+
 const FiltersSection = styled.div`
   width: 100%;
 `;
@@ -433,16 +444,7 @@ const SaveTemplateWrapper = styled.div`
   justify-content: flex-end;
 `;
 
-const avatarComponent = useMemo(() => {
-  return (
-    <div className="d-flex align-items-start gap-2">
-      <Avatar accountId={context.accountId} />
-      <div>
-        <p className="mb-0 text-white">{context.accountId}</p>
-      </div>
-    </div>
-  );
-}, [context.accountId]);
+State.init({});
 
 function onSaveTemplate() {
   const existentTemplates = Storage.get("postTemplates");
@@ -466,7 +468,7 @@ function onSaveTemplate() {
 }
 
 const isValidTemplateToCreate =
-  templateTitle.length > 0 && templateContent.length > 0;
+  state.templateTitle.length > 0 && state.templateContent.length > 0;
 
 return (
   <PostCreator>
@@ -485,7 +487,7 @@ return (
           <H3>Add new markdown template</H3>
 
           <InputField
-            key="templateTitleInput"
+            key="templateTitle"
             label="Title"
             placeholder="Name your template"
             value={templateTitle}
@@ -506,19 +508,14 @@ return (
                 embedCss: MarkdownEditor,
                 onChange: (v) => {
                   setTemplateContent(v);
+                  //   Storage.privateSet(draftKey, v || "");
                 },
               }}
             />
           </TextareaWrapper>
 
           <SaveTemplateWrapper>
-            <Button
-              disabled={isValidTemplateToCreate}
-              onClick={() => {
-                console.log("ja");
-              }}
-              variant="primary"
-            >
+            <Button disabled onClick={console.log("jahja")} variant="primary">
               Save Template
             </Button>
           </SaveTemplateWrapper>
