@@ -1,8 +1,7 @@
 const { Avatar, Button, InputField, TextEditor } = VM.require(
   "buildhub.near/widget/components"
 );
-const { CreatePostTemplateModal } = VM.require("rambo-dev.near/widget/Test_CreateTemplateModal");
-// const { CreatePostTemplateModal } = VM.require("buildhub.near/widget/components.Modals.CreatePostTemplateModal");
+const { CreatePostTemplateModal } = VM.require("buildhub.near/widget/components.Modals.CreatePostTemplateModal");
 
 console.log("CreatePostTemplateModal", CreatePostTemplateModal) 
 
