@@ -1,5 +1,3 @@
-const { Button } = VM.require("buildhub.near/widget/components.Button");
-
 const toggle = props.toggle ?? <Button variant="primary">Open Modal</Button>;
 
 const Overlay = styled.div`
@@ -46,15 +44,22 @@ const Icon = styled.i`
     font-size: 24px;
 `;
 
-function Modal({ children, open, onOpenChange, toggle, toggleContainerProps }) {
+function Modal({
+  children,
+  open,
+  onOpenChange,
+  toggle,
+  toggleContainerProps,
+  key,
+}) {
   return (
-    <Dialog.Root open={open} onOpenChange={onOpenChange}>
+    <Dialog.Root open={open} onOpenChange={onOpenChange} key={key}>
       <Dialog.Trigger asChild>
         <NoButton {...toggleContainerProps}>{toggle}</NoButton>
       </Dialog.Trigger>
       <Dialog.Overlay asChild>
         <Overlay>
-          <Dialog.Content asChild>
+          <Dialog.Content>
             <Content>
               <Dialog.Trigger asChild>
                 <CloseContainer>
