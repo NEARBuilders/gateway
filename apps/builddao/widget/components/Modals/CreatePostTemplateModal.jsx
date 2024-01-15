@@ -226,7 +226,7 @@ const MarkdownPreview = styled.div`
 
 State.init({
   templateTitle: "",
-  templateContent: "",
+  templateContent: "# Hello World",
 });
 
 function onSaveTemplate(title, content) {
@@ -284,7 +284,7 @@ function CreatePostTemplateModal() {
           <Widget
             src="mob.near/widget/MarkdownEditorIframe"
             props={{
-              initialText: "# Hello World",
+              initialText: templateContent,
               embedCss: MarkdownEditor,
               onChange: (v) => {
                 State.update({
@@ -299,8 +299,7 @@ function CreatePostTemplateModal() {
           <Button
             disabled={isValidTemplateToCreate}
             onClick={() => {
-              // TO-D0
-              console.log("ja");
+              onSaveTemplate(templateTitle, templateContent)
             }}
             variant="primary"
           >
