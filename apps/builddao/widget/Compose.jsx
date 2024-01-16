@@ -498,22 +498,26 @@ return (
     {avatarComponent}
 
     <TemplatesSection>
-      {storedTemplates.map(({ title, content }) => {
-        const isSelected = title === selectedTemplate;
+      {storedTemplates.length > 0 ? (
+        <>
+          {storedTemplates.map(({ title, content }) => {
+            const isSelected = title === selectedTemplate;
 
-        return (
-          <Button
-            onClick={() => {
-              onSelectTemplate(title, content);
-            }}
-            variant={isSelected ? "primary" : "outline"}
-            id={`Button-${title}`}
-            key={`Button-${title}`}
-          >
-            {title}
-          </Button>
-        );
-      })}
+            return (
+              <Button
+                onClick={() => {
+                  onSelectTemplate(title, content);
+                }}
+                variant={isSelected ? "primary" : "outline"}
+                id={`Button-${title}`}
+                key={`Button-${title}`}
+              >
+                {title}
+              </Button>
+            );
+          })}
+        </>
+      ) : null}
       <Widget
         src={"rambo-dev.near/widget/TestCreateTemplateModal"}
         props={{
