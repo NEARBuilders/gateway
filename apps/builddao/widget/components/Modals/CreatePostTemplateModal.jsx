@@ -5,7 +5,6 @@ const { PlusIcon } = VM.require("rambo-dev.near/widget/PlusIcon");
 const { Modal } = VM.require("rambo-dev.near/widget/ModalComponent");
 
 const onSaveTemplate = props.onSaveTemplate;
-console.log("onSaveTemplate", onSaveTemplate);
 
 const FiltersSection = styled.div`
   width: 100%;
