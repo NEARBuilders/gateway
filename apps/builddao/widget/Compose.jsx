@@ -405,7 +405,10 @@ const LabelSelect = styled.div`
 const TemplatesStorageKey = `${props.feed.name}-post-templates`;
 
 const storedTemplates = Storage.get(TemplatesStorageKey);
-const [selectedTemplate, setSelectedTemplate] = useState("");
+const [selectedTemplate, setSelectedTemplate] = useState({
+  title: "",
+  content: ""
+});
 
 function onSaveTemplate(title, content, onClose) {
   const existentTemplates = Storage.get(TemplatesStorageKey);
@@ -471,7 +474,10 @@ const MemoizedTextEditor = useMemo(() => {
 
 function onSelectTemplate(title, content) {
   setPostContent(content);
-  setSelectedTemplate(title);
+  setSelectedTemplate({
+    title,
+    content
+  });
 }
 
 const TemplatesSection = styled.div`
@@ -493,6 +499,8 @@ const avatarComponent = useMemo(() => {
   );
 }, [context.accountId]);
 
+const shouldOpenConfirmationModalToSwitchTemplate = postContent !== selectedTemplate.content
+
 return (
   <PostCreator>
     {avatarComponent}
@@ -501,19 +509,33 @@ return (
       {storedTemplates.length > 0 ? (
         <>
           {storedTemplates.map(({ title, content }) => {
-            const isSelected = title === selectedTemplate;
+            const isSelected = title === selectedTemplate.title;
 
             return (
-              <Button
-                onClick={() => {
-                  onSelectTemplate(title, content);
+              <Widget 
+                src={"buildhub.near/widget/components.Modals.ConfirmTemplateModal"}
+                props={{
+                  shouldOpen: shouldOpenConfirmationModalToSwitchTemplate,
+                  onSelectTemplate: onSelectTemplate,
+                  chosenTemplate: {
+                    title,
+                    content
+                  },
+                  toggle: (
+                    <Button
+                      style={{ fontSize: 14 }}
+                      onClick={() => {
+                        if (!shouldOpenConfirmationModalToSwitchTemplate) onSelectTemplate(title, content);
+                      }}
+                      variant={isSelected ? "primary" : "outline"}
+                      id={`Toggle-${title}`}
+                      key={`Toggle-${title}`}
+                  >
+                    {title}
+                  </Button>
+                  )
                 }}
-                variant={isSelected ? "primary" : "outline"}
-                id={`Button-${title}`}
-                key={`Button-${title}`}
-              >
-                {title}
-              </Button>
+              />
             );
           })}
         </>
