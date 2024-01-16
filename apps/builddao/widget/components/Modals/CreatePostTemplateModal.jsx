@@ -1,8 +1,8 @@
 const { Avatar, Button, InputField, TextEditor } = VM.require(
   "buildhub.near/widget/components"
 );
-const { PlusIcon } = VM.require("rambo-dev.near/widget/PlusIcon");
-const { Modal } = VM.require("rambo-dev.near/widget/ModalComponent");
+const { PlusIcon } = VM.require("buildhub.near/widget/components.Icons.PlusIcon");
+const { Modal } = VM.require("buildhub.near/widget/components.Modals.Modal");
 
 const onSaveTemplate = props.onSaveTemplate;
 
@@ -237,6 +237,8 @@ function onClose() {
   });
 }
 
+const isValidTemplate = state.templateTitle.length > 0 && state.templateContent.length > 0
+
 return (
   <Modal
     open={state.isOpen}
@@ -285,7 +287,7 @@ return (
       <SaveTemplateWrapper>
         <Dialog.Trigger asChild>
           <Button
-            disabled={isValidTemplateToCreate}
+            disabled={!isValidTemplate}
             onClick={() => {
               onSaveTemplate(
                 state.templateTitle,

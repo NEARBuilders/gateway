@@ -410,7 +410,7 @@ const [selectedTemplate, setSelectedTemplate] = useState("");
 function onSaveTemplate(title, content, onClose) {
   const existentTemplates = Storage.get(TemplatesStorageKey);
 
-  if (existentTemplates === null) {
+  if (existentTemplates === undefined) {
     Storage.set(TemplatesStorageKey, [
       {
         title,
@@ -519,7 +519,7 @@ return (
         </>
       ) : null}
       <Widget
-        src={"rambo-dev.near/widget/TestCreateTemplateModal"}
+        src={"buildhub.near/widget/components.Modals.CreatePostTemplateModal"}
         props={{
           onSaveTemplate,
         }}

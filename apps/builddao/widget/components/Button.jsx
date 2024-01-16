@@ -62,7 +62,8 @@ const StyledButton = styled.button`
 `;
 
 function Button({ id, children, variant, type, onClick, className, style, disabled }) {
-  const isDisabled = disabled ? disabled : false
+
+  const isDisabled = disabled === undefined ? false : disabled
 
   return (
     <StyledButton
