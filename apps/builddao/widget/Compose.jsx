@@ -12,7 +12,7 @@ if (draft === null) {
 }
 
 const [view, setView] = useState("editor");
-const [postContent, setPostContent] = useState("# Hello World");
+const [postContent, setPostContent] = useState("");
 const [hideAdvanced, setHideAdvanced] = useState(true);
 const [labels, setLabels] = useState([]);
 
@@ -402,7 +402,7 @@ const LabelSelect = styled.div`
   }
 `;
 
-const TemplatesStorageKey = "postTemplates";
+const TemplatesStorageKey = `${props.feed.name}-post-templates`;
 
 const storedTemplates = Storage.get(TemplatesStorageKey);
 const [selectedTemplate, setSelectedTemplate] = useState("");
@@ -451,13 +451,13 @@ const MemoizedTextEditor = useMemo(() => {
   return (
     <TextareaWrapper
       className="markdown-editor"
-      data-value={postContent}
+      data-value={postContent || "What's happening?"}
       key={props.feed.name}
     >
       <Widget
         src="mob.near/widget/MarkdownEditorIframe"
         props={{
-          initialText: postContent,
+          initialText: postContent|| "What's happening?",
           embedCss: MarkdownEditor,
           onChange: (v) => {
             setPostContent(v);
