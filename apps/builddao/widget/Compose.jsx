@@ -409,7 +409,7 @@ const LabelSelect = styled.div`
   }
 `;
 
-const FiltersSection = styled.div`
+const TemplatesSection = styled.div`
   width: 100%;
 `;
 
@@ -426,9 +426,10 @@ const avatarComponent = useMemo(() => {
 
 return (
   <PostCreator>
-    <FiltersSection>
+    {avatarComponent}
+    <TemplatesSection>
       <CreatePostTemplateModal />
-    </FiltersSection>
+    </TemplatesSection>
 
     <div style={{ border: "none" }}>
       {view === "editor" ? (
