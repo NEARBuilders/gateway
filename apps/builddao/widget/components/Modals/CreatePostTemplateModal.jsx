@@ -246,7 +246,7 @@ return (
     onOpen={onOpen}
     onClose={onClose}
     toggle={
-      <Button variant="outline">
+      <Button variant="outline" style={{ fontSize: 14 }}>
         <PlusIcon />
         Add New
       </Button>
@@ -287,6 +287,7 @@ return (
       <SaveTemplateWrapper>
         <Dialog.Trigger asChild>
           <Button
+            style={{ fontSize: 14 }}
             disabled={!isValidTemplate}
             onClick={() => {
               onSaveTemplate(
