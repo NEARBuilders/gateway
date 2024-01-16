@@ -1,27 +1,20 @@
 const { Avatar, Button, InputField, TextEditor } = VM.require(
   "buildhub.near/widget/components"
 );
-const { CreatePostTemplateModal } = VM.require("buildhub.near/widget/components.Modals.CreatePostTemplateModal");
-
-console.log("CreatePostTemplateModal", CreatePostTemplateModal) 
 
 Button = Button || (() => <></>);
 
-const draftKey = props.feed.name || "draft";
-const draft = Storage.privateGet(draftKey);
+// const draftKey = props.feed.name || "draft";
+// const draft = Storage.privateGet(draftKey);
 
 if (draft === null) {
   return "";
 }
 
 const [view, setView] = useState("editor");
-const [postContent, setPostContent] = useState("");
+const [postContent, setPostContent] = useState("# Hello World");
 const [hideAdvanced, setHideAdvanced] = useState(true);
 const [labels, setLabels] = useState([]);
-const [templateTitle, setTemplateTitle] = useState("");
-const [templateContent, setTemplateContent] = useState("");
-
-setPostContent(draft || props.template);
 
 function generateUID() {
   const maxHex = 0xffffffff;
@@ -409,8 +402,84 @@ const LabelSelect = styled.div`
   }
 `;
 
+const TemplatesStorageKey = "postTemplates";
+
+const storedTemplates = Storage.get(TemplatesStorageKey);
+const [selectedTemplate, setSelectedTemplate] = useState("");
+
+function onSaveTemplate(title, content, onClose) {
+  const existentTemplates = Storage.get(TemplatesStorageKey);
+
+  if (existentTemplates === null) {
+    Storage.set(TemplatesStorageKey, [
+      {
+        title,
+        content,
+      },
+    ]);
+  } else {
+    const alreadyExistsTemplate = existentTemplates.filter((template) => {
+      return template.title === title;
+    })[0];
+
+    if (alreadyExistsTemplate !== undefined) {
+      const allButExistent = existentTemplates.filter((template) => {
+        return template.title !== title;
+      });
+
+      Storage.set(TemplatesStorageKey, [
+        ...allButExistent,
+        {
+          title,
+          content,
+        },
+      ]);
+    } else {
+      Storage.set(TemplatesStorageKey, [
+        ...existentTemplates,
+        {
+          title,
+          content,
+        },
+      ]);
+    }
+  }
+  onClose();
+}
+
+const MemoizedTextEditor = useMemo(() => {
+  return (
+    <TextareaWrapper
+      className="markdown-editor"
+      data-value={postContent}
+      key={props.feed.name}
+    >
+      <Widget
+        src="mob.near/widget/MarkdownEditorIframe"
+        props={{
+          initialText: postContent,
+          embedCss: MarkdownEditor,
+          onChange: (v) => {
+            setPostContent(v);
+            Storage.privateSet(draftKey, v || "");
+          },
+        }}
+      />
+    </TextareaWrapper>
+  );
+}, [selectedTemplate]);
+
+function onSelectTemplate(title, content) {
+  setPostContent(content);
+  setSelectedTemplate(title);
+}
+
 const TemplatesSection = styled.div`
   width: 100%;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0 8px;
 `;
 
 const avatarComponent = useMemo(() => {
@@ -427,29 +496,35 @@ const avatarComponent = useMemo(() => {
 return (
   <PostCreator>
     {avatarComponent}
+
     <TemplatesSection>
-      <CreatePostTemplateModal />
+      {storedTemplates.map(({ title, content }) => {
+        const isSelected = title === selectedTemplate;
+
+        return (
+          <Button
+            onClick={() => {
+              onSelectTemplate(title, content);
+            }}
+            variant={isSelected ? "primary" : "outline"}
+            id={`Button-${title}`}
+            key={`Button-${title}`}
+          >
+            {title}
+          </Button>
+        );
+      })}
+      <Widget
+        src={"rambo-dev.near/widget/TestCreateTemplateModal"}
+        props={{
+          onSaveTemplate,
+        }}
+      />
     </TemplatesSection>
 
     <div style={{ border: "none" }}>
       {view === "editor" ? (
-        <TextareaWrapper
-          className="markdown-editor"
-          data-value={postContent || ""}
-          key={props.feed.name}
-        >
-          <Widget
-            src="mob.near/widget/MarkdownEditorIframe"
-            props={{
-              initialText: postContent,
-              embedCss: MarkdownEditor,
-              onChange: (v) => {
-                setPostContent(v);
-                Storage.privateSet(draftKey, v || "");
-              },
-            }}
-          />
-        </TextareaWrapper>
+        MemoizedTextEditor
       ) : (
         <MarkdownPreview>
           <Widget
