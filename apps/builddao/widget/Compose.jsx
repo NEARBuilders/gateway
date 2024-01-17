@@ -2,14 +2,8 @@ const { Avatar, Button, InputField, TextEditor } = VM.require(
   "buildhub.near/widget/components"
 );
 
-Button = Button || (() => <></>);
-
-// const draftKey = props.feed.name || "draft";
-// const draft = Storage.privateGet(draftKey);
-
-if (draft === null) {
-  return "";
-}
+const draftKey = props.feed.name || "draft";
+const draft = Storage.privateGet(draftKey);
 
 const [view, setView] = useState("editor");
 const [postContent, setPostContent] = useState("");
@@ -402,6 +396,16 @@ const LabelSelect = styled.div`
   }
 `;
 
+
+const TemplatesSection = styled.div`
+  width: 100%;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0 8px;
+`;
+
+
 const TemplatesStorageKey = `${props.feed.name}-post-templates`;
 
 const storedTemplates = Storage.get(TemplatesStorageKey);
@@ -409,8 +413,19 @@ const [selectedTemplate, setSelectedTemplate] = useState({
   title: "",
   content: ""
 });
+const [openConfirmation, setOpenConfirmation] = useState(false);
 
-function onSaveTemplate(title, content, onClose) {
+
+function onSelectTemplate(title, content) {
+  setPostContent(content);
+  Storage.privateSet(draftKey, content);
+  setSelectedTemplate({
+    title,
+    content
+  });
+}
+
+function onSaveTemplate(title, content) {
   const existentTemplates = Storage.get(TemplatesStorageKey);
 
   if (existentTemplates === undefined) {
@@ -447,46 +462,9 @@ function onSaveTemplate(title, content, onClose) {
       ]);
     }
   }
-  onClose();
 }
 
-const MemoizedTextEditor = useMemo(() => {
-  return (
-    <TextareaWrapper
-      className="markdown-editor"
-      data-value={postContent || "What's happening?"}
-      key={props.feed.name}
-    >
-      <Widget
-        src="mob.near/widget/MarkdownEditorIframe"
-        props={{
-          initialText: postContent|| "What's happening?",
-          embedCss: MarkdownEditor,
-          onChange: (v) => {
-            setPostContent(v);
-            Storage.privateSet(draftKey, v || "");
-          },
-        }}
-      />
-    </TextareaWrapper>
-  );
-}, [selectedTemplate]);
-
-function onSelectTemplate(title, content) {
-  setPostContent(content);
-  setSelectedTemplate({
-    title,
-    content
-  });
-}
-
-const TemplatesSection = styled.div`
-  width: 100%;
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 0 8px;
-`;
+const shouldOpenConfirmationModalToSwitchTemplate = postContent !== selectedTemplate.content
 
 const avatarComponent = useMemo(() => {
   return (
@@ -499,12 +477,9 @@ const avatarComponent = useMemo(() => {
   );
 }, [context.accountId]);
 
-const shouldOpenConfirmationModalToSwitchTemplate = postContent !== selectedTemplate.content
-
 return (
   <PostCreator>
     {avatarComponent}
-
     <TemplatesSection>
       {storedTemplates.length > 0 ? (
         <>
@@ -512,34 +487,38 @@ return (
             const isSelected = title === selectedTemplate.title;
 
             return (
-              <Widget 
-                src={"buildhub.near/widget/components.Modals.ConfirmTemplateModal"}
-                props={{
-                  shouldOpen: shouldOpenConfirmationModalToSwitchTemplate,
-                  onSelectTemplate: onSelectTemplate,
-                  chosenTemplate: {
-                    title,
-                    content
-                  },
-                  toggle: (
-                    <Button
-                      style={{ fontSize: 14 }}
-                      onClick={() => {
-                        if (!shouldOpenConfirmationModalToSwitchTemplate) onSelectTemplate(title, content);
-                      }}
-                      variant={isSelected ? "primary" : "outline"}
-                      id={`Toggle-${title}`}
-                      key={`Toggle-${title}`}
-                  >
-                    {title}
-                  </Button>
-                  )
+              <Button
+                style={{ fontSize: 14 }}
+                onClick={() => {
+                  if (!shouldOpenConfirmationModalToSwitchTemplate) {
+                    onSelectTemplate(title, content)
+                  } else {
+                    setOpenConfirmation(true)
+                  }
                 }}
-              />
+                variant={isSelected ? "primary" : "outline"}
+                id={`Template-${title}`}
+                key={`Template-${title}`}
+                >
+              {title}
+              </Button>
             );
           })}
         </>
       ) : null}
+      <Widget 
+        src={"buildhub.near/widget/components.Modals.ConfirmTemplateModal"}
+        props={{
+          shouldOpen: shouldOpenConfirmationModalToSwitchTemplate,
+          onSelectTemplate: onSelectTemplate,
+          chosenTemplate: {
+            title: selectedTemplate.title,
+            content: selectedTemplate.content
+          },
+          isOpen: openConfirmation,
+          onOpenChange: () => setOpenConfirmation((prev) => !prev)
+        }}
+      />
       <Widget
         src={"buildhub.near/widget/components.Modals.CreatePostTemplateModal"}
         props={{
@@ -550,7 +529,23 @@ return (
 
     <div style={{ border: "none" }}>
       {view === "editor" ? (
-        MemoizedTextEditor
+        <TextareaWrapper
+          className="markdown-editor"
+          key={props.feed.name}
+          // data-value={postContent || "What's happening?"}
+        >
+          <Widget
+            src="mob.near/widget/MarkdownEditorIframe"
+            props={{
+              initialText: postContent || "What's happening?",
+              embedCss: MarkdownEditor,
+              onChange: (v) => {
+                setPostContent(v);
+                Storage.privateSet(draftKey, v || "");
+              },
+            }}
+          />
+        </TextareaWrapper>
       ) : (
         <MarkdownPreview>
           <Widget

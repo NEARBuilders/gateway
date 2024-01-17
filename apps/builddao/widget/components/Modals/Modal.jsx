@@ -50,17 +50,12 @@ function Modal({
   onOpen,
   onClose,
   toggle,
-  toggleContainerProps,
   key,
 }) {
-  const toggleComponent = toggle ?? (
-    <Button variant="primary">Open Modal</Button>
-  );
-
   return (
     <Dialog.Root open={open} key={key}>
       <Dialog.Trigger asChild onClick={onOpen}>
-        <NoButton {...toggleContainerProps}>{toggleComponent}</NoButton>
+        {toggle || <></>}
       </Dialog.Trigger>
       <Dialog.Overlay asChild>
         <Overlay>

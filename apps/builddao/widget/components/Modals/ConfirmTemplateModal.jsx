@@ -4,10 +4,12 @@ const { Avatar, Button, InputField, TextEditor } = VM.require(
 const { PlusIcon } = VM.require("buildhub.near/widget/components.Icons.PlusIcon");
 const { Modal } = VM.require("buildhub.near/widget/components.Modals.Modal");
 
-const toggle = props.toggle || <Button variant="outline">Toggle</Button>
+const toggle = props.toggle || <></>;
 const shouldOpen = props.shouldOpen;
 const onSelectTemplate = props.onSelectTemplate;
 const chosenTemplate = props.chosenTemplate;
+const isOpen = props.isOpen;
+const onOpenChange = props.onOpenChange;
 
 const ModalContainer = styled.div`
   width: 552px;
@@ -24,42 +26,21 @@ const SaveTemplateWrapper = styled.div`
   gap: 0 8px;
 `;
 
-
-State.init({
-  isOpen: false,
-});
-
-function onOpen() {
-  State.update({
-    isOpen: true,
-  });
-}
-
-function onClose() {
-  State.update({
-    isOpen: false,
-  });
-}
-
 return (
   <Modal
-    open={state.isOpen}
+    open={isOpen}
     key="create"
-    onOpen={() => {
-      if (shouldOpen) onOpen()
-    }}
-    onClose={onClose}
+    onOpen={onOpenChange}
+    onClose={onOpenChange}
     toggle={toggle}
   >
     <ModalContainer>
-      
       <p>Await for figma design modal content</p>
-
       <SaveTemplateWrapper>
       <Dialog.Trigger asChild>
           <Button
             style={{ fontSize: 14 }}
-            onClick={onClose}
+            onClick={onOpenChange}
             variant="outline"
           >
             Cancel
@@ -69,9 +50,8 @@ return (
           <Button
             style={{ fontSize: 14 }}
             onClick={() => {
-              console.log("chosenTemplate", chosenTemplate);
               onSelectTemplate(chosenTemplate.title, chosenTemplate.content);
-              onClose();
+              onOpenChange();
             }}
             variant="primary"
           >
