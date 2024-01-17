@@ -33,22 +33,11 @@ const NoButton = styled.button`
   box-shadow: none;
 `;
 
-const CloseContainer = styled.div`
-    display: flex;
-    justify-content: flex-end;
-    width: 100%;
-    padding-bottom: 24px;
-`;
-
-const Icon = styled.i`
-    font-size: 24px;
-`;
 
 function Modal({
   children,
   open,
   onOpen,
-  onClose,
   toggle,
   key,
 }) {
@@ -61,13 +50,6 @@ function Modal({
         <Overlay>
           <Dialog.Content>
             <Content>
-              <Dialog.Trigger asChild onClick={onClose}>
-                <CloseContainer>
-                  <Button variant="outline" type="icon">
-                    <Icon className="bi bi-x" />
-                  </Button>
-                </CloseContainer>
-              </Dialog.Trigger>
               {children}
             </Content>
           </Dialog.Content>

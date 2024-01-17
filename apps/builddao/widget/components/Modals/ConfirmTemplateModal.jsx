@@ -6,7 +6,7 @@ const { Modal } = VM.require("buildhub.near/widget/components.Modals.Modal");
 
 const toggle = props.toggle || <></>;
 const shouldOpen = props.shouldOpen;
-const onSelectTemplate = props.onSelectTemplate;
+const onSwitchTemplate = props.onSwitchTemplate;
 const chosenTemplate = props.chosenTemplate;
 const isOpen = props.isOpen;
 const onOpenChange = props.onOpenChange;
@@ -29,7 +29,7 @@ const SaveTemplateWrapper = styled.div`
 return (
   <Modal
     open={isOpen}
-    key="create"
+    key={`ConfirmTemplate-${chosenTemplate.title}`}
     onOpen={onOpenChange}
     onClose={onOpenChange}
     toggle={toggle}
@@ -50,7 +50,7 @@ return (
           <Button
             style={{ fontSize: 14 }}
             onClick={() => {
-              onSelectTemplate(chosenTemplate.title, chosenTemplate.content);
+              onSwitchTemplate(chosenTemplate.title, chosenTemplate.content);
               onOpenChange();
             }}
             variant="primary"

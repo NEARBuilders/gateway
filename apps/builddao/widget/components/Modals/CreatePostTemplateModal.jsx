@@ -3,8 +3,12 @@ const { Avatar, Button, InputField, TextEditor } = VM.require(
 );
 const { PlusIcon } = VM.require("buildhub.near/widget/components.Icons.PlusIcon");
 const { Modal } = VM.require("buildhub.near/widget/components.Modals.Modal");
+const { XTrigger } = VM.require("buildhub.near/widget/components.Modals.XTrigger");
+const { H3 } = VM.require("buildhub.near/widget/components.Text.H3");
 
 const onSaveTemplate = props.onSaveTemplate;
+const isOpen = props.isOpen;
+const onOpenChange = props.onOpenChange;
 
 const FiltersSection = styled.div`
   width: 100%;
@@ -219,40 +223,32 @@ const MarkdownPreview = styled.div`
   }
 `;
 
+const HeaderWrapper = styled.div`
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+`
+
 State.init({
   templateTitle: "",
   templateContent: "# Hello World",
-  isOpen: false,
 });
-
-function onOpen() {
-  State.update({
-    isOpen: true,
-  });
-}
-
-function onClose() {
-  State.update({
-    isOpen: false,
-  });
-}
 
 const isValidTemplate = state.templateTitle.length > 0 && state.templateContent.length > 0
 
 return (
   <Modal
-    open={state.isOpen}
+    open={isOpen}
     key="create"
-    onOpen={onOpen}
-    onClose={onClose}
-    toggle={
-      <Button variant="outline" style={{ fontSize: 14 }}>
-        <PlusIcon />
-        Add New
-      </Button>
-    }
+    onOpen={onOpenChange}
+    onClose={onOpenChange}
   >
     <ModalContainer>
+      <HeaderWrapper>
+        <H3>Add new markdown template</H3>
+        <XTrigger onClose={onOpenChange} />
+      </HeaderWrapper>
       <InputField
         key="templateTitleInput"
         label="Title"
@@ -293,7 +289,7 @@ return (
               onSaveTemplate(
                 state.templateTitle,
                 state.templateContent,
-                onClose
+                onOpenChange
               );
             }}
             variant="primary"

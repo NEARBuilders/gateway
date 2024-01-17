@@ -1,6 +1,7 @@
 const { Avatar, Button, InputField, TextEditor } = VM.require(
   "buildhub.near/widget/components"
 );
+const { CaretRightIcon } = VM.require("buildhub.near/widget/components.Icons.CaretRightIcon")
 
 const draftKey = props.feed.name || "draft";
 const draft = Storage.privateGet(draftKey);
@@ -396,36 +397,52 @@ const LabelSelect = styled.div`
   }
 `;
 
-
-const TemplatesSection = styled.div`
+const SelectTemplateToggle = styled.div`
   width: 100%;
   display: flex;
+  justify-content: space-between;
   align-items: center;
-  flex-wrap: wrap;
-  gap: 0 8px;
-`;
+  padding: 14px;
+  transition: all 300ms;
+  background: transparent;
+  border-bottom: 1px solid #FFFFFF33;
 
+  span {
+    font-weight: 500;
+    font-size: 1rem;
+    font-family: Aeonik, sans-serif;
+    color: white;
+  }
+
+  &:hover {
+    background: #FFFFFF33;
+  }
+`
 
 const TemplatesStorageKey = `${props.feed.name}-post-templates`;
 
 const storedTemplates = Storage.get(TemplatesStorageKey);
+const [currentTemplate, setCurrentTemplate] = useState({
+  title: "",
+  content: ""
+});
 const [selectedTemplate, setSelectedTemplate] = useState({
   title: "",
   content: ""
 });
 const [openConfirmation, setOpenConfirmation] = useState(false);
+const [openTemplatesModal, setOpenTemplatesModal] = useState(false);
+const [openCreateTemplateModal, setOpenCreateTemplateModal] = useState(false);
 
-
-function onSelectTemplate(title, content) {
+function onSwitchTemplate(title, content) {
   setPostContent(content);
-  Storage.privateSet(draftKey, content);
-  setSelectedTemplate({
+  setCurrentTemplate({
     title,
     content
   });
 }
 
-function onSaveTemplate(title, content) {
+function onSaveTemplate(title, content, onClose) {
   const existentTemplates = Storage.get(TemplatesStorageKey);
 
   if (existentTemplates === undefined) {
@@ -462,9 +479,24 @@ function onSaveTemplate(title, content) {
       ]);
     }
   }
+  onClose();
 }
 
-const shouldOpenConfirmationModalToSwitchTemplate = postContent !== selectedTemplate.content
+function onDeleteTemplate(title) {
+  const existentTemplates = Storage.get(TemplatesStorageKey);
+
+  const allButTheTemplateYouWannaDelete = existentTemplates.filter((template) => {
+    return template.title !== title
+  })
+
+  if (allButTheTemplateYouWannaDelete.length === 0) {
+    Storage.set(TemplatesStorageKey, []);
+  } else {
+    Storage.set(TemplatesStorageKey, [...allButTheTemplateYouWannaDelete]);
+  }
+}
+
+const shouldOpenConfirmationModalToSwitchTemplate = postContent !== currentTemplate.content
 
 const avatarComponent = useMemo(() => {
   return (
@@ -480,19 +512,49 @@ const avatarComponent = useMemo(() => {
 return (
   <PostCreator>
     {avatarComponent}
-    <TemplatesSection>
-      {storedTemplates.length > 0 ? (
+    <Widget 
+      src={"buildhub.near/widget/components.Modals.TemplatesModal"}
+      props={{
+        isOpen: openTemplatesModal,
+        onOpenChange: () => setOpenTemplatesModal((prev) => !prev),
+        templates: storedTemplates,
+        toggle: (
+          <SelectTemplateToggle role="button">
+            <span>Select template</span>
+            <CaretRightIcon />
+          </SelectTemplateToggle>
+        ),
+        onAdd: () => {
+          setOpenTemplatesModal(false)
+          setOpenCreateTemplateModal(true)
+        },
+        onDelete: onDeleteTemplate,
+      }}
+    />
+    <Widget
+      src={"buildhub.near/widget/components.Modals.CreatePostTemplateModal"}
+      props={{
+        isOpen: openCreateTemplateModal,
+        onOpenChange: () => setOpenCreateTemplateModal((prev) => !prev),
+        onSaveTemplate
+      }}
+    /> 
+      {/* {storedTemplates.length > 0 ? (
         <>
           {storedTemplates.map(({ title, content }) => {
-            const isSelected = title === selectedTemplate.title;
+            const isSelected = title === currentTemplate.title;
 
             return (
               <Button
                 style={{ fontSize: 14 }}
                 onClick={() => {
                   if (!shouldOpenConfirmationModalToSwitchTemplate) {
-                    onSelectTemplate(title, content)
+                    onSwitchTemplate(title, content)
                   } else {
+                    setSelectedTemplate({
+                      title,
+                      content
+                    })
                     setOpenConfirmation(true)
                   }
                 }}
@@ -510,7 +572,7 @@ return (
         src={"buildhub.near/widget/components.Modals.ConfirmTemplateModal"}
         props={{
           shouldOpen: shouldOpenConfirmationModalToSwitchTemplate,
-          onSelectTemplate: onSelectTemplate,
+          onSwitchTemplate: onSwitchTemplate,
           chosenTemplate: {
             title: selectedTemplate.title,
             content: selectedTemplate.content
@@ -519,33 +581,26 @@ return (
           onOpenChange: () => setOpenConfirmation((prev) => !prev)
         }}
       />
-      <Widget
-        src={"buildhub.near/widget/components.Modals.CreatePostTemplateModal"}
-        props={{
-          onSaveTemplate,
-        }}
-      />
-    </TemplatesSection>
+      */}
 
     <div style={{ border: "none" }}>
       {view === "editor" ? (
         <TextareaWrapper
-          className="markdown-editor"
-          key={props.feed.name}
-          // data-value={postContent || "What's happening?"}
-        >
-          <Widget
-            src="mob.near/widget/MarkdownEditorIframe"
-            props={{
-              initialText: postContent || "What's happening?",
-              embedCss: MarkdownEditor,
-              onChange: (v) => {
-                setPostContent(v);
-                Storage.privateSet(draftKey, v || "");
-              },
-            }}
-          />
-        </TextareaWrapper>
+        className="markdown-editor"
+        key={props.feed.name}
+      >
+        <Widget
+          src="buildhub.near/widget/components.Text.Editor"
+          props={{
+            initialText: postContent || "What's happening?",
+            embedCss: MarkdownEditor,
+            onChange: (v) => {
+              setPostContent(v);
+              Storage.privateSet(draftKey, v || "");
+            }, 
+          }}
+        />
+      </TextareaWrapper>
       ) : (
         <MarkdownPreview>
           <Widget
