@@ -262,7 +262,7 @@ return (
     <ModalContainer>
       <HeaderWrapper>
         <H3>
-          {isEditing ? `Edit ${template.title} template` : "Add new markdown template"}
+          {isEditing ? `Edit ${templateToEdit.title} template` : "Add new markdown template"}
         </H3>
         <XTrigger onClose={onOpenChange} />
       </HeaderWrapper>
