@@ -12,6 +12,7 @@ const templates = props.templates || [];
 const onAdd = props.onAdd;
 const onDelete = props.onDelete
 const onEdit = props.onEdit;
+const onChooseTemplate = props.onChooseTemplate;
 
 const ModalContainer = styled.div`
   width: 880px;
@@ -70,6 +71,10 @@ const TemplateItem = styled.div`
   padding-bottom: 10px;
   border-bottom: 1px solid #FFFFFF33;
   overflow: hidden;
+
+  &:hover {
+    cursor: pointer;
+  }
 `
 
 const IconsWrapper = styled.div`
@@ -138,7 +143,13 @@ return (
         <TemplatesList>
           {templates.map(({ title, content }) => {
             return (
-              <TemplateItem key={`${title}-${content}`}>
+              <TemplateItem 
+                key={`${title}-${content}`} 
+                role="button"
+                onClick={() => {
+                  onChooseTemplate(title, content)
+                }}
+              > 
                 <TemplateContentWrapper>
                   <h4>{title}</h4>
                   <p>{content}</p>
@@ -146,7 +157,8 @@ return (
                   <IconsWrapper>
                     <Button
                       id="EditTemplate"
-                      onClick={() => {
+                      onClick={(e) => {
+                        e.stopPropagation()
                         onEdit(title, content)
                       }} 
                       variant="outline" type="icon"
@@ -156,7 +168,8 @@ return (
                     <Button 
                       id="DeleteTemplate"
                       style={{ marginLeft: 10 }}
-                      onClick={() => {
+                      onClick={(e) => {
+                        e.stopPropagation()
                         onDelete(title)
                       }} 
                       variant="outline" 

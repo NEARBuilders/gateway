@@ -442,14 +442,6 @@ function onClearSelected() {
   })
 }
 
-function onSwitchTemplate(title, content) {
-  setPostContent(content);
-  setCurrentTemplate({
-    title,
-    content
-  });
-}
-
 function onSaveTemplate(title, content, onClose) {
   const existentTemplates = Storage.get(TemplatesStorageKey);
 
@@ -520,6 +512,15 @@ function onEditTemplate(oldTitle, title, content, onClose) {
   onClose()
 }
 
+function onChooseTemplate(title, content) {
+  setPostContent(content)
+  setCurrentTemplate({
+    title,
+    content
+  })
+  setOpenTemplatesModal(false)
+}
+
 function toEdit(title, content) {
   setOpenTemplatesModal(false)
   setSelectedTemplate({
@@ -527,6 +528,11 @@ function toEdit(title, content) {
     content,
   })
   setOpenCreateTemplateModal(true)
+}
+
+function toAdd() {
+  setOpenTemplatesModal(false)
+  setOpenCreateTemplateModal(true) 
 }
 
 const shouldOpenConfirmationModalToSwitchTemplate = postContent !== currentTemplate.content
@@ -541,6 +547,25 @@ const avatarComponent = useMemo(() => {
     </div>
   );
 }, [context.accountId]);
+
+const editorKey = `Editor-Content-${currentTemplate.title}`
+
+const textEditorComponent = useMemo(() => {
+  return (
+    <Widget
+      key={editorKey}
+      src="buildhub.near/widget/components.Text.Editor"
+      props={{
+        initialText: postContent || "What's happening?",
+        embedCss: MarkdownEditor,
+        onChange: (v) => {
+          setPostContent(v);
+          Storage.privateSet(draftKey, v || "");
+        },
+      }}
+    />
+  )
+}, [currentTemplate])
 
 return (
   <PostCreator>
@@ -557,12 +582,10 @@ return (
             <CaretRightIcon />
           </SelectTemplateToggle>
         ),
-        onAdd: () => {
-          setOpenTemplatesModal(false)
-          setOpenCreateTemplateModal(true) 
-        },
+        onAdd: toAdd,
         onEdit: toEdit,
         onDelete: onDeleteTemplate,
+        onChooseTemplate,
       }}
     />
     <Widget
@@ -579,20 +602,10 @@ return (
     <div style={{ border: "none" }}>
       {view === "editor" ? (
         <TextareaWrapper
-        className="markdown-editor"
-        key={props.feed.name}
-      >
-        <Widget
-          src="buildhub.near/widget/components.Text.Editor"
-          props={{
-            initialText: postContent || "What's happening?",
-            embedCss: MarkdownEditor,
-            onChange: (v) => {
-              setPostContent(v);
-              Storage.privateSet(draftKey, v || "");
-            }, 
-          }}
-        />
+          className="markdown-editor"
+          key={props.feed.name}
+        >
+        {textEditorComponent}
       </TextareaWrapper>
       ) : (
         <MarkdownPreview>
