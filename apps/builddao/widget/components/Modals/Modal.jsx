@@ -25,15 +25,6 @@ const Content = styled.div`
   color: white;
 `;
 
-const NoButton = styled.button`
-  background: transparent;
-  border: none;
-  padding: 0;
-  margin: 0;
-  box-shadow: none;
-`;
-
-
 function Modal({
   children,
   open,
