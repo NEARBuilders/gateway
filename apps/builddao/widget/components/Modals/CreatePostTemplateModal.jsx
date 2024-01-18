@@ -9,6 +9,11 @@ const { H3 } = VM.require("buildhub.near/widget/components.Text.H3");
 const onSaveTemplate = props.onSaveTemplate;
 const isOpen = props.isOpen;
 const onOpenChange = props.onOpenChange;
+const templateToEdit = props.templateToEdit;
+const onEdit = props.onEditTemplate;
+const onClearSelected = props.onClear; 
+
+const isEditing = templateToEdit.title.length > 0
 
 const FiltersSection = styled.div`
   width: 100%;
@@ -230,12 +235,22 @@ const HeaderWrapper = styled.div`
   justify-content: space-between;
 `
 
-State.init({
-  templateTitle: "",
-  templateContent: "# Hello World",
-});
+const [template, setTemplate] = useState(templateToEdit)
 
-const isValidTemplate = state.templateTitle.length > 0 && state.templateContent.length > 0
+const isValidTemplate = template.title.length > 0 && template.content.length > 0
+
+function onResetForm() {
+  setTemplate({
+    title: "",
+    content: "# Hello World"
+  })
+  onClearSelected()
+}
+
+useEffect(() => {
+  setTemplate(templateToEdit)
+}, [templateToEdit])
+
 
 return (
   <Modal
@@ -246,18 +261,21 @@ return (
   >
     <ModalContainer>
       <HeaderWrapper>
-        <H3>Add new markdown template</H3>
+        <H3>
+          {isEditing ? `Edit ${template.title} template` : "Add new markdown template"}
+        </H3>
         <XTrigger onClose={onOpenChange} />
       </HeaderWrapper>
       <InputField
         key="templateTitleInput"
         label="Title"
         placeholder="Name your template"
-        value={state.templateTitle}
+        value={template.title}
         onChange={(e) => {
-          State.update({
-            templateTitle: e.target.value,
-          });
+          setTemplate((prev) => ({
+            title: e.target.value,
+            content: prev.content
+          }))
         }}
       />
 
@@ -269,12 +287,13 @@ return (
         <Widget
           src="mob.near/widget/MarkdownEditorIframe"
           props={{
-            initialText: templateContent,
+            initialText: template.content,
             embedCss: MarkdownEditor,
             onChange: (v) => {
-              State.update({
-                templateContent: v,
-              });
+              setTemplate((prev) => ({
+                ...prev,
+                content: v
+              }))
             },
           }}
         />
@@ -286,11 +305,22 @@ return (
             style={{ fontSize: 14 }}
             disabled={!isValidTemplate}
             onClick={() => {
-              onSaveTemplate(
-                state.templateTitle,
-                state.templateContent,
-                onOpenChange
-              );
+              if (isEditing) {
+                onResetForm()
+                onEdit(
+                  templateToEdit.title,
+                  template.title, 
+                  template.content, 
+                  onOpenChange
+                )
+              } else {
+                onResetForm()
+                onSaveTemplate(
+                  template.title, 
+                  template.content, 
+                  onOpenChange
+                )
+              }
             }}
             variant="primary"
           >

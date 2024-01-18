@@ -5,11 +5,13 @@ const { Modal } = VM.require("buildhub.near/widget/components.Modals.Modal");
 const { CaretLeftIcon, TrashIcon, PlusIcon, PencilIcon } = VM.require("buildhub.near/widget/Icons")
 
 const toggle = props.toggle || <></>;
-const templates = props.templates || []; 
 const isOpen = props.isOpen;
 const onOpenChange = props.onOpenChange;
+
+const templates = props.templates || []; 
 const onAdd = props.onAdd;
 const onDelete = props.onDelete
+const onEdit = props.onEdit;
 
 const ModalContainer = styled.div`
   width: 880px;
@@ -142,10 +144,17 @@ return (
                   <p>{content}</p>
                 </TemplateContentWrapper>
                   <IconsWrapper>
-                    <Button variant="outline" type="icon">
+                    <Button
+                      id="EditTemplate"
+                      onClick={() => {
+                        onEdit(title, content)
+                      }} 
+                      variant="outline" type="icon"
+                    >
                       <PencilIcon />
                     </Button>
                     <Button 
+                      id="DeleteTemplate"
                       style={{ marginLeft: 10 }}
                       onClick={() => {
                         onDelete(title)

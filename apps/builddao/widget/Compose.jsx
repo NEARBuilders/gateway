@@ -433,6 +433,14 @@ const [selectedTemplate, setSelectedTemplate] = useState({
 const [openConfirmation, setOpenConfirmation] = useState(false);
 const [openTemplatesModal, setOpenTemplatesModal] = useState(false);
 const [openCreateTemplateModal, setOpenCreateTemplateModal] = useState(false);
+const [isEditingTemplate, setIsEditingTemplate] = useState(false)
+
+function onClearSelected() {
+  setSelectedTemplate({
+    title: "",
+    content: ""
+  })
+}
 
 function onSwitchTemplate(title, content) {
   setPostContent(content);
@@ -496,6 +504,31 @@ function onDeleteTemplate(title) {
   }
 }
 
+function onEditTemplate(oldTitle, title, content, onClose) {
+  const existentTemplates = Storage.get(TemplatesStorageKey);
+
+  const templateIndex = existentTemplates.findIndex((template) => {
+    console.log("template.title", template.title)
+    return template.title === oldTitle
+  });
+
+  existentTemplates[templateIndex].title = title;
+  existentTemplates[templateIndex].content = content;
+
+  Storage.set(TemplatesStorageKey, existentTemplates);
+
+  onClose()
+}
+
+function toEdit(title, content) {
+  setOpenTemplatesModal(false)
+  setSelectedTemplate({
+    title,
+    content,
+  })
+  setOpenCreateTemplateModal(true)
+}
+
 const shouldOpenConfirmationModalToSwitchTemplate = postContent !== currentTemplate.content
 
 const avatarComponent = useMemo(() => {
@@ -526,8 +559,9 @@ return (
         ),
         onAdd: () => {
           setOpenTemplatesModal(false)
-          setOpenCreateTemplateModal(true)
+          setOpenCreateTemplateModal(true) 
         },
+        onEdit: toEdit,
         onDelete: onDeleteTemplate,
       }}
     />
@@ -536,53 +570,12 @@ return (
       props={{
         isOpen: openCreateTemplateModal,
         onOpenChange: () => setOpenCreateTemplateModal((prev) => !prev),
-        onSaveTemplate
+        onSaveTemplate,
+        templateToEdit: selectedTemplate,
+        onEditTemplate,
+        onClear: onClearSelected
       }}
-    /> 
-      {/* {storedTemplates.length > 0 ? (
-        <>
-          {storedTemplates.map(({ title, content }) => {
-            const isSelected = title === currentTemplate.title;
-
-            return (
-              <Button
-                style={{ fontSize: 14 }}
-                onClick={() => {
-                  if (!shouldOpenConfirmationModalToSwitchTemplate) {
-                    onSwitchTemplate(title, content)
-                  } else {
-                    setSelectedTemplate({
-                      title,
-                      content
-                    })
-                    setOpenConfirmation(true)
-                  }
-                }}
-                variant={isSelected ? "primary" : "outline"}
-                id={`Template-${title}`}
-                key={`Template-${title}`}
-                >
-              {title}
-              </Button>
-            );
-          })}
-        </>
-      ) : null}
-      <Widget 
-        src={"buildhub.near/widget/components.Modals.ConfirmTemplateModal"}
-        props={{
-          shouldOpen: shouldOpenConfirmationModalToSwitchTemplate,
-          onSwitchTemplate: onSwitchTemplate,
-          chosenTemplate: {
-            title: selectedTemplate.title,
-            content: selectedTemplate.content
-          },
-          isOpen: openConfirmation,
-          onOpenChange: () => setOpenConfirmation((prev) => !prev)
-        }}
-      />
-      */}
-
+    />
     <div style={{ border: "none" }}>
       {view === "editor" ? (
         <TextareaWrapper
