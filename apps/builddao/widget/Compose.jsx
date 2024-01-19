@@ -422,95 +422,12 @@ const SelectTemplateToggle = styled.div`
 const TemplatesStorageKey = `${props.feed.name}-post-templates`;
 
 const storedTemplates = Storage.get(TemplatesStorageKey);
+
 const [currentTemplate, setCurrentTemplate] = useState({
   title: "",
   content: ""
 });
-const [selectedTemplate, setSelectedTemplate] = useState({
-  title: "",
-  content: ""
-});
-const [openConfirmation, setOpenConfirmation] = useState(false);
 const [openTemplatesModal, setOpenTemplatesModal] = useState(false);
-const [openCreateTemplateModal, setOpenCreateTemplateModal] = useState(false);
-const [isEditingTemplate, setIsEditingTemplate] = useState(false)
-
-function onClearSelected() {
-  setSelectedTemplate({
-    title: "",
-    content: ""
-  })
-}
-
-function onSaveTemplate(title, content, onClose) {
-  const existentTemplates = Storage.get(TemplatesStorageKey);
-
-  if (existentTemplates === undefined) {
-    Storage.set(TemplatesStorageKey, [
-      {
-        title,
-        content,
-      },
-    ]);
-  } else {
-    const alreadyExistsTemplate = existentTemplates.filter((template) => {
-      return template.title === title;
-    })[0];
-
-    if (alreadyExistsTemplate !== undefined) {
-      const allButExistent = existentTemplates.filter((template) => {
-        return template.title !== title;
-      });
-
-      Storage.set(TemplatesStorageKey, [
-        ...allButExistent,
-        {
-          title,
-          content,
-        },
-      ]);
-    } else {
-      Storage.set(TemplatesStorageKey, [
-        ...existentTemplates,
-        {
-          title,
-          content,
-        },
-      ]);
-    }
-  }
-  onClose();
-}
-
-function onDeleteTemplate(title) {
-  const existentTemplates = Storage.get(TemplatesStorageKey);
-
-  const allButTheTemplateYouWannaDelete = existentTemplates.filter((template) => {
-    return template.title !== title
-  })
-
-  if (allButTheTemplateYouWannaDelete.length === 0) {
-    Storage.set(TemplatesStorageKey, []);
-  } else {
-    Storage.set(TemplatesStorageKey, [...allButTheTemplateYouWannaDelete]);
-  }
-}
-
-function onEditTemplate(oldTitle, title, content, onClose) {
-  const existentTemplates = Storage.get(TemplatesStorageKey);
-
-  const templateIndex = existentTemplates.findIndex((template) => {
-    console.log("template.title", template.title)
-    return template.title === oldTitle
-  });
-
-  existentTemplates[templateIndex].title = title;
-  existentTemplates[templateIndex].content = content;
-
-  Storage.set(TemplatesStorageKey, existentTemplates);
-
-  onClose()
-}
 
 function onChooseTemplate(title, content) {
   setPostContent(content)
@@ -519,20 +436,6 @@ function onChooseTemplate(title, content) {
     content
   })
   setOpenTemplatesModal(false)
-}
-
-function toEdit(title, content) {
-  setOpenTemplatesModal(false)
-  setSelectedTemplate({
-    title,
-    content,
-  })
-  setOpenCreateTemplateModal(true)
-}
-
-function toAdd() {
-  setOpenTemplatesModal(false)
-  setOpenCreateTemplateModal(true) 
 }
 
 const shouldOpenConfirmationModalToSwitchTemplate = postContent !== currentTemplate.content
@@ -576,27 +479,14 @@ return (
         isOpen: openTemplatesModal,
         onOpenChange: () => setOpenTemplatesModal((prev) => !prev),
         templates: storedTemplates,
+        onChooseTemplate,
+        templateStorageKey: TemplatesStorageKey,
         toggle: (
           <SelectTemplateToggle role="button">
             <span>Select template</span>
             <CaretRightIcon />
           </SelectTemplateToggle>
         ),
-        onAdd: toAdd,
-        onEdit: toEdit,
-        onDelete: onDeleteTemplate,
-        onChooseTemplate,
-      }}
-    />
-    <Widget
-      src={"buildhub.near/widget/components.Modals.CreatePostTemplateModal"}
-      props={{
-        isOpen: openCreateTemplateModal,
-        onOpenChange: () => setOpenCreateTemplateModal((prev) => !prev),
-        onSaveTemplate,
-        templateToEdit: selectedTemplate,
-        onEditTemplate,
-        onClear: onClearSelected
       }}
     />
     <div style={{ border: "none" }}>

@@ -6,7 +6,8 @@ const StyledButton = styled.button`
   align-items: center;
   gap: 4px;
   border-radius: 8px;
-  font: 500 14px / normal;
+  font-weight: var(--font-weight-medium, 500);
+  font-size: 0.875rem;
   transition: all 300ms;
 
   ${(props) =>

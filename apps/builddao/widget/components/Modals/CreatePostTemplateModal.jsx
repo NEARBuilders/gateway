@@ -6,14 +6,17 @@ const { Modal } = VM.require("buildhub.near/widget/components.Modals.Modal");
 const { XTrigger } = VM.require("buildhub.near/widget/components.Modals.XTrigger");
 const { H3 } = VM.require("buildhub.near/widget/components.Text.H3");
 
-const onSaveTemplate = props.onSaveTemplate;
 const isOpen = props.isOpen;
 const onOpenChange = props.onOpenChange;
+const onCreateTemplate = props.onCreateTemplate;
 const templateToEdit = props.templateToEdit;
-const onEdit = props.onEditTemplate;
-const onClearSelected = props.onClear; 
+const onEditTemplate = props.onEditTemplate;
+const onClearSelected = props.onClearSelected;
+
+console.log("templateToEdit", templateToEdit);
 
 const isEditing = templateToEdit.title.length > 0
+console.log("isEditing", isEditing)
 
 const FiltersSection = styled.div`
   width: 100%;
@@ -244,13 +247,7 @@ function onResetForm() {
     title: "",
     content: "# Hello World"
   })
-  onClearSelected()
 }
-
-useEffect(() => {
-  setTemplate(templateToEdit)
-}, [templateToEdit])
-
 
 return (
   <Modal
@@ -264,7 +261,12 @@ return (
         <H3>
           {isEditing ? `Edit ${templateToEdit.title} template` : "Add new markdown template"}
         </H3>
-        <XTrigger onClose={onOpenChange} />
+        <XTrigger 
+          onClose={() => {
+            if (isEditing) onClearSelected()
+            onOpenChange()
+          }} 
+        />
       </HeaderWrapper>
       <InputField
         key="templateTitleInput"
@@ -287,7 +289,7 @@ return (
         <Widget
           src="mob.near/widget/MarkdownEditorIframe"
           props={{
-            initialText: template.content,
+            initialText: template.content || "# Hello World",
             embedCss: MarkdownEditor,
             onChange: (v) => {
               setTemplate((prev) => ({
@@ -307,19 +309,20 @@ return (
             onClick={() => {
               if (isEditing) {
                 onResetForm()
-                onEdit(
+                onEditTemplate(
                   templateToEdit.title,
-                  template.title, 
-                  template.content, 
-                  onOpenChange
+                  template.title,
+                  template.content
                 )
+                onClearSelected()
+                onOpenChange()
               } else {
                 onResetForm()
-                onSaveTemplate(
+                onCreateTemplate(
                   template.title, 
                   template.content, 
-                  onOpenChange
                 )
+                onOpenChange()
               }
             }}
             variant="primary"
