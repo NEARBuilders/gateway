@@ -41,6 +41,7 @@ import ProposePage from "./pages/ProposePage";
 import ViewPage from "./pages/ViewPage";
 import ResourcesPage from "./pages/ResourcesPage";
 import LibraryPage from "./pages/LibraryPage";
+import MDEditor from "./components/custom/MDEditor";
 
 export const refreshAllowanceObj = {};
 const documentationHref = "https://docs.near.org/bos";
@@ -80,7 +81,7 @@ function App() {
               bundle: false,
             }),
             setupNightly(),
-            setupKeypom({ 
+            setupKeypom({
               networkId: NetworkId,
               signInContractId: NetworkId == "testnet" ? "v1.social08.testnet" : "social.near",
               trialAccountSpecs: {
@@ -90,7 +91,7 @@ function App() {
               instantSignInSpecs: {
                 url: NetworkId == 'testnet' ? 'https://test.nearbuilders.org/#instant-url/ACCOUNT_ID/SECRET_KEY/MODULE_ID' : 'https://nearbuilders.org/#instant-url/ACCOUNT_ID/SECRET_KEY/MODULE_ID',
               },
-            }), 
+            }),
           ],
         }),
         customElements: {
@@ -108,6 +109,9 @@ function App() {
             }
             return <Link {...props} />;
           },
+          MDEditor: (props) => {
+            return <MDEditor {...props} />;
+          }
         },
         config: {
           defaultFinality: undefined,
