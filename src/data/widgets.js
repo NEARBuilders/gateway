@@ -28,7 +28,7 @@ const MainnetWidgets = {
   widgetMetadata: "buildhub.near/widget/WidgetMetadata",
   profileImage: "mob.near/widget/ProfileImage",
   notificationButton: "mob.near/widget/NotificationButton",
-  profilePage: "near/widget/ProfilePage",
+  profilePage: "mob.near/widget/ProfilePage",
   profileName: "patrick.near/widget/ProfileName",
   editorComponentSearch: "mob.near/widget/Editor.ComponentSearch",
   profileInlineBlock: "mob.near/widget/Profile.InlineBlock",

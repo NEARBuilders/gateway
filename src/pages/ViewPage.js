@@ -26,19 +26,30 @@ export default function ViewPage(props) {
       setWidgetSrc(
         src === viewSourceWidget && query.get("src")
           ? {
-              edit: query.get("src"),
-              view: null,
-            }
+            edit: query.get("src"),
+            view: null,
+          }
           : {
-              edit: src,
-              view: src,
-            }
+            edit: src,
+            view: src,
+          }
       );
     }, 1);
   }, [src, query, setWidgetSrc, viewSourceWidget]);
 
-  return showMenu ? (
-    <div>
+  return <div>
+    {showMenu ? (
+      <div>
+        <Widget
+          key={src}
+          src={src}
+          props={widgetProps}
+          config={{
+            redirectMap: redirectMapStore.redirectMap,
+          }}
+        />{" "}
+      </div>
+    ) : (
       <Widget
         key={src}
         src={src}
@@ -46,16 +57,7 @@ export default function ViewPage(props) {
         config={{
           redirectMap: redirectMapStore.redirectMap,
         }}
-      />{" "}
-    </div>
-  ) : (
-    <Widget
-      key={src}
-      src={src}
-      props={widgetProps}
-      config={{
-        redirectMap: redirectMapStore.redirectMap,
-      }}
-    />
-  );
+      />
+    )}
+  </div>
 }
