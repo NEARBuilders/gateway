@@ -37,7 +37,7 @@ export default function ViewPage(props) {
     }, 1);
   }, [src, query, setWidgetSrc, viewSourceWidget]);
 
-  return <div>
+  return <div className="bg-white">
     {showMenu ? (
       <div>
         <Widget

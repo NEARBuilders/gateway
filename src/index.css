@@ -16,15 +16,3 @@
   --account-center-position-top: 64px;
   --account-center-position-right: -10px;
 }
-
-h6, h6, h5, h5, h4, h4, h3, h3, h2, h2, h1, h1, p, ul, li, ol, span {
-  color: #fff !important;
-
-  .text-muted, .text-secondary {
-    color: #9BA1A6 !important;
-  }
-}
-
-span.text-muted, span.text-secondary, i.text-muted, i.text-secondary, .small {
-  color: #9BA1A6 !important;
-}
