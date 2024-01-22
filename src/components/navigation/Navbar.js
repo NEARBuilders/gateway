@@ -258,12 +258,8 @@ export function Navbar(props) {
             Resources
           </MobileLink>
           <MobileLink href={props.documentationHref}>Docs</MobileLink>
-          {!props.signedIn && (
-            <button className="sign-in my-3" onClick={props.requestSignIn}>
-              Sign In
-            </button>
-          )}
-          {props.signedIn && (
+
+          {props.signedIn ?
             <div>
               <Widget
                 src="buildhub.near/widget/components.buttons.JoinNow"
@@ -275,7 +271,9 @@ export function Navbar(props) {
                 }}
               />
             </div>
-          )}
+            : <button className="sign-in my-3" onClick={props.requestSignIn}>
+              Sign In
+            </button>}
         </div>
       </StyledNavbar>
     </div>
