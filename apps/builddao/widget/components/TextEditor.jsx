@@ -3,7 +3,6 @@ const { Button } =
 
 const TextArea = styled.textarea`
   display: flex;
-  min-height: 450px;
   padding: 16px 12px;
   align-items: flex-start;
   gap: 10px;
@@ -44,6 +43,7 @@ function TextEditor({
   maxWidth,
   background,
   name,
+  minHeight,
 }) {
   const appendBold = () => {
     const updatedValue = { target: { value: `${value}** **` } };
@@ -163,7 +163,10 @@ function TextEditor({
         placeholder={placeholder || "Write something..."}
         value={value}
         onChange={onChange}
-        style={{ background: background || "var(--Black-50, #202020)" }}
+        style={{
+          background: background || "var(--Black-50, #202020)",
+          minHeight: minHeight || "450px",
+        }}
       />
     </div>
   );

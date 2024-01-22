@@ -58,10 +58,35 @@ const StyledButton = styled.button`
           return "#17181c";
       }
     }};
+
+    /* Disabled */
+    background: ${(props) => {
+      if (props.disabled) {
+        switch (props.variant) {
+          case "primary":
+            return "#e49b48";
+          case "outline":
+            return "rgba(255, 255, 255, 0.20)";
+          default:
+            return "#17181c";
+        }
+      }
+    }};
+
+    cursor: ${(props) => (props.disabled ? "not-allowed" : "pointer")};
   }
 `;
 
-function Button({ id, children, variant, type, onClick, className, style }) {
+function Button({
+  id,
+  children,
+  disabled,
+  variant,
+  type,
+  onClick,
+  className,
+  style,
+}) {
   return (
     <StyledButton
       id={id}
@@ -71,6 +96,7 @@ function Button({ id, children, variant, type, onClick, className, style }) {
       type={type}
       style={style}
       onClick={onClick}
+      disabled={disabled}
     >
       {children}
     </StyledButton>

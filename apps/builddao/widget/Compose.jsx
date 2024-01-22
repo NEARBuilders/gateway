@@ -161,6 +161,8 @@ const postToCustomFeed = ({ feed, text, labels }) => {
     force: true,
     onCommit: () => {
       // console.log(`Commited ${feed}: #${postId}`);
+      setPostContent("");
+      Storage.privateSet(draftKey, "");
     },
     onCancel: () => {
       // console.log(`Cancelled ${feed}: #${postId}`);
@@ -283,6 +285,7 @@ return (
           value={postContent}
           onChange={onPostContentChange}
           maxWidth={"100%"}
+          minHeight={"350px"}
           background={"transparent"}
         />
       ) : (
@@ -312,6 +315,7 @@ return (
         )}
       </Button>
       <Button
+        disabled={postContent === "" || postContent === props.template}
         variant="primary"
         style={{ fontSize: 14 }}
         onClick={() =>
