@@ -1,147 +1,171 @@
-const TextareaWrapper = styled.div`
-  display: grid;
-  vertical-align: top;
-  align-items: center;
-  position: relative;
-  align-items: stretch;
+const { Button } =
+  VM.require("buildhub.near/widget/components") || (() => <></>);
 
-  textarea {
-    display: flex;
-    align-items: center;
-    transition: all 0.3s ease;
-  }
+const TextArea = styled.textarea`
+  display: flex;
+  min-height: 450px;
+  padding: 16px 12px;
+  align-items: flex-start;
+  gap: 10px;
+  align-self: stretch;
 
-  textarea::placeholder {
-    padding-top: 4px;
-    font-size: 20px;
-  }
+  border-radius: 8px;
+  border: 1px solid var(--Stroke-color, rgba(255, 255, 255, 0.2));
+  background: var(--Black-50, #202020);
 
-  textarea:focus::placeholder {
-    font-size: inherit;
-    padding-top: 0px;
-  }
+  color: var(--White-50, #fff);
 
-  &::after,
-  textarea,
-  iframe {
-    width: 100%;
-    min-width: 1em;
-    height: unset;
-    min-height: 3em;
-    font: inherit;
-    margin: 0;
-    resize: none;
-    background: none;
-    appearance: none;
-    border: 0px solid #eee;
-    grid-area: 1 / 1;
-    overflow: hidden;
-    outline: none;
-  }
-
-  iframe {
-    padding: 0;
-  }
-
-  textarea:focus,
-  textarea:not(:empty) {
-    border-bottom: 1px solid #eee;
-    min-height: 5em;
-  }
-
-  &::after {
-    content: attr(data-value) " ";
-    visibility: hidden;
-    white-space: pre-wrap;
-  }
-  &.markdown-editor::after {
-    padding-top: 66px;
-    font-family: monospace;
-    font-size: 14px;
-  }
+  /* Body/16px */
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 170%; /* 27.2px */
 `;
 
-const MarkdownEditor = `
-  html {
-    background: #0b0c14;
-  }
-  
-  * {
-    border: none !important;
-  }
-
-  .rc-md-editor {
-    background: #3c3d43;
-    border-top: 1px solid #3c3d43 !important; 
-    border-radius: 8px;
-  }
-
-  .editor-container {
-    background: #3c3d43;
-  }
-  
-  .drop-wrap {
-    top: -110px !important;
-    border-radius: 0.5rem !important;
-  }
-
-  .header-list {
-    display: flex;
-    align-items: center;
-  }
-
-  textarea {
-    background: #0b0c14 !important;
-    color: #fff !important;
-
-    font-family: sans-serif !important;
-    font-size: 1rem;
-
-    border: 1px solid #3c3d43 !important;
-    border-top: 0 !important;
-    border-radius: 0 0 8px 8px;
-  }
-
-  .rc-md-navigation {
-    background: #0b0c14 !important;
-    border: 1px solid #3c3d43 !important;
-    border-top: 0 !important;
-    border-bottom: 0 !important;
-    border-radius: 8px 8px 0 0;
-  
-    i {
-      color: #cdd0d5;
-    }
-  }
-
-  .editor-container {
-    border-radius: 0 0 8px 8px;
-  }
-
-  .rc-md-editor .editor-container .sec-md .input {
-    overflow-y: auto;
-    padding: 8px !important;
-    line-height: normal;
-    border-radius: 0 0 8px 8px;
-  }
-`;
-
-function TextEditor({ value, onChange, maxWidth }) {
+const HeaderButton = ({ children, ...props }) => {
   return (
-    <TextareaWrapper
-      className="markdown-editor"
-      data-value={value || ""}
+    <Button
+      className="rounded-2 p-1"
+      type="icon"
+      variant="outline"
+      id={`${JSON.stringify(children)}`}
+      style={{ width: 24, height: 24 }}
+      {...props}
+    >
+      {children}
+    </Button>
+  );
+};
+
+function TextEditor({
+  value,
+  onChange,
+  placeholder,
+  maxWidth,
+  background,
+  name,
+}) {
+  const appendBold = () => {
+    const updatedValue = { target: { value: `${value}** **` } };
+    onChange(updatedValue);
+  };
+
+  const appendHeader = () => {
+    const updatedValue = { target: { value: `${value}#` } };
+    onChange(updatedValue);
+  };
+
+  const appendItalic = () => {
+    const updatedValue = { target: { value: `${value}* *` } };
+    onChange(updatedValue);
+  };
+
+  const appendUnderline = () => {
+    const updatedValue = { target: { value: `${value}++ ++` } };
+    onChange(updatedValue);
+  };
+
+  const appendStrike = () => {
+    const updatedValue = { target: { value: `${value}~~ ~~` } };
+    onChange(updatedValue);
+  };
+
+  const appendList = () => {
+    const updatedValue = { target: { value: `${value}* ` } };
+    onChange(updatedValue);
+  };
+
+  const appendOrderedList = () => {
+    const updatedValue = { target: { value: `${value}1. ` } };
+    onChange(updatedValue);
+  };
+
+  const appendQuote = () => {
+    const updatedValue = { target: { value: `${value}> ` } };
+    onChange(updatedValue);
+  };
+
+  const appendLineBreak = () => {
+    const updatedValue = { target: { value: `${value}--- ` } };
+    onChange(updatedValue);
+  };
+
+  const appendInlineCode = () => {
+    const updatedValue = { target: { value: `${value}\` \` ` } };
+    onChange(updatedValue);
+  };
+
+  const appendCodeBlock = () => {
+    const updatedValue = { target: { value: `${value}\`\`\` \`\`\`` } };
+    onChange(updatedValue);
+  };
+
+  const appendImage = () => {
+    const updatedValue = {
+      target: { value: `${value}![alt text](image_url)` },
+    };
+    onChange(updatedValue);
+  };
+
+  const appendURL = () => {
+    const updatedValue = { target: { value: `${value}[text](url)` } };
+    onChange(updatedValue);
+  };
+
+  return (
+    <div
+      className="d-flex flex-column gap-1 w-100"
       style={{ maxWidth: maxWidth ? maxWidth : "550px" }}
     >
-      <Widget
-        src="mob.near/widget/MarkdownEditorIframe"
-        props={{
-          initialText: value,
-          embedCss: MarkdownEditor,
-          onChange,
-        }}
+      <div className="d-flex align-items-center gap-2 flex-wrap">
+        <HeaderButton onClick={appendHeader}>H</HeaderButton>
+        <HeaderButton onClick={appendBold}>
+          <i className="bi bi-type-bold"></i>
+        </HeaderButton>
+        <HeaderButton onClick={appendItalic}>
+          <i className="bi bi-type-italic"></i>
+        </HeaderButton>
+        <HeaderButton onClick={appendUnderline}>
+          <i className="bi bi-type-underline"></i>
+        </HeaderButton>
+        <HeaderButton onClick={appendStrike}>
+          <i className="bi bi-type-strikethrough"></i>
+        </HeaderButton>
+        <HeaderButton onClick={appendList}>
+          <i className="bi bi-list-ul"></i>
+        </HeaderButton>
+        <HeaderButton onClick={appendOrderedList}>
+          <i className="bi bi-list-ol"></i>
+        </HeaderButton>
+        <HeaderButton onClick={appendQuote}>
+          <i className="bi bi-quote"></i>
+        </HeaderButton>
+        <HeaderButton onClick={appendLineBreak}>
+          <i className="bi bi-text-wrap"></i>
+        </HeaderButton>
+        <HeaderButton onClick={appendInlineCode}>
+          <i className="bi bi-code"></i>
+        </HeaderButton>
+        <HeaderButton onClick={appendCodeBlock}>
+          <i className="bi bi-code-slash"></i>
+        </HeaderButton>
+        <HeaderButton onClick={appendImage}>
+          <i className="bi bi-image"></i>
+        </HeaderButton>
+        <HeaderButton onClick={appendURL}>
+          <i className="bi bi-link"></i>
+        </HeaderButton>
+      </div>
+      <TextArea
+        name={name}
+        id={name}
+        key={name}
+        placeholder={placeholder || "Write something..."}
+        value={value}
+        onChange={onChange}
+        style={{ background: background || "var(--Black-50, #202020)" }}
       />
-    </TextareaWrapper>
+    </div>
   );
 }
 
