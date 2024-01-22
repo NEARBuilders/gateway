@@ -457,7 +457,7 @@ const textEditorComponent = useMemo(() => {
   return (
     <Widget
       key={editorKey}
-      src="buildhub.near/widget/components.Text.Editor"
+      src="mob.near/widget/MarkdownEditorIframe"
       props={{
         initialText: postContent || "What's happening?",
         embedCss: MarkdownEditor,
