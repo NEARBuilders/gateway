@@ -246,6 +246,11 @@ const MarkdownPreview = styled.div`
       color: #0a58ca !important;
     }
   }
+
+  pre {
+    color: #b6b6b8 !important;
+    background: transparent !important;
+  }
 `;
 
 const avatarComponent = useMemo(() => {
