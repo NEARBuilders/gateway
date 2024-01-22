@@ -6,19 +6,19 @@ Avatar = Avatar || (() => <></>);
 Button = Button || (() => <></>);
 TextEditor = TextEditor || (() => <></>);
 
-const draftKey = props.feed.name || "draft";
-const draft = Storage.privateGet(draftKey);
+const draftKey = useMemo(() => props.feed.name || "draft", [props.feed.name]);
+const draft = useMemo(() => Storage.privateGet(draftKey), [draftKey]);
 
-if (draft === null) {
+if (draftKey === null) {
   return "";
 }
 
 const [view, setView] = useState("editor");
 const [postContent, setPostContent] = useState("");
-const [hideAdvanced, setHideAdvanced] = useState(true);
-const [labels, setLabels] = useState([]);
 
-setPostContent(draft || props.template);
+useEffect(() => {
+  setPostContent(draft || props.template);
+}, [draft, setPostContent, props.template]);
 
 function generateUID() {
   const maxHex = 0xffffffff;
@@ -244,36 +244,6 @@ const MarkdownPreview = styled.div`
 
     &:hover {
       color: #0a58ca !important;
-    }
-  }
-`;
-
-const LabelSelect = styled.div`
-  label {
-    color: #fff;
-  }
-
-  .rbt-input-multi {
-    background: #23242b !important;
-    color: #fff !important;
-  }
-
-  .rbt-token {
-    background: #202020 !important;
-    color: #fff !important;
-  }
-
-  .rbt-menu {
-    background: #23242b !important;
-    color: #fff !important;
-
-    .dropdown-item {
-      color: #fff !important;
-      transition: all 300ms;
-
-      &:hover {
-        background: #202020;
-      }
     }
   }
 `;
