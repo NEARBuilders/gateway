@@ -12,6 +12,14 @@ const { TextEditor } = VM.require("buildhub.near/widget/components.TextEditor");
 const { Checkbox } = VM.require("buildhub.near/widget/components.Checkbox");
 const { Avatar } = VM.require("buildhub.near/widget/components.Avatar");
 
+const { Modal } = VM.require("buildhub.near/widget/components.Modals.Modal");
+
+const { H1 } = VM.require("buildhub.near/widget/components.Text.H1");
+const { H2 } = VM.require("buildhub.near/widget/components.Text.H2");
+const { H3 } = VM.require("buildhub.near/widget/components.Text.H3");
+const { H4 } = VM.require("buildhub.near/widget/components.Text.H4");
+const { P } = VM.require("buildhub.near/widget/components.Text.P");
+
 function Pagination({
   totalPages,
   maxVisiblePages,
@@ -56,4 +64,10 @@ return {
   Checkbox,
   Avatar,
   User,
+  H1,
+  H2,
+  H3,
+  H4,
+  P,
+  Modal,
 };

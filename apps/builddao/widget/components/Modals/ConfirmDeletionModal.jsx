@@ -1,8 +1,6 @@
-const { Button } = VM.require(
+const { Button, Modal, H3 } = VM.require(
   "buildhub.near/widget/components"
 );
-const { Modal } = VM.require("buildhub.near/widget/components.Modals.Modal");
-const { H3 } = VM.require("buildhub.near/widget/components.Text.H3");
 
 const isOpen = props.isOpen;
 const onOpenChange = props.onOpenChange;

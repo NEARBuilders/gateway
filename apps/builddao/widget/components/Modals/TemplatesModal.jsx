@@ -1,7 +1,6 @@
-const { Avatar, Button, InputField, TextEditor } = VM.require(
+const { Avatar, Button, InputField, TextEditor, Modal } = VM.require(
   "buildhub.near/widget/components"
 );
-const { Modal } = VM.require("buildhub.near/widget/components.Modals.Modal");
 const { CaretLeftIcon, TrashIcon, PlusIcon, PencilIcon } = VM.require("buildhub.near/widget/Icons")
 
 const toggle = props.toggle || <></>;

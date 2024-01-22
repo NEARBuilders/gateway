@@ -1,10 +1,7 @@
-const { Avatar, Button, InputField, TextEditor } = VM.require(
+const { Avatar, Button, InputField, TextEditor, Modal, H3 } = VM.require(
   "buildhub.near/widget/components"
 );
-const { PlusIcon } = VM.require("buildhub.near/widget/components.Icons.PlusIcon");
-const { Modal } = VM.require("buildhub.near/widget/components.Modals.Modal");
-const { XTrigger } = VM.require("buildhub.near/widget/components.Modals.XTrigger");
-const { H3 } = VM.require("buildhub.near/widget/components.Text.H3");
+const { PlusIcon, XTrigger } = VM.require("buildhub.near/widget/Icons")
 
 const isOpen = props.isOpen;
 const onOpenChange = props.onOpenChange;
@@ -13,10 +10,7 @@ const templateToEdit = props.templateToEdit;
 const onEditTemplate = props.onEditTemplate;
 const onClearSelected = props.onClearSelected;
 
-console.log("templateToEdit", templateToEdit);
-
 const isEditing = templateToEdit.title.length > 0
-console.log("isEditing", isEditing)
 
 const FiltersSection = styled.div`
   width: 100%;
