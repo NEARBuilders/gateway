@@ -453,6 +453,10 @@ const avatarComponent = useMemo(() => {
 
 const editorKey = `Editor-Content-${currentTemplate.title}`
 
+useEffect(() => {
+  setPostContent(draft)
+}, [draft])
+
 const textEditorComponent = useMemo(() => {
   return (
     <Widget
@@ -468,7 +472,7 @@ const textEditorComponent = useMemo(() => {
       }}
     />
   )
-}, [currentTemplate])
+}, [currentTemplate, postContent])
 
 return (
   <PostCreator>
