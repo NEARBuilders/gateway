@@ -1,6 +1,8 @@
 const StyledButton = styled.button`
+  width: 100%;
+  flex-grow: 1;
   all: unset;
-  display: inline-flex;
+  display: flex;
   padding: 10px 20px;
   justify-content: center;
   align-items: center;
@@ -27,6 +29,8 @@ const StyledButton = styled.button`
         return "#FFAF51";
       case "outline":
         return "transparent";
+      case "secondary": 
+        return "#23242B";
       default:
         return "#23242B";
     }
@@ -37,6 +41,8 @@ const StyledButton = styled.button`
       case "primary":
         return "#000";
       case "outline":
+        return "#fff";
+      case "secondary":
         return "#fff";
       default:
         return "#CDD0D5";
@@ -54,6 +60,8 @@ const StyledButton = styled.button`
           return "#e49b48";
         case "outline":
           return "rgba(255, 255, 255, 0.20)";
+        case "secondary": 
+          return "#e49b48";
         default:
           return "#17181c";
       }
