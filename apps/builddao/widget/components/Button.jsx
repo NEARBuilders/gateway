@@ -1,8 +1,6 @@
 const StyledButton = styled.button`
-  width: 100%;
-  flex-grow: 1;
   all: unset;
-  display: flex;
+  display: inline-flex;
   padding: 10px 20px;
   justify-content: center;
   align-items: center;
