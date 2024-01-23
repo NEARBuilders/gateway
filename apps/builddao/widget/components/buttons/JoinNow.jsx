@@ -33,7 +33,8 @@ const accounts = new Set(group[0].concat(group[1]));
 
 const isCommunityOrCouncilMember = accounts.has(accountId);
 
-const canJoin = accountId && !isCommunityOrCouncilMember && !alreadyMadeAProposal;
+const canJoin =
+  (accountId && !isCommunityOrCouncilMember )|| (accountId && !alreadyMadeAProposal);
 
 const Button = styled.a`
   width: max-content;
