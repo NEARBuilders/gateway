@@ -1,12 +1,20 @@
-const { page, layout, loading, ...passProps } = props;
+const { page, layout, loading, signIn, ...passProps } = props;
 
 const { routes, theme } = VM.require("buildhub.near/widget/config") ?? {
   routes: {},
-  theme: "background-color: red;"
+  theme: "background-color: red;",
 };
 
 const { AppLayout } = VM.require("every.near/widget/layout") || {
   AppLayout: () => <>Layout loading...</>,
+};
+
+const { Header } = VM.require("buildhub.near/widget/components.Header") || {
+  Header: () => <>Header loading...</>,
+};
+
+const { Footer } = VM.require("buildhub.near/widget/components.Footer") || {
+  Footer: () => <>Footer loading...</>,
 };
 
 if (!page) page = Object.keys(routes)[0] || "home";
@@ -16,9 +24,7 @@ const Root = styled.div`
     color: inherit;
   }
 
-  ${theme}
-
-  // can come from config
+  ${theme} // can come from config
 `;
 
 const [activeRoute, setActiveRoute] = useState(page);
@@ -27,7 +33,8 @@ useEffect(() => {
   setActiveRoute(page);
 }, [page]);
 
-function Router({ active, routes }) { // this may be converted to a module at devs.near/widget/Router
+function Router({ active, routes }) {
+  // this may be converted to a module at devs.near/widget/Router
   const routeParts = active.split(".");
 
   let currentRoute = routes;
@@ -72,7 +79,10 @@ const Content = styled.div`
 return (
   <Root>
     <Container>
-      <AppLayout page={activeRoute} routes={routes}>
+      <AppLayout
+        Header={() => <Header routes={routes} active={activeRoute} signIn={signIn} />}
+        Footer={() => <Footer />}
+      >
         <Content>
           <Router active={activeRoute} routes={routes} />
         </Content>
