@@ -4,7 +4,7 @@ import { useLocation, useParams } from "react-router-dom";
 
 const SESSION_STORAGE_REDIRECT_MAP_KEY = "nearSocialVMredirectMap";
 
-function Viewer({ code }) {
+function Viewer({ code, requestSignIn }) {
   const { path } = useParams(); // get path from url, could be socialdb path or relative to "core"
   const location = useLocation(); // get query params from url
   const searchParams = new URLSearchParams(location.search);
@@ -21,10 +21,6 @@ function Viewer({ code }) {
     const defaultSrc = "buildhub.near/widget/app"; // default widget to load
     const pathSrc = path || defaultSrc; // if no path, load default widget
     return pathSrc;
-    // const lastSlashIndex = pathSrc.lastIndexOf("/", pathSrc.indexOf(".near")); 
-    // return lastSlashIndex !== -1
-    //   ? pathSrc.substring(lastSlashIndex + 1)
-    //   : defaultSrc;
   }, [path]);
 
   const [redirectMap, setRedirectMap] = useState(null);
@@ -64,6 +60,7 @@ function Viewer({ code }) {
       code={code} // prioritize code
       props={{
         path: src,
+        signIn: requestSignIn,
         ...passProps,
       }}
       config={{ redirectMap }}
