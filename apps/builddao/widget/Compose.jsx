@@ -428,8 +428,11 @@ const [currentTemplate, setCurrentTemplate] = useState({
   content: ""
 });
 const [openTemplatesModal, setOpenTemplatesModal] = useState(false);
+const [postUUID, setPostUUID] = useState(generateUID());
+const memoizedPostUUID = useMemo(() => postUUID, [postUUID]);
 
 function onChooseTemplate(title, content) {
+  setPostUUID(generateUID())
   setPostContent(content)
   setCurrentTemplate({
     title,
@@ -452,23 +455,6 @@ const avatarComponent = useMemo(() => {
 }, [context.accountId]);
 
 const editorKey = `Editor-Content-${currentTemplate.title}`
-
-const textEditorComponent = useMemo(() => {
-  return (
-    <Widget
-      key={editorKey}
-      src="mob.near/widget/MarkdownEditorIframe"
-      props={{
-        initialText: postContent || "What's happening?",
-        embedCss: MarkdownEditor,
-        onChange: (v) => {
-          setPostContent(v);
-          Storage.privateSet(draftKey, v || "");
-        },
-      }}
-    />
-  )
-}, [currentTemplate])
 
 return (
   <PostCreator>
@@ -493,9 +479,25 @@ return (
       {view === "editor" ? (
         <TextareaWrapper
           className="markdown-editor"
-          key={props.feed.name}
+          data-value={postContent || ""}
+          key={`${props.feed.name}-${memoizedPostUUID}`
+        }
         >
-        {textEditorComponent}
+        <Widget
+          src="buildhub.near/widget/components.AccountAutocomplete"
+          src={"buildhub.near/widget/components.MarkdownEditorIframe"}
+          props={{
+            term: mentionInput,
+            onSelect: autoCompleteAccountId,
+            onClose: () => setShowAccountAutocomplete(false),
+            initialText: postContent,
+            data: { handler: handler, content: postContent },
+            onChange: (content) => {
+              textareaInputHandler(content);
+            },
+            embedCss: MarkdownEditor,
+          }}
+        />
       </TextareaWrapper>
       ) : (
         <MarkdownPreview>
