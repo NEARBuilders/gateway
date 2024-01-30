@@ -23,7 +23,10 @@ const AsideContainer = styled.div`
   align-items: flex-start;
   gap: 16px;
   margin-bottom: 1rem;
-  height: calc(min(100vh - 64px, 100%));
+  
+  position: sticky;
+  top: 42px;
+  z-index: 8;
 
   @media screen and (max-width: 768px) {
     border: 0px;
@@ -39,6 +42,8 @@ const Aside = styled.div`
 const MainContentContainer = styled.div`
   grid-column: span 4 / span 4;
 `;
+
+
 
 return (
   <Container>

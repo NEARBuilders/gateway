@@ -6,7 +6,7 @@ MarkdownView || (MarkdownView = () => <></>);
 
 const fetchResources = () => {
   const res = fetch(
-    "https://raw.githubusercontent.com/itexpert120/buildhub-resources/main/resources.json"
+    "https://raw.githubusercontent.com/NEARBuilders/docs/main/index.json"
   );
   return JSON.parse(res.body);
 };
