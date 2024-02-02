@@ -56,6 +56,16 @@ function OnboardingFlow() {
   const [showModal, setShowModal] = useState(false);
   const [step, setStep] = useState(1);
 
+  const daofollowEdge = Social.keys(
+    `${context.accountId}/graph/follow/${daoID}`,
+    undefined,
+    {
+      values_only: true
+    }
+  );
+  const userAlreadyFollowDao =
+    daofollowEdge && Object.keys(daofollowEdge).length > 0;
+
   useEffect(() => {
     if (context.accountId && !userCompletedOnboarding) {
       setShowModal(true);
@@ -90,9 +100,24 @@ function OnboardingFlow() {
     }
   `;
 
-  const shuffled = groupMembers.sort(() => 0.5 - Math.random());
-  // Display a random subset of 5 items
-  const randomMembers = shuffled.slice(0, 4);
+  const FollowBtn = ({ isFollowing, accountId }) => {
+    return (
+      <Button
+        disabled={isFollowing}
+        variant="outline"
+        onClick={() => onFollow(accountId)}
+      >
+        {isFollowing ? "Following" : "Follow"}
+      </Button>
+    );
+  };
+
+  function getRandomAccounts() {
+    const shuffled = [...groupMembers].sort(() => 0.5 - Math.random());
+    return shuffled.slice(0, 4);
+  }
+
+  const accounts = getRandomAccounts();
 
   const StepsComponent = () => {
     switch (step) {
@@ -107,9 +132,10 @@ function OnboardingFlow() {
                   src="mob.near/widget/Profile.ShortInlineBlock"
                   props={{ accountId: daoID }}
                 />
-                <Button variant="outline" onClick={() => onFollow(daoID)}>
-                  Follow
-                </Button>
+                <FollowBtn
+                  accountId={daoID}
+                  isFollowing={userAlreadyFollowDao}
+                />
               </Container>
             </div>
           </div>
@@ -127,19 +153,32 @@ function OnboardingFlow() {
               </p>
               <p>People you might want to follow</p>
 
-              {randomMembers?.map((account) => (
-                <Container className="d-flex justify-content-between align-items-center my-3 py-3 px-4">
-                  <div style={{ maxWidth: "70%" }}>
-                    <Widget
-                      src="mob.near/widget/Profile.ShortInlineBlock"
-                      props={{ accountId: account }}
+              {accounts?.map((account) => {
+                const accountfollowEdge = Social.keys(
+                  `${context.accountId}/graph/follow/${account}`,
+                  undefined,
+                  {
+                    values_only: true
+                  }
+                );
+                const userAlreadyFollowAccount =
+                  accountfollowEdge &&
+                  Object.keys(accountfollowEdge).length > 0;
+                return (
+                  <Container className="d-flex justify-content-between align-items-center my-3 py-3 px-4">
+                    <div style={{ maxWidth: "70%" }}>
+                      <Widget
+                        src="mob.near/widget/Profile.ShortInlineBlock"
+                        props={{ accountId: account }}
+                      />
+                    </div>
+                    <FollowBtn
+                      accountId={account}
+                      isFollowing={userAlreadyFollowAccount}
                     />
-                  </div>
-                  <Button variant="outline" onClick={() => onFollow(account)}>
-                    Follow
-                  </Button>
-                </Container>
-              ))}
+                  </Container>
+                );
+              })}
             </div>
           </div>
         );
