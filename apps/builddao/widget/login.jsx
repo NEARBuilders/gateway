@@ -86,9 +86,7 @@ const LoginView = () => {
         <h1>
           Designed to connect and empower builders in a multi-chain ecosystem
         </h1>
-        <Link to={"/join"} style={{ textDecoration: "none" }}>
-          <Button variant={"outline"}>Sign In</Button>
-        </Link>
+        <button onClick={props.requestSignIn}>Login</button>
       </div>
       <img src="https://ipfs.near.social/ipfs/bafybeibqnkvafyflci4iap73prugmjw4wlwmrazbiudvnsyr34yzmk75i4" />
     </LoginContainer>
