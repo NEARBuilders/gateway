@@ -11,6 +11,15 @@ const feedLink = "https://nearbuilders.org/feed";
 return {
   type: "app", // every.near/type/app
   routes: {
+    all: {
+      path: "buildhub.near/widget/Feed",
+      blockHeight: "final",
+      init: {
+        name: "All", // maybe these should be moved to navbar specific
+        icon: "bi-list",
+        requiredHashtags: ["build"]
+      },
+    },
     resolutions: {
       path: "buildhub.near/widget/Feed",
       blockHeight: "final",
@@ -175,36 +184,6 @@ return {
         name: "Feedback",
         icon: "bi-chat-left-text",
         requiredHashtags: ["build", "feedback"],
-      },
-    },
-    request: {
-      path: "buildhub.near/widget/Feed",
-      blockHeight: "final",
-      init: {
-        name: "Request",
-        icon: "bi-file-earmark-text",
-        requiredHashtags: ["build", "request"],
-        template: `## REQUEST TITLE
-(posted via [${daoName} Gateway](${feedLink}?tab=request))
-
-**What are you requesting?**
-- [Describe your request]
-
-**Context or additional information:**
-- [Provide any context or details]
-`,
-        customActions: [
-          {
-            type: "modal",
-            icon: "bi-file-earmark-text",
-            label: "Propose",
-            onClick: (modalToggles) => {
-              console.log(modalToggles);
-              const toggle = modalToggles.propose;
-              toggle();
-            },
-          },
-        ],
       },
     },
     bookmarks: {

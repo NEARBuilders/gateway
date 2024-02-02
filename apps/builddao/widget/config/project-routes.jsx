@@ -20,11 +20,14 @@ return {
         requiredHashtags: ["build", "request"],
         customActions: [
           {
-            label: "Propose",
-            icon: "bi-file-earmark-text",
             type: "modal",
-            onClick: (modalToggle) => modalToggle() // want to fix
-          }
+            icon: "bi-file-earmark-text",
+            label: "Propose",
+            onClick: (modalToggles) => {
+              const toggle = modalToggles.propose;
+              toggle();
+            },
+          },
         ],
         template: `## REQUEST TITLE
 (posted via [${daoName} Gateway](${feedLink}?tab=request))
@@ -34,8 +37,8 @@ return {
 
 #### Why This Proposal?
 [Explanation of why this proposal is necessary or beneficial.]
-`
-      }
+`,
+      },
     },
     proposals: {
       path: "buildhub.near/widget/Proposals",
@@ -43,8 +46,8 @@ return {
       init: {
         name: "Proposals",
         icon: "bi-file-earmark-text",
-        daoId: "build.sputnik-dao.near"
-      }
-    }
-  }
+        daoId: "build.sputnik-dao.near",
+      },
+    },
+  },
 };

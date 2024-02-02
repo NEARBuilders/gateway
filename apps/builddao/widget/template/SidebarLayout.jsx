@@ -16,19 +16,19 @@ const SidebarContainer = styled.div`
   border: 1px solid var(--stroke-color, rgba(255, 255, 255, 0.2));
   background: var(--bg-1, #0b0c14);
   width: 100%;
-
+  min-height: 80vh;
   display: flex;
   padding: 24px 12px;
   flex-direction: column;
   align-items: flex-start;
   gap: 16px;
   margin-bottom: 1rem;
-  height: max-content;
 
   @media screen and (max-width: 768px) {
     border: 0px;
     flex-direction: row;
     overflow-x: auto;
+    min-height: auto;
   }
 `;
 

@@ -71,7 +71,8 @@ return (
         props={{
           draftKey: feedName,
           template: template,
-          requiredHashtags: requiredHashtags
+          requiredHashtags: requiredHashtags,
+          feed: { ...props },
         }}
       />
     )}

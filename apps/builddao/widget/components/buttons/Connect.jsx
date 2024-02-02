@@ -1,7 +1,9 @@
 const { joinBtnChildren, connectedChildren, showActivity, className, href } =
   props;
 
-const { Bullet } = VM.require("buildhub.near/widget/components.Bullet");
+const { Bullet } = VM.require("buildhub.near/widget/components.Bullet") || {
+  Bullet: () => <></>,
+};
 const DaoSDK = VM.require("sdks.near/widget/SDKs.Sputnik.DaoSDK");
 
 if (!DaoSDK) {
@@ -124,8 +126,9 @@ const Container = styled.div`
   }
 `;
 
-const { href: linkHref } =
-  VM.require("buildhub.near/widget/lib.url") || (() => {});
+const { href: linkHref } = VM.require("buildhub.near/widget/lib.url") || {
+  href: () => {},
+};
 
 const Component = () => {
   if (data.isDaoMember || isConnected) {
