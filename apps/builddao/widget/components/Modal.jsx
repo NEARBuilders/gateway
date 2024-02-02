@@ -61,7 +61,7 @@ function Modal({
   toggle,
   toggleContainerProps,
   key,
-  hideCloseBtn
+  hideCloseBtn,
 }) {
   return (
     <Dialog.Root key={key} open={open} onOpenChange={onOpenChange}>
