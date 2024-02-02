@@ -21,7 +21,7 @@ const notifyAccountId = accountId;
 const item = {
   type: "social",
   path: `${accountId}/post/main`,
-  blockHeight,
+  blockHeight
 };
 
 const link =
@@ -32,26 +32,45 @@ const link =
 const Wrapper = styled.div`
   margin: 0 -12px;
   line-height: normal;
-  
+
   .post {
     position: relative;
     padding: 12px;
     padding-bottom: 4px;
     display: flex;
-    h1, h2, h3, h4, h5, h6 {
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
       font-size: 16px !important;
     }
-    @media(max-width: 767px) {
+    @media (max-width: 767px) {
       font-size: 15px !important;
-      h1, h2, h3, h4, h5, h6 {
+      h1,
+      h2,
+      h3,
+      h4,
+      h5,
+      h6 {
         font-size: 15px !important;
       }
     }
 
-    h1, h2, h3, h4, h5, h6, strong, b {
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6,
+    strong,
+    b {
       font-weight: 500 !important;
     }
-    ol, ul, dl {
+    ol,
+    ul,
+    dl {
       margin-bottom: 0.5rem;
       white-space: inherit;
     }
@@ -69,16 +88,18 @@ const Wrapper = styled.div`
       min-width: 5em;
     }
 
-    .table>:not(caption)>*>* {
-      padding: .3rem;
+    .table > :not(caption) > * > * {
+      padding: 0.3rem;
     }
 
     &:hover {
       background-color: rgba(0, 0, 0, 0.03);
       .expand-post {
-        background-image : linear-gradient(to bottom, 
-                      rgba(0,0,0, 0), 
-                      rgba(247.35,247.35,247.35, 1) 25%);
+        background-image: linear-gradient(
+          to bottom,
+          rgba(0, 0, 0, 0),
+          rgba(247.35, 247.35, 247.35, 1) 25%
+        );
       }
     }
 
@@ -108,7 +129,7 @@ const Wrapper = styled.div`
     background-color: #ddd;
     z-index: -1;
   }
-  
+
   .left {
     margin-right: 12px;
     min-width: 40px;
@@ -151,7 +172,7 @@ const contentWidget = (
       content,
       raw,
       truncateContent: props.truncateContent,
-      noEmbed: props.noEmbed,
+      noEmbed: props.noEmbed
     }}
   />
 );
@@ -162,7 +183,7 @@ return (
       props.hideComments || props.noBorder
         ? undefined
         : {
-            borderBottom: "1px solid #eee",
+            borderBottom: "1px solid #eee"
           }
     }
   >
@@ -185,7 +206,7 @@ return (
             hideMenu,
             link,
             postType: "post",
-            flagItem: item,
+            flagItem: item
           }}
         />
         {fullPostLink ? (
@@ -209,7 +230,7 @@ return (
               src="mob.near/widget/N.CommentButton"
               props={{
                 disabled: permissions.disableComment,
-                onClick: () => State.update({ showReply: !state.showReply }),
+                onClick: () => State.update({ showReply: !state.showReply })
               }}
             />
             <Widget
@@ -218,7 +239,7 @@ return (
               props={{
                 disable: permissions.disableRepost,
                 notifyAccountId,
-                item,
+                item
                 // indexKey,
                 // groupId,
               }}
@@ -228,7 +249,7 @@ return (
               src="mob.near/widget/N.LikeButton"
               props={{
                 notifyAccountId,
-                item,
+                item
               }}
             />
             <Widget
@@ -250,7 +271,7 @@ return (
           props={{
             notifyAccountId,
             item,
-            onComment: () => State.update({ showReply: false }),
+            onComment: () => State.update({ showReply: false })
           }}
         />
       </div>
@@ -270,7 +291,7 @@ return (
               raw,
               accounts: props.commentAccounts,
               groupId,
-              permissions,
+              permissions
             }}
           />
         )}

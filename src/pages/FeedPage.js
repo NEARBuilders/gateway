@@ -15,14 +15,14 @@ export default function FeedPage(props) {
     setWidgetProps(Object.fromEntries([...query.entries()]));
   }, [query]);
 
-
+  console.log("srv", src);
   return (
     <div className="container-xl mt-3" style={{ backgroundColor: "#0b0c14" }}>
       <Widget
         key={src}
         src={src}
         config={{
-          redirectMap: redirectMapStore.redirectMap,
+          redirectMap: redirectMapStore.redirectMap
         }}
         props={{ requestSignIn: props.requestSignIn, ...widgetProps }}
       />

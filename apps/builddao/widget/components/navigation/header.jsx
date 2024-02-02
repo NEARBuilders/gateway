@@ -1,5 +1,5 @@
 const { Button } = VM.require("buildhub.near/widget/components") || {
-  Button: () => <></>,
+  Button: () => <></>
 };
 
 const Navbar = styled.div`
@@ -65,8 +65,8 @@ const NavLink = ({ to, children }) => (
     to={href({
       widgetSrc: "buildhub.near/widget/app",
       params: {
-        page: to,
-      },
+        page: to
+      }
     })}
   >
     {children}
@@ -80,25 +80,13 @@ const SignInOrConnect = () => (
   <>
     {context.accountId ? (
       <Widget
-        src="buildhub.near/widget/components.buttons.Connect"
-        loading="User Dropdown"
-        props={{
-          connectedChildren: (
-            <Widget
-              src="buildhub.near/widget/components.buttons.UserDropdown"
-              props={{ logOut: props.logOut }}
-            />
-          ),
-          showActivity: false,
-          className: "custom-button",
-          joinBtnChildren: "Join Now",
-          href: "/join",
-        }}
+        src="buildhub.near/widget/components.buttons.UserDropdown"
+        props={{ logOut: props.logOut }}
       />
     ) : (
-      <Link to={"/join"} style={{ textDecoration: "none" }}>
-        <Button variant={"outline"}>Sign In</Button>
-      </Link>
+      <Button onClick={props.requestSignIn} variant={"outline"}>
+        Sign In
+      </Button>
     )}
   </>
 );
@@ -112,8 +100,8 @@ const AppHeader = ({ page, routes, ...props }) => (
           to={href({
             widgetSrc: "buildhub.near/widget/app",
             params: {
-              page: "home",
-            },
+              page: "home"
+            }
           })}
         >
           <img
@@ -148,8 +136,8 @@ const AppHeader = ({ page, routes, ...props }) => (
           to={href({
             widgetSrc: "buildhub.near/widget/app",
             params: {
-              page: "home",
-            },
+              page: "home"
+            }
           })}
         >
           <img

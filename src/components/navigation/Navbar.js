@@ -148,8 +148,7 @@ export function Navbar(props) {
   return (
     <div
       style={{
-        borderBottom:
-          "1px solid var(--Stroke-color, rgba(255, 255, 255, 0.20))",
+        borderBottom: "1px solid var(--Stroke-color, rgba(255, 255, 255, 0.20))"
       }}
     >
       <StyledNavbar className="container-xl position-relative">
@@ -202,21 +201,7 @@ export function Navbar(props) {
               Sign In
             </button>
           )}
-          {props.signedIn && (
-            <Widget
-              src="buildhub.near/widget/components.buttons.Connect"
-              config={{
-                redirectMap: redirectStore.redirectMap,
-              }}
-              props={{
-                connectedChildren: <UserDropdown {...props} />,
-                showActivity: false,
-                className: "custom-button",
-                joinBtnChildren: <Link to="/join">Join Now</Link>,
-                // href: "/join",
-              }}
-            />
-          )}
+          {props.signedIn && <UserDropdown {...props} />}
         </div>
 
         <div className="d-block d-md-none">
@@ -234,7 +219,7 @@ export function Navbar(props) {
             padding: "24px 48px",
             zIndex: 5,
             borderBottom:
-              "1px solid var(--Stroke-color, rgba(255, 255, 255, 0.20))",
+              "1px solid var(--Stroke-color, rgba(255, 255, 255, 0.20))"
           }}
         >
           <MobileLink
@@ -275,21 +260,7 @@ export function Navbar(props) {
           <MobileLink href={props.documentationHref}>Docs</MobileLink>
 
           {props.signedIn ? (
-            <div>
-              <Widget
-                src="buildhub.near/widget/components.buttons.Connect"
-                config={{
-                  redirectMap: redirectStore.redirectMap,
-                }}
-                props={{
-                  connectedChildren: <UserDropdown {...props} />,
-                  showActivity: false,
-                  className: "custom-button",
-                  joinBtnChildren: "Join Now",
-                  href: "/join",
-                }}
-              />
-            </div>
+            <UserDropdown {...props} />
           ) : (
             <button className="sign-in my-3" onClick={props.requestSignIn}>
               Sign In

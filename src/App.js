@@ -21,7 +21,7 @@ import {
   useAccount,
   useInitNear,
   useNear,
-  utils,
+  utils
 } from "near-social-vm";
 import React, { useCallback, useEffect, useState } from "react";
 import "react-bootstrap-typeahead/css/Typeahead.bs5.css";
@@ -36,7 +36,6 @@ import EditorPage from "./pages/EditorPage";
 import EmbedPage from "./pages/EmbedPage";
 import FeedPage from "./pages/FeedPage";
 import Flags from "./pages/Flags";
-import JoinPage from "./pages/JoinPage";
 import ProposePage from "./pages/ProposePage";
 import ViewPage from "./pages/ViewPage";
 import ResourcesPage from "./pages/ResourcesPage";
@@ -78,7 +77,7 @@ function App() {
             setupMeteorWallet(),
             setupNeth({
               gas: "300000000000000",
-              bundle: false,
+              bundle: false
             }),
             setupNightly(),
             setupKeypom({
@@ -90,16 +89,16 @@ function App() {
                   NetworkId == "testnet"
                     ? "https://test.nearbuilders.org/#trial-url/ACCOUNT_ID/SECRET_KEY"
                     : "https://nearbuilders.org/#trial-url/ACCOUNT_ID/SECRET_KEY",
-                modalOptions: KEYPOM_OPTIONS(NetworkId),
+                modalOptions: KEYPOM_OPTIONS(NetworkId)
               },
               instantSignInSpecs: {
                 url:
                   NetworkId == "testnet"
                     ? "https://test.nearbuilders.org/#instant-url/ACCOUNT_ID/SECRET_KEY/MODULE_ID"
-                    : "https://nearbuilders.org/#instant-url/ACCOUNT_ID/SECRET_KEY/MODULE_ID",
-              },
-            }),
-          ],
+                    : "https://nearbuilders.org/#instant-url/ACCOUNT_ID/SECRET_KEY/MODULE_ID"
+              }
+            })
+          ]
         }),
         customElements: {
           Link: (props) => {
@@ -115,11 +114,11 @@ function App() {
                   : "about:blank";
             }
             return <Link {...props} />;
-          },
+          }
         },
         config: {
-          defaultFinality: undefined,
-        },
+          defaultFinality: undefined
+        }
       });
   }, [initNear]);
 
@@ -191,7 +190,7 @@ function App() {
     logOut,
     requestSignIn,
     widgets: Widgets,
-    documentationHref,
+    documentationHref
   };
 
   return (
@@ -201,10 +200,6 @@ function App() {
           <Switch>
             <Route path={"/flags"}>
               <Flags {...passProps} />
-            </Route>
-            <Route path={"/join"}>
-              <BosLoaderBanner />
-              <JoinPage {...passProps} />
             </Route>
             {/* I've added the below as the isolated route for rendering the app */}
             <Route path={"/:path*"}>
