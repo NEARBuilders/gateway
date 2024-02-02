@@ -1,6 +1,7 @@
 import { Widget } from "near-social-vm";
 import React, { useEffect, useMemo, useState } from "react";
 import { useLocation, useParams } from "react-router-dom";
+import LoginFlow from "../components/LoginFlow";
 
 const SESSION_STORAGE_REDIRECT_MAP_KEY = "nearSocialVMredirectMap";
 
@@ -21,7 +22,7 @@ function Viewer({ code, ...props }) {
     const defaultSrc = "buildhub.near/widget/app"; // default widget to load
     const pathSrc = path || defaultSrc; // if no path, load default widget
     return pathSrc;
-    // const lastSlashIndex = pathSrc.lastIndexOf("/", pathSrc.indexOf(".near")); 
+    // const lastSlashIndex = pathSrc.lastIndexOf("/", pathSrc.indexOf(".near"));
     // return lastSlashIndex !== -1
     //   ? pathSrc.substring(lastSlashIndex + 1)
     //   : defaultSrc;
@@ -59,16 +60,19 @@ function Viewer({ code, ...props }) {
   );
 
   return (
-    <Widget
-      src={!code && src}
-      code={code} // prioritize code
-      props={{
-        path: src,
-        ...passProps,
-        ...props,
-      }}
-      config={{ redirectMap }}
-    />
+    <>
+      <LoginFlow signedIn={props.signedIn} />
+      <Widget
+        src={!code && src}
+        code={code} // prioritize code
+        props={{
+          path: src,
+          ...passProps,
+          ...props
+        }}
+        config={{ redirectMap }}
+      />
+    </>
   );
 }
 

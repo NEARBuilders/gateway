@@ -1,11 +1,11 @@
 const { Avatar, Button } = VM.require("buildhub.near/widget/components") || {
   Avatar: () => <></>,
-  Button: () => <></>,
+  Button: () => <></>
 };
 
 const draftKey = props.draftKey || "draft";
 const draft = Storage.privateGet(draftKey);
-
+const postBtnText = props.postBtnText;
 if (draft === null) {
   return "";
 }
@@ -27,7 +27,7 @@ function tagsFromLabels(labels) {
   return labels.reduce(
     (newLabels, label) => ({
       ...newLabels,
-      [label]: "",
+      [label]: ""
     }),
     {}
   );
@@ -73,8 +73,8 @@ const extractMentionNotifications = (text, item) =>
       key: accountId,
       value: {
         type: "mention",
-        item,
-      },
+        item
+      }
     }));
 
 function checkAndAppendHashtag(input, target) {
@@ -116,20 +116,20 @@ const postToCustomFeed = ({ feed, text, labels }) => {
     post: {
       main: JSON.stringify({
         type: "md",
-        text,
+        text
         // tags: tagsFromLabels(labels),
         // postType: feed.name,
-      }),
+      })
     },
     index: {
-      post: JSON.stringify({ key: "main", value: { type: "md" } }),
+      post: JSON.stringify({ key: "main", value: { type: "md" } })
       // every: JSON.stringify({ key: feed.name, value: { type: "md" } }),
-    },
+    }
   };
 
   const item = {
     type: "social",
-    path: `${context.accountId}/post/main`,
+    path: `${context.accountId}/post/main`
   };
 
   const notifications = extractMentionNotifications(text, item);
@@ -146,7 +146,7 @@ const postToCustomFeed = ({ feed, text, labels }) => {
     data.index.hashtag = JSON.stringify(
       hashtags.map((hashtag) => ({
         key: hashtag,
-        value: item,
+        value: item
       }))
     );
   }
@@ -160,7 +160,7 @@ const postToCustomFeed = ({ feed, text, labels }) => {
     },
     onCancel: () => {
       // console.log(`Cancelled ${feed}: #${postId}`);
-    },
+    }
   });
 };
 
@@ -401,7 +401,7 @@ return (
               onChange: (v) => {
                 setPostContent(v);
                 Storage.privateSet(draftKey, v || "");
-              },
+              }
             }}
           />
         </TextareaWrapper>
@@ -438,11 +438,11 @@ return (
           postToCustomFeed({
             feed: props.feed,
             text: postContent,
-            labels,
+            labels
           })
         }
       >
-        Post {props.feed.name}
+        {postBtnText ?? "Post" + props.feed.name}
       </Button>
     </div>
   </PostCreator>
