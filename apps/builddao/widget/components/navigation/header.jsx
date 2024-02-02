@@ -57,7 +57,7 @@ const MobileNavigation = styled.div`
 `;
 
 const { href } = VM.require("buildhub.near/widget/lib.url") || {
-  href: () => {},
+  href: () => {}
 };
 
 const NavLink = ({ to, children }) => (
@@ -86,9 +86,9 @@ const SignInOrConnect = () => (
         props={{ logOut: props.logOut }}
       />
     ) : (
-      <Button onClick={props.requestSignIn} variant={"outline"}>
-        Sign In
-      </Button>
+      <Link to={"/join"} style={{ textDecoration: "none" }}>
+        <Button variant={"outline"}>Sign In</Button>
+      </Link>
     )}
   </>
 );

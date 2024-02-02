@@ -1,7 +1,7 @@
 import { Widget } from "near-social-vm";
 import React, { useEffect, useMemo, useState } from "react";
 import { useLocation, useParams } from "react-router-dom";
-import LoginFlow from "../components/LoginFlow";
+import OnboardingFlow from "../components/OnboardingFlow";
 
 const SESSION_STORAGE_REDIRECT_MAP_KEY = "nearSocialVMredirectMap";
 
@@ -61,7 +61,7 @@ function Viewer({ code, ...props }) {
 
   return (
     <>
-      <LoginFlow signedIn={props.signedIn} />
+      <OnboardingFlow />
       <Widget
         src={!code && src}
         code={code} // prioritize code

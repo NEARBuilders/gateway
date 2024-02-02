@@ -49,7 +49,7 @@ function onFollow(accountId) {
 
 const PostTemplate = `👋 Hey BuildDAO community! Thrilled to join this innovative space. Looking forward to connecting with like-minded individuals. What's your favorite aspect of BuildDAO?`;
 
-function LoginFlow() {
+function OnboardingFlow() {
   const userCompletedOnboarding = Storage.privateGet(
     StorageKey.userCompletedOnboarding
   );
@@ -57,10 +57,10 @@ function LoginFlow() {
   const [step, setStep] = useState(1);
 
   useEffect(() => {
-    if (context.accountId && userCompletedOnboarding) {
+    if (context.accountId && !userCompletedOnboarding) {
       setShowModal(true);
     }
-  }, [signedIn]);
+  }, []);
 
   useEffect(() => {
     if (showModal) {
@@ -221,4 +221,4 @@ function LoginFlow() {
   );
 }
 
-return LoginFlow(props);
+return OnboardingFlow(props);

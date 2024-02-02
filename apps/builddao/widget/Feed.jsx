@@ -55,9 +55,10 @@ return (
     )}
     {!context.accountId ? ( // if not logged in
       <LoginContainer>
-        <Button variant="primary" onClick={props.requestSignIn}>
-          Login
-        </Button>
+        <p>Please login in order to post.</p>
+        <Link to={"/join"}>
+          <Button variant="primary">Login</Button>
+        </Link>
       </LoginContainer>
     ) : (
       <Widget
@@ -72,7 +73,7 @@ return (
           draftKey: feedName,
           template: template,
           requiredHashtags: requiredHashtags,
-          feed: { ...props },
+          feed: { ...props }
         }}
       />
     )}
