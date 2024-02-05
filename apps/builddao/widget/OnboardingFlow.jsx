@@ -69,11 +69,13 @@ function OnboardingFlow() {
   useEffect(() => {
     if (context.accountId && !userCompletedOnboarding) {
       setShowModal(true);
+    } else {
+      setShowModal(false);
     }
-  }, []);
+  }, [userCompletedOnboarding]);
 
   useEffect(() => {
-    if (showModal) {
+    if (showModal && !userCompletedOnboarding) {
       Storage.privateSet(StorageKey.userCompletedOnboarding, true);
     }
   }, [showModal]);
