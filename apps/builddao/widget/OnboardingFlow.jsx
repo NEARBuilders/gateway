@@ -114,12 +114,26 @@ function OnboardingFlow() {
     );
   };
 
-  function getRandomAccounts() {
-    const shuffled = [...groupMembers].sort(() => 0.5 - Math.random());
-    return shuffled.slice(0, 4);
-  }
+  const accountsNotFollowed =
+    Array.isArray(groupMembers) &&
+    groupMembers.filter((account) => {
+      const accountfollowEdge = Social.keys(
+        `${context.accountId}/graph/follow/${account}`,
+        undefined,
+        {
+          values_only: true
+        }
+      );
+      if (accountfollowEdge && Object.keys(accountfollowEdge).length > 0) {
+        return false;
+      }
+      return true;
+    });
 
-  const accounts = getRandomAccounts();
+  function getRandomAccounts() {
+    const shuffled = [...accountsNotFollowed].sort(() => 0.5 - Math.random());
+    return shuffled;
+  }
 
   const StepsComponent = () => {
     switch (step) {
@@ -155,18 +169,9 @@ function OnboardingFlow() {
               </p>
               <p>People you might want to follow</p>
 
-              {accounts?.map((account) => {
-                const accountfollowEdge = Social.keys(
-                  `${context.accountId}/graph/follow/${account}`,
-                  undefined,
-                  {
-                    values_only: true
-                  }
-                );
-                const userAlreadyFollowAccount =
-                  accountfollowEdge &&
-                  Object.keys(accountfollowEdge).length > 0;
-                return (
+              {getRandomAccounts()
+                .slice(0, 4)
+                ?.map((account) => (
                   <Container className="d-flex justify-content-between align-items-center my-3 py-3 px-4">
                     <div style={{ maxWidth: "70%" }}>
                       <Widget
@@ -174,13 +179,9 @@ function OnboardingFlow() {
                         props={{ accountId: account }}
                       />
                     </div>
-                    <FollowBtn
-                      accountId={account}
-                      isFollowing={userAlreadyFollowAccount}
-                    />
+                    <FollowBtn accountId={account} isFollowing={false} />
                   </Container>
-                );
-              })}
+                ))}
             </div>
           </div>
         );
@@ -256,6 +257,11 @@ function OnboardingFlow() {
           >
             {step === 3 ? "Finish" : "Next"}
           </Button>
+          {step > 1 && (
+            <Button variant="outline" onClick={() => setStep(step - 1)}>
+              Previous
+            </Button>
+          )}
         </div>
       </Modal>
     </Wrapper>
