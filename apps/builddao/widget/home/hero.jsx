@@ -1,3 +1,8 @@
+const { Button } = VM.require("buildhub.near/widget/components") || {
+  Button: () => <></>,
+};
+
+
 const logoLink =
   "https://ipfs.near.social/ipfs/bafkreihbwho3qfvnu4yss3eh5jrx6uxhrlzdgtdjyzyjrpa6odro6wdxya";
 const gridLink =
@@ -7,7 +12,8 @@ const leftBlur =
 const rightBlur =
   "https://ipfs.near.social/ipfs/bafkreierwhnzytfajagidxim5mzdphu5fopjmlrxehatywzuy6ahr5q7pe";
 
-const HeroContainer = styled.div`
+
+  const HeroContainer = styled.div`
   width: 100%;
   position: relative;
 
@@ -95,6 +101,35 @@ const Content = styled.div`
   margin: 0 auto;
 `;
 
+const HeroButton = styled.div`
+  padding: 0.75rem 1.5rem;
+  background-color: #007bff; /* Example background color */
+  color: white; /* Text color */
+  text-align: center;
+  border-radius: 0.375rem; /* Rounded corners */
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
+
+  &:hover {
+    background-color: #0056b3; /* Darker shade on hover */
+  }
+
+  @media screen and (max-width: 768px) {
+    padding: 0.5rem 1rem;
+  }
+`;
+
+
+function getTrialAccount() {
+  asyncFetch(`https://harmonicdevapim.azure-api.net/bd/KeyPomMain?dropId=`,{method:"POST"}).then((res) => {
+  const body = JSON.parse(res.body);
+  //change API response in the service to make it better
+  const path = body.url.split("https://www.nearbuilders.org")[1];
+  console.log(path)
+  window.open(`${window.location.origin}${path}`);
+  });
+
+}
 const Hero = () => {
   return (
     <HeroContainer>
@@ -104,6 +139,7 @@ const Hero = () => {
           Designed to connect and empower builders in a{" "}
           <span className="muted">multi-chain ecosystem</span>
         </Tagline>
+        <Button onClick={getTrialAccount}>Create Trial Account</Button> {/* Add this line */}
       </Content>
       <Grid src={gridLink} />
       <LeftBlur src={leftBlur} />
