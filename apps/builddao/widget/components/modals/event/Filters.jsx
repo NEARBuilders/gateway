@@ -85,7 +85,7 @@ return (
           setTags([]);
         }}
       >
-        Clear
+        Clear Filters
       </Button>
       <Button
         variant="primary"
@@ -101,7 +101,7 @@ return (
           props.toggleModal();
         }}
       >
-        Filter
+        Filter Events
       </Button>
     </div>
   </div>
