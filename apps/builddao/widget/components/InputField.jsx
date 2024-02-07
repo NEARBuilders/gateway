@@ -6,7 +6,7 @@ const InputContainer = styled.div`
 `;
 
 const Label = styled.label`
-  color: var(--White-100, #fff);
+  color: var(--label-color, #fff);
 
   /* Body/16px */
   font-size: 16px;
@@ -17,19 +17,18 @@ const Label = styled.label`
 
 const Input = styled.input`
   display: flex;
-  max-width: ${(props) => props.maxWidth ?? "390px"};
   width: 100%;
-  padding: 16px 12px;
+  padding: 12px;
   align-items: flex-start;
   gap: 10px;
 
   border-radius: 8px;
-  border: 1px solid var(--Stroke-color, rgba(255, 255, 255, 0.2));
-  background: var(--Bg-1, #0b0c14);
+  border: 1px solid var(--stroke-color, rgba(255, 255, 255, 0.2));
+  background: var(--bg-1, #0b0c14);
 
   flex: 1 0 0;
 
-  color: var(--White-50, #cdd0d5);
+  color: var(--font-muted-color, #cdd0d5);
 
   /* Body/16px */
   font-size: 16px;
@@ -48,15 +47,18 @@ function InputField({
   maxWidth,
 }) {
   return (
-    <InputContainer>
+    <InputContainer
+      key={`input-container-${key}`}
+      style={{ maxWidth: maxWidth ?? "390px" }}
+    >
       {label && <Label>{label}</Label>}
       <Input
-        key={key}
+        key={`input-field-${key}`}
         value={value}
         onChange={onChange}
         placeholder={placeholder}
         type={type ?? "text"}
-        maxWidth={maxWidth}
+        style={{ maxWidth: maxWidth ?? "390px" }}
       />
     </InputContainer>
   );
