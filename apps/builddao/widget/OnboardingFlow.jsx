@@ -75,10 +75,11 @@ function OnboardingFlow() {
   }, [userCompletedOnboarding]);
 
   useEffect(() => {
-    if (showModal && !userCompletedOnboarding) {
+    if (step > 3) {
+      setShowModal(false);
       Storage.privateSet(StorageKey.userCompletedOnboarding, true);
     }
-  }, [showModal]);
+  }, [step]);
 
   const Wrapper = styled.div`
     color: white;
@@ -251,9 +252,9 @@ function OnboardingFlow() {
           </div>
           <Button
             variant="primary"
-            onClick={() =>
-              step === 3 ? setShowModal(false) : setStep(step + 1)
-            }
+            onClick={() => {
+              setStep(step + 1);
+            }}
           >
             {step === 3 ? "Finish" : "Next"}
           </Button>
