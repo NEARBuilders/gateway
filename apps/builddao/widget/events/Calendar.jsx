@@ -15,7 +15,6 @@ const StyledToolbar = styled.div`
   margin-bottom: 24px;
 
   background: var(--bg-1, #0b0c14);
-  border-radius: 1rem;
 
   color: var(--text-color, #fff);
   font-size: 18px;
