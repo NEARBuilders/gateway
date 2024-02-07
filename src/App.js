@@ -41,6 +41,7 @@ import Flags from "./pages/Flags";
 import JoinPage from "./pages/JoinPage";
 import Viewer from "./pages/Viewer";
 import { KEYPOM_OPTIONS } from "./utils/keypom-options";
+import { TrialAccountGenerator } from "./components/custom/TrialAccountGenerator";
 
 export const refreshAllowanceObj = {};
 const documentationHref = "https://docs.near.org/bos/overview";
@@ -114,6 +115,9 @@ function App() {
                   : "about:blank";
             }
             return <Link {...props} />;
+          },
+          TrialAccountGenerator: (props) => {
+            return <TrialAccountGenerator {...props} />;
           },
         },
         config: {

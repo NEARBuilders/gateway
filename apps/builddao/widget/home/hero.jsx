@@ -2,7 +2,6 @@ const { Button } = VM.require("buildhub.near/widget/components") || {
   Button: () => <></>,
 };
 
-
 const logoLink =
   "https://ipfs.near.social/ipfs/bafkreihbwho3qfvnu4yss3eh5jrx6uxhrlzdgtdjyzyjrpa6odro6wdxya";
 const gridLink =
@@ -12,8 +11,7 @@ const leftBlur =
 const rightBlur =
   "https://ipfs.near.social/ipfs/bafkreierwhnzytfajagidxim5mzdphu5fopjmlrxehatywzuy6ahr5q7pe";
 
-
-  const HeroContainer = styled.div`
+const HeroContainer = styled.div`
   width: 100%;
   position: relative;
 
@@ -119,17 +117,6 @@ const HeroButton = styled.div`
   }
 `;
 
-
-function getTrialAccount() {
-  asyncFetch(`https://harmonicdevapim.azure-api.net/bd/KeyPomMain?dropId=1706695349746`,{method:"POST"}).then((res) => {
-  const body = JSON.parse(res.body);
-  //change API response in the service to make it better
-  const path = body.url.split("https://www.nearbuilders.org")[1];
-  console.log(path)
-  window.open(`${window.location.origin}${path}`);
-  });
-
-}
 const Hero = () => {
   return (
     <HeroContainer>
@@ -139,7 +126,11 @@ const Hero = () => {
           Designed to connect and empower builders in a{" "}
           <span className="muted">multi-chain ecosystem</span>
         </Tagline>
-        <Button onClick={getTrialAccount}>Create Trial Account</Button> {/* Add this line */}
+        <TrialAccountGenerator
+          trigger={({ onClick }) => (
+            <Button onClick={onClick}>Create Trial Account</Button>
+          )}
+        />
       </Content>
       <Grid src={gridLink} />
       <LeftBlur src={leftBlur} />
