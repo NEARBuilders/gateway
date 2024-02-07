@@ -41,6 +41,7 @@ const NoButton = styled.button`
   padding: 0;
   margin: 0;
   box-shadow: none;
+  display: none;
 `;
 
 const CloseContainer = styled.div`
