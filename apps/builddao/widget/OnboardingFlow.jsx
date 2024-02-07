@@ -82,8 +82,11 @@ function OnboardingFlow() {
   }, [step]);
 
   const Wrapper = styled.div`
+    .pb-4 {
+      padding-bottom: 0px !important;
+    }
     color: white;
-    font-size: 14px;
+    font-size: 12px;
     .text-muted {
       color: #cdd0d5 !important;
     }
@@ -140,7 +143,7 @@ function OnboardingFlow() {
     switch (step) {
       case 1:
         return (
-          <div className="d-flex flex-column gap-3">
+          <div className="d-flex flex-column gap-2">
             <h3>Welcome!</h3>
             <div>
               <p className="text-muted">First off, follow our DAO</p>
@@ -159,7 +162,7 @@ function OnboardingFlow() {
         );
       case 2:
         return (
-          <div className="d-flex flex-column gap-3">
+          <div className="d-flex flex-column gap-2">
             <h3>Connect with others!</h3>
             <div className="text-muted">
               <p>
@@ -188,7 +191,7 @@ function OnboardingFlow() {
         );
       case 3:
         return (
-          <div className="d-flex flex-column gap-3">
+          <div className="d-flex flex-column gap-2">
             <h3>Make Your Mark in BuildDAO</h3>
             <div>
               <p className="text-muted">
@@ -244,7 +247,7 @@ function OnboardingFlow() {
           <div className="text-center mb-4">
             <img
               src="https://ipfs.near.social/ipfs/bafkreihbwho3qfvnu4yss3eh5jrx6uxhrlzdgtdjyzyjrpa6odro6wdxya"
-              width={180}
+              width={120}
             />
           </div>
           <div style={{ width: "500px" }}>
