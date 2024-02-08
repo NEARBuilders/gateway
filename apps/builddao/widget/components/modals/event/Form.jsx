@@ -200,7 +200,7 @@ const onSubmit = () => {
 
   Social.set(
     {
-      test: {
+      every: {
         // we'll replace this with "every" or the specific app that the event should be visible in
         event: {
           [thingId]: {

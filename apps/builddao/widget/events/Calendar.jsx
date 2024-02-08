@@ -103,7 +103,7 @@ const Toolbar = () => {
   );
 };
 
-const events = fetchThings("test", "event");
+const events = fetchThings("every", "event");
 
 const filterEvents = () => {
   let filteredEvents = events;
