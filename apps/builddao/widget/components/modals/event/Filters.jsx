@@ -77,8 +77,8 @@ return (
       <Button
         variant="outline"
         onClick={() => {
-          setFrom();
-          setTo();
+          setFrom("");
+          setTo("");
           setTitle("");
           setLocation("");
           setOrganizers([]);
