@@ -83,6 +83,7 @@ function Button({
   type,
   onClick,
   className,
+  target,
   linkClassName,
   href,
   style,
@@ -93,6 +94,7 @@ function Button({
         to={href}
         className={linkClassName}
         style={{ textDecoration: "none" }}
+        target={target}
       >
         <StyledButton
           id={id}

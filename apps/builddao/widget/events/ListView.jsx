@@ -1,4 +1,5 @@
-const { Hashtag } = VM.require("buildhub.near/widget/components") || {
+const { Button, Hashtag } = VM.require("buildhub.near/widget/components") || {
+  Button: () => <></>,
   Hashtag: () => <></>,
 };
 
@@ -121,6 +122,17 @@ return (
                 }
                 return it;
               }) ?? [];
+            const organizers =
+              event?.extendedProps?.organizers.map((it) => {
+                if (it.customOption) {
+                  return it.organizer;
+                }
+                return it;
+              }) ?? [];
+
+            const organizer = organizers[0];
+            const organizerProfile = Social.getr(`${organizer}/profile`);
+
             const startTime = formatStartTime(event.start);
 
             return (
@@ -135,21 +147,52 @@ return (
                 </div>
                 <div className="d-flex gap-3">
                   <div className="cover-image">
-                    {event.extendedProps.cover.ipfs_cid ? (
-                      <Widget
-                        src="mob.near/widget/Image"
-                        props={{
-                          image: event.extendedProps.cover,
-                        }}
-                      />
-                    ) : (
-                      <img src="https://ipfs.near.social/ipfs/bafkreibas66y6ewop5ix2n6mgybpjz6epg7opqvcplmm5jw4jlhdik5nhe" />
-                    )}
+                    <Widget
+                      src="mob.near/widget/Image"
+                      props={{
+                        image: event.extendedProps.cover,
+                        fallbackUrl:
+                          "https://ipfs.near.social/ipfs/bafkreibas66y6ewop5ix2n6mgybpjz6epg7opqvcplmm5jw4jlhdik5nhe",
+                      }}
+                    />
                   </div>
                   <div>
                     <h4>{event.title}</h4>
                     <Markdown text={event.description} />
                   </div>
+                </div>
+                <div className="d-flex align-items-center flex-wrap gap-3">
+                  <span className="d-flex align-items-center gap-1">
+                    <Widget
+                      src="mob.near/widget/Image"
+                      loading=""
+                      props={{
+                        image: organizerProfile.image,
+                        fallbackUrl:
+                          "https://ipfs.near.social/ipfs/bafkreibas66y6ewop5ix2n6mgybpjz6epg7opqvcplmm5jw4jlhdik5nhe",
+                        style: {
+                          width: 24,
+                          height: 24,
+                          borderRadius: 12,
+                          objectFit: "cover",
+                        },
+                      }}
+                    />
+                    {organizerProfile.name ?? "No name profile"}
+                  </span>
+                  <span className="d-flex align-items-center gap-1">
+                    <i className="bi bi-geo-alt"></i>
+                    {event?.extendedProps?.location}
+                  </span>
+                </div>
+                <div>
+                  <Button
+                    href={`https://${event?.url}`}
+                    target="_blank"
+                    variant="primary"
+                  >
+                    Join Now
+                  </Button>
                 </div>
               </StyledEvent>
             );
