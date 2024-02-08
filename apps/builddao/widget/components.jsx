@@ -12,6 +12,7 @@ const { TextEditor } = VM.require("buildhub.near/widget/components.TextEditor");
 const { Checkbox } = VM.require("buildhub.near/widget/components.Checkbox");
 const { Avatar } = VM.require("buildhub.near/widget/components.Avatar");
 const { Modal } = VM.require("buildhub.near/widget/components.Modal");
+const { Hashtag } = VM.require("buildhub.near/widget/components.Hashtag");
 
 function Pagination({
   totalPages,
@@ -61,6 +62,7 @@ return {
   ProgressState,
   Modal,
   Step,
+  Hashtag,
   InputField,
   UploadField,
   TextBox,
