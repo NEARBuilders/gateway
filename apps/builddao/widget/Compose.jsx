@@ -5,7 +5,7 @@ const { User, Button } = VM.require("buildhub.near/widget/components") || {
 
 const draftKey = props.draftKey || "draft";
 const draft = Storage.privateGet(draftKey);
-
+const postBtnText = props.postBtnText;
 if (draft === null) {
   return "";
 }
@@ -76,8 +76,8 @@ const extractMentionNotifications = (text, item) =>
       key: accountId,
       value: {
         type: "mention",
-        item,
-      },
+        item
+      }
     }));
 
 function checkAndAppendHashtag(input, target) {
@@ -120,14 +120,14 @@ const postToCustomFeed = ({ feed, text }) => {
       main: JSON.stringify(content),
     },
     index: {
-      post: JSON.stringify({ key: "main", value: { type: "md" } }),
+      post: JSON.stringify({ key: "main", value: { type: "md" } })
       // every: JSON.stringify({ key: feed.name, value: { type: "md" } }),
-    },
+    }
   };
 
   const item = {
     type: "social",
-    path: `${context.accountId}/post/main`,
+    path: `${context.accountId}/post/main`
   };
 
   const notifications = extractMentionNotifications(text, item);
@@ -144,7 +144,7 @@ const postToCustomFeed = ({ feed, text }) => {
     data.index.hashtag = JSON.stringify(
       hashtags.map((hashtag) => ({
         key: hashtag,
-        value: item,
+        value: item
       }))
     );
   }
@@ -159,7 +159,7 @@ const postToCustomFeed = ({ feed, text }) => {
     },
     onCancel: () => {
       // console.log(`Cancelled ${feed}: #${postId}`);
-    },
+    }
   });
 };
 
@@ -477,10 +477,12 @@ return (
             props={{
               initialText: postContent,
               data: { handler: handler, content: postContent },
-              onChange: (content) => {
+              embedCss: props.customCSS || MarkdownEditor,
+              onChange: (v) => {
+                setPostContent(v);
                 textareaInputHandler(content);
-              },
-              embedCss: MarkdownEditor,
+                Storage.privateSet(draftKey, v || "");
+              }
             }}
           />
           {autocompleteEnabled && showAccountAutocomplete && (
@@ -543,11 +545,11 @@ return (
           postToCustomFeed({
             feed: props.feed,
             text: postContent,
-            labels,
+            labels
           })
         }
       >
-        Post {props.feed.name}
+        {postBtnText ?? "Post" + props.feed.name}
       </Button>
     </div>
   </PostCreator>

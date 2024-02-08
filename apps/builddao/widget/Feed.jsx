@@ -5,6 +5,27 @@ const { Post } = VM.require("buildhub.near/widget/components") || {
   Post: () => <></>,
 };
 
+const { Button } = VM.require("buildhub.near/widget/components") || {
+  Button: () => <></>,
+};
+
+const LoginContainer = styled.div`
+  background-color: #23242b;
+  color: #fff;
+
+  width: 100%;
+  height: 16rem;
+  border-radius: 1rem;
+
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  align-items: center;
+  justify-content: center;
+
+  margin-bottom: 1rem;
+`;
+
 const { name: feedName, template, requiredHashtags, customActions } = props;
 
 // for modals
@@ -33,11 +54,15 @@ return (
       </>
     )}
     {!context.accountId ? ( // if not logged in
-      <Widget
-        loading=""
-        src="buildhub.near/widget/components.login-now"
-        props={props}
-      />
+      <LoginContainer>
+        <p>Please login in order to post.</p>
+        <a
+          href={"https://nearbuilders.org/join"}
+          style={{ textDecoration: "none" }}
+        >
+          <Button variant="primary">Login</Button>
+        </a>
+      </LoginContainer>
     ) : (
       <Widget
         loading={
