@@ -97,7 +97,7 @@ export function FileTab(props) {
 
     color: var(--black-100, #000);
     /* Other/Button_text */
-    font-family: Satoshi;
+    font-family: Satoshi, sans-serif;
     font-size: 0.875rem;
     font-style: normal;
     font-weight: 500;

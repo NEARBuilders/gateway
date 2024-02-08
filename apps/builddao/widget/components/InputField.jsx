@@ -6,7 +6,7 @@ const InputContainer = styled.div`
 `;
 
 const Label = styled.label`
-  color: var(--White-100, #fff);
+  color: var(--label-color, #fff);
 
   /* Body/16px */
   font-size: 16px;
@@ -18,7 +18,7 @@ const Label = styled.label`
 const Input = styled.input`
   display: flex;
   width: 100%;
-  padding: 16px 12px;
+  padding: 12px;
   align-items: flex-start;
   gap: 10px;
 
@@ -28,7 +28,7 @@ const Input = styled.input`
 
   flex: 1 0 0;
 
-  color: var(--White-50, #cdd0d5);
+  color: var(--font-muted-color, #cdd0d5);
 
   /* Body/16px */
   font-size: 16px;
@@ -46,10 +46,13 @@ function InputField({
   onChange,
 }) {
   return (
-    <InputContainer>
+    <InputContainer
+      key={`input-container-${key}`}
+      style={{ maxWidth: maxWidth ?? "390px" }}
+    >
       {label && <Label>{label}</Label>}
       <Input
-        key={key}
+        key={`input-field-${key}`}
         value={value}
         onChange={onChange}
         placeholder={placeholder}
