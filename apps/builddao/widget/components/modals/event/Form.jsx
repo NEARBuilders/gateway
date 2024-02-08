@@ -390,7 +390,7 @@ return (
       <div className="form-group mb-3">
         <label htmlFor="cover-image">Cover Image</label>
         <Widget
-          src="buildhub.near/widget/components.ImageEditorTabs"
+          src="buildhub.near/widget/components.ImageUploader"
           loading=""
           props={{ image: state.image, onChange: onCoverChange }}
         />
