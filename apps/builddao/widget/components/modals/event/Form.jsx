@@ -228,23 +228,11 @@ const onSubmit = () => {
               description,
               image: state.image,
               backgroundImage: state.image,
-              type: "buildhub.near/type/testEvent",
+              type: "buildhub.near/type/event",
             },
           },
         },
       },
-      // thing: {
-
-      //   index: {
-      //     event: JSON.stringify({
-      //       key: "buildhub.near/type/testEvent",
-      //       value: {
-      //         type: "buildhub.near/type/testEvent",
-      //         id: thingId,
-      //       },
-      //     }),
-      //   },
-      // },
     },
     {
       onCommit: () => props.toggleModal(),
