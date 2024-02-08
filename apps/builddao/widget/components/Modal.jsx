@@ -62,6 +62,7 @@ function Modal({
   toggle,
   toggleContainerProps,
   key,
+  hideCloseBtn
 }) {
   return (
     <Dialog.Root key={key} open={open} onOpenChange={onOpenChange}>
@@ -74,13 +75,15 @@ function Modal({
             <Content>
               <div className="d-flex align-items-center justify-content-between pb-4">
                 <h5 className="w-100">{title}</h5>
-                <Dialog.Trigger asChild>
-                  <CloseContainer>
-                    <Button variant="outline" type="icon">
-                      <Icon className="bi bi-x" />
-                    </Button>
-                  </CloseContainer>
-                </Dialog.Trigger>
+                {!hideCloseBtn && (
+                  <Dialog.Trigger asChild>
+                    <CloseContainer>
+                      <Button variant="outline" type="icon">
+                        <Icon className="bi bi-x" />
+                      </Button>
+                    </CloseContainer>
+                  </Dialog.Trigger>
+                )}
               </div>
               {children}
             </Content>
