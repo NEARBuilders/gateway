@@ -5,9 +5,9 @@ function flattenObject(data, app, type) {
     if (accountData.hasOwnProperty(app)) {
       const testData = accountData[app];
       if (testData.hasOwnProperty(type)) {
-        const eventData = testData[type];
-        Object.entries(eventData).forEach(([eventKey]) => {
-          paths.push(`${accountName}/${app}/${type}/${eventKey}`);
+        const thingData = testData[type];
+        Object.entries(thingData).forEach(([key]) => {
+          paths.push(`${accountName}/${app}/${type}/${key}`);
         });
       }
     }
@@ -27,12 +27,12 @@ function fetchThings(app, type) {
 
   const flattenedKeys = flattenObject(rawKeys, app, type);
 
-  let events = [];
+  let things = [];
   flattenedKeys.forEach((key) =>
-    events.push(JSON.parse(Social.get(key, "final")))
+    things.push(JSON.parse(Social.get(key, "final")))
   );
 
-  return events;
+  return things;
 }
 
 return { fetchThings };
