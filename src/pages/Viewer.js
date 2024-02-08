@@ -65,7 +65,7 @@ function Viewer({ code, ...props }) {
       props={{
         path: src,
         ...passProps,
-        ...props,
+        ...props
       }}
       config={{ redirectMap }}
     />
