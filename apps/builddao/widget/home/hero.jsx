@@ -91,6 +91,27 @@ const Tagline = styled.h1`
   }
 `;
 
+const TaglineSmall = styled.h2`
+  max-width: 700px;
+
+  text-align: center;
+  font-size: 1rem;
+  font-style: normal;
+  font-weight: 300;
+  line-height: 120%; /* 57.6px */
+  margin: 0;
+
+  text-wrap: balance;
+
+  span.muted {
+    color: rgba(255, 255, 255, 0.7);
+  }
+
+  @media screen and (max-width: 768px) {
+    font-size: 1rem;
+  }
+`;
+
 const Content = styled.div`
   display: flex;
   flex-direction: column;
@@ -119,18 +140,8 @@ const HeroButton = styled.div`
   }
 `;
 
-
-function getTrialAccount() {
-  asyncFetch(`https://harmonicdevapim.azure-api.net/bd/KeyPomMain?dropId=1706695349746`,{method:"POST"}).then((res) => {
-  const body = JSON.parse(res.body);
-  //change API response in the service to make it better
-  const path = body.url.split("https://www.nearbuilders.org")[1];
-  console.log(path)
-  window.open(`${window.location.origin}${path}`);
-  });
-
-}
 const Hero = () => {
+
   return (
     <HeroContainer>
       <Content>
@@ -139,7 +150,22 @@ const Hero = () => {
           Designed to connect and empower builders in a{" "}
           <span className="muted">multi-chain ecosystem</span>
         </Tagline>
-        <Button onClick={getTrialAccount}>Create Trial Account</Button> {/* Add this line */}
+        {/* To-do 
+        1. Don't show this for testnet gateway, you will generate a mainnet key that won't work on testnet wasting NEAR on mainnet.
+        2. Don't show this for other gateways as they won't have the TrialAccountGenerator custom element.
+        2. Don't show this if user is already logged in. context.accountId not working here.*/}
+
+        {context.accountId ? (
+          <>
+        <TrialAccountGenerator
+          trigger={({ onClick }) => (
+            <Button onClick={onClick}>Create Trial Account</Button>
+          )}
+        />
+        <TaglineSmall>Try out the Builders gateway with a trial account. No crypto, no passphrase required.</TaglineSmall>
+        </>
+      ) : null}
+      
       </Content>
       <Grid src={gridLink} />
       <LeftBlur src={leftBlur} />
