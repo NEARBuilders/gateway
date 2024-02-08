@@ -2,8 +2,8 @@ const { Button } = VM.require("buildhub.near/widget/components") || {
   Button: () => <></>,
 };
 
-const { fetchEvents } = VM.require("buildhub.near/widget/lib.events") || {
-  fetchEvents: () => {},
+const { fetchThings } = VM.require("buildhub.near/widget/lib.everything-sdk") || {
+  fetchThings: () => {},
 };
 
 const StyledToolbar = styled.div`
@@ -101,7 +101,7 @@ const Toolbar = () => {
   );
 };
 
-const events = fetchEvents("test", "event");
+const events = fetchThings("test", "event");
 
 const filterEvents = () => {
   let filteredEvents = events;

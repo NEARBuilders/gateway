@@ -16,7 +16,7 @@ function flattenObject(data, app, type) {
   return paths;
 }
 
-function fetchEvents(app, type) {
+function fetchThings(app, type) {
   const rawKeys = Social.keys(`*/${app}/${type}/*`, "final", {
     return_type: "BlockHeight",
   });
@@ -35,4 +35,4 @@ function fetchEvents(app, type) {
   return events;
 }
 
-return { fetchEvents };
+return { fetchThings };
