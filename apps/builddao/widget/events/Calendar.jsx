@@ -2,7 +2,9 @@ const { Button } = VM.require("buildhub.near/widget/components") || {
   Button: () => <></>,
 };
 
-const { fetchThings } = VM.require("buildhub.near/widget/lib.everything-sdk") || {
+const { fetchThings } = VM.require(
+  "buildhub.near/widget/lib.everything-sdk"
+) || {
   fetchThings: () => {},
 };
 
