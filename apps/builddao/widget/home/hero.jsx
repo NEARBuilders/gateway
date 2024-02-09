@@ -1,6 +1,3 @@
-//const { TrialAccountBanner } = VM.require("buildhub.near/widget/components.TrialAccountBanner")
-
-
 const logoLink =
   "https://ipfs.near.social/ipfs/bafkreihbwho3qfvnu4yss3eh5jrx6uxhrlzdgtdjyzyjrpa6odro6wdxya";
 const gridLink =
@@ -11,7 +8,7 @@ const rightBlur =
   "https://ipfs.near.social/ipfs/bafkreierwhnzytfajagidxim5mzdphu5fopjmlrxehatywzuy6ahr5q7pe";
 
 
-  const HeroContainer = styled.div`
+const HeroContainer = styled.div`
   width: 100%;
   position: relative;
 
@@ -98,24 +95,6 @@ const Content = styled.div`
   gap: 2.5rem;
 
   margin: 0 auto;
-`;
-
-const HeroButton = styled.div`
-  padding: 0.75rem 1.5rem;
-  background-color: #007bff; /* Example background color */
-  color: white; /* Text color */
-  text-align: center;
-  border-radius: 0.375rem; /* Rounded corners */
-  cursor: pointer;
-  transition: background-color 0.2s ease-in-out;
-
-  &:hover {
-    background-color: #0056b3; /* Darker shade on hover */
-  }
-
-  @media screen and (max-width: 768px) {
-    padding: 0.5rem 1rem;
-  }
 `;
 
 const Hero = ({...props}) => {
