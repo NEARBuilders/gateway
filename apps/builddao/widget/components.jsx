@@ -2,6 +2,7 @@ const { Button } = VM.require("buildhub.near/widget/components.Button");
 const { ProgressState } = VM.require(
   "buildhub.near/widget/components.ProgressState"
 );
+const { Bullet } = VM.require("buildhub.near/widget/components.Bullet");
 const { Step } = VM.require("buildhub.near/widget/components.Step");
 const { InputField } = VM.require("buildhub.near/widget/components.InputField");
 const { UploadField } = VM.require(
@@ -61,6 +62,7 @@ return {
   Post,
   ProgressState,
   Modal,
+  Bullet,
   Step,
   Hashtag,
   InputField,
