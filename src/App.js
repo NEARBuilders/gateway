@@ -45,6 +45,7 @@ import { TrialAccountGenerator } from "./components/TrialAccountGenerator";
 
 export const refreshAllowanceObj = {};
 const documentationHref = "https://docs.near.org/bos/overview";
+const currentGateway = "nearbuilders";
 
 function App() {
   const [connected, setConnected] = useState(false);
@@ -196,7 +197,8 @@ function App() {
     logOut,
     requestSignIn,
     widgets: Widgets,
-    documentationHref
+    documentationHref,
+    currentGateway
   };
 
   return (

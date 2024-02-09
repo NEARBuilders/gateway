@@ -1,5 +1,7 @@
 function Avatar(props) {
-  const accountId = props.accountId ?? context.accountId;
+  //const accountId = props.accountId ?? context.accountId;
+  const accountId = context.accountId;
+  console.log(accountId)
 
   const ImageWrapper = styled.div`
     img {
@@ -30,6 +32,7 @@ function Avatar(props) {
 
   return (
     <ImageWrapper variant={props.variant}>
+      {accountId}
       <Widget src="mob.near/widget/ProfileImage" props={{ accountId }} />
     </ImageWrapper>
   );
