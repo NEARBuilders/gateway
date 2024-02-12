@@ -1,11 +1,18 @@
-const { Button } = VM.require("buildhub.near/widget/components.Button") || {
+const { Button, Modal } = VM.require("buildhub.near/widget/components") || {
   Button: <></>,
+  Modal: <></>
 };
 const DaoSDK = VM.require("sdks.near/widget/SDKs.Sputnik.DaoSDK") || (() => {});
 
 if (!DaoSDK) {
   return <></>;
 }
+
+const NotificationModalContainer = styled.div`
+  .pb-4 {
+    padding-bottom: 0px !important;
+  }
+`;
 
 const resPerPage = 10;
 const daoId = props.daoId ?? "build.sputnik-dao.near";
@@ -15,12 +22,14 @@ const [currentPage, setCurrentPage] = useState(0);
 const accountId = context.accountId;
 
 const [showProposalModal, setShowModal] = useState(false);
+const [showNotificationModal, setNotificationModal] = useState(false);
+const [voteDetails, setVoteDetails] = useState(null);
 const lastProposalId = sdk.getLastProposalId();
 const reversedProposals = proposalId
   ? [
       sdk.getProposalById({
-        proposalId,
-      }),
+        proposalId
+      })
     ] || []
   : sdk.getProposals({
       offset:
@@ -29,7 +38,7 @@ const reversedProposals = proposalId
             ? lastProposalId - resPerPage
             : lastProposalId ?? 10
           : lastProposalId - currentPage * resPerPage,
-      limit: resPerPage,
+      limit: resPerPage
     }) || [];
 
 const proposals = reversedProposals.reverse();
@@ -70,7 +79,56 @@ const Container = styled.div`
   }
 `;
 
-const handleVote = ({ action, proposalId, proposer }) => {
+const NotificationModal = () => {
+  return (
+    <NotificationModalContainer>
+      <Modal
+        open={showNotificationModal}
+        title={"Send Notification"}
+        onOpenChange={() => {}}
+        hideCloseBtn={true}
+      >
+        <div className="ndc-card d-flex flex-column gap-3 p-4">
+          Do you want to notify proposer: {proposer} about the vote?
+          <div className="d-flex gap-3 justify-content-end">
+            <Button
+              variant="outline danger"
+              onClick={() => {
+                handleVote({
+                  action: voteDetails.action,
+                  daoId,
+                  proposalId: voteDetails.proposalId,
+                  proposer: voteDetails.proposer,
+                  showNotification: false
+                });
+                setNotificationModal(false);
+              }}
+            >
+              No
+            </Button>
+            <Button
+              variant="primary"
+              onClick={() => {
+                handleVote({
+                  action: voteDetails.action,
+                  daoId,
+                  proposalId: voteDetails.proposalId,
+                  proposer: voteDetails.proposer,
+                  showNotification: true
+                });
+                setNotificationModal(false);
+              }}
+            >
+              Yes
+            </Button>
+          </div>
+        </div>
+      </Modal>
+    </NotificationModalContainer>
+  );
+};
+
+const handleVote = ({ action, proposalId, proposer, showNotification }) => {
   const customAction = action.replace("Vote", "");
   const notification = {
     [accountId]: {
@@ -82,31 +140,36 @@ const handleVote = ({ action, proposalId, proposer }) => {
               message: `${accountId} voted to ${customAction} your proposal for ${daoId} (Proposal ID: ${proposalId})`,
               params: {
                 daoId: daoId,
-                proposalId: proposalId,
+                proposalId: proposalId
               },
               type: "custom",
-              widget: "buildhub.near/widget/Proposals",
-            },
-          },
-        ]),
-      },
-    },
+              widget: "buildhub.near/widget/Proposals"
+            }
+          }
+        ])
+      }
+    }
   };
 
   sdk.actProposal({
     proposalId,
     action,
     gas: 200000000000000,
-    additionalCalls: [
-      {
-        contractName: "social.near",
-        methodName: "set",
-        args: { data: notification },
-        deposit: Big(JSON.stringify(notification).length * 16)
-          .mul(Big(10).pow(20))
-          .toString(),
-      },
-    ],
+    additionalCalls: showNotification
+      ? [
+          {
+            contractName: "social.near",
+            methodName: "set",
+            args: {
+              data: notification,
+              options: { refund_unused_deposit: true }
+            },
+            deposit: Big(JSON.stringify(notification).length * 16)
+              .mul(Big(10).pow(20))
+              .toString()
+          }
+        ]
+      : null
   });
 };
 
@@ -145,30 +208,30 @@ const proposalsComponent = useMemo(() => {
             sdk.hasPermission({
               accountId,
               kindName,
-              actionType: actions.VoteApprove,
+              actionType: actions.VoteApprove
             }),
             sdk.hasPermission({
               accountId,
               kindName,
-              actionType: actions.VoteReject,
+              actionType: actions.VoteReject
             }),
 
             sdk.hasPermission({
               accountId,
               kindName,
-              actionType: actions.VoteRemove,
-            }),
+              actionType: actions.VoteRemove
+            })
           ];
 
           const { thresholdVoteCount } =
             sdk.getVotersAndThresholdForProposalKind({
-              kindName,
+              kindName
             });
           const totalVotes = sdk.calculateVoteCountByType({
-            votes: item.votes,
+            votes: item.votes
           });
           let expirationTime = sdk.getProposalExpirationTime({
-            submissionTime: item.submission_time,
+            submissionTime: item.submission_time
           });
 
           return (
@@ -182,14 +245,17 @@ const proposalsComponent = useMemo(() => {
                   totalVotes: {
                     ...totalVotes,
                     yes: totalVotes.approve,
-                    no: totalVotes.reject,
+                    no: totalVotes.reject
                   },
-                  expirationTime,
+                  expirationTime
                 },
                 daoId: daoId,
                 comments: comments,
                 isAllowedToVote,
-                handleVote,
+                handleVote: (data) => {
+                  setVoteDetails(data);
+                  setNotificationModal(true);
+                }
               }}
             />
           );
@@ -208,7 +274,7 @@ return (
         src="buildhub.near/widget/components.modals.CreateProposal"
         props={{
           showModal: showProposalModal,
-          toggleModal: () => setShowModal(!showProposalModal),
+          toggleModal: () => setShowModal(!showProposalModal)
         }}
       />
       <div className="d-flex justify-content-between">
@@ -221,6 +287,7 @@ return (
           Create Proposal
         </Button>
       </div>
+      <NotificationModal />
       <div className="d-flex flex-column gap-4">{proposalsComponent}</div>
       {!proposalId && (
         <div className="d-flex justify-content-center my-4">
@@ -231,7 +298,7 @@ return (
               totalPages: Math.round(lastProposalId / resPerPage),
               onPageClick: (v) => setCurrentPage(v),
               selectedPage: currentPage,
-              ThemeContainer: PaginationThemeContainer,
+              ThemeContainer: PaginationThemeContainer
             }}
           />
         </div>
