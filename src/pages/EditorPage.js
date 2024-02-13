@@ -80,7 +80,7 @@ const Button = styled.button`
   gap: 4px;
 
   /* Other/Button_text */
-  font-family: Satoshi;
+  font-family: Satoshi, sans-serif;
   font-size: 0.875rem;
   font-style: normal;
   font-weight: 500;
@@ -466,7 +466,7 @@ export default function EditorPage(props) {
         color: "black",
         padding: "10px 20px",
         borderRadius: 8,
-        fontFamily: "Satoshi",
+        fontFamily: "Satoshi, sans-serif",
         fontWeight: "500",
         fontSize: "0.875rem",
       }}

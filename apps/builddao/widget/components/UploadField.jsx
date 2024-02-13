@@ -1,5 +1,6 @@
-const { Button } =
-  VM.require("buildhub.near/widget/components.Button") || (() => <></>);
+const { Button } = VM.require("buildhub.near/widget/components.Button") || {
+  Button: () => <></>,
+};
 
 const UploadContainer = styled.div`
   display: flex;
@@ -14,11 +15,12 @@ const UploadContainer = styled.div`
   gap: 24px;
 
   border-radius: 16px;
-  border: 1px dashed var(--Stroke-color, rgba(255, 255, 255, 0.2));
-  background: ${(props) => (props.background ? "#23242B" : "#0b0c14")};
+  border: 1px dashed var(--stroke-color, rgba(255, 255, 255, 0.2));
+  background: ${(props) =>
+    props.background ? "var(--bg-2, #23242B)" : "var(--bg-1, #0b0c14)"};
 
   p {
-    color: var(--White-100, #fff);
+    color: var(--font-color, #fff);
     text-align: center;
 
     /* Body/Medium-16px */
@@ -30,7 +32,7 @@ const UploadContainer = styled.div`
   }
 
   p.secondary {
-    color: var(--White-50, #cdd0d5);
+    color: var(--font-muted-color, #cdd0d5);
     text-align: center;
     font-size: 12px;
     font-style: normal;
@@ -39,7 +41,7 @@ const UploadContainer = styled.div`
   }
 
   i {
-    color: white;
+    color: var(--font-color, #fff);
     font-size: 2rem;
   }
 `;
@@ -54,7 +56,10 @@ function UploadField({ background }) {
           JPEG, PNG, PDF, and MP4 formats, up to 50 MB.
         </p>
       </div>
-      <Button variant="outline" style={{ background: background && "#23242b" }}>
+      <Button
+        variant="outline"
+        style={{ background: background && "var(--bg-2,#23242B)" }}
+      >
         Browse Files
       </Button>
     </UploadContainer>

@@ -1,21 +1,32 @@
-const { Avatar, Button } = VM.require("buildhub.near/widget/components");
+const { User, Button } = VM.require("buildhub.near/widget/components") || {
+  User: () => <></>,
+  Button: () => <></>
+};
 
-Avatar = Avatar || (() => <></>);
-Button = Button || (() => <></>);
-
-const draftKey = props.feed.name || "draft";
+const draftKey = props.draftKey || "draft";
 const draft = Storage.privateGet(draftKey);
-
+const postBtnText = props.postBtnText;
 if (draft === null) {
   return "";
 }
 
+const autocompleteEnabled = true;
+
+State.init({
+  image: {}
+});
+
 const [view, setView] = useState("editor");
 const [postContent, setPostContent] = useState("");
 const [hideAdvanced, setHideAdvanced] = useState(true);
-const [labels, setLabels] = useState([]);
+const [showAccountAutocomplete, setShowAccountAutocomplete] = useState(false);
+const [mentionsArray, setMentionsArray] = useState([]);
+const [mentionInput, setMentionInput] = useState(null);
+const [handler, setHandler] = useState("update");
+const [showToast, setShowToast] = useState(false);
 
-setPostContent(draft || props.template);
+const [composeKey, setComposeKey] = useState(0);
+const memoizedComposeKey = useMemo(() => composeKey, [composeKey]);
 
 function generateUID() {
   const maxHex = 0xffffffff;
@@ -23,15 +34,7 @@ function generateUID() {
   return randomNumber.toString(16).padStart(8, "0");
 }
 
-function tagsFromLabels(labels) {
-  return labels.reduce(
-    (newLabels, label) => ({
-      ...newLabels,
-      [label]: "",
-    }),
-    {}
-  );
-}
+setPostContent(draft || props.template);
 
 const extractMentions = (text) => {
   const mentionRegex =
@@ -73,8 +76,8 @@ const extractMentionNotifications = (text, item) =>
       key: accountId,
       value: {
         type: "mention",
-        item,
-      },
+        item
+      }
     }));
 
 function checkAndAppendHashtag(input, target) {
@@ -85,54 +88,32 @@ function checkAndAppendHashtag(input, target) {
   }
 }
 
-const postToCustomFeed = ({ feed, text, labels }) => {
-  const postId = generateUID();
-  if (!labels) labels = [];
+const content = {
+  type: "md",
+  image: state.image.cid ? { ipfs_cid: state.image.cid } : undefined,
+  text: postContent
+};
 
-  labels = labels.map((label) => label.toLowerCase());
-  labels.push(feed.name.toLowerCase());
-
-  const requiredHashtags = ["build"];
+const postToCustomFeed = ({ feed, text }) => {
+  const requiredHashtags = props.requiredHashtags || ["build"];
   if (feed.hashtag) requiredHashtags.push(feed.hashtag.toLowerCase());
-  requiredHashtags.push(feed.name.toLowerCase());
-
   text = text + `\n\n`;
-
   requiredHashtags.forEach((hashtag) => {
     text = checkAndAppendHashtag(text, hashtag);
   });
 
   const data = {
-    // [feed.name]: {
-    //   [postId]: {
-    //     "": JSON.stringify({
-    //       type: "md",
-    //       text,
-    //       labels,
-    //     }),
-    //     metadata: {
-    //       type: feed.name,
-    //       tags: tagsFromLabels(labels),
-    //     },
-    //   },
-    // },
     post: {
-      main: JSON.stringify({
-        type: "md",
-        text,
-        // tags: tagsFromLabels(labels),
-        // postType: feed.name,
-      }),
+      main: JSON.stringify(content)
     },
     index: {
-      post: JSON.stringify({ key: "main", value: { type: "md" } }),
-      // every: JSON.stringify({ key: feed.name, value: { type: "md" } }),
-    },
+      post: JSON.stringify({ key: "main", value: { type: "md" } })
+    }
   };
 
   const item = {
     type: "social",
-    path: `${context.accountId}/post/main`,
+    path: `${context.accountId}/post/main`
   };
 
   const notifications = extractMentionNotifications(text, item);
@@ -149,7 +130,7 @@ const postToCustomFeed = ({ feed, text, labels }) => {
     data.index.hashtag = JSON.stringify(
       hashtags.map((hashtag) => ({
         key: hashtag,
-        value: item,
+        value: item
       }))
     );
   }
@@ -157,13 +138,54 @@ const postToCustomFeed = ({ feed, text, labels }) => {
   return Social.set(data, {
     force: true,
     onCommit: () => {
-      // console.log(`Commited ${feed}: #${postId}`);
+      setPostContent("");
+      Storage.privateSet(draftKey, props.template || "");
+      setComposeKey(generateUID());
+      setHandler("autocompleteSelected"); // this is a hack to force the iframe to update
+      setShowToast(true);
     },
     onCancel: () => {
       // console.log(`Cancelled ${feed}: #${postId}`);
-    },
+    }
   });
 };
+
+function textareaInputHandler(value) {
+  const words = value.split(/\s+/);
+  const allMentiones = words
+    .filter((word) => word.startsWith("@"))
+    .map((mention) => mention.slice(1));
+  const newMentiones = allMentiones.filter(
+    (item) => !mentionsArray.includes(item)
+  );
+  setMentionInput(newMentiones?.[0] ?? "");
+  setMentionsArray(allMentiones);
+  setShowAccountAutocomplete(newMentiones?.length > 0);
+  setPostContent(value);
+  setHandler("update");
+  Storage.privateSet(draftKey, value || "");
+}
+
+function autoCompleteAccountId(id) {
+  let currentIndex = 0;
+  const updatedDescription = postContent.replace(
+    /(?:^|\s)(@[^\s]*)/g,
+    (match) => {
+      if (currentIndex === mentionsArray.indexOf(mentionInput)) {
+        currentIndex++;
+        return ` @${id}`;
+      } else {
+        currentIndex++;
+        return match;
+      }
+    }
+  );
+  setPostContent(updatedDescription);
+  setShowAccountAutocomplete(false);
+  setMentionInput(null);
+  setHandler("autocompleteSelected");
+  Storage.privateSet(draftKey, updatedDescription || "");
+}
 
 const PostCreator = styled.div`
   display: flex;
@@ -171,10 +193,50 @@ const PostCreator = styled.div`
   gap: 1.5rem;
 
   padding: 1rem;
-  background: #23242b;
+  background: var(--compose-bg, #23242b);
+  border: 1px solid var(--stroke-color, rgba(255, 255, 255, 0.2));
   border-radius: 12px;
 
   margin-bottom: 1rem;
+
+  .upload-image-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #f1f3f5;
+    color: #11181c;
+    border-radius: 40px;
+    height: 40px;
+    min-width: 40px;
+    font-size: 0;
+    border: none;
+    cursor: pointer;
+    transition: background 200ms, opacity 200ms;
+    &::before {
+      font-size: 16px;
+    }
+    &:hover,
+    &:focus {
+      background: #d7dbde;
+      outline: none;
+    }
+    &:disabled {
+      opacity: 0.5;
+      pointer-events: none;
+    }
+    span {
+      margin-left: 12px;
+    }
+  }
+  .d-inline-block {
+    display: flex !important;
+    gap: 12px;
+    margin: 0 !important;
+    .overflow-hidden {
+      width: 40px !important;
+      height: 40px !important;
+    }
+  }
 `;
 
 const TextareaWrapper = styled.div`
@@ -260,7 +322,7 @@ const MarkdownEditor = `
   }
   
   .drop-wrap {
-    top: -110px !important;
+    
     border-radius: 0.5rem !important;
   }
 
@@ -373,45 +435,8 @@ const MarkdownPreview = styled.div`
   }
 `;
 
-const LabelSelect = styled.div`
-  label {
-    color: #fff;
-  }
-
-  .rbt-input-multi {
-    background: #23242b !important;
-    color: #fff !important;
-  }
-
-  .rbt-token {
-    background: #202020 !important;
-    color: #fff !important;
-  }
-
-  .rbt-menu {
-    background: #23242b !important;
-    color: #fff !important;
-
-    .dropdown-item {
-      color: #fff !important;
-      transition: all 300ms;
-
-      &:hover {
-        background: #202020;
-      }
-    }
-  }
-`;
-
 const avatarComponent = useMemo(() => {
-  return (
-    <div className="d-flex align-items-start gap-2">
-      <Avatar accountId={context.accountId} />
-      <div>
-        <p className="mb-0 text-white">{context.accountId}</p>
-      </div>
-    </div>
-  );
+  return <User accountId={context.accountId} />;
 }, [context.accountId]);
 
 return (
@@ -422,19 +447,29 @@ return (
         <TextareaWrapper
           className="markdown-editor"
           data-value={postContent || ""}
-          key={props.feed.name}
+          key={memoizedComposeKey}
         >
           <Widget
-            src="mob.near/widget/MarkdownEditorIframe"
+            src={"buildhub.near/widget/components.MarkdownEditorIframe"}
             props={{
               initialText: postContent,
-              embedCss: MarkdownEditor,
+              data: { handler: handler, content: postContent },
+              embedCss: props.customCSS || MarkdownEditor,
               onChange: (v) => {
-                setPostContent(v);
-                Storage.privateSet(draftKey, v || "");
-              },
+                textareaInputHandler(v);
+              }
             }}
           />
+          {autocompleteEnabled && showAccountAutocomplete && (
+            <Widget
+              src="buildhub.near/widget/components.AccountAutocomplete"
+              props={{
+                term: mentionInput,
+                onSelect: autoCompleteAccountId,
+                onClose: () => setShowAccountAutocomplete(false)
+              }}
+            />
+          )}
         </TextareaWrapper>
       ) : (
         <MarkdownPreview>
@@ -442,11 +477,27 @@ return (
             src="devhub.near/widget/devhub.components.molecule.MarkdownViewer"
             props={{ text: postContent }}
           />
+          {state.image.cid && (
+            <Widget
+              src="mob.near/widget/Image"
+              props={{
+                image: state.image.cid
+                  ? { ipfs_cid: state.image.cid }
+                  : undefined
+              }}
+            />
+          )}
         </MarkdownPreview>
       )}
     </div>
 
     <div className="d-flex gap-3 align-self-end">
+      {view === "editor" && (
+        <IpfsImageUpload
+          image={state.image}
+          className="upload-image-button bi bi-image"
+        />
+      )}
       <Button
         variant="outline"
         onClick={() => setView(view === "editor" ? "preview" : "editor")}
@@ -466,11 +517,34 @@ return (
         variant="primary"
         style={{ fontSize: 14 }}
         onClick={() =>
-          postToCustomFeed({ feed: props.feed, text: postContent, labels })
+          postToCustomFeed({
+            feed: props.feed,
+            text: postContent
+          })
         }
       >
-        Post {props.feed.name}
+        {postBtnText ?? "Post"}
       </Button>
     </div>
+    <Widget
+      src="near/widget/DIG.Toast"
+      props={{
+        title: "Post Submitted Successfully",
+        type: "success",
+        open: showToast,
+        onOpenChange: (v) => setShowToast(v),
+        trigger: <></>,
+        action: (
+          <Button
+            variant="primary"
+            style={{ fontSize: 14 }}
+            onClick={() => setShowToast(false)}
+          >
+            dismiss
+          </Button>
+        ),
+        providerProps: { duration: 1000 }
+      }}
+    />
   </PostCreator>
 );
