@@ -1,5 +1,5 @@
-const { Avatar } = VM.require("buildhub.near/widget/components") || {
-  Avatar: () => <></>,
+const { User } = VM.require("buildhub.near/widget/components") || {
+  User: () => <></>,
 };
 
 const autocompleteEnabled = props.autocompleteEnabled ?? true;
@@ -105,7 +105,6 @@ const onCompose = () => {
   });
 };
 
-const [markdownEditor, setMarkdownEditor] = useState(false);
 const [gifSearch, setGifSearch] = useState(false);
 
 const TextareaWrapper = styled.div`
@@ -175,21 +174,17 @@ const TextareaWrapper = styled.div`
 const Wrapper = styled.div`
   line-height: normal;
   display: flex;
-  padding: 12px 12px 6px;
+  flex-direction: column;
+  gap: 1.5rem;
+  padding: 1.5rem;
 
-  .left {
-    min-width: 40px;
-    margin-right: 12px;
-  }
   .right {
-    margin-top: -4px;
     flex-grow: 1;
     min-width: 0;
   }
 
   .up-buttons {
-    margin-top: 6px;
-    margin-left: -12px;
+    margin-top: 12px;
   }
 `;
 
@@ -311,7 +306,7 @@ const gifSearchWidget = useMemo(
 );
 
 const MemoizedAvatar = useMemo(
-  () => <Avatar variant="mobile" accountId={context.accountId} />,
+  () => <User accountId={context.accountId} />,
   [context.accountId]
 );
 
@@ -323,29 +318,15 @@ return (
         className={markdownEditor ? "markdown-editor" : ""}
         data-value={state.text || ""}
       >
-        {markdownEditor ? (
-          <Widget
-            key={`markdown-editor-${markdownEditor}`}
-            src="mob.near/widget/MarkdownEditorIframe"
-            props={{
-              initialText: state.text,
-              onChange,
-              embedCss,
-            }}
-          />
-        ) : (
-          <textarea
-            key="textarea"
-            value={state.text || ""}
-            onInput={(event) => onChange(event.target.value)}
-            onKeyUp={(event) => {
-              if (event.key === "Escape") {
-                State.update({ showAccountAutocomplete: false });
-              }
-            }}
-            placeholder={props.placeholder ?? "What's happening?"}
-          />
-        )}
+        <Widget
+          key={`markdown-editor-${markdownEditor}`}
+          src="mob.near/widget/MarkdownEditorIframe"
+          props={{
+            initialText: state.text,
+            onChange,
+            embedCss,
+          }}
+        />
         {autocompleteEnabled && state.showAccountAutocomplete && (
           <div className="pt-1 w-100 overflow-hidden">
             <Widget
@@ -359,7 +340,7 @@ return (
           </div>
         )}
       </TextareaWrapper>
-      <div className="up-buttons d-flex flex-row">
+      <div className="up-buttons d-flex flex-row flex-wrap">
         <div className="flex-grow-1 d-flex">
           <IpfsImageUpload
             image={state.image}
@@ -367,21 +348,15 @@ return (
           />
           <button
             className="btn btn-outline-secondary border-0 rounded-5"
-            onClick={() =>
-              setMarkdownEditor(markdownEditor ? false : Date.now())
-            }
-          >
-            <i className="bi bi-code-square" />
-          </button>
-          <button
-            className="btn btn-outline-secondary border-0 rounded-5"
             onClick={() => setGifSearch(!gifSearch)}
           >
             {gifSvg}
           </button>
         </div>
-        <div>{props.previewButton && props.previewButton()}</div>
-        <div>{props.composeButton && props.composeButton(onCompose)}</div>
+        <div className="d-flex align-items-center align-self-end">
+          <div>{props.previewButton && props.previewButton()}</div>
+          <div>{props.composeButton && props.composeButton(onCompose)}</div>
+        </div>
       </div>
     </div>
     {gifSearchWidget}

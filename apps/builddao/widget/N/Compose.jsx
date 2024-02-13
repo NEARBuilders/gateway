@@ -112,7 +112,7 @@ return (
                 color: "var(--button-primary-color, #000)",
                 fontSize: "14px",
                 fontWeight: "500",
-                padding: "8px 16px",
+                padding: "10px 16px",
               }}
               data={composeData}
               onCommit={() => {
@@ -133,25 +133,24 @@ return (
                   "1px solid var(--stroke-color, rgba(255, 255, 255, 0.2)",
                 fontSize: "14px",
                 fontWeight: "500",
-                padding: "8px 16px",
+                padding: "10px 16px",
               }}
               onClick={() => State.update({ showPreview: !state.showPreview })}
             >
-              Show Preview
+              Preview <i className="bi bi-eye"></i>
             </button>
           ),
         }}
       />
     </div>
     {state.content && state.showPreview && (
-      <div className="mt-3 px-3">
-        <h4 className="text-white mb-3">Preview</h4>
+      <div className="px-3">
         <Widget
           key="post-preview"
           src="buildhub.near/widget/components.Post"
           props={{
             accountId: context.accountId,
-            content: state.content,
+            content: state.content || { type: "md", text: "" },
             blockHeight: "now",
             noBorder: true,
           }}
