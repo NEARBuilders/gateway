@@ -1,28 +1,64 @@
 const MarkdownContainer = styled.div`
   max-width: 888px;
-  margin: 0 39px 39px auto;
-  padding: 55px;
-  background-color: #fff;
+  padding: 0 55px 55px 55px;
+  background: var(--bg-1, #0b0c14);
   border-radius: 23px;
 
-  h1, h2, h3, h4, h5, h6, span {
-    color: #000 !important;
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  span,
+  li,
+  ul,
+  ol,
+  p {
+    color: var(--text-color, #fff) !important;
     font-family: "Inter", sans-serif !important;
+  }
+
+  pre {
+    margin: 1rem 0;
+    padding: 1rem;
+    background: var(--bg-2, #23242b);
+    border-radius: 1rem;
+  }
+
+  code {
+    background: var(--bg-2, #23242b);
+    color: var(--text-color, #fff) !important;
+    font-family: monospace !important;
   }
 
   h1 {
-    /* H1/large */
-    font-size: 48px;
-    font-style: normal;
-    font-weight: 500;
-    line-height: 120%;
+    padding: 1rem 0;
+    font-weight: 800;
   }
 
-  p, ul, li {
+  h2 {
+    padding: 0.5rem 0;
+    font-weight: 700;
+  }
+
+  h3 {
+    padding: 0.25rem 0;
+    font-weight: 600;
+  }
+
+  h4,
+  h5,
+  h6 {
+    font-weight: 500;
+  }
+
+  p,
+  ul,
+  li {
     color: #000;
     /* Body/14px */
     font-family: "Inter", sans-serif !important;
-    font-size: 14px;
     font-style: normal;
     font-weight: 400;
     line-height: 170%;
@@ -40,12 +76,7 @@ function MarkdownView(props) {
 
   return (
     <MarkdownContainer>
-      <Widget
-        src="openwebbuild.near/widget/Post.Markdown"
-        props={{
-          text: content.body,
-        }}
-      />
+      <Markdown text={content.body} />
     </MarkdownContainer>
   );
 }
