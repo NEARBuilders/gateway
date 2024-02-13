@@ -4,10 +4,6 @@ const { routes } = VM.require("buildhub.near/widget/config.resources") ?? {
   routes: {},
 };
 
-const { theme } = VM.require("buildhub.near/widget/config.theme") ?? {
-  theme: {},
-};
-
 const { SidebarLayout } = VM.require(
   "buildhub.near/widget/template.SidebarLayout"
 ) || {
@@ -16,15 +12,7 @@ const { SidebarLayout } = VM.require(
 
 if (!page) page = Object.keys(routes)[0] || "home";
 
-const Root = styled.div`
-  ${theme}// can come from config
-`;
-
-const [activeRoute, setActiveRoute] = useState(page);
-
-useEffect(() => {
-  setActiveRoute(page);
-}, [page]);
+const Root = styled.div``;
 
 function Router({ active, routes }) {
   // this may be converted to a module at devs.near/widget/Router
@@ -70,11 +58,11 @@ return (
     <Container>
       <SidebarLayout
         currentPath={currentPath}
-        page={activeRoute}
+        page={page}
         routes={routes}
       >
         <Content>
-          <Router active={activeRoute} routes={routes} />
+          <Router active={page} routes={routes} />
         </Content>
       </SidebarLayout>
     </Container>
