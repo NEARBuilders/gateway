@@ -310,11 +310,14 @@ const gifSearchWidget = useMemo(
   [gifSearch]
 );
 
+const MemoizedAvatar = useMemo(
+  () => <Avatar variant="mobile" accountId={context.accountId} />,
+  [context.accountId]
+);
+
 return (
   <Wrapper>
-    <div className="left">
-      <Avatar variant="mobile" accountId={context.accountId} />
-    </div>
+    <div className="left">{MemoizedAvatar}</div>
     <div className="right">
       <TextareaWrapper
         className={markdownEditor ? "markdown-editor" : ""}
