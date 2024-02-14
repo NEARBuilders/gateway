@@ -314,6 +314,12 @@ const MemoizedAvatar = useMemo(
   [context.accountId]
 );
 
+useEffect(() => {
+  if (state.text === "") {
+    setEditorKey((prev) => prev + 1);
+  }
+}, [state.text]);
+
 return (
   <Wrapper>
     <div className="left">{MemoizedAvatar}</div>
