@@ -54,6 +54,7 @@ const composeData = () => {
   const item = {
     type: "social",
     path: `${context.accountId}/post/main`,
+    path: `${context.accountId}/post/main`,
   };
 
   const notifications = state.extractMentionNotifications(text, item);
@@ -70,6 +71,7 @@ const composeData = () => {
     data.index.hashtag = JSON.stringify(
       hashtags.map((hashtag) => ({
         key: hashtag,
+        value: item,
         value: item,
       }))
     );
@@ -187,6 +189,7 @@ return (
             dismiss
           </Button>
         ),
+        providerProps: { duration: 1000 },
         providerProps: { duration: 1000 },
       }}
     />

@@ -2,7 +2,7 @@ if (!context.accountId) {
   return "";
 }
 
-const index = props.index || { 
+const index = props.index || {
   post: JSON.stringify({
     key: "main",
     value: {
