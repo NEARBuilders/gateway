@@ -126,7 +126,7 @@ return (
                 onCommit={() => {
                   onCompose();
                   setShowToast(true);
-                  State.update({ content: null });
+                  State.update({ content: { text: "", image: {} } });
                 }}
               >
                 Post

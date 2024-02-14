@@ -84,6 +84,7 @@ return (
         options: {
           limit: 10,
           order: "desc",
+          subscribe: true,
         },
         cacheOptions: {
           ignoreCache: true,
