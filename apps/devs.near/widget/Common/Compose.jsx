@@ -5,6 +5,9 @@ const { User } = VM.require("buildhub.near/widget/components") || {
 const autocompleteEnabled = props.autocompleteEnabled ?? true;
 const onPreview = props.onPreview;
 
+const [editorKey, setEditorKey] = useState(0);
+const memoizedEditorKey = useMemo(() => editorKey, [editorKey]);
+
 if (state.image === undefined) {
   State.init({
     image: {},
@@ -83,6 +86,7 @@ function autoCompleteAccountId(id) {
   let text = state.text.replace(/[\s]{0,1}@[^\s]*$/, "");
   text = `${text} @${id}`.trim() + " ";
   State.update({ text, showAccountAutocomplete: false });
+  setEditorKey((prev) => prev + 1);
 }
 
 const onChange = (text) => {
@@ -319,7 +323,7 @@ return (
         data-value={state.text || ""}
       >
         <Widget
-          key={`markdown-editor-${markdownEditor}`}
+          key={`markdown-editor-${markdownEditor}-${memoizedEditorKey}`}
           src="mob.near/widget/MarkdownEditorIframe"
           props={{
             initialText: state.text,

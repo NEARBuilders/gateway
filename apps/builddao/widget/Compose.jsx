@@ -147,7 +147,7 @@ return (
       <div className="px-3">
         <Widget
           key="post-preview"
-          src="devs.near/widget/components.Post"
+          src="buildhub.near/widget/components.Post"
           props={{
             accountId: context.accountId,
             content: state.content || { type: "md", text: "" },
