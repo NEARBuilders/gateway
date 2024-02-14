@@ -330,7 +330,7 @@ return (
         {autocompleteEnabled && state.showAccountAutocomplete && (
           <div className="pt-1 w-100 overflow-hidden">
             <Widget
-              src="buildhub.near/widget/N.Common.AccountAutocomplete"
+              src="devs.near/widget/Common.AccountAutocomplete"
               props={{
                 term: state.text.split("@").pop(),
                 onSelect: autoCompleteAccountId,
