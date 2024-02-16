@@ -135,41 +135,5 @@ return (
         />
       </div>
     )}
-    {/* <Widget
-      src="mob.near/widget/MainPage.N.Common.Compose"
-      props={{
-        placeholder: "Reply",
-        initialText: props.initialText,
-        onChange: state.onChange,
-        onHelper: ({ extractMentionNotifications, extractHashtags }) => {
-          State.update({ extractMentionNotifications, extractHashtags });
-        },
-        composeButton: (onCompose) => (
-          <CommitButton
-            disabled={!state.content}
-            force
-            className="btn btn-primary rounded-5"
-            data={composeData}
-            onCommit={() => {
-              onCompose();
-              props.onComment && props.onComment(state.content);
-            }}
-          >
-            Comment
-          </CommitButton>
-        ),
-      }}
-    />
-    {state.content && (
-      <Widget
-        src="mob.near/widget/MainPage.N.Comment"
-        props={{
-          item,
-          accountId: context.accountId,
-          content: state.content,
-          blockHeight: "now",
-        }}
-      />
-      )} */}
   </>
 );
