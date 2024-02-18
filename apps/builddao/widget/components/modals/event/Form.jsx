@@ -1,5 +1,9 @@
-const { Button } = VM.require("buildhub.near/widget/components") || {
+const { Modal, Button, ProgressState } = VM.require(
+  "buildhub.near/widget/components"
+) || {
+  Modal: () => <></>,
   Button: () => <></>,
+  ProgressState: () => <></>
 };
 
 const bootstrapTheme = props.bootstrapTheme || "dark";
@@ -166,6 +170,19 @@ const isoDate = (date, time) => {
   return now.split("T")[0];
 };
 
+const getWeekDay = () => {
+  const currentDate = new Date();
+  const options = { weekday: "long" };
+  return currentDate.toLocaleDateString("en-US", options);
+};
+
+function getDayOfYear(date) {
+  const start = new Date(date.getFullYear(), 0, 0);
+  const diff = date - start;
+  const oneDay = 1000 * 60 * 60 * 24;
+  return Math.floor(diff / oneDay);
+}
+
 const UUID = {
   generate: (template) => {
     if (typeof template !== "string") {
@@ -176,8 +193,16 @@ const UUID = {
       var v = c === "x" ? r : (r & 0x3) | 0x8;
       return v.toString(16);
     });
-  },
+  }
 };
+
+const repeatOptions = [
+  { label: "Daily", value: "daily" },
+  { label: `Weekly on ${getWeekDay()}`, value: "weekly today" },
+  { label: `Annually on ${getCurrentDate()}`, value: "annually today" },
+  { label: "Every Weekday (Monday to Friday)", value: "weekday" },
+  { label: "Custom", value: "custom" }
+];
 
 const [title, setTitle] = useState("");
 const [description, setDescription] = useState("");
@@ -190,17 +215,85 @@ const [endTime, setEndTime] = useState(getCurrentTime());
 const [location, setLocation] = useState("");
 const [hashtags, setHashtags] = useState([]);
 const [customButtonSrc, setCustomButtonSrc] = useState("");
+const [repeat, setRepeat] = useState(false);
+const [customModal, setCustomModal] = useState(false);
+const [customFrequency, setCustomFrequency] = useState("weeks");
+const [customInterval, setCustomInterval] = useState(1);
+const [customDaysOfWeek, setCustomDaysOfWeek] = useState([]);
 
 State.init({
-  image: null,
+  image: null
 });
 
 const app = props.app;
 const thing = props.thing;
+const CustomFormWrapper = styled.div`
+  .cursor-pointer {
+    cursor: pointer;
+  }
+`;
+
+const RepeatDropDown = () => {
+  return (
+    <select
+      name="event-repeat"
+      id="event-repeat"
+      data-bs-theme={bootstrapTheme}
+      class="form-select"
+      onChange={(e) => setRepeat(e.target.value)}
+      value={repeat}
+    >
+      <option selected value="">
+        Does not repeat
+      </option>
+      {repeatOptions.map(({ value, label }) => (
+        <option value={value}>{label}</option>
+      ))}
+    </select>
+  );
+};
 
 const onSubmit = () => {
   const thingId = UUID.generate(); // we could replace this with a normalized title
   // you mean just UUID();?
+  // recurrence: {
+  //   frequency: "weekly", // "daily", "weekly", "monthly", "yearly"
+  //   interval: 1, // Repeat every interval (e.g., every 1 week)
+  //   daysOfWeek: [1, 3] (1 for Monday, 2 for Tuesday, etc.)
+  //   daysOfYear:[]
+  // }
+
+  let recurrence = null;
+  switch (repeat) {
+    case "daily":
+      return (recurrence = {
+        frequency: "daily"
+      });
+    case "weekly today":
+      return (recurrence = {
+        frequency: "weekly",
+        interval: 1,
+        daysOfWeek: [new Date(startDate).getDay()]
+      });
+    case "annually today":
+      return (recurrence = {
+        frequency: "yearly",
+        interval: 1,
+        daysOfYear: [getDayOfYear(startDate)]
+      });
+    case "weekday":
+      return (recurrence = {
+        frequency: "weekly",
+        interval: 5,
+        daysOfWeek: [1, 2, 3, 4, 5]
+      });
+    case "custom":
+      return (recurrence = {
+        frequency: customFrequency,
+        interval: 5,
+        daysOfYear: [1, 2, 3, 4, 5]
+      });
+  }
 
   Social.set(
     {
@@ -212,9 +305,10 @@ const onSubmit = () => {
               title,
               description,
               url: link,
+              recurrence: recurrence,
               start: `${isoDate(startDate, startTime)}T${isoTime(
                 startDate,
-                startTime,
+                startTime
               )}`, // we'll want this be available for filtering... we may want to store it outside the JSON
               // or we need an indexing solution
               // we fetch events and then apply filters after parsing them
@@ -233,15 +327,15 @@ const onSubmit = () => {
               description,
               image: state.image,
               backgroundImage: state.image,
-              type: "buildhub.near/type/event",
-            },
-          },
-        },
-      },
+              type: "buildhub.near/type/event"
+            }
+          }
+        }
+      }
     },
     {
-      onCommit: () => props.toggleModal(),
-    },
+      onCommit: () => props.toggleModal()
+    }
   );
 };
 
@@ -249,8 +343,93 @@ const onCoverChange = (target) => {
   State.update({ image: target });
 };
 
+useEffect(() => {
+  if (repeat === "custom" && !customModal) {
+    setCustomModal(true);
+  }
+}, [repeat]);
+
+const CustomRepeatInputModal = () => {
+  const days = ["S", "M", "T", "W", "Th", "F", "Sat"];
+  const frequency = [
+    { label: "days", value: "days" },
+    { label: "weeks", value: "weeks" },
+    { label: "months", value: "months" },
+    { label: "years", value: "years" }
+  ];
+  return (
+    <Modal
+      open={customModal}
+      title={"Custom recurrence"}
+      onOpenChange={(v) => {
+        setCustomModal(v);
+      }}
+      hideCloseBtn={true}
+    >
+      <CustomFormWrapper>
+        <div className="form-group mb-3">
+          <label htmlFor="repeat-every">Repeat every</label>
+          <input
+            name="repeat-every"
+            id="repeat-every"
+            type="number"
+            placeholder=""
+            value={customInterval}
+            onChange={(e) => setCustomInterval(e.target.value)}
+          />
+        </div>
+        <div className="form-group mb-3">
+          <label htmlFor="repeat-every">Repeat every</label>
+          <select
+            name="custom-frequency"
+            id="custom-frequency"
+            data-bs-theme={bootstrapTheme}
+            class="form-select"
+            onChange={(e) => setCustomFrequency(e.target.value)}
+            value={customFrequency}
+          >
+            {frequency.map(({ value, label }) => (
+              <option value={value}>{label}</option>
+            ))}
+          </select>
+        </div>
+        <div className="form-group mb-3">
+          <label className="mb-1" htmlFor="repeat-on">
+            Repeat on
+          </label>
+          <div className="d-flex gap-2 align-items-center">
+            {days.map((item) => (
+              <div
+                className="cursor-pointer"
+                onClick={() => {
+                  if (customDaysOfWeek.includes(item)) {
+                    setCustomDaysOfWeek(
+                      customDaysOfWeek.filter((i) => i !== item)
+                    );
+                  } else {
+                    setCustomDaysOfWeek([...customDaysOfWeek, item]);
+                  }
+                }}
+              >
+                <ProgressState
+                  status={
+                    customDaysOfWeek.includes(item) ? "focused" : "default"
+                  }
+                >
+                  {item}
+                </ProgressState>
+              </div>
+            ))}
+          </div>
+        </div>
+      </CustomFormWrapper>
+    </Modal>
+  );
+};
+
 return (
   <div data-bs-theme={bootstrapTheme}>
+    <CustomRepeatInputModal />
     <div className="form-group mb-3">
       <label htmlFor="title">
         Title<span className="text-danger">*</span>
@@ -280,7 +459,7 @@ return (
             embedCss: props.customCSS || MarkdownEditor,
             onChange: (v) => {
               setDescription(v);
-            },
+            }
           }}
         />
       </TextareaWrapper>
@@ -296,6 +475,10 @@ return (
           value={link}
           onChange={(e) => setLink(e.target.value)}
         />
+      </div>
+      <div className="form-group mb-3">
+        <label htmlFor="occurence">Occurence</label>
+        <RepeatDropDown />
       </div>
       <div className="form-group mb-3 d-flex" style={{ gap: 24 }}>
         <div className="form-group flex-grow-1">
