@@ -199,7 +199,7 @@ const UUID = {
       var v = c === "x" ? r : (r & 0x3) | 0x8;
       return v.toString(16);
     });
-  },
+  }
 };
 
 const repeatOptions = [
@@ -228,7 +228,7 @@ const [customInterval, setCustomInterval] = useState(1);
 const [customDaysOfWeek, setCustomDaysOfWeek] = useState([]);
 
 State.init({
-  image: null,
+  image: null
 });
 
 const app = props.app;
@@ -352,15 +352,15 @@ const onSubmit = () => {
               description,
               image: state.image,
               backgroundImage: state.image,
-              type: "buildhub.near/type/event",
-            },
-          },
-        },
-      },
+              type: "buildhub.near/type/event"
+            }
+          }
+        }
+      }
     },
     {
-      onCommit: () => props.toggleModal(),
-    },
+      onCommit: () => props.toggleModal()
+    }
   );
 };
 
