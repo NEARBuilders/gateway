@@ -1,5 +1,5 @@
 const { Button } = VM.require("buildhub.near/widget/components") || {
-  Button: () => <></>,
+  Button: () => <></>
 };
 const DaoSDK = VM.require("sdks.near/widget/SDKs.Sputnik.DaoSDK") || (() => {});
 
@@ -17,6 +17,8 @@ const bootstrapTheme = props.bootstrapTheme;
 
 const [text, setText] = useState("");
 const [editorKey, setEditorKey] = useState(0);
+const [notificationsData, setNotificationData] = useState(null);
+
 useEffect(() => {
   if (!props.item) {
     return;
@@ -37,8 +39,8 @@ const tokensData = [
     icon: "",
     name: "NEAR",
     symbol: "NEAR",
-    tokenId: NearTokenId,
-  },
+    tokenId: NearTokenId
+  }
 ];
 if (res.body) {
   res.body?.tokens?.fts.map((item) => {
@@ -262,11 +264,21 @@ return (
             embedCss: props.customCSS || MarkdownEditor,
             onChange: (v) => {
               setText(v);
-            },
+            }
           }}
         />
       </TextareaWrapper>
     </div>
+    <Widget
+      src="buildhub.near/widget/Notification.NotificationRolesSelector"
+      props={{
+        daoId: selectedDAO,
+        onUpdate: (v) => {
+          setNotificationData(v);
+        },
+        proposalType: "Add Member"
+      }}
+    />
     <div className="w-100 d-flex">
       <Button
         disabled={!token || !recipient || !amount || !validatedAddresss}
@@ -286,10 +298,11 @@ return (
             deposit,
             gas: 180000000000000,
             deposit: 200000000000000,
+            additionalCalls: notificationsData
           });
         }}
       >
-        Next
+        Create
       </Button>
     </div>
   </div>

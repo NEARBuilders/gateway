@@ -152,7 +152,7 @@ const handleVote = ({ action, proposalId, proposer, showNotification }) => {
                 daoId: daoId,
                 proposalId: proposalId
               },
-              type: "custom",
+              type: "buildhub/custom",
               widget: "buildhub.near/widget/Proposals"
             }
           }
