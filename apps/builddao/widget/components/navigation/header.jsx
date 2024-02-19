@@ -235,9 +235,10 @@ const AppHeader = ({ page, routes, ...props }) => (
               <li>
                 <a
                   href={href({
-                    widgetSrc: "mob.near/widget/WidgetSource",
+                    widgetSrc: "buildhub.near/widget/app",
                     params: {
-                      src: routes[page].path,
+                      page: "inspect",
+                      widgetSrc: routes[page].path,
                     },
                   })}
                   type="icon"
@@ -328,9 +329,10 @@ const AppHeader = ({ page, routes, ...props }) => (
                 <li>
                   <a
                     href={href({
-                      widgetSrc: "mob.near/widget/WidgetSource",
+                      widgetSrc: "buildhub.near/widget/app",
                       params: {
-                        src: routes[page].path,
+                        page: "inspect",
+                        widgetSrc: routes[page].path,
                       },
                     })}
                     type="icon"
