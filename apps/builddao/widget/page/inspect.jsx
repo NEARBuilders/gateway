@@ -25,7 +25,7 @@ return (
     <Widget
       src="buildhub.near/widget/inspect.WidgetSource"
       props={{
-        src: props.widgetSrc,
+        src: props.widgetPath,
       }}
       loading=""
     />

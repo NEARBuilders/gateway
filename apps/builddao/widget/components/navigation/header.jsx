@@ -239,7 +239,7 @@ const AppHeader = ({ page, routes, ...props }) => (
                     widgetSrc: "buildhub.near/widget/app",
                     params: {
                       page: "inspect",
-                      widgetSrc: routes[page].path,
+                      widgetPath: routes[page].path,
                     },
                   })}
                   type="icon"
@@ -335,7 +335,7 @@ const AppHeader = ({ page, routes, ...props }) => (
                       widgetSrc: "buildhub.near/widget/app",
                       params: {
                         page: "inspect",
-                        widgetSrc: routes[page].path,
+                        widgetPath: routes[page].path,
                       },
                     })}
                     type="icon"
