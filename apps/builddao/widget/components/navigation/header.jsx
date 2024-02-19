@@ -233,7 +233,8 @@ const AppHeader = ({ page, routes, ...props }) => (
             </button>
             <ul className="dropdown-menu" aria-labelledby="dropdownMenu2222">
               <li>
-                <a
+                <Link
+                  style={{ textDecoration: "none" }}
                   href={href({
                     widgetSrc: "buildhub.near/widget/app",
                     params: {
@@ -246,19 +247,20 @@ const AppHeader = ({ page, routes, ...props }) => (
                   className="d-flex align-tiems-center gap-2"
                 >
                   <i className="bi bi-code"></i>
-                  <span>View Source</span>
-                </a>
+                  <span>View source</span>
+                </Link>
               </li>
               <li>
-                <a
+                <Link
+                  style={{ textDecoration: "none" }}
                   href={`/edit/${routes[page].path}`}
                   type="icon"
                   variant="outline"
                   className="d-flex align-items-center gap-2"
                 >
                   <i className="bi bi-pencil"></i>
-                  <span>Edit</span>
-                </a>
+                  <span>Edit code</span>
+                </Link>
               </li>
             </ul>
           </StyledDropdown>
@@ -327,7 +329,8 @@ const AppHeader = ({ page, routes, ...props }) => (
               </button>
               <ul className="dropdown-menu" aria-labelledby="dropdownMenu2222">
                 <li>
-                  <a
+                  <Link
+                    style={{ textDecoration: "none" }}
                     href={href({
                       widgetSrc: "buildhub.near/widget/app",
                       params: {
@@ -340,19 +343,20 @@ const AppHeader = ({ page, routes, ...props }) => (
                     className="d-flex align-tiems-center gap-2"
                   >
                     <i className="bi bi-code"></i>
-                    <span>View Source</span>
-                  </a>
+                    <span>View source</span>
+                  </Link>
                 </li>
                 <li>
-                  <a
+                  <Link
+                    style={{ textDecoration: "none" }}
                     href={`/edit/${routes[page].path}`}
                     type="icon"
                     variant="outline"
                     className="d-flex align-items-center gap-2"
                   >
                     <i className="bi bi-pencil"></i>
-                    <span>Edit</span>
-                  </a>
+                    <span>Edit code</span>
+                  </Link>
                 </li>
               </ul>
             </StyledDropdown>
