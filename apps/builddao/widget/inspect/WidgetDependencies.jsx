@@ -35,7 +35,7 @@ return (
                   widgetSrc: "buildhub.near/widget/app",
                   params: {
                     page: "inspect",
-                    widgetSrc: widgetPath,
+                    widgetPath: widgetPath,
                   },
                 })}
               >
