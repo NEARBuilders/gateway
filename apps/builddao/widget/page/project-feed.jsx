@@ -85,7 +85,36 @@ const filteredProjects = useMemo(() => {
   let filtered = projects;
   if (filters.title !== "") {
     filtered = filtered.filter((project) =>
-      project.title.toLowerCase().includes(filters.title.toLowerCase())
+      project.title.toLowerCase().includes(filters.title ?? "".toLowerCase())
+    );
+  }
+
+  if (filters.teamSize !== "") {
+    filtered = filtered.filter((project) => {
+      switch (filters.teamSize) {
+        case "1-10":
+          return project.collaborators.length <= 10;
+        case "10-50":
+          return (
+            project.collaborators.length <= 50 &&
+            project.collaborators.length >= 10
+          );
+        case "50-100":
+          return (
+            project.collaborators.length <= 100 &&
+            project.collaborators.length >= 50
+          );
+        case "100+":
+          return project.collaborators.length > 100;
+        default:
+          return true;
+      }
+    });
+  }
+
+  if (filters.tags.length > 0) {
+    filtered = filtered.filter((project) =>
+      filters.tags.every((tag) => project.tags.includes(tag))
     );
   }
   return filtered;
@@ -99,9 +128,12 @@ return (
   >
     <Widget
       src="buildhub.near/widget/components.modals.FilterProjects"
+      loading=""
       props={{
         showModal: showModal,
         toggleModal: toggleModal,
+        filters: filters,
+        setFilters: setFilters,
       }}
     />
     <div className="my-3 d-flex align-items-center justify-content-between">
@@ -132,6 +164,9 @@ return (
       </Button>
     </div>
     <Container>
+      {filteredProjects.length === 0 && (
+        <p className="fw-bold text-white">No Projects Found</p>
+      )}
       {filteredProjects.map((project) => (
         <ProjectCard
           title={project.title}
