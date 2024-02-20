@@ -64,5 +64,9 @@ return (
         onChange={(e) => handleTags(e)}
       />
     </div>
+    <div className="d-flex align-items-center justify-content-end gap-2">
+      <Button variant="outline">Clear Filters</Button>
+      <Button variant="primary">Filter</Button>
+    </div>
   </div>
 );

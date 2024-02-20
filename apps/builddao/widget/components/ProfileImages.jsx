@@ -35,9 +35,10 @@ const ProfileImages = ({ accountIds }) => {
       <div
         style={{
           marginLeft: "-4px",
+          marginTop: "2px",
           height: "24px",
           width: "24px",
-          border: "1.5px solid var(--stroke-color, rgba(255, 255, 255, 0.2)",
+          border: "1px solid var(--stroke-color, rgba(255, 255, 255, 0.2))",
           backgroundColor: "var(--bg-2, #23242b)",
           borderRadius: "100%",
           fontSize: "10px",
