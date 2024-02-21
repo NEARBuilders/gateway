@@ -224,7 +224,7 @@ const LinkTree = ({ profile }) => {
         )}
         {telegram && (
           <a
-            href={`https://t.me/${github}`}
+            href={`https://t.me/${telegram}`}
             target="_blank"
             style={{ textDecoration: "none" }}
           >
