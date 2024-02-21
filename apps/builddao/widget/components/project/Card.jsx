@@ -1,5 +1,5 @@
 const { Avatar, Hashtag, Button } = VM.require(
-  "buildhub.near/widget/components"
+  "buildhub.near/widget/components",
 ) || {
   Hashtag: () => <></>,
   Avatar: () => <></>,
@@ -7,7 +7,7 @@ const { Avatar, Hashtag, Button } = VM.require(
 };
 
 const { ProfileImages } = VM.require(
-  "buildhub.near/widget/components.ProfileImages"
+  "buildhub.near/widget/components.ProfileImages",
 ) || {
   ProfileImages: () => <></>,
 };

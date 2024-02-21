@@ -1,5 +1,5 @@
 const { fetchThings } = VM.require(
-  "buildhub.near/widget/lib.everything-sdk"
+  "buildhub.near/widget/lib.everything-sdk",
 ) || {
   fetchThings: () => {},
 };
@@ -9,7 +9,7 @@ const { Button } = VM.require("buildhub.near/widget/components") || {
 };
 
 const { ProjectCard } = VM.require(
-  "buildhub.near/widget/components.project.Card"
+  "buildhub.near/widget/components.project.Card",
 ) || {
   ProjectCard: () => <></>,
 };
@@ -85,7 +85,7 @@ const filteredProjects = useMemo(() => {
   let filtered = projects;
   if (filters.title !== "") {
     filtered = filtered.filter((project) =>
-      project.title.toLowerCase().includes(filters.title ?? "".toLowerCase())
+      project.title.toLowerCase().includes(filters.title ?? "".toLowerCase()),
     );
   }
 
@@ -114,7 +114,7 @@ const filteredProjects = useMemo(() => {
 
   if (filters.tags.length > 0) {
     filtered = filtered.filter((project) =>
-      filters.tags.every((tag) => project.tags.includes(tag))
+      filters.tags.every((tag) => project.tags.includes(tag)),
     );
   }
   return filtered;
