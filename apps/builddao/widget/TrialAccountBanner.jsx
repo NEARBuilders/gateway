@@ -2,7 +2,7 @@ const { Button, Avatar } = VM.require("buildhub.near/widget/components") || {
   Button: () => <></>,
   Avatar: () => <></>
 };
-const [loading, setLoading] = useState(true);
+const [loading, setLoading] = useState(false);
 const [btnText, setBtnText] = useState("Create Trial Account");
 
 // const TaglineSmall = styled.h2`
