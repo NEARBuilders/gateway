@@ -1,5 +1,5 @@
 const { Modal, Button, ProgressState } = VM.require(
-  "buildhub.near/widget/components"
+  "buildhub.near/widget/components",
 ) || {
   Modal: () => <></>,
   Button: () => <></>,
@@ -51,7 +51,7 @@ const PostTemplate = `👋 Hey BuildDAO community! Thrilled to join this innovat
 
 function OnboardingFlow() {
   const userCompletedOnboarding = Storage.privateGet(
-    StorageKey.userCompletedOnboarding
+    StorageKey.userCompletedOnboarding,
   );
   const [showModal, setShowModal] = useState(false);
   const [step, setStep] = useState(1);
@@ -61,7 +61,7 @@ function OnboardingFlow() {
     undefined,
     {
       values_only: true,
-    }
+    },
   );
   const userAlreadyFollowDao =
     daofollowEdge && Object.keys(daofollowEdge).length > 0;
@@ -126,7 +126,7 @@ function OnboardingFlow() {
         undefined,
         {
           values_only: true,
-        }
+        },
       );
       if (accountfollowEdge && Object.keys(accountfollowEdge).length > 0) {
         return false;
@@ -248,9 +248,10 @@ function OnboardingFlow() {
             <img
               src="https://ipfs.near.social/ipfs/bafkreihbwho3qfvnu4yss3eh5jrx6uxhrlzdgtdjyzyjrpa6odro6wdxya"
               width={120}
+              alt="Build DAO Logo"
             />
           </div>
-          <div style={{ width: "500px" }}>
+          <div style={{ width: "100%", maxWidth: "500px" }}>
             <StepsComponent />
           </div>
           <Button

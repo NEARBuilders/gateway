@@ -1,11 +1,8 @@
 const { Feed } = VM.require("devs.near/widget/Feed") || {
   Feed: () => <></>,
 };
-const { Post } = VM.require("buildhub.near/widget/components") || {
+const { Post, Button } = VM.require("buildhub.near/widget/components") || {
   Post: () => <></>,
-};
-
-const { Button } = VM.require("buildhub.near/widget/components") || {
   Button: () => <></>,
 };
 
@@ -38,21 +35,29 @@ const modalToggles = {
   propose: toggleProposeModal,
 };
 
+customActions = [
+  {
+    type: "modal",
+    icon: "bi-file-earmark-text",
+    label: "Propose",
+    onClick: (modalToggles) => {
+      const toggle = modalToggles.propose;
+      toggle();
+    },
+  },
+];
+
 return (
   <div key={feedName}>
-    {feedName.toLowerCase() === "request" && (
-      <>
-        <Widget
-          src="buildhub.near/widget/components.modals.CreateProposal"
-          loading=""
-          props={{
-            showModal: showProposeModal,
-            toggleModal: toggleProposeModal,
-            item: item,
-          }}
-        />
-      </>
-    )}
+    <Widget
+      src="buildhub.near/widget/components.modals.CreateProposal"
+      loading=""
+      props={{
+        showModal: showProposeModal,
+        toggleModal: toggleProposeModal,
+        item: item,
+      }}
+    />
     {!context.accountId ? ( // if not logged in
       <LoginContainer>
         <p>Please login in order to post.</p>
@@ -87,6 +92,7 @@ return (
         options: {
           limit: 10,
           order: "desc",
+          subscribe: true,
         },
         cacheOptions: {
           ignoreCache: true,

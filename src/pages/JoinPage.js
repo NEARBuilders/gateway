@@ -30,7 +30,7 @@ export default function JoinPage(props) {
             ...props,
           }}
           config={{
-            redirectMap: redirectMapStore.redirectMap
+            redirectMap: redirectMapStore.redirectMap,
           }}
         />
       </div>  

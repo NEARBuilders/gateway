@@ -26,7 +26,7 @@ const connectEdge = Social.keys(
   undefined,
   {
     values_only: true,
-  }
+  },
 );
 
 // get DAO policy, deposit, and group
@@ -64,9 +64,7 @@ const handleJoin = () => {
       }),
     },
   };
-  const socialDeposit = Big(JSON.stringify(connectData).length * 16).mul(
-    Big(10).pow(20)
-  );
+
   sdk.createAddMemberProposal({
     description: `add ${userAccountId} to the ${roleId} group`,
     memberId: userAccountId,
@@ -77,7 +75,7 @@ const handleJoin = () => {
       {
         contractName: "social.near",
         methodName: "set",
-        deposit: socialDeposit.toFixed(),
+        deposit: 100000000000000000000000,
         args: { data: connectData, options: { refund_unused_deposit: true } },
       },
     ],

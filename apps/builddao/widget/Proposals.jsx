@@ -1,11 +1,18 @@
-const { Button } = VM.require("buildhub.near/widget/components.Button") || {
+const { Button, Modal } = VM.require("buildhub.near/widget/components") || {
   Button: <></>,
+  Modal: <></>,
 };
 const DaoSDK = VM.require("sdks.near/widget/SDKs.Sputnik.DaoSDK") || (() => {});
 
 if (!DaoSDK) {
   return <></>;
 }
+
+const NotificationModalContainer = styled.div`
+  .pb-4 {
+    padding-bottom: 0px !important;
+  }
+`;
 
 const resPerPage = 10;
 const daoId = props.daoId ?? "build.sputnik-dao.near";
@@ -15,6 +22,17 @@ const [currentPage, setCurrentPage] = useState(0);
 const accountId = context.accountId;
 
 const [showProposalModal, setShowModal] = useState(false);
+const [showNotificationModal, setNotificationModal] = useState(false);
+const [voteDetails, setVoteDetails] = useState(null);
+const [showCreateProposalModal, setShowCreateProposalModal] = useState(false);
+const [showFiltersModal, setFiltersModal] = useState(false);
+
+const [selectedTypes, setSelectedTypes] = useState([]);
+const [selectedStatus, setSelectedStatus] = useState([]);
+const [proposals, setProposals] = useState([]);
+const [filteredProposals, setFilteredProposals] = useState([]);
+const [filteredLength, setFilteredLength] = useState(null);
+
 const lastProposalId = sdk.getLastProposalId();
 const reversedProposals = proposalId
   ? [
@@ -25,14 +43,15 @@ const reversedProposals = proposalId
   : sdk.getProposals({
       offset:
         currentPage === 0
-          ? lastProposalId > 10
+          ? lastProposalId > resPerPage
             ? lastProposalId - resPerPage
-            : lastProposalId ?? 10
+            : 0
           : lastProposalId - currentPage * resPerPage,
       limit: resPerPage,
     }) || [];
 
-const proposals = reversedProposals.reverse();
+setProposals(reversedProposals.reverse());
+
 const PaginationThemeContainer = props.PaginationThemeContainer;
 
 const ThemeContainer =
@@ -70,7 +89,56 @@ const Container = styled.div`
   }
 `;
 
-const handleVote = ({ action, proposalId, proposer }) => {
+const NotificationModal = () => {
+  return (
+    <NotificationModalContainer>
+      <Modal
+        open={showNotificationModal}
+        title={"Send Notification"}
+        onOpenChange={() => {}}
+        hideCloseBtn={true}
+      >
+        <div className="ndc-card d-flex flex-column gap-3 p-4">
+          Do you want to notify proposer: {proposer} about the vote?
+          <div className="d-flex gap-3 justify-content-end">
+            <Button
+              variant="outline danger"
+              onClick={() => {
+                handleVote({
+                  action: voteDetails.action,
+                  daoId,
+                  proposalId: voteDetails.proposalId,
+                  proposer: voteDetails.proposer,
+                  showNotification: false,
+                });
+                setNotificationModal(false);
+              }}
+            >
+              No
+            </Button>
+            <Button
+              variant="primary"
+              onClick={() => {
+                handleVote({
+                  action: voteDetails.action,
+                  daoId,
+                  proposalId: voteDetails.proposalId,
+                  proposer: voteDetails.proposer,
+                  showNotification: true,
+                });
+                setNotificationModal(false);
+              }}
+            >
+              Yes
+            </Button>
+          </div>
+        </div>
+      </Modal>
+    </NotificationModalContainer>
+  );
+};
+
+const handleVote = ({ action, proposalId, proposer, showNotification }) => {
   const customAction = action.replace("Vote", "");
   const notification = {
     [accountId]: {
@@ -97,16 +165,19 @@ const handleVote = ({ action, proposalId, proposer }) => {
     proposalId,
     action,
     gas: 200000000000000,
-    additionalCalls: [
-      {
-        contractName: "social.near",
-        methodName: "set",
-        args: { data: notification },
-        deposit: Big(JSON.stringify(notification).length * 16)
-          .mul(Big(10).pow(20))
-          .toString(),
-      },
-    ],
+    additionalCalls: showNotification
+      ? [
+          {
+            contractName: "social.near",
+            methodName: "set",
+            args: {
+              data: notification,
+              options: { refund_unused_deposit: true },
+            },
+            deposit: 100000000000000000000000,
+          },
+        ]
+      : null,
   });
 };
 
@@ -129,11 +200,46 @@ if (Array.isArray(policy.roles)) {
 
 const proposalPeriod = policy.proposal_period;
 
+useEffect(() => {
+  if (selectedStatus.length > 0 || selectedTypes.length > 0) {
+    const offset =
+      currentPage === 0
+        ? lastProposalId > resPerPage
+          ? lastProposalId - resPerPage
+          : lastProposalId ?? resPerPage
+        : filteredProposals[0].id - currentPage * resPerPage;
+
+    sdk
+      .getFilteredProposalsByStatusAndkind({
+        resPerPage,
+        reverse: true,
+        filterStatusArray: selectedStatus,
+        filterKindArray: selectedTypes,
+        offset: offset,
+      })
+      .then(({ filteredProposals, totalLength }) => {
+        setFilteredProposals(filteredProposals);
+        setFilteredLength(totalLength);
+      });
+  } else if (filteredProposals.length) {
+    setFilteredProposals([]);
+    setFilteredLength(null);
+  }
+}, [selectedStatus, selectedTypes, currentPage]);
+
 const proposalsComponent = useMemo(() => {
+  const proposalsToShow =
+    selectedStatus.length > 0 || selectedTypes.length > 0
+      ? Array.isArray(filteredProposals)
+        ? filteredProposals
+        : []
+      : Array.isArray(proposals)
+        ? proposals
+        : [];
   return (
     <div className="d-flex flex-column gap-2">
-      {Array.isArray(proposals) ? (
-        proposals.map((item) => {
+      {proposalsToShow.length > 0 ? (
+        proposalsToShow.map((item) => {
           const kindName =
             typeof item.kind === "string"
               ? item.kind
@@ -189,17 +295,20 @@ const proposalsComponent = useMemo(() => {
                 daoId: daoId,
                 comments: comments,
                 isAllowedToVote,
-                handleVote,
+                handleVote: (data) => {
+                  setVoteDetails(data);
+                  setNotificationModal(true);
+                },
               }}
             />
           );
         })
       ) : (
-        <></>
+        <>No proposals found.</>
       )}
     </div>
   );
-}, [proposals]);
+}, [proposals, filteredProposals]);
 
 return (
   <ThemeContainer>
@@ -211,16 +320,36 @@ return (
           toggleModal: () => setShowModal(!showProposalModal),
         }}
       />
-      <div className="d-flex justify-content-between">
-        <h3 className="text-white">Proposals</h3>
-        <Button
-          variant="primary"
-          disabled={!context.accountId}
-          onClick={() => setShowModal(true)}
-        >
-          Create Proposal
-        </Button>
+      <Widget
+        src="buildhub.near/widget/components.modals.ProposalsFilters"
+        props={{
+          parentSelectedTypes: selectedTypes,
+          parentSelectedStatus: selectedStatus,
+          applyFilters: ({ selectedStatus, selectedTypes }) => {
+            setCurrentPage(0);
+            setSelectedStatus(selectedStatus);
+            setSelectedTypes(selectedTypes);
+          },
+          showModal: showFiltersModal,
+          toggleModal: () => setFiltersModal(!showFiltersModal),
+        }}
+      />
+      <div className="d-flex align-items-center flex-wrap gap-3 justify-content-between">
+        <h3 className="text-white m-0">Proposals</h3>
+        <div className="d-flex align-items-center gap-3">
+          <Button variant="outline" onClick={() => setFiltersModal(true)}>
+            Filters
+          </Button>
+          <Button
+            variant="primary"
+            disabled={!context.accountId}
+            onClick={() => setShowModal(true)}
+          >
+            Create Proposal
+          </Button>
+        </div>
       </div>
+      <NotificationModal />
       <div className="d-flex flex-column gap-4">{proposalsComponent}</div>
       {!proposalId && (
         <div className="d-flex justify-content-center my-4">
@@ -228,7 +357,10 @@ return (
             src={"buildhub.near/widget/components.Pagination"}
             props={{
               maxVisiblePages: 5,
-              totalPages: Math.round(lastProposalId / resPerPage),
+              totalPages:
+                selectedStatus.length > 0 || selectedTypes.length > 0
+                  ? Math.round(filteredLength / resPerPage)
+                  : Math.round(lastProposalId / resPerPage),
               onPageClick: (v) => setCurrentPage(v),
               selectedPage: currentPage,
               ThemeContainer: PaginationThemeContainer,

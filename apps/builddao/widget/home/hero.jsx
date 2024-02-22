@@ -113,7 +113,6 @@ const Tagline = styled.h1`
   }
 `;
 
-
 const Content = styled.div`
   display: flex;
   flex-direction: column;
@@ -124,7 +123,7 @@ const Content = styled.div`
   margin: 0 auto;
 `;
 
-const Hero = ({...props}) => {
+const Hero = ({ ...props }) => {
   return (
 
     <HeroContainer>
