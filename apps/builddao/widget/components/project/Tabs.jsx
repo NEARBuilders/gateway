@@ -70,18 +70,21 @@ return (
         ))}
       </ul>
     </Nav>
-    <div
-      className="tab-content"
-      style={{ marginTop: 40 }}
-      id="pills-tabContent"
-    >
+    <div className="tab-content" style={{ marginTop: 8 }} id="pills-tabContent">
       <div
         className="tab-pane fade show active"
         id="pills-overview"
         role="tabpanel"
         aria-labelledby="pills-overview-tab"
       >
-        <div className="text-white">Overview</div>
+        <Widget
+          src="buildhub.near/widget/components.project.page.Overview"
+          loading=""
+          props={{
+            accountId,
+            profile,
+          }}
+        />
       </div>
       <div
         className="tab-pane fade"
@@ -89,7 +92,14 @@ return (
         role="tabpanel"
         aria-labelledby="pills-discussion-tab"
       >
-        <div className="text-white">Discussion</div>
+        <Widget
+          src="buildhub.near/widget/components.project.page.Discussion"
+          loading=""
+          props={{
+            accountId,
+            profile,
+          }}
+        />
       </div>
       <div
         className="tab-pane fade widget"
@@ -97,7 +107,14 @@ return (
         role="tabpanel"
         aria-labelledby="pills-task-tab"
       >
-        <div className="text-white">Task</div>
+        <Widget
+          src="buildhub.near/widget/components.project.page.Task"
+          loading=""
+          props={{
+            accountId,
+            profile,
+          }}
+        />
       </div>
       <div
         className="tab-pane fade widget"
@@ -105,7 +122,14 @@ return (
         role="tabpanel"
         aria-labelledby="pills-code-tab"
       >
-        <div className="text-white">code</div>
+        <Widget
+          src="buildhub.near/widget/components.project.page.Code"
+          loading=""
+          props={{
+            accountId,
+            profile,
+          }}
+        />
       </div>
       <div
         className="tab-pane fade widget"
@@ -113,7 +137,14 @@ return (
         role="tabpanel"
         aria-labelledby="pills-roadmap-tab"
       >
-        <div className="text-white">roadmap</div>
+        <Widget
+          src="buildhub.near/widget/components.project.page.Roadmap"
+          loading=""
+          props={{
+            accountId,
+            profile,
+          }}
+        />
       </div>
     </div>
   </>
