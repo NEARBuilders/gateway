@@ -8,6 +8,33 @@ const rightBlur =
   "https://ipfs.near.social/ipfs/bafkreierwhnzytfajagidxim5mzdphu5fopjmlrxehatywzuy6ahr5q7pe";
 
 
+const { Button, Avatar } = VM.require("buildhub.near/widget/components") || {
+    Button: () => <></>,
+    Avatar: () => <></>
+};
+
+
+const TaglineSmall = styled.h2`
+    max-width: 700px;
+      
+    text-align: center;
+    font-size: 1.1rem;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 130%; /* 57.6px */
+    margin: 0;
+      
+    text-wrap: balance;
+      
+    span.muted {
+        color: rgba(255, 255, 255, 0.7);
+    }
+      
+    @media screen and (max-width: 768px) {
+        font-size: 1rem;
+    }
+`;
+
 const HeroContainer = styled.div`
   width: 100%;
   position: relative;
@@ -99,6 +126,7 @@ const Content = styled.div`
 
 const Hero = ({...props}) => {
   return (
+
     <HeroContainer>
       <Content>
         <Logo src={logoLink} />
@@ -106,9 +134,12 @@ const Hero = ({...props}) => {
           Designed to connect and empower builders in a{" "}
           <span className="muted">multi-chain ecosystem</span>
         </Tagline>
-        <Widget src="buildhub.near/widget/components.TrialAccountBanner" 
-          props={props}
-        />
+        <a href={"https://nearbuilders.org/join?from=trial"} style={{ textDecoration: "none" }}>
+            <Button 
+              variant="primary"
+              onClick={onClick}>Create Trial Account</Button>
+        </a>
+        <TaglineSmall>Try out the builders gateway with a trial account. <br/>No crypto, no passphrase required.</TaglineSmall>
       </Content>
       <Grid src={gridLink} />
       <LeftBlur src={leftBlur} />

@@ -1,4 +1,31 @@
-const LoginContainer = styled.div`
+const { Button, Avatar } = VM.require("buildhub.near/widget/components") || {
+  Button: () => <></>,
+  Avatar: () => <></>
+};
+
+
+// const TaglineSmall = styled.h2`
+//     max-width: 700px;
+      
+//     text-align: center;
+//     font-size: 1.1rem;
+//     font-style: normal;
+//     font-weight: 400;
+//     line-height: 130%; /* 57.6px */
+//     margin: 0;
+      
+//     text-wrap: balance;
+      
+//     span.muted {
+//         color: rgba(255, 255, 255, 0.7);
+//     }
+      
+//     @media screen and (max-width: 768px) {
+//         font-size: 1rem;
+//     }
+// `;
+
+const Container = styled.div`
   background-color: #0b0c14;
   color: #fff;
   height: 100%;
@@ -65,6 +92,7 @@ const LoginContainer = styled.div`
 
       &:hover {
         background: #e49b48;
+        text-decoration: none;
       }
 
       color: var(--black-100, #000);
@@ -74,23 +102,37 @@ const LoginContainer = styled.div`
       font-weight: 500;
       line-height: normal;
     }
+
   }
 `;
 
+const { networkId, accountId } = context;
+// Check if the network is testnet
+const isTestnet = networkId === 'testnet';
 
-const LoginView = () => {
-  return (
-    <LoginContainer>
-      <div className="card">
-        <img src="https://ipfs.near.social/ipfs/bafkreihbwho3qfvnu4yss3eh5jrx6uxhrlzdgtdjyzyjrpa6odro6wdxya" />
-        <h1>
-          Designed to connect and empower builders in a multi-chain ecosystem
+const { currentGateway } = props;
+return (
+  <Container>
+    <>
+        {currentGateway && !isTestnet && accountId === null ? (
+        <>
+        <div className="card">
+         <img src="https://ipfs.near.social/ipfs/bafkreihbwho3qfvnu4yss3eh5jrx6uxhrlzdgtdjyzyjrpa6odro6wdxya" />
+         <h1>
+         Try out the builders gateway with a trial account. <br/>No crypto, no passphrase required.
         </h1>
-        <button onClick={props.requestSignIn}>Login</button>
+         <TrialAccountGenerator
+            trigger={({ onClick }) => (
+              <Button 
+              variant="primary"
+              onClick={onClick}>Create Trial Account</Button>
+            )}
+          />
       </div>
       <img src="https://ipfs.near.social/ipfs/bafybeibqnkvafyflci4iap73prugmjw4wlwmrazbiudvnsyr34yzmk75i4" />
-    </LoginContainer>
-  );
-};
-
-return <LoginView />;
+          
+        </> 
+        ) : null}
+    </>
+    </Container>
+);
