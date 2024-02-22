@@ -18,11 +18,10 @@ export const TrialAccountGenerator = ({ trigger }) => {
   
       //This does not work right now because of keypom selector is implemented.
       //window.location.href = `${window.location.origin}${path}`;
-
-      console.log(`${window.location.origin}${path}`)
+      
       window.open(`${window.location.origin}${path}`, "_self");
       //window.location.reload();
-      
+
     } catch (error) {
       console.error("Failed to get trial account:", error);
       throw new Error(error);
