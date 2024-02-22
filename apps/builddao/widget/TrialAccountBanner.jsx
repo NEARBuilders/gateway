@@ -2,24 +2,25 @@ const { Button, Avatar } = VM.require("buildhub.near/widget/components") || {
   Button: () => <></>,
   Avatar: () => <></>
 };
-
+const [loading, setLoading] = useState(true);
+const [btnText, setBtnText] = useState("Create Trial Account");
 
 // const TaglineSmall = styled.h2`
 //     max-width: 700px;
-      
+
 //     text-align: center;
 //     font-size: 1.1rem;
 //     font-style: normal;
 //     font-weight: 400;
 //     line-height: 130%; /* 57.6px */
 //     margin: 0;
-      
+
 //     text-wrap: balance;
-      
+
 //     span.muted {
 //         color: rgba(255, 255, 255, 0.7);
 //     }
-      
+
 //     @media screen and (max-width: 768px) {
 //         font-size: 1rem;
 //     }
@@ -88,9 +89,9 @@ const Container = styled.div`
       align-self: stretch;
 
       border-radius: 8px;
-      background: #ffaf51;;
+      background: #ffaf51;
 
-      &:hover {
+      &:hover:not(:disabled) {
         background: #e49b48;
         text-decoration: none;
       }
@@ -102,37 +103,55 @@ const Container = styled.div`
       font-weight: 500;
       line-height: normal;
     }
-
   }
 `;
 
 const { networkId, accountId } = context;
 // Check if the network is testnet
-const isTestnet = networkId === 'testnet';
+const isTestnet = networkId === "testnet";
 
 const { currentGateway } = props;
 return (
   <Container>
     <>
-        {currentGateway && !isTestnet && accountId === null ? (
+      {currentGateway && !isTestnet && accountId === null ? (
         <>
-        <div className="card">
-         <img src="https://ipfs.near.social/ipfs/bafkreihbwho3qfvnu4yss3eh5jrx6uxhrlzdgtdjyzyjrpa6odro6wdxya" />
-         <h1>
-         Try out the builders gateway with a trial account. <br/>No crypto, no passphrase required.
-        </h1>
-         <TrialAccountGenerator
-            trigger={({ onClick }) => (
-              <Button 
-              variant="primary"
-              onClick={onClick}>Create Trial Account</Button>
-            )}
-          />
-      </div>
-      <img src="https://ipfs.near.social/ipfs/bafybeibqnkvafyflci4iap73prugmjw4wlwmrazbiudvnsyr34yzmk75i4" />
-          
-        </> 
-        ) : null}
+          <div className="card">
+            <img src="https://ipfs.near.social/ipfs/bafkreihbwho3qfvnu4yss3eh5jrx6uxhrlzdgtdjyzyjrpa6odro6wdxya" />
+            <h1>
+              Try out the builders gateway with a trial account. <br />
+              No crypto, no passphrase required.
+            </h1>
+            <TrialAccountGenerator
+              trigger={({ getTrialAccount }) => (
+                <Button
+                  variant="primary"
+                  disabled={loading}
+                  loading={loading}
+                  onClick={() => {
+                    setLoading(true);
+                    setBtnText("Creating your account...");
+                    getTrialAccount()
+                      .then((res) => {
+                        console.log(res);
+                        setLoading(false);
+                      })
+                      .catch((error) => {
+                        setLoading(false);
+                        setBtnText(
+                          "Trial account claim empty now. They will be available again soon. Please try later..."
+                        );
+                      });
+                  }}
+                >
+                  {btnText}
+                </Button>
+              )}
+            />
+          </div>
+          <img src="https://ipfs.near.social/ipfs/bafybeibqnkvafyflci4iap73prugmjw4wlwmrazbiudvnsyr34yzmk75i4" />
+        </>
+      ) : null}
     </>
-    </Container>
+  </Container>
 );

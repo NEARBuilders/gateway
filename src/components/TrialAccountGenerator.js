@@ -3,7 +3,7 @@ export const TrialAccountGenerator = ({ trigger }) => {
     try {
       const response = await fetch(
         `https://harmonicdevapim.azure-api.net/bd/KeyPomMain?dropId=1706695349746`,
-        { method: "POST" },
+        { method: "POST" }
       );
       if (!response.ok) {
         // Handle HTTP errors
@@ -23,11 +23,12 @@ export const TrialAccountGenerator = ({ trigger }) => {
       window.location.reload();
     } catch (error) {
       console.error("Failed to get trial account:", error);
+      throw new Error(error);
     }
   }
 
   // Attach the getTrialAccount function to the onClick event
-  return trigger({ onClick: getTrialAccount });
+  return trigger({ getTrialAccount: getTrialAccount });
 };
 
 // Future TO-DO
