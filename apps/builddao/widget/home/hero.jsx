@@ -121,7 +121,7 @@ const Content = styled.div`
   margin: 0 auto;
 `;
 
-const Hero = ({ ...props }) => {
+const Hero = () => {
   return (
     <HeroContainer>
       <Content>

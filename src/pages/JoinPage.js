@@ -1,9 +1,8 @@
-import React from "react";
-import { UserDropdown } from "../components/navigation/UserDropdown";
 import { Widget } from "near-social-vm";
-import { useBosLoaderStore } from "../stores/bos-loader";
-import OnboardingFlow from "../components/OnboardingFlow";
+import React from "react";
 import { useLocation } from "react-router-dom";
+import OnboardingFlow from "../components/OnboardingFlow";
+import { useBosLoaderStore } from "../stores/bos-loader";
 
 export default function JoinPage(props) {
   const redirectMapStore = useBosLoaderStore();
