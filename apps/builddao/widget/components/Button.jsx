@@ -89,7 +89,7 @@ function Button({
   linkClassName,
   href,
   noLink,
-  style
+  style,
 }) {
   className = className + (disabled ? " disabled" : "");
   if (href && noLink) {

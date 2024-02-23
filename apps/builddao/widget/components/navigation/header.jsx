@@ -90,7 +90,10 @@ const SignInOrConnect = () => (
         props={{ logOut: props.logOut }}
       />
     ) : (
-      <a href={"https://nearbuilders.org/join"} style={{ textDecoration: "none" }}>
+      <a
+        href={"https://nearbuilders.org/join"}
+        style={{ textDecoration: "none" }}
+      >
         <Button variant={"outline"}>Sign In</Button>
       </a>
     )}

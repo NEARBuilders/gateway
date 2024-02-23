@@ -24,10 +24,10 @@ export default function JoinPage(props) {
         <Widget
           src={CurrentView}
           props={{
-            ...props
+            ...props,
           }}
           config={{
-            redirectMap: redirectMapStore.redirectMap
+            redirectMap: redirectMapStore.redirectMap,
           }}
         />
       </div>

@@ -9,7 +9,7 @@ const rightBlur =
 
 const { Button, Avatar } = VM.require("buildhub.near/widget/components") || {
   Button: () => <></>,
-  Avatar: () => <></>
+  Avatar: () => <></>,
 };
 
 const TaglineSmall = styled.h2`

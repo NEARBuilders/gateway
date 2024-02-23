@@ -1,6 +1,6 @@
 const { Button, Avatar } = VM.require("buildhub.near/widget/components") || {
   Button: () => <></>,
-  Avatar: () => <></>
+  Avatar: () => <></>,
 };
 const [loading, setLoading] = useState(false);
 const [btnText, setBtnText] = useState("Create Trial Account");
@@ -139,7 +139,7 @@ return (
                       .catch((error) => {
                         setLoading(false);
                         setBtnText(
-                          "Trial account claim empty now. They will be available again soon. Please try later..."
+                          "Trial account claim empty now. They will be available again soon. Please try later...",
                         );
                       });
                   }}

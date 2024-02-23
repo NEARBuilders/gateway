@@ -61,7 +61,7 @@ const LoginContainer = styled.div`
       align-self: stretch;
 
       border-radius: 8px;
-      background: #ffaf51;;
+      background: #ffaf51;
 
       &:hover {
         background: #e49b48;
@@ -76,7 +76,6 @@ const LoginContainer = styled.div`
     }
   }
 `;
-
 
 const LoginView = () => {
   return (
