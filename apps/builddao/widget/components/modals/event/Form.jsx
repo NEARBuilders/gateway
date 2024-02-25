@@ -1,13 +1,16 @@
-const { Modal, Button, ProgressState } = VM.require(
-  "buildhub.near/widget/components"
-) || {
+const { Modal, Button, ProgressState } = VM.require("buildhub.near/widget/components") || {
   Modal: () => <></>,
   Button: () => <></>,
-  ProgressState: () => <></>
+  ProgressState: () => <></>,
 };
 
 const bootstrapTheme = props.bootstrapTheme || "dark";
 
+const Wrapper = styled.div`
+  .btn-close {
+    filter: invert(39%) sepia(45%) saturate(6660%) hue-rotate(199deg) brightness(101%) contrast(104%) !important;
+  }
+`;
 const MarkdownEditor = `
   html {
     background: #23242b;
@@ -193,7 +196,7 @@ const UUID = {
       var v = c === "x" ? r : (r & 0x3) | 0x8;
       return v.toString(16);
     });
-  }
+  },
 };
 
 const repeatOptions = [
@@ -201,7 +204,7 @@ const repeatOptions = [
   { label: `Weekly on ${getWeekDay()}`, value: "weekly today" },
   { label: `Annually on ${getCurrentDate()}`, value: "annually today" },
   { label: "Every Weekday (Monday to Friday)", value: "weekday" },
-  { label: "Custom", value: "custom" }
+  { label: "Custom", value: "custom" },
 ];
 
 const [title, setTitle] = useState("");
@@ -217,12 +220,12 @@ const [hashtags, setHashtags] = useState([]);
 const [customButtonSrc, setCustomButtonSrc] = useState("");
 const [repeat, setRepeat] = useState(false);
 const [customModal, setCustomModal] = useState(false);
-const [customFrequency, setCustomFrequency] = useState("weeks");
+const [customFrequency, setCustomFrequency] = useState("weekly");
 const [customInterval, setCustomInterval] = useState(1);
 const [customDaysOfWeek, setCustomDaysOfWeek] = useState([]);
 
 State.init({
-  image: null
+  image: null,
 });
 
 const app = props.app;
@@ -254,6 +257,15 @@ const RepeatDropDown = () => {
 };
 
 const onSubmit = () => {
+  const daysOfWeekMap = {
+    S: 0,
+    M: 1,
+    T: 2,
+    W: 3,
+    Th: 4,
+    F: 5,
+    Sat: 6,
+  };
   const thingId = UUID.generate(); // we could replace this with a normalized title
   // you mean just UUID();?
   // recurrence: {
@@ -266,33 +278,39 @@ const onSubmit = () => {
   let recurrence = null;
   switch (repeat) {
     case "daily":
-      return (recurrence = {
-        frequency: "daily"
-      });
+      recurrence = {
+        frequency: "daily",
+      };
+      break;
     case "weekly today":
-      return (recurrence = {
+      recurrence = {
         frequency: "weekly",
         interval: 1,
-        daysOfWeek: [new Date(startDate).getDay()]
-      });
+        daysOfWeek: [new Date().getDay()],
+      };
+      break;
     case "annually today":
-      return (recurrence = {
+      recurrence = {
         frequency: "yearly",
         interval: 1,
-        daysOfYear: [getDayOfYear(startDate)]
-      });
+        daysOfYear: [getDayOfYear(new Date())],
+      };
+      break;
     case "weekday":
-      return (recurrence = {
+      recurrence = {
         frequency: "weekly",
-        interval: 5,
-        daysOfWeek: [1, 2, 3, 4, 5]
-      });
-    case "custom":
-      return (recurrence = {
+        interval: 1,
+        daysOfWeek: [1, 2, 3, 4, 5],
+      };
+      break;
+    case "custom": {
+      recurrence = {
         frequency: customFrequency,
-        interval: 5,
-        daysOfYear: [1, 2, 3, 4, 5]
-      });
+        interval: customInterval,
+        daysOfWeek: customDaysOfWeek.map((day) => daysOfWeekMap[day]),
+      };
+      break;
+    }
   }
 
   Social.set(
@@ -306,10 +324,7 @@ const onSubmit = () => {
               description,
               url: link,
               recurrence: recurrence,
-              start: `${isoDate(startDate, startTime)}T${isoTime(
-                startDate,
-                startTime
-              )}`, // we'll want this be available for filtering... we may want to store it outside the JSON
+              start: `${isoDate(startDate, startTime)}T${isoTime(startDate, startTime)}`, // we'll want this be available for filtering... we may want to store it outside the JSON
               // or we need an indexing solution
               // we fetch events and then apply filters after parsing them
               end: `${isoDate(endDate, endTime)}T${isoTime(endDate, endTime)}`,
@@ -327,15 +342,15 @@ const onSubmit = () => {
               description,
               image: state.image,
               backgroundImage: state.image,
-              type: "buildhub.near/type/event"
-            }
-          }
-        }
-      }
+              type: "buildhub.near/type/event",
+            },
+          },
+        },
+      },
     },
     {
-      onCommit: () => props.toggleModal()
-    }
+      onCommit: () => props.toggleModal(),
+    },
   );
 };
 
@@ -352,10 +367,10 @@ useEffect(() => {
 const CustomRepeatInputModal = () => {
   const days = ["S", "M", "T", "W", "Th", "F", "Sat"];
   const frequency = [
-    { label: "days", value: "days" },
-    { label: "weeks", value: "weeks" },
-    { label: "months", value: "months" },
-    { label: "years", value: "years" }
+    { label: "days", value: "daily" },
+    { label: "weeks", value: "weekly" },
+    { label: "months", value: "monthly" },
+    { label: "years", value: "yearly" },
   ];
   return (
     <Modal
@@ -403,21 +418,13 @@ const CustomRepeatInputModal = () => {
                 className="cursor-pointer"
                 onClick={() => {
                   if (customDaysOfWeek.includes(item)) {
-                    setCustomDaysOfWeek(
-                      customDaysOfWeek.filter((i) => i !== item)
-                    );
+                    setCustomDaysOfWeek(customDaysOfWeek.filter((i) => i !== item));
                   } else {
                     setCustomDaysOfWeek([...customDaysOfWeek, item]);
                   }
                 }}
               >
-                <ProgressState
-                  status={
-                    customDaysOfWeek.includes(item) ? "focused" : "default"
-                  }
-                >
-                  {item}
-                </ProgressState>
+                <ProgressState status={customDaysOfWeek.includes(item) ? "focused" : "default"}>{item}</ProgressState>
               </div>
             ))}
           </div>
@@ -428,160 +435,171 @@ const CustomRepeatInputModal = () => {
 };
 
 return (
-  <div data-bs-theme={bootstrapTheme}>
-    <CustomRepeatInputModal />
-    <div className="form-group mb-3">
-      <label htmlFor="title">
-        Title<span className="text-danger">*</span>
-      </label>
-      <input
-        name="title"
-        id="title"
-        type="text"
-        placeholder="Enter event name"
-        value={title}
-        onChange={(e) => setTitle(e.target.value)}
-      />
-    </div>
-    <div className="form-group mb-3">
-      <label>
-        Event Description<span className="text-danger">*</span>
-      </label>
-      <TextareaWrapper
-        className="markdown-editor mb-3"
-        data-value={description || ""}
-        key={memoizedKey || "markdown-editor"}
-      >
-        <Widget
-          src="mob.near/widget/MarkdownEditorIframe"
-          props={{
-            initialText: description,
-            embedCss: props.customCSS || MarkdownEditor,
-            onChange: (v) => {
-              setDescription(v);
-            }
-          }}
-        />
-      </TextareaWrapper>
+  <Wrapper>
+    <div data-bs-theme={bootstrapTheme}>
+      <CustomRepeatInputModal />
       <div className="form-group mb-3">
-        <label htmlFor="link">
-          Event Link<span className="text-danger">*</span>
+        <label htmlFor="title">
+          Title<span className="text-danger">*</span>
         </label>
         <input
-          name="link"
-          id="link"
+          name="title"
+          id="title"
           type="text"
-          placeholder="Enter link"
-          value={link}
-          onChange={(e) => setLink(e.target.value)}
+          placeholder="Enter event name"
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
         />
       </div>
       <div className="form-group mb-3">
-        <label htmlFor="occurence">Occurence</label>
-        <RepeatDropDown />
-      </div>
-      <div className="form-group mb-3 d-flex" style={{ gap: 24 }}>
-        <div className="form-group flex-grow-1">
-          <label htmlFor="start-date">
-            Start Date<span className="text-danger">*</span>
-          </label>
-          <input
-            id="start-date"
-            name="start-date"
-            type="date"
-            value={startDate}
-            onChange={(e) => setStartDate(e.target.value)}
-          />
-        </div>
-        <div className="form-group flex-grow-1">
-          <label htmlFor="end-date">
-            End Date<span className="text-danger">*</span>
-          </label>
-          <input
-            name="end-date"
-            id="end-date"
-            type="date"
-            value={endDate}
-            onChange={(e) => setEndDate(e.target.value)}
-          />
-        </div>
-      </div>
-      <div className="form-group mb-3 d-flex" style={{ gap: 24 }}>
-        <div className="form-group flex-grow-1">
-          <label htmlFor="start-time">
-            Start Time<span className="text-danger">*</span>
-          </label>
-          <input
-            name="start-time"
-            id="start-time"
-            type="time"
-            value={startTime}
-            onChange={(e) => setStartTime(e.target.value)}
-          />
-        </div>
-        <div className="form-group flex-grow-1">
-          <label htmlFor="end-time">
-            End Time<span className="text-danger">*</span>
-          </label>
-          <input
-            id="end-time"
-            name="end-time"
-            type="time"
-            value={endTime}
-            onChange={(e) => setEndTime(e.target.value)}
-          />
-        </div>
-      </div>
-      <div className="form-group mb-3">
-        <label htmlFor="organizer">
-          Organizers<span className="text-danger">*</span>
+        <label>
+          Event Description<span className="text-danger">*</span>
         </label>
-        <Typeahead
-          id="organizers"
-          onChange={(e) => setOrganizers(e)}
-          selected={organizers}
-          labelKey="organizer"
-          multiple
-          emptyLabel="Start writing a new organizer"
-          placeholder="Enter organizers"
-          options={[]}
-          allowNew
-        />
+        <TextareaWrapper
+          className="markdown-editor mb-3"
+          data-value={description || ""}
+          key={memoizedKey || "markdown-editor"}
+        >
+          <Widget
+            src="mob.near/widget/MarkdownEditorIframe"
+            props={{
+              initialText: description,
+              embedCss: props.customCSS || MarkdownEditor,
+              onChange: (v) => {
+                setDescription(v);
+              },
+            }}
+          />
+        </TextareaWrapper>
+        <div className="form-group mb-3">
+          <label htmlFor="link">
+            Event Link<span className="text-danger">*</span>
+          </label>
+          <input
+            name="link"
+            id="link"
+            type="text"
+            placeholder="Enter link"
+            value={link}
+            onChange={(e) => setLink(e.target.value)}
+          />
+        </div>
+        <div className="form-group mb-3">
+          <label htmlFor="occurence">Occurence</label>
+          <RepeatDropDown />
+        </div>
+        <div className="form-group mb-3 d-flex" style={{ gap: 24 }}>
+          <div className="form-group flex-grow-1">
+            <label htmlFor="start-date">
+              Start Date<span className="text-danger">*</span>
+            </label>
+            <input
+              id="start-date"
+              name="start-date"
+              type="date"
+              value={startDate}
+              onChange={(e) => setStartDate(e.target.value)}
+            />
+          </div>
+          <div className="form-group flex-grow-1">
+            <label htmlFor="end-date">
+              End Date<span className="text-danger">*</span>
+            </label>
+            <input
+              name="end-date"
+              id="end-date"
+              type="date"
+              value={endDate}
+              onChange={(e) => setEndDate(e.target.value)}
+            />
+          </div>
+        </div>
+        <div className="form-group mb-3 d-flex" style={{ gap: 24 }}>
+          <div className="form-group flex-grow-1">
+            <label htmlFor="start-time">
+              Start Time<span className="text-danger">*</span>
+            </label>
+            <input
+              name="start-time"
+              id="start-time"
+              type="time"
+              value={startTime}
+              onChange={(e) => setStartTime(e.target.value)}
+            />
+          </div>
+          <div className="form-group flex-grow-1">
+            <label htmlFor="end-time">
+              End Time<span className="text-danger">*</span>
+            </label>
+            <input
+              id="end-time"
+              name="end-time"
+              type="time"
+              value={endTime}
+              onChange={(e) => setEndTime(e.target.value)}
+            />
+          </div>
+        </div>
+        <div className="form-group mb-3">
+          <label htmlFor="organizer">
+            Organizers<span className="text-danger">*</span>
+          </label>
+          <Typeahead
+            id="organizers"
+            onChange={(e) => setOrganizers(e)}
+            selected={organizers}
+            labelKey="organizer"
+            multiple
+            emptyLabel="Start writing a new organizer"
+            placeholder="Enter organizers"
+            options={[]}
+            allowNew
+          />
+        </div>
+        <div className="form-group mb-3">
+          <label htmlFor="location">
+            Location<span className="text-danger">*</span>
+          </label>
+          <input
+            name="location"
+            id="location"
+            type="text"
+            placeholder="Enter location"
+            value={location}
+            onChange={(e) => setLocation(e.target.value)}
+          />
+        </div>
+        <div className="form-group mb-3" data-bs-theme={bootstrapTheme}>
+          <label htmlFor="hashtags">Hashtags</label>
+          <Typeahead
+            id="hashtags"
+            onChange={(e) => setHashtags(e)}
+            selected={hashtags}
+            multiple
+            labelKey="hashtags"
+            emptyLabel="Start writing a new hashtag"
+            placeholder="Enter hashtags"
+            options={["build", "dao", "nft", "metaverse", "web3"]}
+            allowNew
+          />
+        </div>
+        <div className="form-group mb-3">
+          <label htmlFor="cover-image">Cover Image</label>
+          <Widget
+            src="buildhub.near/widget/components.ImageUploader"
+            loading=""
+            props={{ image: state.image, onChange: onCoverChange }}
+          />
+        </div>
       </div>
-      <div className="form-group mb-3">
-        <label htmlFor="location">
-          Location<span className="text-danger">*</span>
-        </label>
-        <input
-          name="location"
-          id="location"
-          type="text"
-          placeholder="Enter location"
-          value={location}
-          onChange={(e) => setLocation(e.target.value)}
-        />
-      </div>
-      <div className="form-group mb-3" data-bs-theme={bootstrapTheme}>
-        <label htmlFor="hashtags">Hashtags</label>
-        <Typeahead
-          id="hashtags"
-          onChange={(e) => setHashtags(e)}
-          selected={hashtags}
-          multiple
-          labelKey="hashtags"
-          emptyLabel="Start writing a new hashtag"
-          placeholder="Enter hashtags"
-          options={["build", "dao", "nft", "metaverse", "web3"]}
-          allowNew
-        />
-      </div>
-      <div className="form-group mb-3">
-        <label htmlFor="cover-image">Cover Image</label>
-        <Widget
-          src="buildhub.near/widget/components.ImageUploader"
-          loading=""
-          props={{ image: state.image, onChange: onCoverChange }}
-        />
+      <div className="d-flex justify-content-end">
+        <Button
+          disabled={!title || !description || !link || !location || !organizers}
+          variant="primary"
+          onClick={onSubmit}
+        >
+          Submit
+        </Button>
       </div>
       <div className="form-group flex-grow-1">
         <div className="d-flex align-items-center justify-content-between">
@@ -602,14 +620,5 @@ return (
         />
       </div>
     </div>
-    <div className="d-flex justify-content-end">
-      <Button
-        disabled={!title || !description || !link || !location || !organizers}
-        variant="primary"
-        onClick={onSubmit}
-      >
-        Submit
-      </Button>
-    </div>
-  </div>
+  </Wrapper>
 );
