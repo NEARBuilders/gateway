@@ -11,7 +11,7 @@ const Root = styled.div`
 `;
 
 return (
-  <Root>
+  <Root className="container-xl mt-md-3">
     <Hero />
   </Root>
 );

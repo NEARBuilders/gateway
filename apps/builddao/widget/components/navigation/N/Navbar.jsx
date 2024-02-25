@@ -217,7 +217,10 @@ function Navbar(props) {
               },
             })}
           >
-            <img src="https://ipfs.near.social/ipfs/bafkreihtv6fim7hrgtklbdg5zgq2nyscqgidh2g5zvhamkhqaywaux4hqe" />
+            <img
+              className="object-fit-cover"
+              src="https://ipfs.near.social/ipfs/bafkreihtv6fim7hrgtklbdg5zgq2nyscqgidh2g5zvhamkhqaywaux4hqe"
+            />
           </Link>
           <NavLinks>
             {routes &&
@@ -324,6 +327,7 @@ function Navbar(props) {
             })}
           >
             <img
+              className="object-fit-cover"
               onClick={() => setDropdown(false)}
               src="https://ipfs.near.social/ipfs/bafkreicevo7aeyy6nivzqyfygpsoxkz6apd4pbqwrhc6yccqtyp6qzdoqq"
               alt="BuildDAO"
