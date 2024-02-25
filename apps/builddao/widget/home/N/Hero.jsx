@@ -10,6 +10,12 @@ const gridLink =
   "https://ipfs.near.social/ipfs/bafkreiay3ytllrxhtyunppqxcazpistttwdzlz3jefdbsq5tosxuryauu4";
 const logoLink =
   "https://ipfs.near.social/ipfs/bafkreifnxc6jk66wdy377ttcinogwr4xqnllsrjfmnglvoonikafzksdui";
+const leftBlur =
+  "https://ipfs.near.social/ipfs/bafkreiabxzgspdolrlol2gvw7gnyrtktmfg23pd2ykow5pdddtmz3ve45y";
+const rightBlur =
+  "https://ipfs.near.social/ipfs/bafkreigxwshevkyp6rt2l6gjxeap4b6yetxhusyn6swfhh4rtwvp3kkgqu";
+const mobileBlur =
+  "https://ipfs.near.social/ipfs/bafkreid6k74swyhmqmq6vedpafumz6cywbok72zckkgemzg6jec7sk5fpm";
 
 const Grid = styled.img`
   position: absolute;
@@ -74,23 +80,6 @@ const Subheading = styled.h2`
   @media screen and (max-width: 768px) {
     font-size: 12px;
   }
-`;
-
-const LeftBlur = styled.div`
-  width: 560px;
-  height: 560px;
-
-  position: absolute;
-  left: -216px;
-  top: 39px;
-
-  border-radius: 560px;
-  background: rgba(74, 33, 165, 0.15);
-  filter: blur(129.5px);
-
-  pointer-events: none;
-
-  z-index: 0;
 `;
 
 const Phrase = styled.p`
@@ -180,46 +169,85 @@ const HeadingContainer = styled.div`
   }
 `;
 
+const RightBlur = styled.img`
+  position: absolute;
+  right: 0;
+  bottom: -316px;
+  opacity: 0.5;
+
+  @media screen and (max-width: 768px) {
+    display: none;
+  }
+`;
+
+const LeftBlur = styled.img`
+  position: absolute;
+  left: 0;
+  top: -316px;
+  opacity: 0.5;
+
+  @media screen and (max-width: 768px) {
+    display: none;
+  }
+`;
+
+const MobileBlur = styled.img`
+  display: none;
+
+  @media screen and (max-width: 768px) {
+    position: absolute;
+    right: 0;
+    bottom: -15px;
+    opacity: 0.5;
+    display: block;
+  }
+`;
+
 function Hero() {
   return (
-    <Container>
-      <Logo src={logoLink} />
-      <HeadingContainer>
-        <Heading>
-          Designed to connect and empower builders in a{" "}
-          <span>multi-chain ecosystem</span>
-        </Heading>
-        <Subheading>
-          Empowering Builders: Strengthening Connections in Multi-Chain Systems
-        </Subheading>
-      </HeadingContainer>
-      <div className="d-flex align-items-center gap-4">
-        <Button
-          href={href({
-            widgetSrc: "buildhub.near/widget/app",
-            params: {
-              page: "feed",
-            },
-          })}
-          style={{ background: "#4A21A5", color: "white" }}
-        >
-          See Activity
-        </Button>
-        <Phrase>
-          Explore the public feed without login.
-          <br />
-          No passphrases, no crypto required.
-        </Phrase>
-      </div>
-      <Stats>
-        <InfoStat label="Lorem" amount={100} />
-        <InfoStat label="Lorem" amount={100} />
-        <InfoStat label="Lorem" amount={100} />
-        <InfoStat label="Lorem" amount={100} />
-      </Stats>
-      <LeftBlur />
+    <div className="position-relative">
+      <Container className="container-xl mt-md-3 z-3">
+        <Logo src={logoLink} />
+        <HeadingContainer>
+          <Heading>
+            Designed to connect and empower builders in a{" "}
+            <span>multi-chain ecosystem</span>
+          </Heading>
+          <Subheading>
+            Empowering Builders: Strengthening Connections in Multi-Chain
+            Systems
+          </Subheading>
+        </HeadingContainer>
+        <div className="d-flex align-items-center gap-4">
+          <Button
+            href={href({
+              widgetSrc: "buildhub.near/widget/app",
+              params: {
+                page: "feed",
+              },
+            })}
+            style={{ background: "#4A21A5", color: "white" }}
+          >
+            See Activity
+          </Button>
+          <Phrase>
+            Explore the public feed without login.
+            <br />
+            No passphrases, no crypto required.
+          </Phrase>
+        </div>
+        <Stats>
+          <InfoStat label="Lorem" amount={100} />
+          <InfoStat label="Lorem" amount={100} />
+          <InfoStat label="Lorem" amount={100} />
+          <InfoStat label="Lorem" amount={100} />
+        </Stats>
+      </Container>
+      <MobileBlur src={mobileBlur} />
+      <LeftBlur src={leftBlur} />
+      <RightBlur src={rightBlur} />
       <Grid src={gridLink} />
-    </Container>
+    </div>
   );
 }
 

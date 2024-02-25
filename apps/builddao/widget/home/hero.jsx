@@ -22,7 +22,6 @@ const LeftBlur = styled.img`
   position: absolute;
   left: 0;
   top: 50%;
-  transform: translateY(-50%);
   object-fit: cover;
   width: 25%;
   pointer-events: none;
