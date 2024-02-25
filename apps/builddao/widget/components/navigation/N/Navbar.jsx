@@ -54,6 +54,21 @@ const Right = styled.div`
   }
 `;
 
+const MobileView = styled.div`
+  display: none;
+
+  @media screen and (max-width: 768px) {
+    display: block;
+    position: absolute;
+    background: var(--bg, #0d020f);
+    padding: 24px 48px;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
+`;
+
 const MobileNavigation = styled.div`
   display: none;
 
@@ -174,7 +189,7 @@ const StyledDropdown = styled.div`
 
 const MobileContent = styled.div`
   width: 100%;
-  height: 75vh;
+  height: 100%;
 
   display: flex;
   align-items: center;
@@ -213,6 +228,7 @@ function Navbar(props) {
                 }
                 return (
                   <Link
+                    key={`desktop=${k}`}
                     style={{ textDecoration: "none" }}
                     to={href({
                       widgetSrc: "buildhub.near/widget/app",
@@ -323,74 +339,102 @@ function Navbar(props) {
           </Button>
         </MobileNavigation>
       </MainContent>
+
       {dropdown && (
-        <MobileContent>
-          <NavLinks>
-            {routes &&
-              (Object.keys(routes) || []).map((k) => {
-                const route = routes[k];
-                if (route.hide) {
-                  return null;
-                }
-                return (
-                  <Link
-                    style={{ textDecoration: "none" }}
-                    to={href({
-                      widgetSrc: "buildhub.near/widget/app",
-                      params: {
-                        page: k,
-                      },
-                    })}
-                  >
-                    <span
-                      onClick={toggleDropdown}
-                      key={k}
-                      className={page === k ? "active" : null}
-                    >
-                      {route.init.icon && <i className={route.init.icon}></i>}
-                      {route.init.name}
-                    </span>
-                  </Link>
-                );
+        <MobileView>
+          <MobileNavigation>
+            <Link
+              to={href({
+                widgetSrc: "buildhub.near/widget/app",
+                params: {
+                  page: "home",
+                },
               })}
-          </NavLinks>
-          <div className="d-flex flex-column gap-2">
-            <div className="d-flex w-100 gap-2 justify-content-center">
+            >
+              <img
+                onClick={() => setDropdown(false)}
+                src="https://ipfs.near.social/ipfs/bafkreicevo7aeyy6nivzqyfygpsoxkz6apd4pbqwrhc6yccqtyp6qzdoqq"
+                alt="BuildDAO"
+              />
+            </Link>
+            <Button
+              type="icon"
+              variant="outline"
+              className="rounded-2 border-0"
+              onClick={toggleDropdown}
+            >
+              <i style={{ fontSize: 24 }} className="bi bi-list"></i>
+            </Button>
+          </MobileNavigation>
+          <MobileContent>
+            <NavLinks>
+              {routes &&
+                (Object.keys(routes) || []).map((k) => {
+                  const route = routes[k];
+                  if (route.hide) {
+                    return null;
+                  }
+                  return (
+                    <Link
+                      key={`mobile=${k}`}
+                      style={{ textDecoration: "none" }}
+                      to={href({
+                        widgetSrc: "buildhub.near/widget/app",
+                        params: {
+                          page: k,
+                        },
+                      })}
+                    >
+                      <span
+                        onClick={toggleDropdown}
+                        key={k}
+                        className={page === k ? "active" : null}
+                      >
+                        {route.init.icon && <i className={route.init.icon}></i>}
+                        {route.init.name}
+                      </span>
+                    </Link>
+                  );
+                })}
+            </NavLinks>
+            <div className="d-flex flex-column gap-2">
+              <div className="d-flex w-100 gap-2 justify-content-center">
+                <Button
+                  href={href({
+                    widgetSrc: "buildhub.near/widget/app",
+                    params: {
+                      page: "inspect",
+                      widgetPath: routes[page].path,
+                    },
+                  })}
+                >
+                  <span>View source</span>
+                </Button>
+                <Button href={`/edit/${routes[page].path}`}>Edit Code</Button>
+              </div>
               <Button
                 href={href({
                   widgetSrc: "buildhub.near/widget/app",
                   params: {
-                    page: "inspect",
-                    widgetPath: routes[page].path,
+                    page: "feed",
                   },
                 })}
+                variant="primary"
+                linkClassName="d-flex"
+                className="align-self-stretch w-100"
               >
-                <span>View source</span>
+                See Activity
               </Button>
-              <Button href={`/edit/${routes[page].path}`}>Edit Code</Button>
+              <p
+                className="m-0 text-center"
+                style={{ color: "#7F7F7F", fontSize: 14 }}
+              >
+                Explore the public feed without login. <br />
+                No passphrases, no crypto required.
+              </p>
             </div>
-            <Button
-              href={href({
-                widgetSrc: "buildhub.near/widget/app",
-                params: {
-                  page: "feed",
-                },
-              })}
-              variant="primary"
-              linkClassName="d-flex"
-              className="align-self-stretch w-100"
-            >
-              See Activity
-            </Button>
-            <p
-              className="m-0 text-center"
-              style={{ color: "#7F7F7F", fontSize: 14 }}
-            >
-              Explore the public feed without login. <br />
-              No passphrases, no crypto required.
-            </p>
-          </div>
-        </MobileContent>
+          </MobileContent>
+        </MobileView>
       )}
     </NavContainer>
   );
