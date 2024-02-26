@@ -61,11 +61,13 @@ const MobileView = styled.div`
     display: block;
     position: absolute;
     background: var(--bg, #0d020f);
+    z-index: 100;
+    min-height: 100vh;
     padding: 24px 48px;
     top: 0;
+    height: 100%;
     left: 0;
     width: 100%;
-    height: 100%;
   }
 `;
 
@@ -193,7 +195,7 @@ const MobileContent = styled.div`
 
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  gap: 256px;
   flex-direction: column;
 `;
 

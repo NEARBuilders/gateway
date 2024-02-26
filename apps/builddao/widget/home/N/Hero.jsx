@@ -174,6 +174,7 @@ const RightBlur = styled.img`
   right: 0;
   bottom: -316px;
   opacity: 0.5;
+  pointer-events: none;
 
   @media screen and (max-width: 768px) {
     display: none;
@@ -185,6 +186,7 @@ const LeftBlur = styled.img`
   left: 0;
   top: -316px;
   opacity: 0.5;
+  pointer-events: none;
 
   @media screen and (max-width: 768px) {
     display: none;
@@ -203,7 +205,7 @@ const MobileBlur = styled.img`
   }
 `;
 
-function Hero() {
+const Hero = () => {
   return (
     <div className="position-relative">
       <Container className="container-xl mt-md-3 z-3">
@@ -249,6 +251,6 @@ function Hero() {
       <Grid src={gridLink} />
     </div>
   );
-}
+};
 
 return { Hero };
