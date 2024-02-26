@@ -91,6 +91,8 @@ const GridItem = styled.div`
     .heading {
       font-size: 40px;
     }
+
+    overflow: hidden;
   }
 
   .category {
@@ -107,6 +109,7 @@ const GridItem = styled.div`
     font-size: 32px;
     font-weight: 500;
     margin: 0%;
+    z-index: 2;
 
     span {
       color: var(--b-0-b-0-b-0, #b0b0b0);
@@ -120,6 +123,7 @@ const GridItem = styled.div`
     font-style: normal;
     font-weight: 500;
     line-height: 140%; /* 22.4px */
+    z-index: 2;
   }
 
   @media screen and (max-width: 768px) {
@@ -129,6 +133,13 @@ const GridItem = styled.div`
     &.first {
       grid-column: span 1 / span 2;
       padding: 24px 16px;
+
+      img {
+        height: 50%;
+        width: 50%;
+        object-fit: cover;
+        z-index: 1;
+      }
     }
 
     .category {
@@ -148,7 +159,7 @@ const GridItem = styled.div`
 
 const Goals = () => {
   return (
-    <Container>
+    <Container className="container-xl">
       <HeadingContainer>
         <Tag label="Goals" />
         <h2>
@@ -160,7 +171,7 @@ const Goals = () => {
         </h3>
       </HeadingContainer>
       <GoalsContainer>
-        <GridItem className="first">
+        <GridItem className="first position-relative">
           <h6 className="category">Development</h6>
           <h4 className="heading">
             Support <span>Builders</span>
@@ -171,6 +182,10 @@ const Goals = () => {
             contributions, we can grow successful projects that solve problems
             and generate sustainable value.
           </p>
+          <img
+            src="https://ipfs.near.social/ipfs/bafkreictjgfbnpeytoy6mnbkpjajsxfp5bznh7uclyrtff4jcr4klkwtvm"
+            className="position-absolute top-0 end-0"
+          />
         </GridItem>
         <GridItem>
           <h6 className="category">Education</h6>
