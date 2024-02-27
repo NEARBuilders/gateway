@@ -4,6 +4,10 @@ const { routes } = VM.require("buildhub.near/widget/config.app") ?? {
   routes: {},
 };
 
+const { fonts } = VM.require("buildhub.near/widget/fonts") || {
+  fonts: ``,
+};
+
 const { AppLayout } = VM.require("buildhub.near/widget/template.AppLayout") || {
   AppLayout: () => <></>,
 };
@@ -40,6 +44,9 @@ const Root = styled.div`
   --button-primary-hover-bg: #e49b48;
   --button-outline-hover-bg: rgba(255, 255, 255, 0.2);
   --button-default-hover-bg: #17181c;
+
+  /* Font Imports */
+  ${fonts}
 `;
 
 function Router({ active, routes }) {

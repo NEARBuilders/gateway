@@ -23,6 +23,7 @@ const HeadingContainer = styled.div`
   h2 {
     color: var(--paleta-escolhida-ffffff, #fff);
     text-align: center;
+    font-family: "Poppins", sans-serif;
 
     font-size: 48px;
     line-height: 56px; /* 116.667% */
@@ -39,6 +40,7 @@ const HeadingContainer = styled.div`
     font-size: 24px;
     font-weight: 500;
     line-height: 140%; /* 33.6px */
+    font-family: "InterVariable", sans-serif;
     margin: 0;
     text-align: center;
   }
@@ -98,8 +100,9 @@ const GridItem = styled.div`
   .category {
     color: var(--eca-227, #eca227);
     font-size: 14px;
-    font-weight: 500;
+    font-weight: 400;
     line-height: 160%; /* 22.4px */
+    font-family: "Poppins", sans-serif;
     text-transform: uppercase;
     margin: 0;
   }
@@ -107,7 +110,8 @@ const GridItem = styled.div`
   .heading {
     color: var(--paleta-escolhida-ffffff, #fff);
     font-size: 32px;
-    font-weight: 500;
+    font-weight: 400;
+    font-family: "Poppins", sans-serif;
     margin: 0%;
     z-index: 2;
 
@@ -120,8 +124,9 @@ const GridItem = styled.div`
     margin: 0;
     color: var(--b-0-b-0-b-0, var(--White-50, #b0b0b0));
     font-size: 16px;
+    font-family: "Poppins", sans-serif;
     font-style: normal;
-    font-weight: 500;
+    font-weight: 400;
     line-height: 140%; /* 22.4px */
     z-index: 2;
   }

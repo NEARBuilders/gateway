@@ -21,9 +21,10 @@ const HeadingContainer = styled.div`
 
   h2 {
     color: var(--paleta-escolhida-ffffff, #fff);
-    font-size: 48px;
-    line-height: 56px; /* 116.667% */
+    font-size: 44px;
+    line-height: 110%;
     text-wrap: balance;
+    font-family: "Poppins", sans-serif;
     margin: 0;
 
     span {
@@ -36,7 +37,9 @@ const HeadingContainer = styled.div`
     font-size: 24px;
     font-weight: 500;
     margin: 0;
+    font-family: "InterVariable", sans-serif;
     line-height: 140%; /* 33.6px */
+    max-width: 930px;
   }
 
   @media screen and (max-width: 768px) {

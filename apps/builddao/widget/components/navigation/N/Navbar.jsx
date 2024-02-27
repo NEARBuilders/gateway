@@ -14,6 +14,7 @@ const NavContainer = styled.div`
   align-items: flex-start;
   gap: 10px;
   align-self: stretch;
+  font-family: "Poppins", sans-serif;
 
   background-color: var(--bg, #0d020f);
 `;

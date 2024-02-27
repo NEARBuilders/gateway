@@ -55,6 +55,7 @@ const Logo = styled.img`
 
 const Heading = styled.h1`
   color: var(--text-color, #fff);
+  font-family: "Poppins", sans-serif;
   font-size: 58px;
   line-height: 120%; /* 69.6px */
   text-wrap: balance;
@@ -74,6 +75,7 @@ const Subheading = styled.h2`
   color: var(--white-50, #b0b0b0);
   font-size: 24px;
   font-weight: 500;
+  font-family: InterVariable;
   line-height: 140%; /* 33.6px */
   margin: 0;
 
@@ -85,6 +87,7 @@ const Subheading = styled.h2`
 const Phrase = styled.p`
   color: #7f7f7f;
   font-size: 14px;
+  font-family: InterVariable, sans-serif;
   margin: 0;
 
   @media screen and (max-width: 768px) {
@@ -141,6 +144,7 @@ const InfoStat = ({ amount, label }) => {
           style={{
             fontSize: 26,
             fontWeight: 500,
+            fontFamily: "Poppins, sans-serif",
           }}
         >
           +{amount}
@@ -150,6 +154,7 @@ const InfoStat = ({ amount, label }) => {
             fontWeight: 500,
             fontSize: 14,
             color: "var(--Black-50, #6E6E6E)",
+            fontFamily: "InterVariable, sans-serif",
           }}
         >
           {label}

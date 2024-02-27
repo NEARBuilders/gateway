@@ -25,6 +25,7 @@ const HeadingContainer = styled.div`
     text-align: center;
     font-size: 48px;
     line-height: 56px; /* 116.667% */
+    font-family: "Poppins", sans-serif;
     margin: 0;
 
     span {
@@ -36,6 +37,7 @@ const HeadingContainer = styled.div`
     color: var(--b-0-b-0-b-0, var(--White-50, #b0b0b0));
     text-align: center;
     font-size: 24px;
+    font-family: "InterVariable", sans-serif;
     font-weight: 500;
     line-height: 140%; /* 33.6px */
     margin: 0;
@@ -115,6 +117,7 @@ const Benefit = styled.div`
     color: var(--paleta-escolhida-ffffff, #fff);
     font-size: 24px;
     font-weight: 500;
+    font-family: "Poppins", sans-serif;
     margin-bottom: 8px;
   }
 
@@ -122,6 +125,7 @@ const Benefit = styled.div`
     color: var(--6-e-6-e-6-e, var(--Black-50, #6e6e6e));
     font-size: 16px;
     font-weight: 500;
+    font-family: "InterVariable", sans-serif;
     line-height: 120%; /* 24px */
     margin: 0;
   }
@@ -163,6 +167,10 @@ const Banner = styled.div`
     align-items: center;
     gap: 16px;
     flex-shrink: 0;
+    h3 {
+      font-family: "Poppins", sans-serif;
+      font-weight: 700;
+    }
   }
 
   .right {
@@ -198,17 +206,18 @@ const Step = styled.div`
   display: flex;
   flex-direction: column;
   gap: 8px;
+  font-family: "Poppins", sans-serif;
 
   span.leading {
     color: var(--ffffff, #fff);
-    font-size: 24px;
+    font-size: 18px;
     font-weight: 700;
     line-height: 100%; /* 28px */
   }
 
   span.content {
     color: var(--d-1-d-1-d-1, #d1d1d1);
-    font-size: 16px;
+    font-size: 14px;
     line-height: 120%; /* 24px */
   }
 
@@ -262,7 +271,7 @@ const Join = () => {
       </BenefitContainer>
       <Banner>
         <div className="z-3 left">
-          <h3 className="fw-bolder">Let's Join</h3>
+          <h3>Let's Join</h3>
           <Widget
             src="/*__@appAccount__*//widget/components.buttons.Connect"
             props={{
