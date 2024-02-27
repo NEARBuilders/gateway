@@ -73,6 +73,10 @@ const Step = styled.div`
   border: 1px solid var(--White-50, #b0b0b0);
   background: var(--000000, #000);
 
+  &.first {
+    border: 1px solid var(--Gradient-1, #4a21a5);
+  }
+
   h4 {
     color: var(--eca-227, #eca227);
     font-size: 52px;
@@ -133,7 +137,7 @@ const Purposes = () => {
         </h3>
       </HeadingContainer>
       <StepContainer>
-        <Step>
+        <Step className="first">
           <h4>1</h4>
           <div>
             <h5>To build a better future</h5>
