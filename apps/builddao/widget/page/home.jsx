@@ -1,5 +1,5 @@
 const { Hero, Goals, Join, Purposes } = VM.require(
-  "buildhub.near/widget/home.N.Home"
+  "buildhub.near/widget/home.Home"
 ) || {
   Hero: () => <></>,
   Goals: () => <></>,
