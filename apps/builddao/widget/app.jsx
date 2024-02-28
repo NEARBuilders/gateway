@@ -12,7 +12,7 @@ if (!page) page = Object.keys(routes)[0] || "home";
 
 const Root = styled.div`
   --stroke-color: rgba(255, 255, 255, 0.2);
-  --bg-1: #0d020f;
+  --bg-1: #000;
   --bg-1-hover: #010002;
   --bg-1-hover-transparent: rgba(13, 2, 15, 0);
   --bg-2: #23242b;

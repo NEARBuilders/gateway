@@ -16,7 +16,7 @@ const NavContainer = styled.div`
   align-self: stretch;
   font-family: "Poppins", sans-serif;
 
-  background-color: var(--bg, #0d020f);
+  background-color: var(--bg, #000);
 `;
 
 const MainContent = styled.div`
@@ -61,7 +61,7 @@ const MobileView = styled.div`
   @media screen and (max-width: 768px) {
     display: block;
     position: absolute;
-    background: var(--bg, #0d020f);
+    background: var(--bg, #000);
     z-index: 100;
     min-height: 100vh;
     padding: 24px 48px;

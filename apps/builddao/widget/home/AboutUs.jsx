@@ -104,6 +104,7 @@ const Card = styled.div`
   justify-content: center;
   gap: 16px;
   flex: 1 0 0;
+  z-index: 1;
 
   border-radius: 16px;
   border: 1px solid var(--White-50, #b0b0b0);
@@ -165,6 +166,8 @@ const BlurImage = styled.img`
   left: 0;
   top: 0;
   object-fit: cover;
+  pointer-events: none;
+  z-index: 0;
 
   @media screen and (max-width: 768px) {
     display: none;
@@ -188,11 +191,11 @@ const AboutUs = () => {
       <CardContainer>
         <div className="first-row">
           <Card className="first position-relative">
-            <h6>Education</h6>
-            <h4>
+            <h6 className="z-1">Education</h6>
+            <h4 className="z-1">
               Legal <span>Structure</span>
             </h4>
-            <p>
+            <p className="z-1">
               Promotes democratic participation and financial benefits for
               members.
             </p>
