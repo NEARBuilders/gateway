@@ -21,7 +21,6 @@ const Card = styled.div`
   flex-direction: column;
   align-items: flex-start;
   gap: 24px;
-  justify-content: space-between;
 
   color: var(--text-color, #fff);
 
@@ -49,15 +48,9 @@ const Card = styled.div`
       width: 90%;
     }
   }
-  .card-top {
-    display: flex;
-    flex-direction: column;
-    gap: 24px;
-    width: 100%;
-  }
 `;
 
-const ProjectCard = ({ title, tags, people, accountId, type, app }) => {
+const ProjectCard = ({ title, tags, people, accountId }) => {
   return (
     <Card>
       <div className="card-top">
@@ -83,15 +76,17 @@ const ProjectCard = ({ title, tags, people, accountId, type, app }) => {
           <ProfileImages accountIds={people} />
         </div>
       </div>
-      <div className="card-bottom w-100">
-        <Button
-          href={`/buildhub.near/widget/app?page=project&id=${accountId}/${app}/${type}/${title}`}
-          linkClassName="align-self-stretch bt-w"
-          variant="outline"
-        >
-          Open
-        </Button>
+      <div>
+        <ProfileImages accountIds={people} />
       </div>
+      <Button
+        href={`/buildhub.near/widget/app?page=project&accountId=${accountId}`}
+        // className="align-self-stretch"
+        linkClassName="align-self-stretch bt-w"
+        variant="outline"
+      >
+        Open
+      </Button>
     </Card>
   );
 };
