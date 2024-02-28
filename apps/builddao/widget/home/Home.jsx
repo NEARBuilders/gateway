@@ -4,6 +4,7 @@ const { Join } = VM.require("buildhub.near/widget/home.Join");
 const { Purposes } = VM.require("buildhub.near/widget/home.Purposes");
 const { AboutUs } = VM.require("buildhub.near/widget/home.AboutUs");
 const { Governance } = VM.require("buildhub.near/widget/home.Governance");
+const { Footer } = VM.require("buildhub.near/widget/home.Footer");
 
 return {
   Hero,
@@ -12,4 +13,5 @@ return {
   Purposes,
   AboutUs,
   Governance,
+  Footer,
 };

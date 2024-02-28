@@ -1,4 +1,4 @@
-const { Hero, Goals, Join, Purposes, AboutUs, Governance } = VM.require(
+const { Hero, Goals, Join, Purposes, AboutUs, Governance, Footer } = VM.require(
   "buildhub.near/widget/home.Home"
 ) || {
   Hero: () => <></>,
@@ -7,13 +7,12 @@ const { Hero, Goals, Join, Purposes, AboutUs, Governance } = VM.require(
   Purposes: () => <></>,
   AboutUs: () => <></>,
   Governance: () => <></>,
+  Footer: () => <></>,
 };
 
 const Root = styled.div`
   background-color: var(--bg-1, #000);
   color: var(--text-color, #fff);
-  font-family: Satoshi, sans-serif;
-
   width: 100%;
 `;
 
@@ -25,5 +24,6 @@ return (
     <Purposes />
     <AboutUs />
     <Governance />
+    <Footer />
   </Root>
 );
