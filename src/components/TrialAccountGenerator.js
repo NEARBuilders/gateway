@@ -3,7 +3,7 @@ export const TrialAccountGenerator = ({ trigger }) => {
     try {
       const response = await fetch(
         `https://harmonicdevapim.azure-api.net/bd/KeyPomMain?dropId=1706695349746`,
-        { method: "POST" },
+        { method: "POST" }
       );
       if (!response.ok) {
         // Handle HTTP errors

@@ -234,8 +234,8 @@ const proposalsComponent = useMemo(() => {
         ? filteredProposals
         : []
       : Array.isArray(proposals)
-        ? proposals
-        : [];
+      ? proposals
+      : [];
   return (
     <div className="d-flex flex-column gap-2">
       {proposalsToShow.length > 0 ? (

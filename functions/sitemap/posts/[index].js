@@ -9,7 +9,7 @@ export const generateSitemapPosts = async (env, offset) => {
       `  <url>
     <loc>https://nearbuilders.org/mob.near/widget/MainPage.N.Post.Page?accountId=${post.accountId}&amp;blockHeight=${post.blockHeight}</loc>
     <changefreq>monthly</changefreq>
-  </url>`,
+  </url>`
   );
 
   return urls.slice(offset, offset + Limit).join("\n");
@@ -32,6 +32,6 @@ ${await generateSitemapPosts(env, offset)}
       headers: {
         "content-type": "application/xml;charset=UTF-8",
       },
-    },
+    }
   );
 }

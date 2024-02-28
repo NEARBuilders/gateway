@@ -80,13 +80,7 @@ const ContentContainer = styled.div`
   width: 100%;
 `;
 
-const ToggleLayout = ({
-  page,
-  routes,
-  children,
-  NavLink,
-  ...props
-}) => {
+const ToggleLayout = ({ page, routes, children, NavLink, ...props }) => {
   return (
     <Container>
       <ContentContainer key={page}>{children}</ContentContainer>

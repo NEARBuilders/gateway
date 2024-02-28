@@ -12,13 +12,6 @@ const accountId = context.accountId || "every.near";
 //   return <p>Loading...</p>
 // }
 
-
-
 return (
-  <Widget
-    src={"every.near/widget/app"}
-    props={{ data, path: "", ...props }}
-  />
+  <Widget src={"every.near/widget/app"} props={{ data, path: "", ...props }} />
 );
-
-

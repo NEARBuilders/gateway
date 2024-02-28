@@ -26,7 +26,7 @@ const connectEdge = Social.keys(
   undefined,
   {
     values_only: true,
-  },
+  }
 );
 
 // get DAO policy, deposit, and group

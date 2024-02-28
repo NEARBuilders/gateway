@@ -133,7 +133,7 @@ function App() {
     }
     near.selector.then((selector) => {
       setWalletModal(
-        setupModal(selector, { contractId: near.config.contractName }),
+        setupModal(selector, { contractId: near.config.contractName })
       );
     });
   }, [near]);
@@ -144,7 +144,7 @@ function App() {
       walletModal.show();
       return false;
     },
-    [walletModal],
+    [walletModal]
   );
 
   const logOut = useCallback(async () => {
@@ -160,7 +160,7 @@ function App() {
 
   const refreshAllowance = useCallback(async () => {
     alert(
-      "You're out of access key allowance. Need sign in again to refresh it",
+      "You're out of access key allowance. Need sign in again to refresh it"
     );
     await logOut();
     requestSignIn();
@@ -180,7 +180,7 @@ function App() {
     setAvailableStorage(
       account.storageBalance
         ? Big(account.storageBalance.available).div(utils.StorageCostPerByte)
-        : Big(0),
+        : Big(0)
     );
   }, [account]);
 

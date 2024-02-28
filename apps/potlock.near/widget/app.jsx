@@ -1,4 +1,3 @@
-
 const routes = {
   home: {
     path: "potlock.near/widget/Project.ListPage",
@@ -147,21 +146,24 @@ const Theme = styled.div`
     font-style: normal;
     font-weight: 400;
     src: local("Mona-Sans"),
-      url(https://fonts.cdnfonts.com/s/91271/Mona-Sans-Regular.woff) format("woff");
+      url(https://fonts.cdnfonts.com/s/91271/Mona-Sans-Regular.woff)
+        format("woff");
   }
   @font-face {
     font-family: mona-sans;
     font-style: normal;
     font-weight: 500;
     src: local("Mona-Sans"),
-      url(https://fonts.cdnfonts.com/s/91271/Mona-Sans-Medium.woff) format("woff");
+      url(https://fonts.cdnfonts.com/s/91271/Mona-Sans-Medium.woff)
+        format("woff");
   }
   @font-face {
     font-family: mona-sans;
     font-style: normal;
     font-weight: 600;
     src: local("Mona-Sans"),
-      url(https://fonts.cdnfonts.com/s/91271/Mona-Sans-SemiBold.woff) format("woff");
+      url(https://fonts.cdnfonts.com/s/91271/Mona-Sans-SemiBold.woff)
+        format("woff");
   }
   @font-face {
     font-family: mona-sans;
@@ -215,7 +217,7 @@ return (
       basePath={context.widgetSrc ?? `${ownerId}/widget/Index`} // TODO: context from VM or custom component for Link
       Layout={({ children, navigate, Outlet, ...p }) => {
         // we MUST pass "children" here, I wonder why?
-        
+
         // This should just be Template
         const { AppLayout } = VM.require(
           "every.near/widget/template.app" // choose your template, although this one is standard

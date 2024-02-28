@@ -18,10 +18,10 @@ export const generateSitemapSources = async (env, offset) => {
                 `  <url>
     <loc>https://nearbuilders.org/mob.near/widget/WidgetSource?src=${accountId}/widget/${widgetId}&amp;blockHeight=${blockHeight}</loc>
     <changefreq>never</changefreq>
-  </url>`,
-            ),
+  </url>`
+            )
         )
-        .flat(),
+        .flat()
     )
     .flat();
   return urls.slice(offset, offset + LIMIT).join("\n");
@@ -44,6 +44,6 @@ ${await generateSitemapSources(env, offset)}
       headers: {
         "content-type": "application/xml;charset=UTF-8",
       },
-    },
+    }
   );
 }

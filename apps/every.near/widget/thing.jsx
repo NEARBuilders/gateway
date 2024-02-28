@@ -290,10 +290,7 @@ function Thing() {
         );
       }
       return (
-        <Widget
-          src={widgetSrc}
-          props={{ data: thing, path, blockHeight }}
-        />
+        <Widget src={widgetSrc} props={{ data: thing, path, blockHeight }} />
       );
     }
     case "post": {
@@ -311,7 +308,9 @@ function Thing() {
       return <Widget src={path} props={props} />;
     }
     case "account": {
-      return <Widget src="mob.near/widget/ProfilePage" props={{ accountId: path }} />;
+      return (
+        <Widget src="mob.near/widget/ProfilePage" props={{ accountId: path }} />
+      );
     }
     case "settings": {
       // Standardize path to {accountId}/settings/**
