@@ -65,7 +65,7 @@ const ProjectCard = ({ title, tags, people, accountId, type, app }) => {
         <div className="info">
           <h4>{title.length > 30 ? `${title.slice(0, 25)}...` : title}</h4>
           <span>{`@${
-            accountId.length > 30
+            accountId.length > 25
               ? `${accountId.slice(0, 20)}...${accountId.slice(
                   accountId.length - 4
                 )}`
