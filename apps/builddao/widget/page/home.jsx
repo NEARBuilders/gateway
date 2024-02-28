@@ -1,10 +1,11 @@
-const { Hero, Goals, Join, Purposes } = VM.require(
+const { Hero, Goals, Join, Purposes, AboutUs } = VM.require(
   "buildhub.near/widget/home.Home"
 ) || {
   Hero: () => <></>,
   Goals: () => <></>,
   Join: () => <></>,
   Purposes: () => <></>,
+  AboutUs: () => <></>,
 };
 
 const Root = styled.div`
@@ -21,5 +22,6 @@ return (
     <Goals />
     <Join />
     <Purposes />
+    <AboutUs />
   </Root>
 );
