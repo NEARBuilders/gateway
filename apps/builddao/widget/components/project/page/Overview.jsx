@@ -1,9 +1,54 @@
-const { Hashtag } = VM.require("buildhub.near/widget/components") || {
+const { User, Hashtag } = VM.require("buildhub.near/widget/components") || {
+  User: () => <></>,
   Hashtag: () => <></>,
 };
 
-const accountId = props.accountId;
-const profile = props.profile;
+const { extractValidNearAddresses } = VM.require(
+  "buildbox.near/widget/utils.projects-sdk"
+) || {
+  extractValidNearAddresses: () => {},
+};
+
+const { id } = props;
+const extractNearAddress = (id) => {
+  const parts = id.split("/");
+  if (parts.length > 0) {
+    return parts[0];
+  }
+  return "";
+};
+
+const accountId = extractNearAddress(id);
+
+const data = Social.get(id + "/**", "final");
+
+if (!id || !data) {
+  return "Loading...";
+}
+
+const profile = Social.getr(`${accountId}/profile`, "final");
+
+function transformKeys(obj) {
+  obj.tags = obj.tracks;
+  delete obj.tracks;
+
+  return obj;
+}
+
+const project = transformKeys(JSON.parse(data[""]));
+const { description, teammates, tags } = project;
+
+const valid = extractValidNearAddresses(teammates);
+
+valid && valid.unshift(accountId);
+
+// making sure the array is unique
+const unique = [...new Set(valid)];
+// }
+const contributors = unique || [];
+
+console.log("teammates", teammates);
+console.log("contributors", contributors);
 
 const Container = styled.div`
   display: flex;
@@ -51,15 +96,15 @@ const MapIcon = () => (
   </svg>
 );
 
-const tags = Object.keys(profile.tags ?? []);
+// const tags = Object.keys(profile.tags ?? []);
 
 return (
   <Container>
     <div className="section">
       <p className="heading">About</p>
       <p className="description">
-        {profile.description ? (
-          <Markdown text={profile.description} />
+        {description ? (
+          <Markdown text={description} />
         ) : (
           "No information available"
         )}
@@ -76,17 +121,26 @@ return (
         <p className="heading">Team Size</p>
         <p className="description d-flex align-items-center gap-2">
           <i className="bi bi-person"></i>
-          {!profile.members && "0"}
-          {profile.members.length <= 10 && "1-10"}
-          {profile.members.length <= 50 && "10-50"}
-          {profile.members.length <= 100 && "50-100"}
-          {profile.members.length > 100 && "100+"}
+          {!contributors || !contributors.length
+            ? "0"
+            : contributors.length <= 10
+            ? "1-10"
+            : contributors.length <= 50
+            ? "10-50"
+            : contributors.length <= 100
+            ? "50-100"
+            : "100+"}
         </p>
       </div>
     </div>
     <div className="section">
       <p className="heading">Contributors</p>
-      {!profile.contributors && <p className="description">No Contributors</p>}
+      {!contributors && <p className="description">No Contributors</p>}
+      <div className="d-flex gap-4">
+        {contributors.map((teammate) => (
+          <User accountId={teammate} variant={"mobile"} />
+        ))}
+      </div>
     </div>
     <div className="section">
       <p className="heading">Project Tags</p>
