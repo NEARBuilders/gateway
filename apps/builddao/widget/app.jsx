@@ -34,8 +34,8 @@ const Root = styled.div`
   --button-default-bg: #23242b;
 
   --button-primary-color: #000;
-  --button-outline-color: #cdd0d5;
-  --button-default-color: #cdd0d5;
+  --button-outline-color: #fff;
+  --button-default-color: #fff;
 
   --button-primary-hover-bg: #e49b48;
   --button-outline-hover-bg: rgba(255, 255, 255, 0.2);

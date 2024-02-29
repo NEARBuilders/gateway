@@ -59,6 +59,7 @@ const Sidebar = ({ currentPath, page, routes }) => (
               fontSize: "14px",
               textDecoration: "none",
               cursor: "pointer",
+              fontWeight: 600,
               padding: "8px 12px",
               gap: "10px",
             }}

@@ -17,6 +17,7 @@ const NavContainer = styled.div`
   font-family: "Poppins", sans-serif;
 
   background-color: var(--bg, #000);
+  border-bottom: 1px solid var(--stroke-color, rgba(255, 255, 255, 0.2));
 `;
 
 const MainContent = styled.div`
@@ -116,8 +117,9 @@ const StyledDropdown = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: var(--slate-dark-5);
-    border-radius: 50px;
+    background-color: #23242b;
+    color: #fff;
+    border-radius: 8px;
     outline: none;
     border: 0;
     width: 40px;
@@ -152,7 +154,7 @@ const StyledDropdown = styled.div`
   }
 
   ul {
-    background-color: var(--slate-dark-5);
+    background-color: #23242b;
     width: 100%;
 
     li {
@@ -209,8 +211,8 @@ function Navbar(props) {
   };
 
   return (
-    <NavContainer className="container-xl">
-      <MainContent>
+    <NavContainer>
+      <MainContent className="container-xl">
         <Left>
           <Link
             to={href({
@@ -270,7 +272,7 @@ function Navbar(props) {
                 data-bs-toggle="dropdown"
                 aria-expanded="false"
               >
-                <i style={{ color: "white" }} className="bi bi-list"></i>
+                <i style={{ color: "white" }} className="bi bi-three-dots"></i>
               </button>
               <ul className="dropdown-menu" aria-labelledby="dropdownMenu2222">
                 <li>
@@ -306,15 +308,22 @@ function Navbar(props) {
               </ul>
             </StyledDropdown>
           </div>
-          {context.accountId && (
+          {context.accountId ? (
+            <Widget
+              src="buildhub.near/widget/components.buttons.UserDropdown"
+              loading=""
+            />
+          ) : (
             <Button
-              variant="primary"
               href={href({
                 widgetSrc: "buildhub.near/widget/app",
                 params: {
                   page: "feed",
                 },
               })}
+              variant="primary"
+              linkClassName="d-flex"
+              className="align-self-stretch w-100"
             >
               See Activity
             </Button>
@@ -418,6 +427,14 @@ function Navbar(props) {
                   <span>View source</span>
                 </Button>
                 <Button href={`/edit/${routes[page].path}`}>Edit Code</Button>
+              </div>
+              <div className="mx-auto">
+                {context.accountId && (
+                  <Widget
+                    src="buildhub.near/widget/components.buttons.UserDropdown"
+                    loading=""
+                  />
+                )}
               </div>
               <Button
                 href={href({
