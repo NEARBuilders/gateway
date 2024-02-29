@@ -127,8 +127,6 @@ const ProjectLayout = ({
     learning,
   } = project;
 
-  // extract the second, third and fourth parts of the url and save them as app, type, tittle-url respectively
-
   const [address, app, type, titleUrl] = id.split("/");
 
   console.log("params", { app, type, titleUrl });
