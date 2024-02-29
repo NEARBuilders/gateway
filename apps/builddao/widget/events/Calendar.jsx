@@ -3,7 +3,7 @@ const { Button } = VM.require("buildhub.near/widget/components") || {
 };
 
 const { fetchThings } = VM.require(
-  "buildhub.near/widget/lib.everything-sdk",
+  "buildhub.near/widget/lib.everything-sdk"
 ) || {
   fetchThings: () => {},
 };
@@ -16,7 +16,7 @@ const StyledToolbar = styled.div`
   padding: 16px 24px;
   margin-bottom: 24px;
 
-  background: var(--bg-1, #0b0c14);
+  background: var(--bg-1, #000000);
 
   color: var(--text-color, #fff);
   font-size: 18px;
@@ -218,7 +218,7 @@ const CurrentView = () => {
 };
 
 const Container = styled.div`
-  background: var(--bg-1, #0b0c14);
+  background: var(--bg-1, #000000);
 `;
 
 return (

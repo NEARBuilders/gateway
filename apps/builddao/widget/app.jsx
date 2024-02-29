@@ -21,7 +21,7 @@ const Root = styled.div`
   --font-muted-color: #cdd0d5;
   --black: #000;
   --system-red: #fd2a5c;
-  --yellow: #ffaf51;
+  --yellow: #eca227;
 
   --compose-bg: #23242b;
 
@@ -29,7 +29,7 @@ const Root = styled.div`
   --post-bg-hover: #1d1f25;
   --post-bg-transparent: rgba(23, 24, 28, 0);
 
-  --button-primary-bg: #ffaf51;
+  --button-primary-bg: #eca227;
   --button-outline-bg: transparent;
   --button-default-bg: #23242b;
 

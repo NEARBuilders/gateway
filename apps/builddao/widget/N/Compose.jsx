@@ -56,7 +56,7 @@ const composeData = () => {
 
   if (notifications.length) {
     data.index.notify = JSON.stringify(
-      notifications.length > 1 ? notifications : notifications[0],
+      notifications.length > 1 ? notifications : notifications[0]
     );
   }
 
@@ -67,7 +67,7 @@ const composeData = () => {
       hashtags.map((hashtag) => ({
         key: hashtag,
         value: item,
-      })),
+      }))
     );
   }
 
@@ -108,7 +108,7 @@ return (
               force
               className="btn rounded-3"
               style={{
-                backgroundColor: "var(--yellow, #ffaf51)",
+                backgroundColor: "var(--yellow, #eca227)",
                 color: "var(--button-primary-color, #000)",
                 fontSize: "14px",
                 fontWeight: "500",

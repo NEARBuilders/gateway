@@ -681,7 +681,7 @@ const renderMenuItem = (c, i) => {
   res.push(
     <div className="menu-item" key={i}>
       <a href={`#${id}`}>{c.name}</a>
-    </div>,
+    </div>
   );
   return res;
 };
@@ -699,7 +699,7 @@ const Grid = styled.div`
     grid-column: span 1 / span 1;
     border-radius: 16px;
     border: 1px solid var(--stroke-color, rgba(255, 255, 255, 0.2));
-    background: var(--bg-1, #0b0c14);
+    background: var(--bg-1, #000000);
     width: 100%;
     min-height: 80vh;
     display: flex;
