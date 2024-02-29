@@ -243,12 +243,12 @@ const Hero = () => {
             No passphrases, no crypto required.
           </Phrase>
         </div>
-        <Stats>
+        {/* <Stats>
           <InfoStat label="Lorem" amount={100} />
           <InfoStat label="Lorem" amount={100} />
           <InfoStat label="Lorem" amount={100} />
           <InfoStat label="Lorem" amount={100} />
-        </Stats>
+        </Stats> */}
       </Container>
       <MobileBlur src={mobileBlur} />
       <LeftBlur src={leftBlur} />

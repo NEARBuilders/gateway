@@ -25,7 +25,7 @@ const ContentContainer = styled.div`
 
 const Header = ({ page, routes, ...props }) => (
   <Widget
-    src="buildhub.near/widget/components.navigation.Navbar"
+    src="buildhub.near/widget/components.Navbar"
     loading=""
     props={{ page, routes, ...props }}
   />
