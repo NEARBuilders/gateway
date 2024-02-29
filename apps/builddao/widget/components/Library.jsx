@@ -701,7 +701,7 @@ const renderMenuItem = (c, i) => {
         </svg>{" "}
         {c.name}
       </a>
-    </div>
+    </div>,
   );
   return res;
 };

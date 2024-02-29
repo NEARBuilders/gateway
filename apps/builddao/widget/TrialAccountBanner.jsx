@@ -139,7 +139,7 @@ return (
                       .catch((error) => {
                         setLoading(false);
                         setBtnText(
-                          "Trial account claim empty now. They will be available again soon. Please try later..."
+                          "Trial account claim empty now. They will be available again soon. Please try later...",
                         );
                       });
                   }}
