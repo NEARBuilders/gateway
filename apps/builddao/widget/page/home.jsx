@@ -18,7 +18,7 @@ const Root = styled.div`
 
 return (
   <Root>
-    <Hero />
+    <Hero {...props}/>
     <Goals />
     <Join />
     <Purposes />

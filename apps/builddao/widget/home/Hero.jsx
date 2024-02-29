@@ -211,7 +211,9 @@ const MobileBlur = styled.img`
   }
 `;
 
-const Hero = () => {
+const Hero = (props) => {
+
+  const {signedIn , currentGateway} = props;
   return (
     <div className="position-relative">
       <Container className="container-xl mt-md-3 z-3">
@@ -227,23 +229,39 @@ const Hero = () => {
           </Subheading>
         </HeadingContainer>
         <div className="d-flex align-items-center gap-4">
+      {currentGateway && !signedIn ? (
+        <>
+        <a
+          href={"https://nearbuilders.org/join?from=trial"}
+          style={{ textDecoration: "none" }}
+        >
           <Button
-            href={href({
-              widgetSrc: "buildhub.near/widget/app",
-              params: {
-                page: "feed",
-              },
-            })}
             style={{ background: "#4A21A5", color: "white" }}
           >
-            See Activity
+            Create Trial Account
           </Button>
+          </a>
           <Phrase>
-            Explore the public feed without login.
+            Try out the Builders Gateway with a trial account.
             <br />
             No passphrases, no crypto required.
           </Phrase>
-        </div>
+          </>
+      ): (
+      <>
+      <Button
+      href={href({
+        widgetSrc: "buildhub.near/widget/app",
+        params: {
+          page: "feed",
+        },
+      })}
+      style={{ background: "#4A21A5", color: "white" }}
+    >
+      See Activity
+    </Button>
+    </> )}
+      </div>
         {/* <Stats>
           <InfoStat label="Lorem" amount={100} />
           <InfoStat label="Lorem" amount={100} />
