@@ -312,6 +312,7 @@ function Navbar(props) {
             <Widget
               src="buildhub.near/widget/components.buttons.UserDropdown"
               loading=""
+              props={props}
             />
           ) : (
             <Button
@@ -428,34 +429,39 @@ function Navbar(props) {
                 </Button>
                 <Button href={`/edit/${routes[page].path}`}>Edit Code</Button>
               </div>
-              <div className="mx-auto">
-                {context.accountId && (
+              {context.accountId ? (
+                <div className="mx-auto d-flex align-items-stretch ">
                   <Widget
                     src="buildhub.near/widget/components.buttons.UserDropdown"
                     loading=""
+                    props={props}
                   />
-                )}
-              </div>
-              <Button
-                href={href({
-                  widgetSrc: "buildhub.near/widget/app",
-                  params: {
-                    page: "feed",
-                  },
-                })}
-                variant="primary"
-                linkClassName="d-flex"
-                className="align-self-stretch w-100"
-              >
-                See Activity
-              </Button>
-              <p
-                className="m-0 text-center"
-                style={{ color: "#7F7F7F", fontSize: 14 }}
-              >
-                Explore the public feed without login. <br />
-                No passphrases, no crypto required.
-              </p>
+                </div>
+              ) : (
+                <>
+                  <Button
+                    href={href({
+                      widgetSrc: "buildhub.near/widget/app",
+                      params: {
+                        page: "feed",
+                      },
+                    })}
+                    variant="primary"
+                    linkClassName="d-flex"
+                    className="align-self-stretch w-100"
+                    onClick={() => setDropdown(false)}
+                  >
+                    See Activity
+                  </Button>
+                  <p
+                    className="m-0 text-center"
+                    style={{ color: "#7F7F7F", fontSize: 14 }}
+                  >
+                    Explore the public feed without login. <br />
+                    No passphrases, no crypto required.
+                  </p>
+                </>
+              )}
             </div>
           </MobileContent>
         </MobileView>

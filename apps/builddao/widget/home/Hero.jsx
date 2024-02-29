@@ -207,6 +207,7 @@ const MobileBlur = styled.img`
     bottom: -15px;
     opacity: 0.5;
     display: block;
+    pointer-events: none;
   }
 `;
 
