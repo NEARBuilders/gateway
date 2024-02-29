@@ -1,13 +1,8 @@
-const { fetchProjects } = VM.require(
+const { fetchProjects, extractValidNearAddresses } = VM.require(
   "buildbox.near/widget/utils.projects-sdk"
 ) || {
   fetchProjects: () => {},
-};
-
-const { validNearAddresses } = VM.require(
-  "buildhub.near/widget/lib.extract-near-addresses"
-) || {
-  validNearAddresses: () => {},
+  extractValidNearAddresses: () => {},
 };
 
 const { Button } = VM.require("buildhub.near/widget/components") || {
@@ -41,7 +36,7 @@ const processData = useCallback(
           const metadata = JSON.parse(kv[1]);
           const members = metadata.teammates;
 
-          const valid = validNearAddresses(members);
+          const valid = extractValidNearAddresses(members);
 
           valid.unshift(accountId);
 
