@@ -3,51 +3,18 @@ const { User, Hashtag } = VM.require("buildhub.near/widget/components") || {
   Hashtag: () => <></>,
 };
 
-const { extractValidNearAddresses } = VM.require(
-  "buildbox.near/widget/utils.projects-sdk"
+const { getProjectMeta } = VM.require(
+  "buildhub.near/widget/lib.project-data"
 ) || {
-  extractValidNearAddresses: () => {},
+  getProjectMeta: () => {},
 };
 
 const { id } = props;
-const extractNearAddress = (id) => {
-  const parts = id.split("/");
-  if (parts.length > 0) {
-    return parts[0];
-  }
-  return "";
-};
 
-const accountId = extractNearAddress(id);
+const project = getProjectMeta(id);
 
-const data = Social.get(id + "/**", "final");
+const { description, tags, contributors, accountId, profile } = project;
 
-if (!id || !data) {
-  return "Loading...";
-}
-
-const profile = Social.getr(`${accountId}/profile`, "final");
-
-function transformKeys(obj) {
-  obj.tags = obj.tracks;
-  delete obj.tracks;
-
-  return obj;
-}
-
-const project = transformKeys(JSON.parse(data[""]));
-const { description, teammates, tags } = project;
-
-const valid = extractValidNearAddresses(teammates);
-
-valid && valid.unshift(accountId);
-
-// making sure the array is unique
-const unique = [...new Set(valid)];
-// }
-const contributors = unique || [];
-
-console.log("teammates", teammates);
 console.log("contributors", contributors);
 
 const Container = styled.div`
@@ -137,17 +104,16 @@ return (
       <p className="heading">Contributors</p>
       {!contributors && <p className="description">No Contributors</p>}
       <div className="d-flex gap-4">
-        {contributors.map((teammate) => (
-          <User accountId={teammate} variant={"mobile"} />
-        ))}
+        {contributors &&
+          contributors.map((teammate) => (
+            <User accountId={teammate} variant={"mobile"} />
+          ))}
       </div>
     </div>
     <div className="section">
       <p className="heading">Project Tags</p>
       <div className="d-flex flex-align-center flex-wrap" style={{ gap: 12 }}>
-        {tags.map((it) => (
-          <Hashtag key={it}>{it}</Hashtag>
-        ))}
+        {tags && tags.map((it) => <Hashtag key={it}>{it}</Hashtag>)}
         {tags.length === 0 && <p className="description">No tags</p>}
       </div>
     </div>
