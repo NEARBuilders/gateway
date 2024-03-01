@@ -214,7 +214,7 @@ const onSubmit = () => {
               url: link,
               start: `${isoDate(startDate, startTime)}T${isoTime(
                 startDate,
-                startTime
+                startTime,
               )}`, // we'll want this be available for filtering... we may want to store it outside the JSON
               // or we need an indexing solution
               // we fetch events and then apply filters after parsing them
@@ -241,7 +241,7 @@ const onSubmit = () => {
     },
     {
       onCommit: () => props.toggleModal(),
-    }
+    },
   );
 };
 
@@ -401,7 +401,15 @@ return (
         />
       </div>
       <div className="form-group flex-grow-1">
-        <label htmlFor="customButton">Custom Button Souce</label>
+        <div className="d-flex align-items-center justify-content-between">
+          <label htmlFor="customButton">Custom Button Souce</label>
+          <a
+            href="https://near.social/itexpert120-contra.near/widget/Button.Create"
+            target="_blank"
+          >
+            <small>Create Button Here</small>
+          </a>
+        </div>
         <input
           id="customButton"
           name="customButton"

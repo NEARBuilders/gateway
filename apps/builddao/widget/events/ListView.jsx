@@ -6,6 +6,8 @@ const { Button, Hashtag } = VM.require("buildhub.near/widget/components") || {
 const events = props.events ?? [];
 const currentDate = props.currentDate;
 
+console.log(events);
+
 if (!events || !currentDate) {
   return "";
 }
@@ -222,7 +224,7 @@ const EventGroup = ({ date }) => {
                   })}
                 </span>
               </div>
-              <div>
+              <div className="d-flex align-items-center gap-3">
                 <Button
                   noLink={true}
                   href={`${event?.url}`}
@@ -231,6 +233,12 @@ const EventGroup = ({ date }) => {
                 >
                   Join Now
                 </Button>
+                {event.extendedProps.customButtonSrc && (
+                  <Widget
+                    src={event.extendedProps.customButtonSrc}
+                    loading=""
+                  />
+                )}
               </div>
             </StyledEvent>
           );
