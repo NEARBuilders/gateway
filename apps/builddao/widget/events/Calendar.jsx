@@ -224,7 +224,7 @@ const Container = styled.div`
 `;
 
 return (
-  <Container className="mb-3">
+  <Container className="mb-3 mx-3">
     <Widget
       src="buildhub.near/widget/components.modals.CreateEvent"
       loading=""
