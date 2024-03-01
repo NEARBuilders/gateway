@@ -189,6 +189,7 @@ const [startTime, setStartTime] = useState(getCurrentTime());
 const [endTime, setEndTime] = useState(getCurrentTime());
 const [location, setLocation] = useState("");
 const [hashtags, setHashtags] = useState([]);
+const [customButtonSrc, setCustomButtonSrc] = useState("");
 
 State.init({
   image: null,
@@ -213,7 +214,7 @@ const onSubmit = () => {
               url: link,
               start: `${isoDate(startDate, startTime)}T${isoTime(
                 startDate,
-                startTime,
+                startTime
               )}`, // we'll want this be available for filtering... we may want to store it outside the JSON
               // or we need an indexing solution
               // we fetch events and then apply filters after parsing them
@@ -224,6 +225,7 @@ const onSubmit = () => {
                 hashtags, // this can be moved to metadata.tags, but must be object with keys, e.g { [hashtag]: "" }
                 // this i'll leave up to you but we need them for filtering
                 cover: state.image,
+                customButtonSrc: customButtonSrc,
               },
             }),
             metadata: {
@@ -239,7 +241,7 @@ const onSubmit = () => {
     },
     {
       onCommit: () => props.toggleModal(),
-    },
+    }
   );
 };
 
@@ -396,6 +398,16 @@ return (
           src="buildhub.near/widget/components.ImageUploader"
           loading=""
           props={{ image: state.image, onChange: onCoverChange }}
+        />
+      </div>
+      <div className="form-group flex-grow-1">
+        <label htmlFor="customButton">Custom Button Souce</label>
+        <input
+          id="customButton"
+          name="customButton"
+          type="text"
+          value={customButtonSrc}
+          onChange={(e) => setCustomButtonSrc(e.target.value)}
         />
       </div>
     </div>
