@@ -175,7 +175,7 @@ const EventGroup = ({ date }) => {
               [eventApp]: {
                 [eventType]: {
                   [eventKey]: {
-                    "": "",
+                    "": null,
                   },
                 },
               },
