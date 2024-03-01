@@ -194,7 +194,7 @@ return {
       init: {
         name: "Events",
         icon: "bi-calendar",
-        app: "every",
+        app: "test",
         thing: "event",
       },
     },

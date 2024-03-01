@@ -129,6 +129,29 @@ const hashtags =
     return it;
   }) ?? [];
 
+let eventAuthor;
+let eventApp;
+let eventType;
+let eventKey;
+if (data) {
+  eventAuthor = data?.extendedProps?.key?.split("/")[0] ?? "";
+  eventApp = data?.extendedProps?.key?.split("/")[1] ?? "";
+  eventType = data?.extendedProps?.key?.split("/")[2] ?? "";
+  eventKey = data?.extendedProps?.key?.split("/")[3] ?? "";
+}
+
+const handleDelete = () => {
+  Social.set({
+    [eventApp]: {
+      [eventType]: {
+        [eventKey]: {
+          "": "",
+        },
+      },
+    },
+  });
+};
+
 return (
   <>
     <iframe
@@ -232,6 +255,15 @@ return (
           </Button>
           {data.extendedProps.customButtonSrc && (
             <Widget src={data.extendedProps.customButtonSrc} loading="" />
+          )}
+          {eventAuthor === context.accountId && (
+            <Button
+              onClick={handleDelete}
+              style={{ background: "#ff2b2b" }}
+              variant="primary"
+            >
+              Delete Event
+            </Button>
           )}
         </div>
       </Modal>
