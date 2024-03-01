@@ -214,7 +214,7 @@ const onSubmit = () => {
               url: link,
               start: `${isoDate(startDate, startTime)}T${isoTime(
                 startDate,
-                startTime
+                startTime,
               )}`, // we'll want this be available for filtering... we may want to store it outside the JSON
               // or we need an indexing solution
               // we fetch events and then apply filters after parsing them
@@ -241,7 +241,7 @@ const onSubmit = () => {
     },
     {
       onCommit: () => props.toggleModal(),
-    }
+    },
   );
 };
 
@@ -249,14 +249,8 @@ const onCoverChange = (target) => {
   State.update({ image: target });
 };
 
-const Wrapper = styled.div`
-  .rbt-token-removeable {
-    background: #007bff;
-  }
-`;
-
 return (
-  <Wrapper data-bs-theme={bootstrapTheme}>
+  <div data-bs-theme={bootstrapTheme}>
     <div className="form-group mb-3">
       <label htmlFor="title">
         Title<span className="text-danger">*</span>
@@ -434,5 +428,5 @@ return (
         Submit
       </Button>
     </div>
-  </Wrapper>
+  </div>
 );
