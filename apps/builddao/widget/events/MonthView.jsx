@@ -1,5 +1,5 @@
 const { Modal, Hashtag, Button } = VM.require(
-  "buildhub.near/widget/components",
+  "buildhub.near/widget/components"
 ) || {
   Modal: () => <></>,
   Hashtag: () => <></>,
@@ -169,16 +169,22 @@ return (
     {data && (
       <Modal open={showModal} onOpenChange={toggleModal} title={data.title}>
         <div style={{ maxWidth: 600 }}>
-          <div className="mb-3 d-flex align-items-center justify-content-between flex-wrap">
+          <div className="mb-3 d-flex align-items-center gap-5 flex-wrap">
             <span>
-              <i className="bi bi-calendar"></i> Start Date Time:{" "}
+              <h5 style={{ fontSize: 12, fontWeight: 700, marginBottom: 8 }}>
+                START
+              </h5>
+              <i className="bi bi-calendar"></i>
               {new Date(data.start).toLocaleDateString("en-us", {
                 hour: "2-digit",
                 minute: "numeric",
               })}
             </span>
             <span>
-              <i className="bi bi-calendar"></i> End Date Time:{" "}
+              <h5 style={{ fontSize: 12, fontWeight: 700, marginBottom: 8 }}>
+                END
+              </h5>
+              <i className="bi bi-calendar"></i>
               {new Date(data.end).toLocaleDateString("en-us", {
                 hour: "2-digit",
                 minute: "numeric",
@@ -198,31 +204,33 @@ return (
               <h5 style={{ fontSize: 12, fontWeight: 700, marginBottom: 8 }}>
                 ORGANIZERS
               </h5>
-              {organizers.map((organizer) => {
-                const organizerProfile = Social.getr(`${organizer}/profile`);
-                return (
-                  <span className="d-flex align-items-center gap-1">
-                    <Widget
-                      src="mob.near/widget/Image"
-                      loading=""
-                      props={{
-                        image: organizerProfile.image,
-                        fallbackUrl:
-                          "https://ipfs.near.social/ipfs/bafkreibas66y6ewop5ix2n6mgybpjz6epg7opqvcplmm5jw4jlhdik5nhe",
-                        style: {
-                          width: 24,
-                          height: 24,
-                          borderRadius: 12,
-                          objectFit: "cover",
-                        },
-                      }}
-                    />
-                    {organizerProfile.name ??
-                      organizers[0] ??
-                      "No name profile"}
-                  </span>
-                );
-              })}
+              <div className="d-flex align-items-center gap-3 flex-wrap">
+                {organizers.map((organizer) => {
+                  const organizerProfile = Social.getr(`${organizer}/profile`);
+                  return (
+                    <span className="d-flex align-items-center gap-1">
+                      <Widget
+                        src="mob.near/widget/Image"
+                        loading=""
+                        props={{
+                          image: organizerProfile.image,
+                          fallbackUrl:
+                            "https://ipfs.near.social/ipfs/bafkreibas66y6ewop5ix2n6mgybpjz6epg7opqvcplmm5jw4jlhdik5nhe",
+                          style: {
+                            width: 24,
+                            height: 24,
+                            borderRadius: 12,
+                            objectFit: "cover",
+                          },
+                        }}
+                      />
+                      {organizerProfile.name ??
+                        organizers[0] ??
+                        "No name profile"}
+                    </span>
+                  );
+                })}
+              </div>
             </div>
           )}
           {hashtags.length > 0 && (
