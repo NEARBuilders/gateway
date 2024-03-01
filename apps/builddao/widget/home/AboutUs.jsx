@@ -176,7 +176,7 @@ const BlurImage = styled.img`
 
 const AboutUs = () => {
   return (
-    <Container className="container-xl position-relative">
+    <Container className="container-xl position-relative" key="purposes">
       <HeadingSection>
         <Tag label="About Us" />
         <h2>

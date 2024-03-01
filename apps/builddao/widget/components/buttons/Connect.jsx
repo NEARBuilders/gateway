@@ -129,7 +129,7 @@ const { href: linkHref } = VM.require("buildhub.near/widget/lib.url") || {
 const Component = () => {
   if (!context.accountId) {
     return (
-      <Button href={"https://nearbuilders.org/join"} variant="primary">
+      <Button href={"https://nearbuilders.org/join"} variant="primary" noLink={true}>
         Join Now
       </Button>
     );

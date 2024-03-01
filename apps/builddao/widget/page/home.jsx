@@ -19,10 +19,10 @@ const Root = styled.div`
 return (
   <Root>
     <Hero {...props}/>
-    <Goals />
-    <Join />
-    <Purposes />
-    <AboutUs />
+    {/* <Goals /> */}
+    {/* <Join /> */}
+    <Purposes/>
+    {/* <AboutUs /> */}
     <Governance />
     <Footer />
   </Root>

@@ -220,7 +220,7 @@ const GridImage = styled.img`
 
 const Purposes = () => {
   return (
-    <Container className="container-xl">
+    <Container className="container-xl" key="purposes">
       <HeadingContainer>
         <Tag label="Purposes" />
         <h2>
@@ -255,7 +255,7 @@ const Purposes = () => {
           </div>
         </Step>
       </StepContainer>
-      <Banner>
+      {/* <Banner>
         <div className="container z-2">
           <h3>
             Your project & Everything.dev & <span>Create together.</span>
@@ -280,6 +280,7 @@ const Purposes = () => {
         <div className="z-2 mt-3 d-flex justify-content-center justify-content-md-start mt-md-4 position-relative">
           <Button
             href={`https://near.social/hack.near/widget/app.create`}
+            noLink={true}
             target="_blank"
             style={{ width: 60, backgroundColor: "#4A21A5" }}
           >
@@ -287,7 +288,7 @@ const Purposes = () => {
           </Button>
         </div>
         <GridImage src={gridLink} />
-      </Banner>
+      </Banner> */}
     </Container>
   );
 };
