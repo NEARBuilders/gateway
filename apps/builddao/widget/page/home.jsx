@@ -18,10 +18,10 @@ const Root = styled.div`
 
 return (
   <Root>
-    <Hero {...props}/>
+    <Hero {...props} />
     {/* <Goals /> */}
     {/* <Join /> */}
-    <Purposes/>
+    <Purposes />
     {/* <AboutUs /> */}
     <Governance />
     <Footer />
