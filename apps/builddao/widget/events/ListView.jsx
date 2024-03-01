@@ -6,8 +6,6 @@ const { Button, Hashtag } = VM.require("buildhub.near/widget/components") || {
 const events = props.events ?? [];
 const currentDate = props.currentDate;
 
-console.log(events);
-
 if (!events || !currentDate) {
   return "";
 }
