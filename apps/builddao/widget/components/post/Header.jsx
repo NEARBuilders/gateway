@@ -125,8 +125,49 @@ const Overlay = (props) => (
   </Link>
 );
 
-return (
-  <div className="d-flex align-items-center">
+const [dropdown, setDropdown] = useState(false);
+const toggleDropdown = () => {
+  setDropdown(!dropdown);
+};
+
+const Dropdown = styled.div`
+  border-radius: 8px;
+  border: 1px solid var(--stroke-color, rgba(255, 255, 255, 0.2));
+  background: var(--bg-2, #23242b);
+  z-index: 20;
+
+  display: flex;
+  padding: 10px 0px;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+
+  .dropdown-item {
+    color: #fff;
+
+    /* Body/10px */
+    font-family: InterVariable, sans-serif;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+
+    display: flex;
+    padding: 10px;
+    align-items: center;
+    gap: 4px;
+    align-self: stretch;
+  }
+
+  .dropdown-item:hover {
+    transition: all 300ms;
+    color: #000 !important;
+    background: #fff;
+  }
+`;
+
+const MemoizedOverlay = useMemo(
+  () => (
     <Overlay>
       <div className="d-flex gap-1">
         <Avatar variant={props.variant} accountId={accountId} />
@@ -165,55 +206,74 @@ return (
         )}
       </div>
     </Overlay>
+  ),
+  [props.variant, accountId, name, isPremium, blockHeight, link, pinned]
+);
+
+return (
+  <div className="d-flex align-items-center">
+    {MemoizedOverlay}
     {!pinned && !hideMenu && blockHeight !== "now" && (
-      <span className="ms-auto flex-shrink-0">
-        <Button data-bs-toggle="dropdown" aria-expanded="false">
+      <span className="ms-auto flex-shrink-0 position-relative">
+        <Button
+          style={{ color: "var(--text-color, #fff)" }}
+          onClick={() => toggleDropdown()}
+        >
           <i className="bi bi-three-dots-vertical"></i>
         </Button>
-        <ul className="dropdown-menu">
-          <li className="dropdown-item">
-            <Link
-              className="link-dark text-decoration-none"
-              href={`${link}&raw=true`}
-            >
-              <i className="bi bi-filetype-raw" /> View raw markdown source
-            </Link>
-          </li>
-          <li>
-            <Widget
-              src="mob.near/widget/MainPage.Common.HideAccount"
-              props={{ accountId }}
-            />
-          </li>
-          {flagItem && (
-            <li>
-              <Widget
-                src="mob.near/widget/MainPage.Common.FlagContent"
-                props={{
-                  item: flagItem,
-                  label: `Flag ${postType} for moderation`,
-                }}
-              />
-            </li>
-          )}
-          {customActions.length > 0 &&
-            customActions.map((action) => (
-              <li key={action.label}>
+        {dropdown && (
+          <Dropdown
+            className="position-absolute shadow-sm"
+            style={{ top: 16, right: 16 }}
+          >
+            {customActions.length > 0 &&
+              customActions.map((action) => (
                 <button
+                  key={action.label}
                   onClick={() => {
                     if (action.type === "modal") {
                       action.onClick(modalToggles);
                       setItem(flagItem);
                     }
                   }}
-                  className="btn btn-outline-dark dropdown-item"
+                  className="dropdown-item"
                 >
                   <i className={`bi ${action.icon}`}></i>{" "}
                   <span>{action.label}</span>
                 </button>
-              </li>
-            ))}
-        </ul>
+              ))}
+            <div
+              style={{
+                border:
+                  "1px solid var(--stroke-color, rgba(255, 255, 255, 0.2)",
+                width: "100%",
+              }}
+            ></div>
+            <Link
+              className="link-light text-decoration-none dropdown-item"
+              href={`${link}&raw=true`}
+            >
+              <i className="bi bi-filetype-raw" /> Markdown Source
+            </Link>
+            <div>
+              <Widget
+                src="mob.near/widget/MainPage.Common.HideAccount"
+                loading=""
+                props={{ accountId }}
+              />
+            </div>
+            {flagItem && (
+              <Widget
+                src="mob.near/widget/MainPage.Common.FlagContent"
+                loading=""
+                props={{
+                  item: flagItem,
+                  label: `Flag ${postType}`,
+                }}
+              />
+            )}
+          </Dropdown>
+        )}
       </span>
     )}
   </div>
