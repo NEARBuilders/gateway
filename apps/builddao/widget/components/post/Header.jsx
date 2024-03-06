@@ -210,6 +210,19 @@ const MemoizedOverlay = useMemo(
   [props.variant, accountId, name, isPremium, blockHeight, link, pinned]
 );
 
+const handleDelete = () => {
+  Social.set({
+    index: {
+      modify: JSON.stringify({
+        key: flagItem,
+        value: {
+          type: "delete",
+        },
+      }),
+    },
+  });
+};
+
 return (
   <div className="d-flex align-items-center">
     {MemoizedOverlay}
@@ -226,6 +239,11 @@ return (
             className="position-absolute shadow-sm"
             style={{ top: 16, right: 16 }}
           >
+            {context.accountId === accountId && (
+              <button className="dropdown-item" onClick={handleDelete}>
+                <i className="bi bi-trash"></i> Delete Post
+              </button>
+            )}
             {customActions.length > 0 &&
               customActions.map((action) => (
                 <button
@@ -242,26 +260,28 @@ return (
                   <span>{action.label}</span>
                 </button>
               ))}
-            <div
-              style={{
-                border:
-                  "1px solid var(--stroke-color, rgba(255, 255, 255, 0.2)",
-                width: "100%",
-              }}
-            ></div>
+            {/* Seperator */}
+            {(context.accountId === accountId || customActions.length > 0) && (
+              <div
+                style={{
+                  border:
+                    "1px solid var(--stroke-color, rgba(255, 255, 255, 0.2)",
+                  width: "100%",
+                }}
+              ></div>
+            )}
             <Link
               className="link-light text-decoration-none dropdown-item"
               href={`${link}&raw=true`}
             >
               <i className="bi bi-filetype-raw" /> Markdown Source
             </Link>
-            <div>
-              <Widget
-                src="mob.near/widget/MainPage.Common.HideAccount"
-                loading=""
-                props={{ accountId }}
-              />
-            </div>
+
+            <Widget
+              src="mob.near/widget/MainPage.Common.HideAccount"
+              loading=""
+              props={{ accountId }}
+            />
             {flagItem && (
               <Widget
                 src="mob.near/widget/MainPage.Common.FlagContent"
