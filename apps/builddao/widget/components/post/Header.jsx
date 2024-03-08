@@ -196,6 +196,7 @@ const MemoizedOverlay = useMemo(
                   />
                 </Link>
               )}
+              {props.isEdited && "(edited post)"}
             </p>
           )}
         </Wrapper>
@@ -209,19 +210,6 @@ const MemoizedOverlay = useMemo(
   ),
   [props.variant, accountId, name, isPremium, blockHeight, link, pinned]
 );
-
-const handleDelete = () => {
-  Social.set({
-    index: {
-      modify: JSON.stringify({
-        key: flagItem,
-        value: {
-          type: "delete",
-        },
-      }),
-    },
-  });
-};
 
 return (
   <div className="d-flex align-items-center">
@@ -240,10 +228,22 @@ return (
             style={{ top: 16, right: 16 }}
           >
             {context.accountId === accountId && (
-              <button className="dropdown-item" onClick={handleDelete}>
+              <button
+                className="dropdown-item"
+                onClick={() => props.setShowDeleteModal(true)}
+              >
                 <i className="bi bi-trash"></i> Delete Post
               </button>
             )}
+            {context.accountId === accountId && (
+              <button
+                className="dropdown-item"
+                onClick={() => props.setShowEditModal(true)}
+              >
+                <i className="bi bi-pencil"></i> Edit Post
+              </button>
+            )}
+
             {customActions.length > 0 &&
               customActions.map((action) => (
                 <button

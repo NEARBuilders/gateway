@@ -245,6 +245,20 @@ const item = {
   blockHeight,
 };
 
+const modifications = Social.index("modify", item, { limit: 1, order: "desc" });
+
+const [isEdited, setIsEdited] = useState(false);
+
+if (modifications.length) {
+  const modification = modifications[0].value;
+  if (modification.type === "edit") {
+    content = modification.value;
+    setIsEdited(true);
+  } else if (modification.type === "delete") {
+    return <></>;
+  }
+}
+
 const link =
   props.link ??
   props.fullPostLink ??
@@ -286,8 +300,41 @@ const contentWidget = (
   </>
 );
 
+const [showDeleteModal, setShowDeleteModal] = useState(false);
+const toggleDeleteModal = () => {
+  setShowDeleteModal(!showDeleteModal);
+};
+const [showEditModal, setShowEditModal] = useState(false);
+const toggleEditModal = () => {
+  setShowEditModal(!showEditModal);
+};
+
 return (
   <>
+    {context.accountId === accountId && (
+      <Widget
+        src="buildhub.near/widget/components.modals.DeletePost"
+        loading=""
+        props={{
+          showModal: showDeleteModal,
+          toggleModal: toggleDeleteModal,
+          item: item,
+        }}
+      />
+    )}
+    {context.accountId === accountId && (
+      <Widget
+        src="buildhub.near/widget/components.modals.EditPost"
+        loading=""
+        props={{
+          showModal: showEditModal,
+          toggleModal: toggleEditModal,
+          item: item,
+          initialText: content.text,
+          initialImage: content.image,
+        }}
+      />
+    )}
     <StyledPost
       key={`Post-${item.path}-${item.blockHeight}`}
       style={{ width: props.width ? props.width : "auto" }}
@@ -309,7 +356,7 @@ return (
               loading=""
               props={{
                 accountId: accountId,
-                blockHeight: blockHeight,
+                blockHeight: modifications[0].blockHeight ?? blockHeight,
                 pinned: pinned,
                 hideMenu: hideMenu,
                 link: link,
@@ -318,6 +365,9 @@ return (
                 customActions: customActions,
                 modalToggles: props.modalToggles,
                 setItem: props.setItem,
+                setShowDeleteModal: setShowDeleteModal,
+                setShowEditModal: setShowEditModal,
+                isEdited: isEdited,
               }}
             />
             {fullPostLink ? (
