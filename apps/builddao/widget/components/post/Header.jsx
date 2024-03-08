@@ -1,4 +1,5 @@
-const { Avatar } = VM.require("buildhub.near/widget/components") || {
+const { Avatar, Modal } = VM.require("buildhub.near/widget/components") || {
+  Modal: () => <></>,
   Avatar: () => <></>,
 };
 
@@ -93,11 +94,12 @@ const name = props.name || Social.get(`${accountId}/profile/name`);
 const postType = props.postType ?? "post";
 const link = props.link;
 const isPremium = !!props.isPremium;
-const flagItem = props.flagItem;
+const item = props.item;
 const customActions = props.customActions ?? [];
 const showTime = props.showTime ?? true;
 const modalToggles = props.modalToggles;
 const setItem = props.setItem;
+const content = props.content; 
 
 const { href } = VM.require("buildhub.near/widget/lib.url") || {
   href: () => {},
@@ -106,6 +108,7 @@ const { href } = VM.require("buildhub.near/widget/lib.url") || {
 const Overlay = (props) => (
   <Link
     className="link-dark text-truncate d-inline-flex mw-100"
+    key={accountId}
     to={href({
       widgetSrc: "buildhub.near/widget/app",
       params: {
@@ -208,11 +211,64 @@ const MemoizedOverlay = useMemo(
       </div>
     </Overlay>
   ),
-  [props.variant, accountId, name, isPremium, blockHeight, link, pinned],
+  [props.variant, accountId, name, isPremium, blockHeight, link, pinned]
 );
+
+const [showModal, setShowModal] = useState(false);
+const toggleModal = () => {
+  setShowModal(!showModal);
+};
+const [modalType, setModalType] = useState("");
+const closeModal = () => {
+  setShowModal(false);
+  setModalType("");
+};
+
+const plugins = {
+  edit: {
+    path: "buildhub.near/widget/components.modals.EditPost",
+    init: {
+      item: item,
+      content: content,
+      closeModal: closeModal,
+    },
+    icon: "bi-pencil",
+    label: "Edit Post",
+    required: context.accountId === accountId,
+    onClick: () => {
+      setModalType("edit");
+      setShowModal(true);
+    },
+  },
+  delete: {
+    path: "buildhub.near/widget/components.modals.DeletePost",
+    init: {
+      item: item,
+      closeModal: closeModal,
+    },
+    icon: "bi-trash",
+    label: "Delete Post",
+    required: context.accountId === accountId,
+    onClick: () => {
+      setModalType("delete");
+      setShowModal(true);
+    },
+  },
+};
 
 return (
   <div className="d-flex align-items-center">
+    <Modal
+      open={showModal}
+      title={plugins[modalType]?.label}
+      onOpenChange={toggleModal}
+    >
+      <Widget
+        src={plugins[modalType]?.path}
+        loading=""
+        props={plugins[modalType]?.init}
+      />
+    </Modal>
     {MemoizedOverlay}
     {!pinned && !hideMenu && blockHeight !== "now" && (
       <span className="ms-auto flex-shrink-0 position-relative">
@@ -227,23 +283,20 @@ return (
             className="position-absolute shadow-sm"
             style={{ top: 16, right: 16 }}
           >
-            {context.accountId === accountId && (
-              <button
-                className="dropdown-item"
-                onClick={() => props.setShowDeleteModal(true)}
-              >
-                <i className="bi bi-trash"></i> Delete Post
-              </button>
-            )}
-            {context.accountId === accountId && (
-              <button
-                className="dropdown-item"
-                onClick={() => props.setShowEditModal(true)}
-              >
-                <i className="bi bi-pencil"></i> Edit Post
-              </button>
-            )}
-
+            {Object.keys(plugins).map((key) => {
+              const plugin = plugins[key];
+              if (plugin.required) {
+                return (
+                  <button
+                    key={key}
+                    onClick={plugin.onClick}
+                    className="dropdown-item"
+                  >
+                    <i className={`bi ${plugin.icon}`}></i> {plugin.label}
+                  </button>
+                );
+              }
+            })}
             {customActions.length > 0 &&
               customActions.map((action) => (
                 <button
@@ -251,7 +304,7 @@ return (
                   onClick={() => {
                     if (action.type === "modal") {
                       action.onClick(modalToggles);
-                      setItem(flagItem);
+                      setItem(item);
                     }
                   }}
                   className="dropdown-item"
@@ -282,12 +335,12 @@ return (
               loading=""
               props={{ accountId }}
             />
-            {flagItem && (
+            {item && (
               <Widget
                 src="mob.near/widget/MainPage.Common.FlagContent"
                 loading=""
                 props={{
-                  item: flagItem,
+                  item: item,
                   label: `Flag ${postType}`,
                 }}
               />

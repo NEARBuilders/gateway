@@ -1,15 +1,10 @@
-const { Modal, Button } = VM.require("buildhub.near/widget/components") || {
-  Modal: () => <></>,
+const { Button } = VM.require("buildhub.near/widget/components") || {
   Button: () => <></>,
 };
 
-const showModal = props.showModal;
-const toggleModal = props.toggleModal;
-const toggle = props.toggle;
-const bootstrapTheme = props.bootstrapTheme || "dark";
-const filters = props.filters;
-const setFilters = props.setFilters;
 const item = props.item;
+const content = props.content;
+const closeModal = props.closeModal;
 
 const TextareaWrapper = styled.div`
   display: grid;
@@ -176,7 +171,7 @@ textarea {
 `;
 
 State.init({
-  text: props.initialText || "",
+  text: content.text || "",
 });
 
 const onChange = (text) => {
@@ -200,12 +195,7 @@ const handleEdit = () => {
 };
 
 return (
-  <Modal
-    open={showModal}
-    title={"Edit Post"}
-    onOpenChange={toggleModal}
-    toggle={toggle}
-  >
+  <>
     <div className="mb-3">
       <label>Content</label>
       <TextareaWrapper
@@ -236,12 +226,12 @@ return (
       </TextareaWrapper>
     </div>
     <div className="d-flex align-items-center justify-content-end gap-3">
-      <Button variant="outline" onClick={toggleModal}>
+      <Button variant="outline" onClick={closeModal}>
         Cancel
       </Button>
       <Button variant="primary" onClick={handleEdit}>
         Edit Post
       </Button>
     </div>
-  </Modal>
+  </>
 );

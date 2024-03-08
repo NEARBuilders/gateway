@@ -1,15 +1,9 @@
-const { Modal, Button } = VM.require("buildhub.near/widget/components") || {
-  Modal: () => <></>,
+const { Button } = VM.require("buildhub.near/widget/components") || {
   Button: () => <></>,
 };
 
-const showModal = props.showModal;
-const toggleModal = props.toggleModal;
-const toggle = props.toggle;
-const bootstrapTheme = props.bootstrapTheme || "dark";
-const filters = props.filters;
-const setFilters = props.setFilters;
 const item = props.item;
+const closeModal = props.closeModal;
 
 const handleDelete = () => {
   Social.set({
@@ -25,12 +19,7 @@ const handleDelete = () => {
 };
 
 return (
-  <Modal
-    open={showModal}
-    title={"Delete Post"}
-    onOpenChange={toggleModal}
-    toggle={toggle}
-  >
+<>
     <div className="mb-3">
       <p className="mb-1">Are you sure you want to delete this post?</p>
       <small>
@@ -41,16 +30,16 @@ return (
       </small>
     </div>
     <div className="d-flex align-items-center justify-content-end gap-3">
-      <Button variant="outline" onClick={toggleModal}>
+      <Button variant="outline" onClick={closeModal}>
         Cancel
       </Button>
       <Button
         variant="primary"
-        style={{ background: "#ff2b2b" }}
+        style={{ background: "var(--system-red, #fd2a5c)" }}
         onClick={handleDelete}
       >
         Delete Post
       </Button>
     </div>
-  </Modal>
+  </>
 );
