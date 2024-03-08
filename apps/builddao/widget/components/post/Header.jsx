@@ -208,7 +208,7 @@ const MemoizedOverlay = useMemo(
       </div>
     </Overlay>
   ),
-  [props.variant, accountId, name, isPremium, blockHeight, link, pinned]
+  [props.variant, accountId, name, isPremium, blockHeight, link, pinned],
 );
 
 return (
