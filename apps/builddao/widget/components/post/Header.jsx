@@ -125,22 +125,6 @@ const Overlay = (props) => (
   </Link>
 );
 
-Near.asyncView("v1.nadabot.near", "is_human", { account_id: accountId }).then(
-  (result) => {
-    State.update({ human: result });
-  },
-);
-
-const VerifiedHuman = state.human ? (
-  <span style={{ verticalAlign: center }}>
-    <span className="ms-1 text-primary">
-      <i className="bi bi-check-circle-fill"></i>
-    </span>
-  </span>
-) : (
-  ""
-);
-
 return (
   <div className="d-flex align-items-center">
     <Overlay>
@@ -157,11 +141,10 @@ return (
               />
             </div>
             <Widget
-              loading={VerifiedHuman}
-              src="mob.near/widget/N.Common.OverlayTrigger"
+              loading=""
+              src="buildhub.near/widget/components.VerifiedHuman"
               props={{
-                popup: <div>Verified Human!</div>,
-                children: VerifiedHuman,
+                accountId: accountId,
               }}
             />
           </div>
