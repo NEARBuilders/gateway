@@ -99,7 +99,7 @@ const customActions = props.customActions ?? [];
 const showTime = props.showTime ?? true;
 const modalToggles = props.modalToggles;
 const setItem = props.setItem;
-const content = props.content; 
+const content = props.content;
 
 const { href } = VM.require("buildhub.near/widget/lib.url") || {
   href: () => {},
@@ -218,7 +218,7 @@ const MemoizedOverlay = useMemo(
       </div>
     </Overlay>
   ),
-  [props.variant, accountId, name, isPremium, blockHeight, link, pinned]
+  [props.variant, accountId, name, isPremium, blockHeight, link, pinned],
 );
 
 const [showModal, setShowModal] = useState(false);
