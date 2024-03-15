@@ -6,6 +6,14 @@ const indexKey = props.indexKey ?? "main";
 const groupId = props.groupId;
 const permissions = props.permissions;
 
+const profile = Social.getr(`${props.accounts}/profile`);
+
+if (profile === null) {
+  return <></>;
+}
+
+const description = profile.description;
+
 const index = [
   {
     action: "post",
@@ -120,7 +128,7 @@ const renderRepost = (a) => {
   return (
     <div key={JSON.stringify(a)}>
       <div
-        className="text-muted"
+        className="text-light mt-3 mb-2"
         style={{
           fontSize: "13px",
           fontWeight: 700,
@@ -166,8 +174,21 @@ const renderItem = (item) =>
   item.action === "post" ? renderPost(item) : renderRepost(item);
 
 return (
-  <Widget
-    src="mob.near/widget/MergedIndexFeed"
-    props={{ index, renderItem, filter: props.filter, threshold: 800 }}
-  />
+  <>
+    {description && (
+      <Post
+        accountId={props.accounts}
+        pinned={true}
+        blockHeight={"now"}
+        content={{
+          text: description,
+        }}
+        noBorder={true}
+      />
+    )}
+    <Widget
+      src="mob.near/widget/MergedIndexFeed"
+      props={{ index, renderItem, filter: props.filter, threshold: 800 }}
+    />
+  </>
 );

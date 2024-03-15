@@ -7,19 +7,22 @@ const StyledHashtag = styled.span`
   gap: 4px;
   flex-wrap: wrap;
 
-  border-radius: 2px;
-  border: 1px solid var(--Yellow, #eca227);
+  border-radius: 100px;
+  border: 1px solid var(--Yellow-Dark-6, #493c00);
+  background: var(--Yellow-Dark-2, #221a00);
 
-  color: var(--White-100, #fff);
+  /* Pixel/Shadow/Light/Post */
+  box-shadow: 0px 4px 8px -2px rgba(0, 0, 0, 0.1);
 
   /* Body/10px */
-  font-size: 12px;
+  color: var(--Yellow-Dark-11, #f0c000);
+  font-size: 16px;
+  font-weight: 500;
   font-style: normal;
-  font-weight: 400;
   line-height: normal;
 
   .tag {
-    color: var(--Yellow, #eca227);
+    color: var(--Yellow-Dark-11, #f0c000);
   }
 `;
 const Hashtag = ({ children }) => {
