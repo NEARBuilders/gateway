@@ -21,14 +21,24 @@ const pills = [
   { id: "widget", title: "Widgets" },
 ];
 
+const theme = props.theme;
+
 const Nav = styled.div`
   .nav-pills {
-    background: var(--bg-1, #000000);
+    background: ${theme === "dark"
+      ? "var(--bg-1, #000000)"
+      : "var(--White-100, #fff)"};
     font-weight: 500;
     --bs-nav-pills-border-radius: 0;
-    --bs-nav-link-color: var(--font-color, #fff);
-    --bs-nav-pills-link-active-color: var(--font-color, #fff);
-    --bs-nav-pills-link-active-bg: var(--bg-1, #000000);
+    --bs-nav-link-color: ${theme === "dark"
+      ? "var(--White-100, #fff)"
+      : "var(--Black-100, #000)"};
+    --bs-nav-pills-link-active-color: ${theme === "dark"
+      ? "var(--White-100, #fff)"
+      : "var(--Black-100, #000)"};
+    --bs-nav-pills-link-active-bg: ${theme === "dark"
+      ? "var(--bg-1, #000000)"
+      : "var(--White-100, #fff)"};
     --bs-nav-link-padding-y: 0.75rem;
     border-bottom: 1px solid var(--stroke-color, rgba(255, 255, 255, 0.2));
     padding-top: 3px;
@@ -38,7 +48,9 @@ const Nav = styled.div`
   }
 
   .nav-item:not(:has(> .disabled)):hover {
-    background: rgba(13, 110, 253, 0.15);
+    background: ${theme === "dark"
+      ? "rgba(255, 255, 255, 0.2)"
+      : "rgba(0, 0, 0, 0.2)"};
   }
 `;
 
@@ -102,7 +114,7 @@ return (
             key="feed"
             loading=""
             src="buildhub.near/widget/components.profile.AccountFeed"
-            props={{ accounts: [accountId] }}
+            props={{ accounts: [accountId], theme }}
           />
         </div>
       </div>

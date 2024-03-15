@@ -300,8 +300,10 @@ const contentWidget = (
   </>
 );
 
+const Root = styled.div``;
+
 return (
-  <>
+  <Root>
     <StyledPost
       key={`Post-${item.path}-${item.blockHeight}`}
       style={{ width: props.width ? props.width : "auto" }}
@@ -446,5 +448,5 @@ return (
             )}
       </Wrapper>
     </StyledPost>
-  </>
+  </Root>
 );

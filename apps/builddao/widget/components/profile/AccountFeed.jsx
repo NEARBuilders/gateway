@@ -5,6 +5,7 @@ const { Post } = VM.require("buildhub.near/widget/components") || {
 const indexKey = props.indexKey ?? "main";
 const groupId = props.groupId;
 const permissions = props.permissions;
+const theme = props.theme;
 
 const profile = Social.getr(`${props.accounts}/profile`);
 
@@ -73,6 +74,7 @@ const renderPost = (a) => {
         permissions
         noBorder={true}
         width="100%"
+        theme={theme}
       />
     </div>
   );
@@ -165,6 +167,7 @@ const renderRepost = (a) => {
         permissions
         noBorder={true}
         width="100%"
+        theme={theme}
       />
     </div>
   );
@@ -184,11 +187,17 @@ return (
           text: description,
         }}
         noBorder={true}
+        theme={theme}
       />
     )}
     <Widget
       src="mob.near/widget/MergedIndexFeed"
-      props={{ index, renderItem, filter: props.filter, threshold: 800 }}
+      props={{
+        index,
+        renderItem,
+        filter: props.filter,
+        threshold: 800,
+      }}
     />
   </>
 );

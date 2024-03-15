@@ -15,12 +15,13 @@ const ProfileContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 1rem;
-  background: #000;
+  background: ${theme === "dark" ? "#000" : "#fff"};
+  color: ${theme === "dark" ? "#fff" : "#000"};
   overflow: hidden;
 `;
 
-const fullGradient = props.fullGradient ?? false;
-const tabGradient = props.tabGradient ?? true;
+const fullGradient = props.fullGradient ?? true;
+const tabGradient = props.tabGradient ?? false;
 
 const LeftGradientFull = () => {
   const Blur = styled.div`
@@ -65,7 +66,7 @@ return (
   <ProfileContainer className="container-xl position-relative">
     <Widget
       src="buildhub.near/widget/components.profile.ProfileInfo"
-      props={{ accountId }}
+      props={{ accountId, theme }}
     />
     <div className="overflow-hidden position-relative">
       <Widget
@@ -73,6 +74,7 @@ return (
         props={{
           accountId,
           profile,
+          theme,
         }}
       />
       {tabGradient && (
