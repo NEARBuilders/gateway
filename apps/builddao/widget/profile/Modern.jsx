@@ -1,4 +1,4 @@
-const theme = "dark" ?? props.theme;
+const theme = props.theme ?? "dark";
 
 const accountId = props.accountId ?? context.accountId;
 
