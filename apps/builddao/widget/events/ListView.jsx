@@ -337,9 +337,6 @@ const EventGroup = ({ date }) => {
                   <Button noLink={true} href={`${event?.url}`} target="_blank" variant="primary">
                     Join Now
                   </Button>
-                  {event.extendedProps.customButtonSrc && (
-                    <Widget src={event.extendedProps.customButtonSrc} loading="" />
-                  )}
                   {eventAuthor === context.accountId && (
                     <Button onClick={handleDelete} style={{ background: "#ff2b2b" }} variant="primary">
                       Delete Event

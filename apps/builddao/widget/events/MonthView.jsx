@@ -30,7 +30,7 @@ useEffect(() => {
           default:
             return event;
         }
-      }
+      } else return event;
     });
     setParsedEvents(updatedEvent);
   }
@@ -271,7 +271,6 @@ return (
           <Button noLink={true} href={`${data?.url}`} target="_blank" variant="primary">
             Join Now
           </Button>
-          {data.extendedProps.customButtonSrc && <Widget src={data.extendedProps.customButtonSrc} loading="" />}
           {eventAuthor === context.accountId && (
             <Button onClick={handleDelete} style={{ background: "#ff2b2b" }} variant="primary">
               Delete Event
