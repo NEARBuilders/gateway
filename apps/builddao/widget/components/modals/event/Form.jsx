@@ -10,6 +10,9 @@ const Wrapper = styled.div`
   .btn-close {
     filter: invert(39%) sepia(45%) saturate(6660%) hue-rotate(199deg) brightness(101%) contrast(104%) !important;
   }
+  .rbt-token-label {
+    color: white !important;
+  }
 `;
 const MarkdownEditor = `
   html {
@@ -238,21 +241,28 @@ const CustomFormWrapper = styled.div`
 
 const RepeatDropDown = () => {
   return (
-    <select
-      name="event-repeat"
-      id="event-repeat"
-      data-bs-theme={bootstrapTheme}
-      class="form-select"
-      onChange={(e) => setRepeat(e.target.value)}
-      value={repeat}
-    >
-      <option selected value="">
-        Does not repeat
-      </option>
-      {repeatOptions.map(({ value, label }) => (
-        <option value={value}>{label}</option>
-      ))}
-    </select>
+    <div className="d-flex gap-2">
+      <select
+        name="event-repeat"
+        id="event-repeat"
+        data-bs-theme={bootstrapTheme}
+        class="form-select"
+        onChange={(e) => setRepeat(e.target.value)}
+        value={repeat}
+      >
+        <option selected value="">
+          Does not repeat
+        </option>
+        {repeatOptions.map(({ value, label }) => (
+          <option value={value}>{label}</option>
+        ))}
+      </select>
+      {repeat === "custom" && (
+        <Button onClick={() => setCustomModal(true)} variant="outline">
+          Edit
+        </Button>
+      )}
+    </div>
   );
 };
 
@@ -592,22 +602,11 @@ return (
           />
         </div>
       </div>
-      <div className="d-flex justify-content-end">
-        <Button
-          disabled={!title || !description || !link || !location || !organizers}
-          variant="primary"
-          onClick={onSubmit}
-        >
-          Submit
-        </Button>
-      </div>
+
       <div className="form-group flex-grow-1">
         <div className="d-flex align-items-center justify-content-between">
           <label htmlFor="customButton">Custom Button Souce</label>
-          <a
-            href="https://near.social/itexpert120-contra.near/widget/Button.Create"
-            target="_blank"
-          >
+          <a href="https://near.social/itexpert120-contra.near/widget/Button.Create" target="_blank">
             <small>Create Button Here</small>
           </a>
         </div>
@@ -618,6 +617,15 @@ return (
           value={customButtonSrc}
           onChange={(e) => setCustomButtonSrc(e.target.value)}
         />
+      </div>
+      <div className="d-flex justify-content-end mt-2">
+        <Button
+          disabled={!title || !description || !link || !location || !organizers}
+          variant="primary"
+          onClick={onSubmit}
+        >
+          Submit
+        </Button>
       </div>
     </div>
   </Wrapper>
