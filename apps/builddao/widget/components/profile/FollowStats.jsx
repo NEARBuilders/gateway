@@ -22,7 +22,7 @@ const numFollowers = followers ? Object.keys(followers || {}).length : null;
 return (
   <div>
     <div className="d-flex flex-row align-items-center">
-      <div className="me-3" style={{ fontSize: 16 }}>
+      <div className="me-3" style={{ fontSize: 14 }}>
         <span>
           {numFollowing !== null ? (
             <span
@@ -37,7 +37,7 @@ return (
           <span style={{ color: "var(--White-50, #B0B0B0)" }}>Following</span>
         </span>
       </div>
-      <div style={{ fontSize: 16 }}>
+      <div style={{ fontSize: 14 }}>
         <span>
           {numFollowers !== null ? (
             <span

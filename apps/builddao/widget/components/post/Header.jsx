@@ -184,22 +184,13 @@ const MemoizedOverlay = useMemo(
                 props={{ isPremium, accountId }}
               />
             </div>
-            <div className="flex-shrink-0">
-              <Widget
-                loading=""
-                src="buildhub.near/widget/components.VerifiedHuman"
-                props={{
-                  accountId: accountId,
-                }}
-              />
-            </div>
-            {pinned && (
-              <div className="flex-shrink-0">
-                <span title="Pinned" className="text-white">
-                  <i className="bi bi-pin-angle" />
-                </span>
-              </div>
-            )}
+            <Widget
+              loading=""
+              src="buildhub.near/widget/components.VerifiedHuman"
+              props={{
+                accountId: accountId,
+              }}
+            />
           </div>
           <p className="username">{accountId}</p>
           {showTime && (
@@ -219,10 +210,15 @@ const MemoizedOverlay = useMemo(
             </p>
           )}
         </Wrapper>
+        {pinned && (
+          <span title="Pinned" className="ms-2 text-white">
+            <i className="bi bi-pin-angle" />
+          </span>
+        )}
       </div>
     </Overlay>
   ),
-  [props.variant, accountId, name, isPremium, blockHeight, link, pinned]
+  [props.variant, accountId, name, isPremium, blockHeight, link, pinned],
 );
 
 const [showModal, setShowModal] = useState(false);
