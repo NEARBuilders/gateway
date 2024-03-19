@@ -1,5 +1,5 @@
 const { Modal, Button, ProgressState } = VM.require(
-  "buildhub.near/widget/components"
+  "buildhub.near/widget/components",
 ) || {
   Modal: () => <></>,
   Button: () => <></>,
@@ -363,7 +363,7 @@ const onSubmit = () => {
     },
     {
       onCommit: () => props.toggleModal(),
-    }
+    },
   );
 };
 
@@ -432,7 +432,7 @@ const CustomRepeatInputModal = () => {
                 onClick={() => {
                   if (customDaysOfWeek.includes(item)) {
                     setCustomDaysOfWeek(
-                      customDaysOfWeek.filter((i) => i !== item)
+                      customDaysOfWeek.filter((i) => i !== item),
                     );
                   } else {
                     setCustomDaysOfWeek([...customDaysOfWeek, item]);
