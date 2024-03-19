@@ -189,7 +189,7 @@ const [startTime, setStartTime] = useState(getCurrentTime());
 const [endTime, setEndTime] = useState(getCurrentTime());
 const [location, setLocation] = useState("");
 const [hashtags, setHashtags] = useState([]);
-const [customButtonSrc, setCustomButtonSrc] = useState("");
+// const [customButtonSrc, setCustomButtonSrc] = useState("");
 
 State.init({
   image: null,
@@ -214,7 +214,7 @@ const onSubmit = () => {
               url: link,
               start: `${isoDate(startDate, startTime)}T${isoTime(
                 startDate,
-                startTime,
+                startTime
               )}`, // we'll want this be available for filtering... we may want to store it outside the JSON
               // or we need an indexing solution
               // we fetch events and then apply filters after parsing them
@@ -225,7 +225,7 @@ const onSubmit = () => {
                 hashtags, // this can be moved to metadata.tags, but must be object with keys, e.g { [hashtag]: "" }
                 // this i'll leave up to you but we need them for filtering
                 cover: state.image,
-                customButtonSrc: customButtonSrc,
+                // customButtonSrc: customButtonSrc,
               },
             }),
             metadata: {
@@ -241,7 +241,7 @@ const onSubmit = () => {
     },
     {
       onCommit: () => props.toggleModal(),
-    },
+    }
   );
 };
 
@@ -400,7 +400,7 @@ return (
           props={{ image: state.image, onChange: onCoverChange }}
         />
       </div>
-      <div className="form-group flex-grow-1">
+      {/* <div className="form-group flex-grow-1">
         <div className="d-flex align-items-center justify-content-between">
           <label htmlFor="customButton">Custom Button Souce</label>
           <a
@@ -417,7 +417,7 @@ return (
           value={customButtonSrc}
           onChange={(e) => setCustomButtonSrc(e.target.value)}
         />
-      </div>
+      </div> */}
     </div>
     <div className="d-flex justify-content-end">
       <Button
