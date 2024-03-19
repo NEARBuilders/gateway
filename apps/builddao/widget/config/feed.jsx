@@ -22,30 +22,6 @@ return {
         requiredHashtags: ["build"],
       },
     },
-    resolutions: {
-      path: "buildhub.near/widget/Feed",
-      blockHeight: "final",
-      init: {
-        name: "Resolutions", // maybe these should be moved to navbar specific
-        icon: "bi-calendar3",
-        requiredHashtags: ["build", "resolution", "nearyearresolutions2024"],
-        template: `### 🎉 NEAR YEAR RESOLUTIONS: 2024
-(posted via [${daoName} Gateway](${feedLink}))
-
-**🌟 REFLECTIONS ON THE PAST YEAR:**
-- [Reflection 1 from the past year]
-- [Reflection 2 from the past year]
-
-**🎯 NEW YEAR'S RESOLUTIONS:**
-- [Resolution 1]
-- [Resolution 2]
-
-**📊 MEASURING SUCCESS:**
-- [Metric 1 for Success]
-- [Metric 2 for Success]
-`,
-      },
-    },
     updates: {
       path: "buildhub.near/widget/Feed",
       blockHeight: "final",
@@ -106,40 +82,6 @@ return {
 
 [what are you thinking about?]
 [why are you asking?]
-`,
-      },
-    },
-    answer: {
-      path: "buildhub.near/widget/Feed",
-      blockHeight: "final",
-      init: {
-        name: "Answer",
-        icon: "bi-journal-code",
-        requiredHashtags: ["build", "answer"],
-        template: `## Share an answer
-(posted via [${daoName} Gateway](${feedLink}?tab=answer))
-
-[please restate the question you are answering]
-
-[your answer]
-
-[link to relevant docs, examples, or resources]
-`,
-      },
-    },
-    opportunity: {
-      path: "buildhub.near/widget/Feed",
-      blockHeight: "final",
-      init: {
-        name: "Opportunity",
-        icon: "bi-briefcase",
-        requiredHashtags: ["build", "opportunity"],
-        template: `## TITLE
-(posted via [${daoName} Gateway](${feedLink}?tab=opportunity))
-
-[what is the opportunity?]
-
-[explain the motivation or reason]
 `,
       },
     },
