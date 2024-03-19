@@ -46,30 +46,6 @@ return {
 `,
       },
     },
-    documentation: {
-      path: "buildhub.near/widget/Feed",
-      blockHeight: "final",
-      init: {
-        name: "Documentation",
-        icon: "bi-book",
-        requiredHashtags: ["build", "documentation"],
-        template: `## TITLE
-(posted via [${daoName} Gateway](${feedLink}?tab=documentation))
-
-**WHAT IS _____?**
-- [context]
-- [why is it important?]
-
-**EXAMPLE**
-- [how can this be demonstrated?]
-- [what is the expected outcome?]
-
-**USAGE**
-- [where is it used?]
-- [how to use it]
-`,
-      },
-    },
     question: {
       path: "buildhub.near/widget/Feed",
       blockHeight: "final",
