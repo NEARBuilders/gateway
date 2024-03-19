@@ -10,8 +10,6 @@ if (!profile) {
   return "";
 }
 
-const theme = props.theme;
-
 const CopyIcon = () => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
@@ -49,7 +47,6 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   gap: 24px;
-  z-index: 10;
 
   .background-image-section {
     img {
@@ -65,8 +62,7 @@ const Container = styled.div`
       width: 140px !important;
       height: 140px !important;
       border-radius: 100%;
-      border: 3px solid
-        ${theme === "dark" ? "var(--Gray-Dark-1, #161616)" : "#fff"};
+      border: 3px solid var(--Gray-Dark-1, #161616);
       image-rendering: pixelated;
       object-fit: cover;
     }
@@ -75,12 +71,11 @@ const Container = styled.div`
   .account-info-section {
     display: flex;
     align-items: center;
+    gap: 16px;
     flex-direction: column;
 
     h3 {
-      color: ${theme === "dark"
-        ? "var(--White-A-12, rgba(255, 255, 255, 0.92))"
-        : "var(--Default-Black, #0D0D0E)"};
+      color: var(--White-A-12, rgba(255, 255, 255, 0.92));
 
       font-family: InterVariable, sans-serif;
       font-size: 40px;
@@ -100,9 +95,7 @@ const Container = styled.div`
       gap: 4px;
       max-width: max-content;
 
-      color: ${theme === "dark"
-        ? "var(--Gray-Dark-11, #a0a0a0)"
-        : "var(--Gray-Light-11, #6F6F6F)"};
+      color: var(--Gray-Dark-11, #a0a0a0);
 
       /* Body 16px/Regular */
       font-family: InterVariable, sans-serif;
@@ -119,12 +112,31 @@ const Container = styled.div`
     display: flex;
     flex-direction: column;
     gap: 8px;
-  }
 
+    h3 {
+      color: var(--White-100, #fff);
+      /* Body/10px */
+      font-size: 10px;
+      font-style: normal;
+      font-weight: 400;
+      line-height: normal;
+      margin: 0;
+    }
+  }
   .badge-section {
     display: flex;
     flex-direction: column;
     gap: 8px;
+
+    h3 {
+      color: var(--White-100, #fff);
+      /* Body/10px */
+      font-size: 10px;
+      font-style: normal;
+      font-weight: 400;
+      line-height: normal;
+      margin: 0;
+    }
   }
 `;
 
@@ -136,18 +148,14 @@ const TwitterIcon = () => (
     width="24"
     height="24"
     viewBox="0 0 50 50"
-    fill={
-      theme === "dark" ? "var(--White-100, #fff)" : "var(--Black-100, #000)"
-    }
+    fill="white"
   >
     <path d="M 5.9199219 6 L 20.582031 27.375 L 6.2304688 44 L 9.4101562 44 L 21.986328 29.421875 L 31.986328 44 L 44 44 L 28.681641 21.669922 L 42.199219 6 L 39.029297 6 L 27.275391 19.617188 L 17.933594 6 L 5.9199219 6 z M 9.7167969 8 L 16.880859 8 L 40.203125 42 L 33.039062 42 L 9.7167969 8 z"></path>
   </svg>
 );
 
 const LinkButton = styled.a`
-  color: ${theme === "dark"
-    ? "var(--White-100, #fff)"
-    : "var(--Black-100, #000)"};
+  color: #fff;
   font-size: 24px;
 `;
 
@@ -214,9 +222,7 @@ const Badges = ({ tags }) => {
     <>
       <div className="d-flex flex-align-center flex-wrap" style={{ gap: 12 }}>
         {tags.map((it) => (
-          <Hashtag key={it} theme={theme}>
-            {it}
-          </Hashtag>
+          <Hashtag key={it}>{it}</Hashtag>
         ))}
       </div>
     </>
@@ -298,18 +304,15 @@ const InfoSection = () => {
           <Widget
             src="buildhub.near/widget/components.profile.FollowStats"
             loading=""
-            props={{ accountId, theme }}
+            props={{ accountId }}
           />
         </div>
         {context.accountId === accountId && (
-          <Button
-            style={{ color: theme !== "dark" ? "white" : null }}
-            onClick={() => setEditMode(true)}
-          >
+          <Button variant="outline" onClick={() => setEditMode(true)}>
             <i className="bi bi-pencil me-1"></i>Edit Profile
           </Button>
         )}
-        <div className="badge-section mt-3">
+        <div className="badge-section">
           <Badges tags={profile.tags} />
         </div>
       </div>

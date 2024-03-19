@@ -19,8 +19,6 @@ const numFollowing = following
   : null;
 const numFollowers = followers ? Object.keys(followers || {}).length : null;
 
-const theme = props.theme;
-
 return (
   <div>
     <div className="d-flex flex-row align-items-center">
@@ -29,37 +27,21 @@ return (
           {numFollowing !== null ? (
             <span
               className="fw-bolder"
-              style={{
-                color:
-                  theme === "dark"
-                    ? "var(--White-100, #fff)"
-                    : "var(--Black-100, #000)",
-              }}
+              style={{ color: "var(--font-color, #fff)" }}
             >
               {numFollowing}
             </span>
           ) : (
             "?"
           )}{" "}
-          <span
-            style={{
-              color: theme === "dark" ? "#bbbbbb" : "#737373",
-            }}
-          >
-            Following
-          </span>
+          <span style={{ color: "var(--White-50, #B0B0B0)" }}>Following</span>
         </span>
       </div>
       <div style={{ fontSize: 16 }}>
         <span>
           {numFollowers !== null ? (
             <span
-              style={{
-                color:
-                  theme === "dark"
-                    ? "var(--White-100, #fff)"
-                    : "var(--Black-100, #000)",
-              }}
+              style={{ color: "var(--font-color, #fff)" }}
               className="fw-bolder"
             >
               {numFollowers}
@@ -67,7 +49,7 @@ return (
           ) : (
             "?"
           )}{" "}
-          <span style={{ color: theme === "dark" ? "#bbbbbb" : "#737373" }}>
+          <span style={{ color: "var(--White-50, #B0B0B0)" }}>
             Follower{numFollowers !== 1 && "s"}
           </span>
         </span>
