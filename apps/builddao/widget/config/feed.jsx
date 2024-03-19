@@ -103,24 +103,6 @@ return {
 `,
       },
     },
-    task: {
-      path: "buildhub.near/widget/Feed",
-      blockHeight: "final",
-      init: {
-        name: "Task",
-        icon: "bi-check-lg",
-        requiredHashtags: ["build", "task"],
-        template: `## TASK TITLE
-(posted via [${daoName} Gateway](${feedLink}?tab=task))
-
-**What needs to be done?**
-- [Describe the task or action steps]
-
-**Context or additional information:**
-- [Provide any context or details]
-`,
-      },
-    },
     feedback: {
       path: "buildhub.near/widget/Feed",
       blockHeight: "final",
