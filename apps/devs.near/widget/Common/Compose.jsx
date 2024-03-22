@@ -12,6 +12,8 @@ if (state.image === undefined) {
   State.init({
     image: {},
     text: props.initialText || "",
+    mentionsArray: [],
+    mentionInput: "",
   });
 
   if (props.onHelper) {
@@ -83,16 +85,49 @@ if (content && props.extraContent) {
 }
 
 function autoCompleteAccountId(id) {
-  let text = state.text.replace(/[\s]{0,1}@[^\s]*$/, "");
-  text = `${text} @${id}`.trim() + " ";
-  State.update({ text, showAccountAutocomplete: false });
+  // to make sure we update the @ at correct index
+  let currentIndex = 0;
+  const updatedDescription = state.text.replace(
+    /(?:^|\s)(@[^\s]*)/g,
+    (match) => {
+      if (currentIndex === state.mentionsArray.indexOf(state.mentionInput)) {
+        currentIndex++;
+        return ` @${id}`;
+      } else {
+        currentIndex++;
+        return match;
+      }
+    },
+  );
+
+  State.update((lastKnownState) => ({
+    ...lastKnownState,
+    text: updatedDescription,
+    showAccountAutocomplete: false,
+  }));
   setEditorKey((prev) => prev + 1);
 }
 
-const onChange = (text) => {
-  const showAccountAutocomplete = /@[\w][^\s]*$/.test(text);
-  State.update({ text, showAccountAutocomplete });
-};
+function onChange(value) {
+  // since this fn gets called twice on every text update
+  if (value === state.text) {
+    return;
+  }
+  const words = value.split(/\s+/);
+  const allMentiones = words
+    .filter((word) => word.startsWith("@"))
+    .map((mention) => mention.slice(1));
+  const newMentiones = allMentiones.filter(
+    (item) => !state.mentionsArray.includes(item),
+  );
+  State.update((lastKnownState) => ({
+    ...lastKnownState,
+    text: value,
+    showAccountAutocomplete: newMentiones?.length > 0,
+    mentionsArray: allMentiones,
+    mentionInput: newMentiones?.[0] ?? "",
+  }));
+}
 
 const jContent = JSON.stringify(content);
 if (props.onChange && jContent !== state.jContent) {
@@ -348,7 +383,7 @@ return (
             <Widget
               src="devs.near/widget/Common.AccountAutocomplete"
               props={{
-                term: state.text.split("@").pop(),
+                term: state.mentionInput,
                 onSelect: autoCompleteAccountId,
                 onClose: () => State.update({ showAccountAutocomplete: false }),
               }}
