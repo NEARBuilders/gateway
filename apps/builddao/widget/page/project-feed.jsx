@@ -104,10 +104,14 @@ const Wrapper = styled.div`
 const [filters, setFilters] = useState({
   title: "",
 });
-const [showModal, setShowModal] = useState(false);
+const [showFilterModal, setShowFilterModal] = useState(false);
+const [showCreateModal, setShowCreateModal] = useState(false);
 
-const toggleModal = () => {
-  setShowModal((prev) => !prev);
+const toggleFilterModal = () => {
+  setShowFilterModal((prev) => !prev);
+};
+const toggleCreateModal = () => {
+  setShowCreateModal((prev) => !prev);
 };
 
 const filteredProjects = useMemo(() => {
@@ -157,7 +161,6 @@ const tagFilters = useMemo(() => {
   return tags;
 }, [projects]);
 
-
 return (
   <Wrapper
     className="container-xl mx-auto"
@@ -168,8 +171,19 @@ return (
       src="buildhub.near/widget/components.modals.FilterProjects"
       loading=""
       props={{
-        showModal: showModal,
-        toggleModal: toggleModal,
+        showModal: showFilterModal,
+        toggleModal: toggleFilterModal,
+        filters: filters,
+        setFilters: setFilters,
+        tagFilters,
+      }}
+    />
+    <Widget
+      src="buildhub.near/widget/components.modals.CreateProject"
+      loading=""
+      props={{
+        showModal: showCreateModal,
+        toggleModal: toggleCreateModal,
         filters: filters,
         setFilters: setFilters,
         tagFilters,
@@ -179,7 +193,9 @@ return (
       <h2 style={{ color: "var(--text-color, #fff)", fontSize: "18px" }}>
         Projects
       </h2>
-      <Button variant="primary">Create Project</Button>
+      <Button variant="primary" onClick={() => setShowCreateModal(true)}>
+        Create Project
+      </Button>
     </div>
     <div className="form-group d-flex gap-4 align-items-center justify-content-between">
       <div className="input-group">
@@ -197,7 +213,7 @@ return (
       <Button
         className="d-flex align-items-center"
         style={{ gap: 10, padding: "10px 26px" }}
-        onClick={() => setShowModal(true)}
+        onClick={() => setShowFilterModal(true)}
       >
         Filter <i className="bi bi-sliders"></i>
       </Button>
