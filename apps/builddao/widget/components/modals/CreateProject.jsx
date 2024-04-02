@@ -48,7 +48,7 @@ const handleCheckboxChange = (event) => {
 
 const following = Social.get(`${context.accountId}/graph/follow/*`);
 
-const accounts = Object.keys(following);
+const accounts = following && Object.keys(following);
 
 const handleTags = (tags) => {
   let filtered = tags.map((tag) => (tag.customOption ? tag.label : tag));
@@ -60,6 +60,16 @@ const handleContributors = (contributors) => {
     contributor.customOption ? contributor.label : contributor
   );
   setDistributors(filtered);
+};
+
+function isValidUrl(url) {
+  const regex = /^(?:(http|https):\/\/)?([^\s]+\.[^\s]+)?(?:\/[\w\-\.]+)*\/?$/;
+  return regex.test(url);
+}
+
+const websiteUrlHandler = (e) => {
+  const url = e.target.value;
+  setWebsite(url);
 };
 
 const Main = styled.div`
@@ -168,7 +178,7 @@ return (
         <InputField
           key={"twitter"}
           label={"Twitter"}
-          placeholder={"twitter link"}
+          placeholder={"twitter handle"}
           value={twitter}
           onChange={(e) => setTwitter(e.target.value)}
         />
@@ -176,7 +186,7 @@ return (
         <InputField
           key={"github"}
           label={"GitHub"}
-          placeholder={"github link"}
+          placeholder={"github handle"}
           value={gitHub}
           onChange={(e) => setGitHub(e.target.value)}
         />
@@ -184,7 +194,7 @@ return (
         <InputField
           key={"telegram"}
           label={"Telegram"}
-          placeholder={"telegram link"}
+          placeholder={"telegram handle"}
           value={telegram}
           onChange={(e) => setTelegram(e.target.value)}
         />
@@ -192,9 +202,10 @@ return (
         <InputField
           key={"website"}
           label={"Website"}
-          placeholder={"telegram link"}
+          error={website && !isValidUrl(website)}
+          placeholder={"website link"}
           value={website}
-          onChange={(e) => setWebsite(e.target.value)}
+          onChange={websiteUrlHandler}
         />
 
         <div className="form-group">
