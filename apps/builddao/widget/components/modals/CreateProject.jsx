@@ -22,7 +22,7 @@ const tabs = [
 
 const [tags, setTags] = useState(props.filters.tags ?? []);
 const [title, setTitle] = useState("");
-const [description, setDescription] = useState("Enter Project Description");
+const [description, setDescription] = useState("");
 const [location, setLocation] = useState("");
 const [contributors, setDistributors] = useState("");
 const [twitter, setTwitter] = useState("");
