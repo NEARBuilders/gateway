@@ -130,35 +130,6 @@ const Main = styled.div`
     padding-left: 0px;
   }
 `;
-useEffect(() => {
-  console.log({
-    title,
-    description,
-    location,
-    contributors,
-    twitter,
-    gitHub,
-    telegram,
-    website,
-    selectedTabs,
-    tags,
-    avatar,
-    coverImage,
-  });
-}, [
-  title,
-  description,
-  location,
-  contributors,
-  twitter,
-  gitHub,
-  telegram,
-  website,
-  selectedTabs,
-  tags,
-  avatar,
-  coverImage,
-]);
 
 return (
   <Modal
