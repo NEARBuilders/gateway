@@ -20,10 +20,10 @@ const tabs = [
   { id: "roadmap", label: "Roadmap", checked: false },
 ];
 
-const [teamSize, setTeamSize] = useState(props.filters.teamSize ?? "");
 const [tags, setTags] = useState(props.filters.tags ?? []);
 const [title, setTitle] = useState("");
 const [description, setDescription] = useState("Enter Project Description");
+const [location, setLocation] = useState("");
 const [contributors, setDistributors] = useState("");
 const [twitter, setTwitter] = useState("");
 const [gitHub, setGitHub] = useState("");
@@ -134,13 +134,31 @@ useEffect(() => {
   console.log({
     title,
     description,
-    coverImage,
-    avatar,
+    location,
     contributors,
-    tags,
+    twitter,
+    gitHub,
+    telegram,
+    website,
     selectedTabs,
+    tags,
+    avatar,
+    coverImage,
   });
-}, [title, description, avatar, coverImage, contributors, tags, selectedTabs]);
+}, [
+  title,
+  description,
+  location,
+  contributors,
+  twitter,
+  gitHub,
+  telegram,
+  website,
+  selectedTabs,
+  tags,
+  avatar,
+  coverImage,
+]);
 
 return (
   <Modal
@@ -166,6 +184,13 @@ return (
             onChange={(e) => setDescription(e.target.value)}
           />
         </div>
+        <InputField
+          key={"Location"}
+          label={"Location"}
+          placeholder={"Enter location"}
+          value={location}
+          onChange={(e) => setLocation(e.target.value)}
+        />
         <div className="form-group">
           <label className="mb-1">Project Contributors</label>
           <Typeahead
