@@ -46,20 +46,9 @@ const handleCheckboxChange = (event) => {
   setSelectedTabs(newSelectedTabs);
 };
 
-const data = Social.keys("*/profile", "final");
+const following = Social.get(`${context.accountId}/graph/follow/*`);
 
-if (!data) {
-  return "Loading";
-}
-
-const accounts = Object.entries(data);
-
-const allMainnetAddresses = [];
-
-for (let i = 0; i < accounts.length; ++i) {
-  const accountId = accounts[i][0];
-  allMainnetAddresses.push(accountId);
-}
+const accounts = Object.keys(following);
 
 const handleTags = (tags) => {
   let filtered = tags.map((tag) => (tag.customOption ? tag.label : tag));
