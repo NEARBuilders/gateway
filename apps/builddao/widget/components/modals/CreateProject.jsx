@@ -128,6 +128,23 @@ const Main = styled.div`
     justify-content: space-between;
     padding-left: 0px;
   }
+  .form-check-input {
+    background-color: transparent;
+    border: 1px solid var(--border-color, #ccc);
+    &:checked {
+      background-color: var(--primary-color, #38c793);
+      border-color: var(--primary-color, #38c793);
+      &:focus {
+        box-shadow: none;
+      }
+    }
+    &:focus {
+      box-shadow: none;
+    }
+    &:not(:checked):not(:focus) {
+      background-image: url("data:image/svg+xml,%3csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%27-4 -4 8 8%27%3e%3ccircle r=%273%27 fill=%27%23fff%27/%3e%3c/svg%3e");
+    }
+  }
 `;
 
 return (
