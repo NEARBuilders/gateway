@@ -15,7 +15,14 @@ return {
         name: "Feed",
       },
     },
-    proposal: {
+    requests: {
+      path: "${config_account}/widget/page.requests",
+      blockHeight: "final",
+      init: {
+        name: "Requests",
+      },
+    },
+    projects: {
       path: "${config_account}/widget/page.projects",
       blockHeight: "final",
       init: {
@@ -49,14 +56,6 @@ return {
       blockHeight: "final",
       init: {
         name: "Inspect",
-      },
-      hide: true,
-    },
-    projects: {
-      path: "${config_account}/widget/page.project-feed",
-      blockHeight: "final",
-      init: {
-        name: "Project Feed",
       },
       hide: true,
     },

@@ -1,13 +1,15 @@
 const accountId = context.accountId;
 const { Modal, Button, InputField, TextEditor } = VM.require(
-  "buildhub.near/widget/components"
+  "buildhub.near/widget/components",
 ) || {
   Modal: () => <></>,
   Button: () => <></>,
   InputField: () => <></>,
   TextEditor: () => <></>,
 };
-
+const { normalize } = VM.require("devhub.near/widget/core.lib.stringUtils") || {
+  normalize: () => {},
+};
 const showModal = props.showModal;
 const toggleModal = props.toggleModal;
 const toggle = props.toggle;
@@ -30,7 +32,7 @@ const [gitHub, setGitHub] = useState("");
 const [telegram, setTelegram] = useState("");
 const [website, setWebsite] = useState("");
 const [selectedTabs, setSelectedTabs] = useState(
-  new Set(tabs.filter((tab) => tab.checked).map((tab) => tab.id.toLowerCase()))
+  new Set(tabs.filter((tab) => tab.checked).map((tab) => tab.id.toLowerCase())),
 );
 const [avatar, setAvatar] = useState("");
 const [coverImage, setCoverImage] = useState("");
@@ -57,7 +59,7 @@ const handleTags = (tags) => {
 
 const handleContributors = (contributors) => {
   let filtered = contributors.map((contributor) =>
-    contributor.customOption ? contributor.label : contributor
+    contributor.customOption ? contributor.label : contributor,
   );
   setDistributors(filtered);
 };
@@ -77,25 +79,27 @@ const Main = styled.div`
   gap: 1rem;
   padding: 1rem;
 
-  @media (max-width: 768px) {
-    flex-direction: column;
-    .lhs,
-    .rhs {
-      width: 100%;
-    }
-  }
   .form-control {
     background: transparent;
   }
   .lhs {
-    min-width: 400px;
+    width: 400px;
     > div {
       width: 100%;
     }
   }
   .rhs {
-    min-width: 400px;
+    width: 400px;
   }
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    .lhs,
+    .rhs {
+      width: auto;
+    }
+  }
+
   .form-group {
     width: 100%;
     & > div > div.p-2 {
@@ -147,6 +151,33 @@ const Main = styled.div`
   }
 `;
 
+function onCreateProject() {
+  const projectID = normalize(title);
+  Social.set({
+    project: {
+      [projectID]: JSON.stringify({
+        title,
+        description,
+        location,
+        tags,
+        contributors,
+        twitter,
+        gitHub,
+        telegram,
+        website,
+        tabs: selectedTabs,
+        profileImage: avatar,
+        coverImage,
+      }),
+    },
+    ["testing122.near"]: {
+      project: {
+        [`${context.accountId}.project.${projectID}`]: "",
+      },
+    },
+  });
+}
+
 return (
   <Modal
     open={showModal}
@@ -166,10 +197,7 @@ return (
 
         <div className="form-group">
           <label className="mb-1">Description</label>
-          <TextEditor
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-          />
+          <TextEditor value={description} onChange={(e) => setDescription(e)} />
         </div>
         <InputField
           key={"Location"}
@@ -186,7 +214,7 @@ return (
               allMainnetAddresses ?? ["frank.near", "ellie.near", "jane.near"]
             }
             allowNew
-            placeholder="Enter Contributors username e.g frank.near, ellie.near"
+            placeholder="frank.near, ellie.near"
             selected={contributors}
             onChange={(e) => handleContributors(e)}
           />
@@ -195,7 +223,8 @@ return (
         <InputField
           key={"twitter"}
           label={"Twitter"}
-          placeholder={"twitter handle"}
+          error={twitter && !isValidUrl(twitter)}
+          placeholder={"https://twitter.com/handle"}
           value={twitter}
           onChange={(e) => setTwitter(e.target.value)}
         />
@@ -203,7 +232,8 @@ return (
         <InputField
           key={"github"}
           label={"GitHub"}
-          placeholder={"github handle"}
+          error={gitHub && !isValidUrl(gitHub)}
+          placeholder={"https://github.com/handle"}
           value={gitHub}
           onChange={(e) => setGitHub(e.target.value)}
         />
@@ -211,7 +241,8 @@ return (
         <InputField
           key={"telegram"}
           label={"Telegram"}
-          placeholder={"telegram handle"}
+          error={telegram && !isValidUrl(telegram)}
+          placeholder={"https://t.me/handle"}
           value={telegram}
           onChange={(e) => setTelegram(e.target.value)}
         />
@@ -220,7 +251,7 @@ return (
           key={"website"}
           label={"Website"}
           error={website && !isValidUrl(website)}
-          placeholder={"website link"}
+          placeholder={"https://www.nearbuilders.org/"}
           value={website}
           onChange={websiteUrlHandler}
         />
@@ -284,7 +315,7 @@ return (
       </div>
     </Main>
     <div className="d-flex align-items-center justify-content-end gap-2">
-      <Button variant="primary" onClick={() => null}>
+      <Button variant="primary" onClick={onCreateProject}>
         Create
       </Button>
     </div>

@@ -127,8 +127,6 @@ const ProjectLayout = ({
     learning,
   } = project;
 
-  const [address, app, type, titleUrl] = id.split("/");
-
   if (!accountId) {
     return <p className="fw-bold text-white">No Account ID</p>;
   }
@@ -206,7 +204,7 @@ const ProjectLayout = ({
                     widgetSrc: `${config_account}/widget/app`,
                     params: {
                       page: "project",
-                      id: `${accountId}/${app}/${type}/${titleUrl}`,
+                      id: id,
                       tab: it,
                     },
                   })}

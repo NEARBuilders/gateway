@@ -20,13 +20,10 @@ const extractNearAddress = (id) => {
 };
 const accountId = extractNearAddress(id);
 
-const data = Social.get(id + "/**", "final");
-
+const data = Social.get(id, "final");
 if (!id || !data) {
   return "Loading...";
 }
-
-if (!page) page = Object.keys(routes)[0] || "home";
 
 const Root = styled.div``;
 
@@ -51,7 +48,6 @@ function Router({ active, routes }) {
       return <p>404 Not Found</p>;
     }
   }
-
   return (
     <div key={active}>
       <Widget
@@ -77,20 +73,9 @@ const Content = styled.div`
   height: 100%;
 `;
 
-function transformKeys(obj) {
-  obj.tags = obj.tracks;
-  delete obj.tracks;
-
-  obj.contributors = obj.teammates;
-  delete obj.teammates;
-
-  return obj;
-}
-
-const project = transformKeys(JSON.parse(data[""]));
+const project = JSON.parse(data);
 
 const profile = Social.getr(`${accountId}/profile`, "final");
-
 return (
   <Root>
     <Container>

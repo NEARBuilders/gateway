@@ -61,7 +61,7 @@ const Card = styled.div`
 `;
 
 const ProjectCard = ({ project, type, app }) => {
-  const { title, accountId, tags, collaborators, metadata } = project;
+  const { accountId, tags, collaborators, metadata, projectID } = project;
   return (
     <Card>
       <div className="c-top">
@@ -93,17 +93,14 @@ const ProjectCard = ({ project, type, app }) => {
       </div>
       <div className="w-100">
         <Button
-          href={
-            // `/${config_account}/widget/app?page=project&id=${accountId}/${app}/${type}/${title}`
-            href({
-              widgetSrc: `${config_account}/widget/app`,
-              params: {
-                page: "project",
-                id: `${accountId}/${app}/${type}/${title}`,
-              },
-            })
-          }
-          // className="align-self-stretch"
+          href={href({
+            widgetSrc: `${config_account}/widget/app`,
+            params: {
+              page: "project",
+              id: `${accountId}/${type}/${projectID}`,
+              tab: "overview",
+            },
+          })}
           linkClassName="align-self-stretch bt-w"
           variant="outline"
         >

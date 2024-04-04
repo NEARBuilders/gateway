@@ -20,9 +20,7 @@ const getProjectMeta = (id) => {
     throw new Error("Invalid project ID");
   }
 
-  const accountId = extractNearAddress(id);
-
-  const data = Social.get(id + "/**", "final");
+  const data = Social.get(id, "final");
 
   if (!data) {
     throw new Error("Failed to fetch project data");
@@ -31,23 +29,18 @@ const getProjectMeta = (id) => {
   try {
     const profile = Social.getr(`${accountId}/profile`, "final");
 
-    const pj = JSON.parse(data[""]);
-
-    const validAddresses = pj?.teammates
-      ? extractValidNearAddresses(pj.teammates)
-      : [];
-    const uniqueContributors = [...new Set([accountId, ...validAddresses])];
+    const pj = JSON.parse(data);
 
     const project = {
       title: pj.title,
       description: pj.description,
-      tags: pj.tracks,
+      tags: pj.tags,
       projectLink: pj.projectLink,
       demoLink: pj.demoLink,
       contactInfo: pj.contactInfo,
       referrer: pj.referrer,
       learning: pj.learning,
-      contributors: uniqueContributors,
+      contributors: pj.contributors,
       accountId: accountId,
       profile: profile,
     };
