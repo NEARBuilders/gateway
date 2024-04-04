@@ -114,18 +114,9 @@ const ProjectLayout = ({
   children,
   project,
   id,
+  tab,
 }) => {
-  const {
-    title,
-    description,
-    tags,
-    collaborators,
-    projectLink,
-    demoLink,
-    contactInfo,
-    referrer,
-    learning,
-  } = project;
+  const { title } = project;
 
   if (!accountId) {
     return <p className="fw-bold text-white">No Account ID</p>;
@@ -211,7 +202,7 @@ const ProjectLayout = ({
                   key={it}
                 >
                   <button
-                    className={`nav-link ${it === page ? "active" : ""}`}
+                    className={`nav-link ${it === tab ? "active" : ""}`}
                     id={`pills-${id}-tab`}
                     data-bs-toggle="pill"
                     data-bs-target={`#pills-${it}`}
@@ -237,7 +228,6 @@ const ProjectLayout = ({
           id="pills-overview"
           role="tabpanel"
           aria-labelledby="pills-overview-tab"
-          key={tab}
         >
           {children}
         </div>

@@ -1,8 +1,3 @@
-const { extractValidNearAddresses } = VM.require(
-  "buildbox.near/widget/utils.projects-sdk",
-) || {
-  extractValidNearAddresses: () => {},
-};
 const { Button } = VM.require("${config_account}/widget/components") || {
   Button: () => <></>,
 };
@@ -13,11 +8,14 @@ const { ProjectCard } = VM.require(
   ProjectCard: () => <></>,
 };
 
-const flattenObject = (obj, app) => {
+const app = props.app || "testing122.near";
+const type = props.type || "project";
+
+const flattenObject = (obj, app, type) => {
   let paths = [];
 
   Object.keys(obj).forEach((key) => {
-    const path = Object.keys(obj[key][app]["project"])?.[0];
+    const path = Object.keys(obj[key][app][type])?.[0];
     const convertedStr = path.replace(/\.(?=(?!near\b))/g, "/");
     paths.push(convertedStr);
   });
@@ -26,13 +24,13 @@ const flattenObject = (obj, app) => {
 };
 
 // devs.near/project/name-of-the-project
-const fetchProjects = (app, type) => {
+const fetchProjects = () => {
   const keys = Social.keys(`*/${app}/${type}/*`, "final", { order: "desc" });
   if (!keys) {
     return "Loading...";
   }
-  let flattenedKeys = flattenObject(keys, app);
-  const projects = Social.get(["megha19.near/project/notifications"], "final");
+  let flattenedKeys = flattenObject(keys);
+  const projects = Social.get(flattenedKeys, "final");
   // check if projects is singular (since we have to update the return format for parsing)
   const isSingular = flattenedKeys.length === 1;
   if (isSingular) {
@@ -50,10 +48,7 @@ const fetchProjects = (app, type) => {
   return projects;
 };
 
-const app = props.app || "testing122.near";
-const type = props.type || "project";
-
-const data = fetchProjects(app, type);
+const data = fetchProjects();
 
 if (!data) {
   return "Loading...";
@@ -61,12 +56,11 @@ if (!data) {
 
 const processData = useCallback(
   (data) => {
-    const accounts = Object.entries(data);
-    const allItems = accounts
+    const accounts = Object.entries(data ?? {});
+    const allProjects = accounts
       .map((account) => {
         const accountId = account[0];
-        return Object.entries(account[1][type]).map((kv) => {
-          console.log("kv", account);
+        return Object.entries(account?.[1]?.[type] ?? {}).map((kv) => {
           const metadata = JSON.parse(kv[1]);
           return {
             accountId,
@@ -81,7 +75,7 @@ const processData = useCallback(
       })
       .flat();
 
-    return allItems;
+    return allProjects;
   },
   [type],
 );

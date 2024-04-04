@@ -76,13 +76,24 @@ const Content = styled.div`
 const project = JSON.parse(data);
 
 const profile = Social.getr(`${accountId}/profile`, "final");
+const projectSelectedRoutes = routes;
+
+// remove unselected tabs
+if (Array.isArray(project?.tabs)) {
+  Object.keys(projectSelectedRoutes).forEach((key) => {
+    if (!project.tabs.includes(key)) {
+      delete projectSelectedRoutes[key];
+    }
+  });
+}
+
 return (
   <Root>
     <Container>
       <ProjectLayout
         profile={profile}
         accountId={accountId}
-        page={page}
+        tab={page}
         routes={routes}
         project={project}
         id={id}

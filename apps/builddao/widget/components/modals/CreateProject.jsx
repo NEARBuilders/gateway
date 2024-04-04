@@ -165,12 +165,12 @@ function onCreateProject() {
         gitHub,
         telegram,
         website,
-        tabs: selectedTabs,
+        tabs: Array.from(selectedTabs),
         profileImage: avatar,
         coverImage,
       }),
     },
-    ["testing122.near"]: {
+    "testing122.near": {
       project: {
         [`${context.accountId}.project.${projectID}`]: "",
       },

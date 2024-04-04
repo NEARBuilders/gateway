@@ -1,10 +1,26 @@
 const { Modal, Button, ProgressState } = VM.require(
-  "${config_account}/widget/components",
+  "buildhub.near/widget/components",
 ) || {
   Modal: () => <></>,
   Button: () => <></>,
   ProgressState: () => <></>,
 };
+
+const { normalize } = VM.require("devhub.near/widget/core.lib.stringUtils") || {
+  normalize: () => {},
+};
+
+const { getProjectMeta } = VM.require(
+  "${config_account}/widget/lib.project-data",
+) || {
+  getProjectMeta: () => {},
+};
+
+const { id } = props;
+
+const project = getProjectMeta(id);
+const app = props.app || "testing122.near";
+const type = props.type || "task";
 
 const ThemeContainer =
   props.ThemeContainer ||
@@ -27,7 +43,7 @@ const Wrapper = styled.div`
     color: var(--secondary-font-color) !important;
   }
 
-  input[type="text"] {
+  .form-control {
     background: #23242b !important;
     color: #fff !important;
     border: 1px solid var(--border-color) !important;
@@ -95,9 +111,10 @@ const Wrapper = styled.div`
     .dropdown-item.active, .dropdown-item:active {
       background-color: var(--primary-color) !important;
     }
+  
 `;
 
-const projectID = "";
+const projectID = normalize(project?.title);
 
 const StatusValues = {
   PROPOSED: "proposed",
@@ -109,26 +126,12 @@ const listItem = { title: "", isCompleted: false };
 const task = {
   title: "",
   description: "",
-  author: "",
-  tags: "",
+  author: context.accountId,
+  tags: [],
   list: [], // listItem
   status: "",
 };
 
-const dummyTask = {
-  title: "title",
-  description: "description",
-  author: "megha19.near",
-  tags: "test, build",
-  list: [{ title: "UX Design", isCompleted: false }],
-  status: "proposed",
-};
-
-const [tasks, setTasks] = useState([
-  dummyTask,
-  { ...dummyTask, status: "progress" },
-  { ...dummyTask, status: "completed" },
-]);
 const [proposedTasks, setProposedTasks] = useState([]);
 const [progressTasks, setProgresTasks] = useState([]);
 const [completedTasks, setCompletedTasks] = useState([]);
@@ -139,6 +142,72 @@ const [isEditTask, setIsEdit] = useState(false);
 const [showDeleteConfirmationModalIndex, setDeleteConfirmationIndex] =
   useState(null);
 const [showViewTaskModal, setViewTaskModal] = useState(false);
+
+const isAllowedToEdit = (project.contributors ?? []).includes(
+  context.accountId,
+);
+
+const flattenObject = (obj) => {
+  let paths = [];
+
+  Object.keys(obj).forEach((key) => {
+    const path = Object.keys(obj[key][app]["project"][projectID][type])?.[0];
+    const convertedStr = path.replace(/\.(?=(?!near\b))/g, "/");
+    paths.push(convertedStr);
+  });
+
+  return paths;
+};
+
+const processData = useCallback(
+  (data) => {
+    const accounts = Object.entries(data ?? {});
+    const allTasks = accounts
+      .map((account) => {
+        return Object.entries(account?.[1]?.[type] ?? {}).map((kv) => {
+          const metadata = JSON.parse(kv[1]);
+          return {
+            ...metadata,
+          };
+        });
+      })
+      .flat();
+    return allTasks;
+  },
+  [type],
+);
+
+// devs.near/project/name-of-the-project/task/name-of-the-task
+function fetchTasks() {
+  if (!projectID) {
+    return;
+  }
+  const keys = Social.keys(`*/${app}/project/${projectID}/${type}/*`, "final", {
+    order: "desc",
+  });
+
+  if (!keys) {
+    return "Loading...";
+  }
+  let flattenedKeys = flattenObject(keys);
+  const data = Social.get(flattenedKeys, "final");
+  // check if task is singular (since we have to update the return format for parsing)
+  const isSingular = flattenedKeys.length === 1;
+  if (isSingular) {
+    const [name, task, taskName] = flattenedKeys?.[0]?.split("/").slice(0, 3);
+    return {
+      [name]: {
+        [task]: {
+          [taskName]: data,
+        },
+      },
+    };
+  }
+  return data;
+}
+
+const data = fetchTasks();
+const tasks = processData(data);
 
 useEffect(() => {
   if (Array.isArray(tasks)) {
@@ -185,7 +254,24 @@ const deleteTaskListItem = (index) => {
   updateTaskDetail({ list: updatedList });
 };
 
-const onAddTask = () => {};
+const onAddTask = () => {
+  const taskId = normalize(taskDetail.title);
+  const data = {
+    task: {
+      [taskId]: JSON.stringify(taskDetail),
+    },
+    "testing122.near": {
+      project: {
+        [projectID]: {
+          task: {
+            [`${context.accountId}.task.${taskId}`]: "",
+          },
+        },
+      },
+    },
+  };
+  Social.set(data);
+};
 
 const onEditTask = () => {};
 
@@ -278,7 +364,7 @@ const AddTaskModal = () => {
           <input
             placeholder="Enter task title"
             type="text"
-            value={taskDetail.title}
+            value={taskDetail?.title ?? ""}
             onChange={(e) => updateTaskDetail({ title: e.target.value })}
           />
         </div>
@@ -287,17 +373,22 @@ const AddTaskModal = () => {
           <input
             placeholder="Enter description"
             type="text"
-            value={taskDetail.description}
+            value={taskDetail?.description ?? ""}
             onChange={(e) => updateTaskDetail({ description: e.target.value })}
           />
         </div>
-        <div>
+        <div className="form-group">
           <label class="mb-1">Tags</label>
-          <input
-            placeholder="Enter tags e.g community, Open source"
-            type="text"
-            value={taskDetail.tags}
-            onChange={(e) => updateTaskDetail({ tags: e.target.value })}
+          <Typeahead
+            multiple
+            options={["Community", "Open Source", "Weekly", "DAO"]}
+            allowNew
+            placeholder="Start Typing"
+            selected={taskDetail?.tags ?? []}
+            onChange={(e) => {
+              const data = e.map((i) => (i.label ? i.label : i));
+              updateTaskDetail({ tags: data });
+            }}
           />
         </div>
         <div>
@@ -321,6 +412,7 @@ const AddTaskModal = () => {
                     <input
                       type="checkbox"
                       className="form-check-input"
+                      disabled={!isAllowedToEdit}
                       checked={item.isCompleted}
                       onChange={(e) =>
                         updateTaskListItem(index, {
@@ -332,7 +424,7 @@ const AddTaskModal = () => {
                     <input
                       type="text"
                       value={item.title}
-                      placeholder="Task name"
+                      placeholder="Task Detail"
                       onChange={(e) =>
                         updateTaskListItem(index, {
                           title: e.target.value,
@@ -356,9 +448,9 @@ const AddTaskModal = () => {
           )}
           <Button
             variant="primary"
-            onClick={isEditTask ? onAddTask : onEditTask}
+            onClick={!isEditTask ? onAddTask : onEditTask}
           >
-            {isEditTask ? "Save" : "Add Task"}
+            {!isEditTask ? "Save" : "Add Task"}
           </Button>
         </div>
       </div>
@@ -388,11 +480,11 @@ const ViewTaskModal = () => {
         <div>
           <label class="mb-1">Tags</label>
           <div className="d-flex gap-2 align-items-center">
-            {taskDetail.tags &&
-              taskDetail.tags.split(",").map((tag) => (
+            {Array.isArray(taskDetail.tags) &&
+              taskDetail.tags.map((tag) => (
                 <span key={i} className="badge p-2 rounded-0">
                   <span className="hashtag">#</span>
-                  {tag.trim()}
+                  {(tag ?? "").trim()}
                 </span>
               ))}
           </div>
@@ -423,17 +515,19 @@ const ViewTaskModal = () => {
   );
 };
 
-const Column = ({ title, addTask, tasks }) => {
+const Column = ({ title, addTask, columnTasks }) => {
   return (
     <div className="d-flex flex-column gap-1 col-md-4">
       <div className="border p-3 rounded-2 d-flex justify-content-between align-items-center h6">
         {title}
-        <div onClick={addTask}>
-          <i class="bi bi-plus-lg pointer"></i>
-        </div>
+        {isAllowedToEdit && (
+          <div onClick={addTask}>
+            <i class="bi bi-plus-lg pointer"></i>
+          </div>
+        )}
       </div>
       <div className="d-flex flex-column gap-2">
-        {tasks.map((item, index) => (
+        {columnTasks.map((item, index) => (
           <div
             onClick={() => {
               setViewTaskModal(true);
@@ -445,9 +539,9 @@ const Column = ({ title, addTask, tasks }) => {
             <div className="d-flex flex-column gap-2">
               <div className="h6 bold">{item.title}</div>
               <div className="h6">Author: {item.author}</div>
-              <div className="h6">Last edited: </div>
+              {/* <div className="h6">Last edited: </div> */}
             </div>
-            <DropdownMenu item={item} index={index} />
+            {isAllowedToEdit && <DropdownMenu item={item} index={index} />}
           </div>
         ))}
       </div>
@@ -458,7 +552,7 @@ const Column = ({ title, addTask, tasks }) => {
 const columns = [
   {
     title: "Proposed",
-    tasks: proposedTasks,
+    columnTasks: proposedTasks,
     addTask: () => {
       setTaskDetail({ ...task, status: StatusValues.PROPOSED });
       setShowAddTaskModal(true);
@@ -466,7 +560,7 @@ const columns = [
   },
   {
     title: "In Progress",
-    tasks: progressTasks,
+    columnTasks: progressTasks,
     addTask: () => {
       setTaskDetail({ ...task, status: StatusValues.PROGRESS });
       setShowAddTaskModal(true);
@@ -474,7 +568,7 @@ const columns = [
   },
   {
     title: "Completed",
-    tasks: completedTasks,
+    columnTasks: completedTasks,
     addTask: () => {
       setTaskDetail({ ...task, status: StatusValues.COMPLETED });
       setShowAddTaskModal(true);
@@ -494,7 +588,7 @@ return (
             <Column
               title={item.title}
               addTask={item.addTask}
-              tasks={item.tasks}
+              columnTasks={item.columnTasks}
             />
           ))}
         </div>
