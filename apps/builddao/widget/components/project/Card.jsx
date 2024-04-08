@@ -59,13 +59,38 @@ const Card = styled.div`
     }
   }
 `;
+const fallbackUrl =
+  "https://ipfs.near.social/ipfs/bafkreibmiy4ozblcgv3fm3gc6q62s55em33vconbavfd2ekkuliznaq3zm";
 
-const ProjectCard = ({ project, type, app }) => {
-  const { accountId, tags, collaborators, metadata, projectID } = project;
+const ProjectCard = ({ project, userProject }) => {
+  const {
+    accountId,
+    projectAccountId,
+    tags,
+    collaborators,
+    metadata,
+    projectID,
+  } = project;
+
   return (
     <Card>
       <div className="c-top">
-        <Avatar accountId={accountId} />
+        <div
+          className={"profile-image d-inline-block"}
+          style={{ width: "3em", height: "3em" }}
+        >
+          <Widget
+            src="mob.near/widget/Image"
+            props={{
+              image: metadata.profileImage.image,
+              alt: metadata.title,
+              className: "rounded-circle w-100 h-100",
+              style: { objectFit: "cover" },
+              thumbnail: "thumbnail",
+              fallbackUrl,
+            }}
+          />
+        </div>
         <div className="info">
           <h4>
             {metadata.title.length > 30
@@ -73,11 +98,11 @@ const ProjectCard = ({ project, type, app }) => {
               : metadata.title}
           </h4>
           <span>{`@${
-            accountId.length > 30
-              ? `${accountId.slice(0, 20)}...${accountId.slice(
-                  accountId.length - 4,
+            projectAccountId.length > 30
+              ? `${projectAccountId.slice(0, 20)}...${projectAccountId.slice(
+                  projectAccountId.length - 4,
                 )}`
-              : accountId
+              : projectAccountId
           }`}</span>
         </div>
         <div className="d-flex align-items-center flex-wrap gap-2">
@@ -97,7 +122,7 @@ const ProjectCard = ({ project, type, app }) => {
             widgetSrc: `${config_account}/widget/app`,
             params: {
               page: "project",
-              id: `${accountId}/${type}/${projectID}`,
+              id: `${accountId}/${userProject}/${projectID}`,
               tab: "overview",
             },
           })}

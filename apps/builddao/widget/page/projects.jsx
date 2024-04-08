@@ -10,16 +10,23 @@ const { ProjectCard } = VM.require(
 
 const app = props.app || "testing122.near";
 const type = props.type || "project";
+const userProject = props.type || "user-project";
 
-const flattenObject = (obj, app, type) => {
+const flattenObject = (obj) => {
   let paths = [];
 
-  Object.keys(obj).forEach((key) => {
-    const path = Object.keys(obj[key][app][type])?.[0];
-    const convertedStr = path.replace(/\.(?=(?!near\b))/g, "/");
-    paths.push(convertedStr);
-  });
-
+  try {
+    Object.keys(obj).forEach((key) => {
+      const projects = Object.keys(obj?.[key]?.[app]?.[type] ?? {});
+      projects.map((path) => {
+        if (!path || !path.includes("_")) {
+          return;
+        }
+        const convertedStr = path.replace(/_/g, "/");
+        paths.push(convertedStr);
+      });
+    });
+  } catch (e) {}
   return paths;
 };
 
@@ -60,9 +67,10 @@ const processData = useCallback(
     const allProjects = accounts
       .map((account) => {
         const accountId = account[0];
-        return Object.entries(account?.[1]?.[type] ?? {}).map((kv) => {
+        return Object.entries(account?.[1]?.[userProject] ?? {}).map((kv) => {
           const metadata = JSON.parse(kv[1]);
           return {
+            ...metadata,
             accountId,
             type: type,
             title: metadata.title,
@@ -226,7 +234,7 @@ return (
         <p className="fw-bold text-white">No Projects Found</p>
       )}
       {filteredProjects.map((project) => (
-        <ProjectCard project={project} app={app} type={type} />
+        <ProjectCard project={project} userProject={userProject} />
       ))}
     </Container>
   </Wrapper>

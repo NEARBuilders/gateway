@@ -20,7 +20,7 @@ const extractNearAddress = (id) => {
 };
 const accountId = extractNearAddress(id);
 
-const data = Social.get(id, "final");
+const data = JSON.parse(Social.get(id, "final") ?? {});
 if (!id || !data) {
   return "Loading...";
 }
@@ -75,7 +75,6 @@ const Content = styled.div`
 
 const project = JSON.parse(data);
 
-const profile = Social.getr(`${accountId}/profile`, "final");
 const projectSelectedRoutes = routes;
 
 // remove unselected tabs
@@ -87,12 +86,25 @@ if (Array.isArray(project?.tabs)) {
   });
 }
 
+const profileData = {
+  name: data.title,
+  description: data.description,
+  linktree: {
+    github: data.github,
+    telegram: data.telegram,
+    twitter: data.twitter,
+    website: data.website,
+  },
+  backgroundImage: data.backgroundImage?.image,
+  image: data.profileImage?.image,
+};
+
 return (
   <Root>
     <Container>
       <ProjectLayout
-        profile={profile}
-        accountId={accountId}
+        profile={profileData}
+        projectAccountId={data.projectAccountId}
         tab={page}
         routes={routes}
         project={project}

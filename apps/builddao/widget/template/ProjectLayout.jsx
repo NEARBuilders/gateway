@@ -108,7 +108,7 @@ const Nav = styled.div`
 `;
 
 const ProjectLayout = ({
-  accountId,
+  projectAccountId,
   profile,
   routes,
   children,
@@ -118,7 +118,7 @@ const ProjectLayout = ({
 }) => {
   const { title } = project;
 
-  if (!accountId) {
+  if (!projectAccountId) {
     return <p className="fw-bold text-white">No Account ID</p>;
   }
 
@@ -170,7 +170,7 @@ const ProjectLayout = ({
         <div className="right">
           <div className="info">
             <h3>{title ?? profile.name}</h3>
-            <p>@{accountId}</p>
+            <p>@{projectAccountId}</p>
           </div>
 
           <div className="links">

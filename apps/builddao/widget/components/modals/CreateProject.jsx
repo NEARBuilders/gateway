@@ -22,6 +22,8 @@ const tabs = [
   { id: "roadmap", label: "Roadmap", checked: false },
 ];
 
+const app = props.app ?? "testing122.near";
+
 const [tags, setTags] = useState(props.filters.tags ?? []);
 const [title, setTitle] = useState("");
 const [description, setDescription] = useState("");
@@ -152,30 +154,72 @@ const Main = styled.div`
 `;
 
 function onCreateProject() {
+  const projectAccountId = "testing122.near";
   const projectID = normalize(title);
-  Social.set({
-    project: {
-      [projectID]: JSON.stringify({
-        title,
-        description,
-        location,
-        tags,
-        contributors,
-        twitter,
-        gitHub,
-        telegram,
-        website,
-        tabs: Array.from(selectedTabs),
-        profileImage: avatar,
-        coverImage,
-      }),
+  const project = {
+    title,
+    description,
+    location,
+    tags,
+    contributors,
+    twitter,
+    github: gitHub,
+    telegram,
+    website,
+    tabs: Array.from(selectedTabs),
+    profileImage: avatar,
+    backgroundImage: coverImage,
+    projectAccountId,
+  };
+  const data = {
+    "user-project": {
+      [projectID]: JSON.stringify(project),
+      metadata: project,
     },
-    "testing122.near": {
+    [app]: {
       project: {
-        [`${context.accountId}.project.${projectID}`]: "",
+        [`${context.accountId}_user-project_${projectID}`]: "",
       },
     },
-  });
+  };
+  if (projectAccountId.includes(".sputnik-dao.near")) {
+    const policy = Near.view(projectAccountId, "get_policy");
+    const base64 = Buffer.from(
+      JSON.stringify({
+        data: {
+          [projectAccountId]: data,
+        },
+        options: { refund_unused_deposit: true },
+      }),
+      "utf-8",
+    ).toString("base64");
+    Near.call({
+      contractName: projectAccountId,
+      methodName: "add_proposal",
+      args: {
+        proposal: {
+          description: `Project creation using BuildDAO created by ${context.accountId}`,
+          kind: {
+            FunctionCall: {
+              receiver_id: "social.near",
+              actions: [
+                {
+                  method_name: "set",
+                  args: base64,
+                  deposit: "100000000000000000000000",
+                  gas: "200000000000000",
+                },
+              ],
+            },
+          },
+        },
+      },
+      deposit: policy?.proposal_bond || 100000000000000000000000,
+      gas: 200000000000000,
+    });
+  } else {
+    Social.set(data);
+  }
 }
 
 return (

@@ -12,14 +12,7 @@ return {
       path: "${config_account}/widget/page.feed",
       blockHeight: "final",
       init: {
-        name: "Feed",
-      },
-    },
-    requests: {
-      path: "${config_account}/widget/page.requests",
-      blockHeight: "final",
-      init: {
-        name: "Requests",
+        name: "Activity",
       },
     },
     projects: {
