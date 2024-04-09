@@ -1,6 +1,6 @@
 const accountId = context.accountId;
 const { Modal, Button, InputField, TextEditor } = VM.require(
-  "buildhub.near/widget/components"
+  "buildhub.near/widget/components",
 ) || {
   Modal: () => <></>,
   Button: () => <></>,
@@ -30,7 +30,7 @@ const [gitHub, setGitHub] = useState("");
 const [telegram, setTelegram] = useState("");
 const [website, setWebsite] = useState("");
 const [selectedTabs, setSelectedTabs] = useState(
-  new Set(tabs.filter((tab) => tab.checked).map((tab) => tab.id.toLowerCase()))
+  new Set(tabs.filter((tab) => tab.checked).map((tab) => tab.id.toLowerCase())),
 );
 const [avatar, setAvatar] = useState("");
 const [coverImage, setCoverImage] = useState("");
@@ -57,7 +57,7 @@ const handleTags = (tags) => {
 
 const handleContributors = (contributors) => {
   let filtered = contributors.map((contributor) =>
-    contributor.customOption ? contributor.label : contributor
+    contributor.customOption ? contributor.label : contributor,
   );
   setDistributors(filtered);
 };
