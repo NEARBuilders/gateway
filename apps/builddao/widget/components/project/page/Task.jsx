@@ -6,6 +6,23 @@ const { Modal, Button, ProgressState } = VM.require(
   ProgressState: () => <></>,
 };
 
+const { normalize } = VM.require("devhub.near/widget/core.lib.stringUtils") || {
+  normalize: () => {},
+};
+
+const { getProjectMeta } = VM.require(
+  "${config_account}/widget/lib.project-data",
+) || {
+  getProjectMeta: () => {},
+};
+
+const { id } = props;
+
+const project = getProjectMeta(id);
+const app = props.app || "testing122.near";
+const type = props.type || "task";
+const userTask = props.userTask || "user-task";
+
 const ThemeContainer =
   props.ThemeContainer ||
   styled.div`
@@ -27,7 +44,7 @@ const Wrapper = styled.div`
     color: var(--secondary-font-color) !important;
   }
 
-  input[type="text"] {
+  .form-control {
     background: #23242b !important;
     color: #fff !important;
     border: 1px solid var(--border-color) !important;
@@ -95,9 +112,10 @@ const Wrapper = styled.div`
     .dropdown-item.active, .dropdown-item:active {
       background-color: var(--primary-color) !important;
     }
+  
 `;
 
-const projectID = "";
+const projectID = normalize(project?.title);
 
 const StatusValues = {
   PROPOSED: "proposed",
@@ -109,26 +127,12 @@ const listItem = { title: "", isCompleted: false };
 const task = {
   title: "",
   description: "",
-  author: "",
-  tags: "",
+  author: context.accountId,
+  tags: [],
   list: [], // listItem
   status: "",
 };
 
-const dummyTask = {
-  title: "title",
-  description: "description",
-  author: "megha19.near",
-  tags: "test, build",
-  list: [{ title: "UX Design", isCompleted: false }],
-  status: "proposed",
-};
-
-const [tasks, setTasks] = useState([
-  dummyTask,
-  { ...dummyTask, status: "progress" },
-  { ...dummyTask, status: "completed" },
-]);
 const [proposedTasks, setProposedTasks] = useState([]);
 const [progressTasks, setProgresTasks] = useState([]);
 const [completedTasks, setCompletedTasks] = useState([]);
@@ -139,6 +143,86 @@ const [isEditTask, setIsEdit] = useState(false);
 const [showDeleteConfirmationModalIndex, setDeleteConfirmationIndex] =
   useState(null);
 const [showViewTaskModal, setViewTaskModal] = useState(false);
+const [currentEditTaskId, setCurrentTaskId] = useState(null); // if user change title we need the same earlier key to update the data
+
+const isAllowedToEdit = (project.contributors ?? []).includes(
+  context.accountId,
+);
+
+const flattenObject = (obj) => {
+  let paths = [];
+
+  try {
+    Object.keys(obj).forEach((key) => {
+      const projects = Object.keys(
+        obj?.[key]?.[app]?.["project-task"]?.[projectID]?.[type] ?? {},
+      );
+      projects.map((path) => {
+        if (!path || !path.includes("_")) {
+          return;
+        }
+        const convertedStr = path.replace(/_/g, "/");
+        paths.push(convertedStr);
+      });
+    });
+  } catch (e) {}
+  return paths;
+};
+
+const processData = useCallback(
+  (data) => {
+    const accounts = Object.entries(data ?? {});
+    const allTasks = accounts
+      .map((account) => {
+        return Object.entries(account?.[1]?.[userTask] ?? {}).map((kv) => {
+          const metadata = JSON.parse(kv[1]);
+          return {
+            ...metadata,
+            oldTitle: kv[0],
+          };
+        });
+      })
+      .flat();
+    return allTasks;
+  },
+  [type],
+);
+
+// devs.near/project/name-of-the-project/task/name-of-the-task
+function fetchTasks() {
+  if (!projectID) {
+    return;
+  }
+  const keys = Social.keys(
+    `*/${app}/project-task/${projectID}/${type}/*`,
+    "final",
+    {
+      order: "desc",
+    },
+  );
+  if (!keys) {
+    return "Loading...";
+  }
+  let flattenedKeys = flattenObject(keys);
+
+  const data = Social.get(flattenedKeys, "final");
+  // check if task is singular (since we have to update the return format for parsing)
+  const isSingular = flattenedKeys.length === 1;
+  if (isSingular) {
+    const [name, task, taskName] = flattenedKeys?.[0]?.split("/").slice(0, 3);
+    return {
+      [name]: {
+        [task]: {
+          [taskName]: data,
+        },
+      },
+    };
+  }
+  return data;
+}
+
+const data = fetchTasks();
+const tasks = processData(data);
 
 useEffect(() => {
   if (Array.isArray(tasks)) {
@@ -147,22 +231,6 @@ useEffect(() => {
     setCompletedTasks(tasks.filter((i) => i.status === StatusValues.COMPLETED));
   }
 }, [tasks]);
-
-const onEdit = () => {
-  const modifications = Social.index("modify", item, {
-    limit: 1,
-    order: "desc",
-  });
-
-  if (modifications.length) {
-    const modification = modifications[0].value;
-    if (modification.type === "edit") {
-      content = modification.value;
-    } else if (modification.type === "delete") {
-      return <></>;
-    }
-  }
-};
 
 const updateTaskDetail = (data) => {
   setTaskDetail((prevState) => ({
@@ -185,54 +253,126 @@ const deleteTaskListItem = (index) => {
   updateTaskDetail({ list: updatedList });
 };
 
-const onAddTask = () => {};
+const onAddTask = () => {
+  const taskId = normalize(taskDetail.title);
+  const data = {
+    "user-task": {
+      [taskId]: JSON.stringify(taskDetail),
+      metadata: taskDetail,
+    },
+    [app]: {
+      "project-task": {
+        [projectID]: {
+          [type]: {
+            [`${context.accountId}_user-task_${taskId}`]: "",
+          },
+        },
+      },
+    },
+  };
+  Social.set(data);
+};
 
-const onEditTask = () => {};
+const onEditTask = useCallback(
+  (data) => {
+    const newData = data ?? taskDetail;
+    const taskId = currentEditTaskId;
+    const updatedData = {
+      "user-task": {
+        [taskId]: JSON.stringify(newData),
+        metadata: newData,
+      },
+      [app]: {
+        "project-task": {
+          [projectID]: {
+            [type]: {
+              [`${context.accountId}_user-task_${taskId}`]: "",
+            },
+          },
+        },
+      },
+    };
+    Social.set(updatedData, { force: true });
+  },
+  [taskDetail, currentEditTaskId],
+);
 
 const onDeleteTask = () => {};
 
-const DropdownMenu = ({ item, index }) => {
+function handleDropdownToggle(columnTitle, index, value) {
+  setShowDropdownIndex((prevState) => ({
+    ...prevState,
+    [columnTitle + index]: value ?? !prevState[columnTitle + index] ?? true,
+  }));
+}
+
+const DropdownMenu = ({ columnTitle, item, index, changeStatusOptions }) => {
   return (
     <span
       className="ms-auto flex-shrink-0"
       onClick={(event) => event.stopPropagation()}
+      tabIndex="0"
+      onBlur={() => handleDropdownToggle(columnTitle, index, false)}
     >
-      <div data-bs-toggle="dropdown" aria-expanded="false">
+      <div
+        data-bs-toggle="dropdown"
+        aria-expanded="false"
+        onClick={() => {
+          handleDropdownToggle(columnTitle, index);
+          setTaskDetail(item);
+          setCurrentTaskId(normalize(item.oldTitle));
+        }}
+      >
         <i class="bi bi-three-dots h5 pointer"></i>
       </div>
-      <ul className="dropdown-menu border">
-        <li
-          className="dropdown-item"
-          onClick={() => {
-            setIsEdit(true);
-            setTaskDetail(item);
-            setShowAddTaskModal(true);
-          }}
-        >
-          <i class="bi bi-pencil"></i>Edit Task
-        </li>
-        <li
-          className="dropdown-item"
-          onClick={() => {
-            setDeleteConfirmationIndex(index);
-          }}
-        >
-          <i class="bi bi-trash3"></i>Delete Task
-        </li>
-        <hr />
-        <div
-          style={{ color: "var(--secondary-font-color)" }}
-          className="px-2 mb-1"
-        >
-          Change Status
-        </div>
-        <li className="dropdown-item">
-          <i class="bi bi-check2"></i>In Progress
-        </li>
-        <li className="dropdown-item">
-          <i class="bi bi-check2"></i>Completed
-        </li>
-      </ul>
+      {showDropdownIndex[columnTitle + index] && (
+        <ul className="dropdown-menu show border">
+          <li
+            className="dropdown-item"
+            onClick={() => {
+              handleDropdownToggle(columnTitle, index);
+              setIsEdit(true);
+              setShowAddTaskModal(true);
+            }}
+          >
+            <i class="bi bi-pencil"></i>Edit Task
+          </li>
+          <li
+            className="dropdown-item"
+            onClick={() => {
+              handleDropdownToggle(columnTitle, index);
+              setDeleteConfirmationIndex(index);
+            }}
+          >
+            <i class="bi bi-trash3"></i>Delete Task
+          </li>
+          {(changeStatusOptions ?? []).length > 0 && (
+            <div>
+              <hr />
+              <div
+                style={{ color: "var(--secondary-font-color)" }}
+                className="px-2 mb-1"
+              >
+                Change Status
+              </div>
+              {changeStatusOptions.map((i) => (
+                <li
+                  className="dropdown-item"
+                  onClick={() => {
+                    const data = { status: i.value };
+                    updateTaskDetail(data);
+                    handleDropdownToggle(columnTitle, index);
+                    onEditTask({ ...taskDetail, ...data });
+                  }}
+                >
+                  <i class="bi bi-check2"></i>
+                  {i.label}
+                </li>
+              ))}
+            </div>
+          )}
+        </ul>
+      )}
     </span>
   );
 };
@@ -278,7 +418,7 @@ const AddTaskModal = () => {
           <input
             placeholder="Enter task title"
             type="text"
-            value={taskDetail.title}
+            value={taskDetail?.title ?? ""}
             onChange={(e) => updateTaskDetail({ title: e.target.value })}
           />
         </div>
@@ -287,17 +427,22 @@ const AddTaskModal = () => {
           <input
             placeholder="Enter description"
             type="text"
-            value={taskDetail.description}
+            value={taskDetail?.description ?? ""}
             onChange={(e) => updateTaskDetail({ description: e.target.value })}
           />
         </div>
-        <div>
+        <div className="form-group">
           <label class="mb-1">Tags</label>
-          <input
-            placeholder="Enter tags e.g community, Open source"
-            type="text"
-            value={taskDetail.tags}
-            onChange={(e) => updateTaskDetail({ tags: e.target.value })}
+          <Typeahead
+            multiple
+            options={["Community", "Open Source", "Weekly", "DAO"]}
+            allowNew
+            placeholder="Start Typing"
+            selected={taskDetail?.tags ?? []}
+            onChange={(e) => {
+              const data = e.map((i) => (i.label ? i.label : i));
+              updateTaskDetail({ tags: data });
+            }}
           />
         </div>
         <div>
@@ -321,6 +466,7 @@ const AddTaskModal = () => {
                     <input
                       type="checkbox"
                       className="form-check-input"
+                      disabled={!isAllowedToEdit}
                       checked={item.isCompleted}
                       onChange={(e) =>
                         updateTaskListItem(index, {
@@ -332,7 +478,7 @@ const AddTaskModal = () => {
                     <input
                       type="text"
                       value={item.title}
-                      placeholder="Task name"
+                      placeholder="Task Detail"
                       onChange={(e) =>
                         updateTaskListItem(index, {
                           title: e.target.value,
@@ -356,7 +502,7 @@ const AddTaskModal = () => {
           )}
           <Button
             variant="primary"
-            onClick={isEditTask ? onAddTask : onEditTask}
+            onClick={isEditTask ? () => onEditTask() : onAddTask}
           >
             {isEditTask ? "Save" : "Add Task"}
           </Button>
@@ -388,11 +534,11 @@ const ViewTaskModal = () => {
         <div>
           <label class="mb-1">Tags</label>
           <div className="d-flex gap-2 align-items-center">
-            {taskDetail.tags &&
-              taskDetail.tags.split(",").map((tag) => (
+            {Array.isArray(taskDetail.tags) &&
+              taskDetail.tags.map((tag) => (
                 <span key={i} className="badge p-2 rounded-0">
                   <span className="hashtag">#</span>
-                  {tag.trim()}
+                  {(tag ?? "").trim()}
                 </span>
               ))}
           </div>
@@ -423,17 +569,19 @@ const ViewTaskModal = () => {
   );
 };
 
-const Column = ({ title, addTask, tasks }) => {
+const Column = ({ title, addTask, columnTasks, changeStatusOptions }) => {
   return (
     <div className="d-flex flex-column gap-1 col-md-4">
       <div className="border p-3 rounded-2 d-flex justify-content-between align-items-center h6">
         {title}
-        <div onClick={addTask}>
-          <i class="bi bi-plus-lg pointer"></i>
-        </div>
+        {isAllowedToEdit && (
+          <div onClick={addTask}>
+            <i class="bi bi-plus-lg pointer"></i>
+          </div>
+        )}
       </div>
       <div className="d-flex flex-column gap-2">
-        {tasks.map((item, index) => (
+        {columnTasks.map((item, index) => (
           <div
             onClick={() => {
               setViewTaskModal(true);
@@ -445,9 +593,16 @@ const Column = ({ title, addTask, tasks }) => {
             <div className="d-flex flex-column gap-2">
               <div className="h6 bold">{item.title}</div>
               <div className="h6">Author: {item.author}</div>
-              <div className="h6">Last edited: </div>
+              {/* <div className="h6">Last edited: </div> */}
             </div>
-            <DropdownMenu item={item} index={index} />
+            {isAllowedToEdit && (
+              <DropdownMenu
+                columnTitle={title}
+                item={item}
+                index={index}
+                changeStatusOptions={changeStatusOptions}
+              />
+            )}
           </div>
         ))}
       </div>
@@ -458,27 +613,34 @@ const Column = ({ title, addTask, tasks }) => {
 const columns = [
   {
     title: "Proposed",
-    tasks: proposedTasks,
+    columnTasks: proposedTasks,
     addTask: () => {
       setTaskDetail({ ...task, status: StatusValues.PROPOSED });
       setShowAddTaskModal(true);
     },
+    changeStatusOptions: [
+      { label: "In Progress", value: StatusValues.PROGRESS },
+    ],
   },
   {
     title: "In Progress",
-    tasks: progressTasks,
+    columnTasks: progressTasks,
     addTask: () => {
       setTaskDetail({ ...task, status: StatusValues.PROGRESS });
       setShowAddTaskModal(true);
     },
+    changeStatusOptions: [
+      { label: "Completed", value: StatusValues.COMPLETED },
+    ],
   },
   {
     title: "Completed",
-    tasks: completedTasks,
+    columnTasks: completedTasks,
     addTask: () => {
       setTaskDetail({ ...task, status: StatusValues.COMPLETED });
       setShowAddTaskModal(true);
     },
+    changeStatusOptions: [],
   },
 ];
 
@@ -494,7 +656,8 @@ return (
             <Column
               title={item.title}
               addTask={item.addTask}
-              tasks={item.tasks}
+              columnTasks={item.columnTasks}
+              changeStatusOptions={item.changeStatusOptions}
             />
           ))}
         </div>
