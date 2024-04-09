@@ -1,4 +1,4 @@
-const { currentPath, page, ...passProps } = props;
+const { currentPath, tab: page, ...passProps } = props;
 
 const { routes } = VM.require("${config_account}/widget/config.projects") ?? {
   routes: {},
@@ -68,7 +68,10 @@ const Content = styled.div`
 return (
   <Root>
     <Container>
-      <SidebarLayout currentPath={currentPath} routes={routes}>
+      <SidebarLayout
+        currentPath={"/${config_account}/widget/app?page=proposal"}
+        routes={routes}
+      >
         <Content>
           <Router active={activeRoute} routes={routes} />
         </Content>
