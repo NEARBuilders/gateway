@@ -108,28 +108,17 @@ const Nav = styled.div`
 `;
 
 const ProjectLayout = ({
-  accountId,
+  projectAccountId,
   profile,
   routes,
   children,
   project,
   id,
+  tab,
 }) => {
-  const {
-    title,
-    description,
-    tags,
-    collaborators,
-    projectLink,
-    demoLink,
-    contactInfo,
-    referrer,
-    learning,
-  } = project;
+  const { title } = project;
 
-  const [address, app, type, titleUrl] = id.split("/");
-
-  if (!accountId) {
+  if (!projectAccountId) {
     return <p className="fw-bold text-white">No Account ID</p>;
   }
 
@@ -181,7 +170,7 @@ const ProjectLayout = ({
         <div className="right">
           <div className="info">
             <h3>{title ?? profile.name}</h3>
-            <p>@{accountId}</p>
+            <p>@{projectAccountId}</p>
           </div>
 
           <div className="links">
@@ -206,14 +195,14 @@ const ProjectLayout = ({
                     widgetSrc: `${config_account}/widget/app`,
                     params: {
                       page: "project",
-                      id: `${accountId}/${app}/${type}/${titleUrl}`,
+                      id: id,
                       tab: it,
                     },
                   })}
                   key={it}
                 >
                   <button
-                    className={`nav-link ${it === page ? "active" : ""}`}
+                    className={`nav-link ${it === tab ? "active" : ""}`}
                     id={`pills-${id}-tab`}
                     data-bs-toggle="pill"
                     data-bs-target={`#pills-${it}`}
@@ -239,7 +228,6 @@ const ProjectLayout = ({
           id="pills-overview"
           role="tabpanel"
           aria-labelledby="pills-overview-tab"
-          key={tab}
         >
           {children}
         </div>

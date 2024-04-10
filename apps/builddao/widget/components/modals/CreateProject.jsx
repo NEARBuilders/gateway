@@ -7,7 +7,9 @@ const { Modal, Button, InputField, TextEditor } = VM.require(
   InputField: () => <></>,
   TextEditor: () => <></>,
 };
-
+const { normalize } = VM.require("devhub.near/widget/core.lib.stringUtils") || {
+  normalize: () => {},
+};
 const showModal = props.showModal;
 const toggleModal = props.toggleModal;
 const toggle = props.toggle;
@@ -19,6 +21,8 @@ const tabs = [
   { id: "code", label: "Code", checked: false },
   { id: "roadmap", label: "Roadmap", checked: false },
 ];
+
+const app = props.app ?? "testing122.near";
 
 const [tags, setTags] = useState(props.filters.tags ?? []);
 const [title, setTitle] = useState("");
@@ -77,25 +81,27 @@ const Main = styled.div`
   gap: 1rem;
   padding: 1rem;
 
-  @media (max-width: 768px) {
-    flex-direction: column;
-    .lhs,
-    .rhs {
-      width: 100%;
-    }
-  }
   .form-control {
     background: transparent;
   }
   .lhs {
-    min-width: 400px;
+    width: 400px;
     > div {
       width: 100%;
     }
   }
   .rhs {
-    min-width: 400px;
+    width: 400px;
   }
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    .lhs,
+    .rhs {
+      width: auto;
+    }
+  }
+
   .form-group {
     width: 100%;
     & > div > div.p-2 {
@@ -147,6 +153,75 @@ const Main = styled.div`
   }
 `;
 
+function onCreateProject() {
+  const projectAccountId = "testing122.near";
+  const projectID = normalize(title);
+  const project = {
+    title,
+    description,
+    location,
+    tags,
+    contributors,
+    twitter,
+    github: gitHub,
+    telegram,
+    website,
+    tabs: Array.from(selectedTabs),
+    profileImage: avatar,
+    backgroundImage: coverImage,
+    projectAccountId,
+  };
+  const data = {
+    "user-project": {
+      [projectID]: JSON.stringify(project),
+      metadata: project,
+    },
+    [app]: {
+      project: {
+        [`${context.accountId}_user-project_${projectID}`]: "",
+      },
+    },
+  };
+  if (projectAccountId.includes(".sputnik-dao.near")) {
+    const policy = Near.view(projectAccountId, "get_policy");
+    const base64 = Buffer.from(
+      JSON.stringify({
+        data: {
+          [projectAccountId]: data,
+        },
+        options: { refund_unused_deposit: true },
+      }),
+      "utf-8",
+    ).toString("base64");
+    Near.call({
+      contractName: projectAccountId,
+      methodName: "add_proposal",
+      args: {
+        proposal: {
+          description: `Project creation using BuildDAO created by ${context.accountId}`,
+          kind: {
+            FunctionCall: {
+              receiver_id: "social.near",
+              actions: [
+                {
+                  method_name: "set",
+                  args: base64,
+                  deposit: "100000000000000000000000",
+                  gas: "200000000000000",
+                },
+              ],
+            },
+          },
+        },
+      },
+      deposit: policy?.proposal_bond || 100000000000000000000000,
+      gas: 200000000000000,
+    });
+  } else {
+    Social.set(data);
+  }
+}
+
 return (
   <Modal
     open={showModal}
@@ -166,10 +241,7 @@ return (
 
         <div className="form-group">
           <label className="mb-1">Description</label>
-          <TextEditor
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-          />
+          <TextEditor value={description} onChange={(e) => setDescription(e)} />
         </div>
         <InputField
           key={"Location"}
@@ -186,7 +258,7 @@ return (
               allMainnetAddresses ?? ["frank.near", "ellie.near", "jane.near"]
             }
             allowNew
-            placeholder="Enter Contributors username e.g frank.near, ellie.near"
+            placeholder="frank.near, ellie.near"
             selected={contributors}
             onChange={(e) => handleContributors(e)}
           />
@@ -195,7 +267,8 @@ return (
         <InputField
           key={"twitter"}
           label={"Twitter"}
-          placeholder={"twitter handle"}
+          error={twitter && !isValidUrl(twitter)}
+          placeholder={"https://twitter.com/handle"}
           value={twitter}
           onChange={(e) => setTwitter(e.target.value)}
         />
@@ -203,7 +276,8 @@ return (
         <InputField
           key={"github"}
           label={"GitHub"}
-          placeholder={"github handle"}
+          error={gitHub && !isValidUrl(gitHub)}
+          placeholder={"https://github.com/handle"}
           value={gitHub}
           onChange={(e) => setGitHub(e.target.value)}
         />
@@ -211,7 +285,8 @@ return (
         <InputField
           key={"telegram"}
           label={"Telegram"}
-          placeholder={"telegram handle"}
+          error={telegram && !isValidUrl(telegram)}
+          placeholder={"https://t.me/handle"}
           value={telegram}
           onChange={(e) => setTelegram(e.target.value)}
         />
@@ -220,7 +295,7 @@ return (
           key={"website"}
           label={"Website"}
           error={website && !isValidUrl(website)}
-          placeholder={"website link"}
+          placeholder={"https://www.nearbuilders.org/"}
           value={website}
           onChange={websiteUrlHandler}
         />
@@ -284,7 +359,7 @@ return (
       </div>
     </Main>
     <div className="d-flex align-items-center justify-content-end gap-2">
-      <Button variant="primary" onClick={() => null}>
+      <Button variant="primary" onClick={onCreateProject}>
         Create
       </Button>
     </div>

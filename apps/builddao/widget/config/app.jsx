@@ -12,10 +12,10 @@ return {
       path: "${config_account}/widget/page.feed",
       blockHeight: "final",
       init: {
-        name: "Feed",
+        name: "Activity",
       },
     },
-    proposal: {
+    projects: {
       path: "${config_account}/widget/page.projects",
       blockHeight: "final",
       init: {
@@ -49,14 +49,6 @@ return {
       blockHeight: "final",
       init: {
         name: "Inspect",
-      },
-      hide: true,
-    },
-    projects: {
-      path: "${config_account}/widget/page.project-feed",
-      blockHeight: "final",
-      init: {
-        name: "Project Feed",
       },
       hide: true,
     },

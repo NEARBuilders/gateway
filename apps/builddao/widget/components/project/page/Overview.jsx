@@ -13,7 +13,7 @@ const { id } = props;
 
 const project = getProjectMeta(id);
 
-const { description, tags, contributors, accountId, profile } = project;
+const { description, tags, contributors, accountId, location } = project;
 
 const Container = styled.div`
   display: flex;
@@ -61,8 +61,6 @@ const MapIcon = () => (
   </svg>
 );
 
-// const tags = Object.keys(profile.tags ?? []);
-
 return (
   <Container>
     <div className="section">
@@ -79,7 +77,7 @@ return (
       <div className="section">
         <p className="heading">Location</p>
         <p className="description d-flex align-items-center gap-2">
-          <MapIcon /> {profile.location ?? "No Location"}
+          <MapIcon /> {location ?? "No Location"}
         </p>
       </div>
       <div className="section">
