@@ -178,7 +178,9 @@ const handleVote = ({ action, proposalId, proposer, showNotification }) => {
               data: notification,
               options: { refund_unused_deposit: true },
             },
-            deposit: 100000000000000000000000,
+            deposit: Big(JSON.stringify(notification).length * 16)
+              .mul(Big(10).pow(20))
+              .toString(),
           },
         ]
       : null,
@@ -339,9 +341,9 @@ return (
         }}
       />
       <Header asChild>
-        <div className="d-flex align-items-center w-100 justify-content-between">
-          <h3 className="text-white m-0">Proposals</h3>
-          <div className="d-flex align-items-center gap-3">
+        <div className="d-flex justify-content-between">
+          <h3 className="text-white">Proposals</h3>
+          <div className="d-flex gap-3">
             <Button variant="outline" onClick={() => setFiltersModal(true)}>
               Filters
             </Button>
