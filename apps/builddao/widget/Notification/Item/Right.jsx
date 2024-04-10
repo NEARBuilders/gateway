@@ -1,5 +1,5 @@
 const { href } = VM.require("${config_account}/widget/lib.url") || {
-  href: () => {}
+  href: () => {},
 };
 
 if (!props.type) {
@@ -15,8 +15,8 @@ return (
         page: props.page,
         proposalId: props.params.proposalId,
         tab: props.params.tab,
-        daoId: props.params.daoId
-      }
+        daoId: props.params.daoId,
+      },
     })}
   >
     View

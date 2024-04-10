@@ -16,7 +16,7 @@ return (
           props={{ ...value }}
         />
       ),
-      ...props
+      ...props,
     }}
   />
 );

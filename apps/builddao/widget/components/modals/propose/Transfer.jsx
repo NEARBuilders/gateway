@@ -39,8 +39,8 @@ const tokensData = [
     icon: "",
     name: "NEAR",
     symbol: "NEAR",
-    tokenId: NearTokenId
-  }
+    tokenId: NearTokenId,
+  },
 ];
 if (res.body) {
   res.body?.tokens?.fts.map((item) => {
@@ -264,7 +264,7 @@ return (
             embedCss: props.customCSS || MarkdownEditor,
             onChange: (v) => {
               setText(v);
-            }
+            },
           }}
         />
       </TextareaWrapper>
@@ -276,7 +276,7 @@ return (
         onUpdate: (v) => {
           setNotificationData(v);
         },
-        proposalType: "Add Member"
+        proposalType: "Add Member",
       }}
     />
     <div className="w-100 d-flex">
@@ -298,7 +298,7 @@ return (
             deposit,
             gas: 180000000000000,
             deposit: 200000000000000,
-            additionalCalls: notificationsData
+            additionalCalls: notificationsData,
           });
         }}
       >

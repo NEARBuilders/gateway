@@ -1,6 +1,6 @@
 const DaoSDK = VM.require("sdks.near/widget/SDKs.Sputnik.DaoSDK");
 const { InputField } = VM.require("${config_account}/widget/components") || {
-  InputField: <></>
+  InputField: <></>,
 };
 
 if (!DaoSDK) {
@@ -13,7 +13,7 @@ const accountId = props.accountId ?? context.accountId;
 const onUpdate = props.onUpdate ?? (() => {});
 const proposalType = props.proposalType;
 const [message, setMessage] = useState(
-  `${accountId} created ${proposalType} proposal for ${daoId}`
+  `${accountId} created ${proposalType} proposal for ${daoId}`,
 );
 const bootstrapTheme = props.bootstrapTheme || "dark";
 
@@ -30,12 +30,12 @@ const handleCheckboxChange = (role) => {
     if (prevRoles.hasOwnProperty(role)) {
       return {
         ...prevRoles,
-        [role]: !prevRoles[role]
+        [role]: !prevRoles[role],
       };
     } else {
       return {
         ...prevRoles,
-        [role]: true
+        [role]: true,
       };
     }
   });
@@ -68,7 +68,7 @@ const Wrapper = styled.div`
 
 const createNotificationsData = () => {
   const someRoleSelected = Object.values(selectedRoles).some(
-    (value) => value === true
+    (value) => value === true,
   );
   if (!someRoleSelected) {
     return null;
@@ -77,7 +77,7 @@ const createNotificationsData = () => {
   Object.keys(selectedRoles).map((item) => {
     if (selectedRoles[item] === true) {
       membersToNotify = membersToNotify.concat(
-        groupsAndMembers.find((group) => group.name === item).members
+        groupsAndMembers.find((group) => group.name === item).members,
       );
     }
   });
@@ -94,24 +94,24 @@ const createNotificationsData = () => {
                 params: {
                   daoId: daoId,
                   tab: "proposals",
-                  page: "proposal"
+                  page: "proposal",
                 },
                 type: "buildhub/custom",
-                widget: "${config_account}/widget/home"
-              }
+                widget: "${config_account}/widget/home",
+              },
             };
-          })
-        )
-      }
-    }
+          }),
+        ),
+      },
+    },
   };
   const call = [
     {
       contractName: "social.near",
       methodName: "set",
       args: { data: notification, options: { refund_unused_deposit: true } },
-      deposit: 200000000000000000000000
-    }
+      deposit: 200000000000000000000000,
+    },
   ];
   return call;
 };
@@ -143,7 +143,7 @@ const groupList = useMemo(() => {
                 </div>
               ),
               onChange: (checked) => handleCheckboxChange(group.name),
-              checked: selectedRoles[group.name] ?? false
+              checked: selectedRoles[group.name] ?? false,
             }}
           />
         </div>

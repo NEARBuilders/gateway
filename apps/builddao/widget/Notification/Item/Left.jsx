@@ -1,5 +1,5 @@
 const { href } = VM.require("${config_account}/widget/lib.url") || {
-  href: () => {}
+  href: () => {},
 };
 
 if (!props.type) {

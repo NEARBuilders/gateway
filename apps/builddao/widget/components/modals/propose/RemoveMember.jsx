@@ -224,7 +224,7 @@ return (
             embedCss: props.customCSS || MarkdownEditor,
             onChange: (v) => {
               setText(v);
-            }
+            },
           }}
         />
       </TextareaWrapper>
@@ -236,7 +236,7 @@ return (
         onUpdate: (v) => {
           setNotificationData(v);
         },
-        proposalType: "Remove Member"
+        proposalType: "Remove Member",
       }}
     />
     <div className="d-flex w-100">
@@ -251,7 +251,7 @@ return (
             roleId: role,
             gas: 180000000000000,
             deposit: 200000000000000,
-            additionalCalls: notificationsData
+            additionalCalls: notificationsData,
           });
         }}
       >
