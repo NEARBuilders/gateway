@@ -1,4 +1,5 @@
 {
-  "devs": "${alias_devs}",
-  "mob": "${alias_mob}"
+  "devs": "devs.near",
+  "mob": "mob.near",
+  "near": "near"
 }

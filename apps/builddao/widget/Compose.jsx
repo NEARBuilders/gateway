@@ -171,7 +171,7 @@ return (
       )}
     </div>
     <Widget
-      src="near/widget/DIG.Toast"
+      src="${alias_near}/widget/DIG.Toast"
       props={{
         title: "Post Submitted Successfully",
         type: "success",
