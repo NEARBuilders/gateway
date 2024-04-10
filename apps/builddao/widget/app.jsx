@@ -5,6 +5,7 @@ const config = {
     "--secondary-color": "white",
     background: "var(--main-color)",
     color: "var(--secondary-color)",
+    height: "100vh"
   },
   layout: {
     src: "${alias_devs}/widget/Layout",
