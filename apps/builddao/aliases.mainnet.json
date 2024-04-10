@@ -1,5 +1,6 @@
 {
   "devs": "devs.near",
   "mob": "mob.near",
-  "near": "near"
+  "near": "near",
+  "socialdb": "social.near"
 }

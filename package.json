@@ -53,6 +53,7 @@
     "webpack": "webpack",
     "dev": "yarn bw ws dev",
     "dev:testnet": "yarn bw ws dev -n testnet",
+    "dev:gateway": "yarn run serve -- --env mode=development",
     "prod": "yarn webpack -- --env mode=production",
     "prod:analyze": "yarn prod -- --env presets=analyze",
     "build": "concurrently \"bos-workspace build\" \"yarn prod\"",

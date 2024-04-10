@@ -76,7 +76,7 @@ const handleJoin = () => {
     deposit: deposit,
     additionalCalls: [
       {
-        contractName: "social.near",
+        contractName: "${alias_socialdb}",
         methodName: "set",
         deposit: 100000000000000000000000,
         args: { data: connectData, options: { refund_unused_deposit: true } },

@@ -201,7 +201,7 @@ function onCreateProject() {
           description: `Project creation using BuildDAO created by ${context.accountId}`,
           kind: {
             FunctionCall: {
-              receiver_id: "social.near",
+              receiver_id: "${alias_socialdb}",
               actions: [
                 {
                   method_name: "set",

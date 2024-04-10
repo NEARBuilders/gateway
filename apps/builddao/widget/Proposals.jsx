@@ -172,7 +172,7 @@ const handleVote = ({ action, proposalId, proposer, showNotification }) => {
     additionalCalls: showNotification
       ? [
           {
-            contractName: "social.near",
+            contractName: "${alias_socialdb}",
             methodName: "set",
             args: {
               data: notification,

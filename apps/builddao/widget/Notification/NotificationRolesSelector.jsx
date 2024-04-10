@@ -107,7 +107,7 @@ const createNotificationsData = () => {
   };
   const call = [
     {
-      contractName: "social.near",
+      contractName: "${alias_socialdb}",
       methodName: "set",
       args: { data: notification, options: { refund_unused_deposit: true } },
       deposit: 200000000000000000000000,
