@@ -6,6 +6,7 @@ const { routes } = VM.require("${config_account}/widget/config.projects") ?? {
 
 const { theme } = VM.require("${config_account}/widget/config.theme") ?? {
   theme: {},
+};
 
 const { Button } = VM.require("${config_account}/widget/components") || {
   Button: () => <></>,
