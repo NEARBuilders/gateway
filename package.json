@@ -56,7 +56,7 @@
     "dev:gateway": "yarn run serve -- --env mode=development",
     "prod": "yarn webpack -- --env mode=production",
     "prod:analyze": "yarn prod -- --env presets=analyze",
-    "build": "concurrently \"bos-workspace build\" \"yarn prod\"",
+    "build": "yarn prod",
     "start": "yarn dev",
     "lint": "eslint src --ext js,jsx --report-unused-disable-directives --max-warnings 0"
   },
