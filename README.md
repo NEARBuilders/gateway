@@ -1,28 +1,30 @@
-# Build DAO
+# Build DAO Gateway
 
 Let's connect, collaborate, and create solutions together!
 
+This repository holds the front-end widgets for [Build DAO Gateway](https://nearbuilders.org/). This project is configured as a [bos-workspace](https://github.com/nearbuilders/bos-workspace).
+
 ## Setup & Development
 
-Install packages:
+1. Initialize submodules and install packages:
 
-```
-yarn
+```cmd
+yarn run init
 ```
 
-Start development version:
+2. Start development version in mainnet:
 
-```
+```cmd
 yarn dev
 ```
 
-This will start both the gateway and http server for loading your local components.
+Or start the development version in testnet:
 
-To view your local developments, either visit them through a gateway ${gateway_url}/flags
+```cmd
+yarn dev:testnet
+```
 
-For example, to use this local gateway, use:
-
-- Set the flag (something like http://127.0.0.1:4040/api/loader) at localhost:3000/flags
+This will start a gateway at http://127.0.0.1:8080 which will render your local widgets. The entry point for this app is [buildhub.near/widget/app](http://127.0.0.1:8080/buildhub.near/widget/app).
 
 ### Community Page
 
