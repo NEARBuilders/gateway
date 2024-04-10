@@ -1,3 +1,13 @@
+const { currentPath, tab: page, ...passProps } = props;
+
+const { routes } = VM.require("${config_account}/widget/config.projects") ?? {
+  routes: {},
+};
+
+const { theme } = VM.require("${config_account}/widget/config.theme") ?? {
+  theme: {},
+};
+
 const { Button } = VM.require("${config_account}/widget/components") || {
   Button: () => <></>,
 };

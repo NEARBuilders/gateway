@@ -355,7 +355,7 @@ return (
           </div>
         </div>
       </Header>
-      <NotificationModal />
+      {showNotificationModal && <NotificationModal />}
       <div className="d-flex flex-column gap-4">{proposalsComponent}</div>
       {!proposalId && (
         <div className="d-flex justify-content-center my-4">
