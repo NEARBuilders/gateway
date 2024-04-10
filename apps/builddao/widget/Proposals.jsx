@@ -130,7 +130,6 @@ const NotificationModal = () => {
                   proposalId: voteDetails.proposalId,
                   proposer: voteDetails.proposer,
                   showNotification: true
-                  showNotification: true
                 });
                 setNotificationModal(false);
               }}
