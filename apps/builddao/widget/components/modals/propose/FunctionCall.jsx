@@ -1,5 +1,5 @@
 const { Button } = VM.require("buildhub.near/widget/components") || {
-  Button: () => <></>,
+  Button: () => <></>
 };
 
 const DaoSDK = VM.require("sdks.near/widget/SDKs.Sputnik.DaoSDK") || (() => {});
@@ -14,6 +14,7 @@ const [deposit, setDeposit] = useState(0);
 const [validatedAddresss, setValidatedAddress] = useState(true);
 const [text, setText] = useState("");
 const [editorKey, setEditorKey] = useState(0);
+const [notificationsData, setNotificationData] = useState(null);
 
 const bootstrapTheme = props.bootstrapTheme;
 
@@ -249,11 +250,21 @@ return (
             embedCss: props.customCSS || MarkdownEditor,
             onChange: (v) => {
               setText(v);
-            },
+            }
           }}
         />
       </TextareaWrapper>
     </div>
+    <Widget
+      src="buildhub.near/widget/notification.NotificationRolesSelector"
+      props={{
+        daoId: selectedDAO,
+        onUpdate: (v) => {
+          setNotificationData(v);
+        },
+        proposalType: "Function Call"
+      }}
+    />
     <div className="w-100 d-flex">
       <Button
         disabled={!contract || !method || !validatedAddresss}
@@ -269,10 +280,11 @@ return (
             proposalGas: gas,
             gas: 180000000000000,
             deposit: 200000000000000,
+            additionalCalls: notificationsData
           });
         }}
       >
-        Next
+        Create
       </Button>
     </div>
   </div>
