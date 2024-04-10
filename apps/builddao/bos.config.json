@@ -1,5 +1,5 @@
 {
-  "account": "${config_account}",
+  "account": "buildhub.near",
   "aliases": ["./aliases.mainnet.json"],
   "overrides": {
     "testnet": {

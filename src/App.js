@@ -200,6 +200,8 @@ function App() {
     currentGateway,
   };
 
+  const index = Widgets.default;
+
   return (
     <div className="App" style={{ height: "100vh" }}>
       <EthersProviderContext.Provider value={ethersProviderContext}>
@@ -214,19 +216,19 @@ function App() {
               <JoinPage {...passProps} />
             </Route>
             <Route path={"/library"}>
-              <Redirect to="buildhub.near/widget/app?page=library" />
+              <Redirect to={`${index}?page=library`} />
             </Route>
             <Route path={"/propose"}>
-              <Redirect to="buildhub.near/widget/app?page=proposal&tab=proposals" />
+              <Redirect to={`${index}?page=proposal&tab=proposals`} />
             </Route>
             <Route path={"/projects"}>
-              <Redirect to="buildhub.near/widget/app?page=projects" />
+              <Redirect to={`${index}?page=projects`} />
             </Route>
             <Route path={"/feed"}>
-              <Redirect to="buildhub.near/widget/app?page=feed" />
+              <Redirect to={`${index}?page=feed`} />
             </Route>
             <Route path={"/resources"}>
-              <Redirect to="buildhub.near/widget/app?page=resources" />
+              <Redirect to={`${index}?page=resources`} />
             </Route>
             <Route path={"/edit/:widgetSrc*"}>
               <EditorPage {...passProps} />

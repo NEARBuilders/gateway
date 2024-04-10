@@ -5,9 +5,10 @@ const TestnetDomains = {
 
 export const NetworkId =
   window.location.hostname in TestnetDomains ? "testnet" : "mainnet";
-const TestnetWidgets = {
+
+  const TestnetWidgets = {
   image: "eugenethedream/widget/Image",
-  default: "eugenethedream/widget/Welcome",
+  default: "builddao.testnet/widget/app",
   viewSource: "eugenethedream/widget/WidgetSource",
   widgetMetadataEditor: "eugenethedream/widget/WidgetMetadataEditor",
   widgetMetadata: "eugenethedream/widget/WidgetMetadata",
@@ -20,7 +21,7 @@ const TestnetWidgets = {
 
 const MainnetWidgets = {
   image: "mob.near/widget/Image",
-  default: "buildhub.near/widget/home",
+  default: "buildhub.near/widget/app",
   feed: "buildhub.near/widget/Feed",
   resources: "buildhub.near/widget/Resources",
   viewSource: "mob.near/widget/WidgetSource",
