@@ -7,10 +7,12 @@ const StyledDropdown = styled.div`
     display: flex;
     align-items: center;
     text-align: left;
-    background-color: #2b2f31;
-    border-radius: 50px;
+    background-color: #23242b;
+    border-radius: 8px;
+    color: #fff;
     outline: none;
     border: 0;
+    padding: 4px 8px;
 
     &:after {
       margin: 0 15px;
@@ -25,7 +27,7 @@ const StyledDropdown = styled.div`
       margin: 5px 10px;
       margin-right: 0;
       line-height: normal;
-      max-width: 140px;
+      max-width: 100px;
 
       .profile-name,
       .profile-username {
@@ -43,9 +45,9 @@ const StyledDropdown = styled.div`
   }
 
   ul {
-    background-color: #2b2f31;
+    background-color: #23242b;
     width: 100%;
-    width: 240px;
+    width: 210px;
 
     li {
       padding: 0 6px;
@@ -156,7 +158,6 @@ return (
       id="dropdownMenu2222"
       data-bs-toggle="dropdown"
       aria-expanded="false"
-      style={{ background: "#2b2f31" }}
     >
       <div>
         <Widget
@@ -164,28 +165,19 @@ return (
           props={{
             accountId: context.accountId,
             className: "d-inline-block",
-            style: { width: "40px", height: "40px" }
+            style: { width: "24px", height: "24px" },
           }}
         />
       </div>
       <div className="profile-info">
-        <div className="profile-name">
-          <Widget src={"patrick.near/widget/ProfileName"} />
-        </div>
-
         <div className="profile-username">{context.accountId}</div>
       </div>
     </button>
-    <ul
-      className="dropdown-menu"
-      aria-labelledby="dropdownMenu2222"
-      style={{ minWidth: "fit-content" }}
-    >
+    <ul className="dropdown-menu" aria-labelledby="dropdownMenu2222">
       <li>
         <Link
           className="dropdown-item"
           type="button"
-          // to={`/buildhub.near/widget/app?page=profile&accountId=${context.accountId}`}
           to={href({
             widgetSrc: "buildhub.near/widget/app",
             params: {

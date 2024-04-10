@@ -3,16 +3,9 @@ const { Button, Hashtag } = VM.require("buildhub.near/widget/components") || {
   Hashtag: () => <></>,
 };
 
-if (!context.accountId || !props.accountId) {
-  return "No Account ID";
-}
-
 const accountId = props.accountId || context.accountId;
 
 const profile = Social.getr(`${accountId}/profile`);
-if (!profile) {
-  return "";
-}
 
 const CopyIcon = () => (
   <svg
@@ -44,7 +37,6 @@ const Container = styled.div`
       width: 4rem !important;
       height: 4rem !important;
       border-radius: 100%;
-      image-rendering: pixelated;
       object-fit: cover;
     }
   }
@@ -277,7 +269,11 @@ const InfoSection = () => {
         <Widget
           src="mob.near/widget/Image"
           loading=""
-          props={{ image: profile.image }}
+          props={{
+            image: profile.image,
+            fallbackUrl:
+              "https://ipfs.near.social/ipfs/bafkreig5wfjcbvhoipnylbe2rh2tirt5zi3n3iu55aq5phbd5m2zcc6ppu",
+          }}
         />
 
         {context.accountId === accountId && (

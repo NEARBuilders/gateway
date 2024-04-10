@@ -1,13 +1,10 @@
-if (!(props.accountId ?? context.accountId)) {
-  return "No Account ID";
-}
-
 const accountId = props.accountId ?? context.accountId;
 
-const profile = Social.getr(`${accountId}/profile`);
-if (!profile) {
-  return "";
+if (!accountId) {
+  return "AccountID prop or signed in account is required";
 }
+
+const profile = Social.getr(`${accountId}/profile`);
 
 const ProfileContainer = styled.div`
   display: grid;

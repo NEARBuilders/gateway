@@ -7,7 +7,7 @@ const options = daos.map((dao) => dao.contract_id);
 
 const { Modal, Button } = VM.require("buildhub.near/widget/components") || {
   Modal: () => <></>,
-  Button: () => <></>
+  Button: () => <></>,
 };
 
 const showModal = props.showModal;
@@ -29,6 +29,9 @@ const ThemeContainer =
   props.ThemeContainer ||
   styled.div`
     --primary-color: rgb(255, 175, 81);
+    span.label {
+      color: var(--label-color, #fff);
+    }
   `;
 
 const Wrapper = styled.div`
@@ -50,108 +53,108 @@ const proposalTypeOptions = {
   Operations: [
     {
       title: "Transfer funds",
-      value: "Transfer"
+      value: "Transfer",
     },
     {
       title: "Voting proposal",
-      value: "Vote"
+      value: "Vote",
     },
     {
       title: "Custom function",
-      value: "FunctionCall"
+      value: "FunctionCall",
     },
     {
       title: "Issue a new bounty",
-      value: "AddBounty"
+      value: "AddBounty",
     },
     {
       title: "Request pay for bounty",
-      value: "BountyDone"
+      value: "BountyDone",
     },
     {
       title: "Set staking contract",
-      value: "SetStakingContract"
+      value: "SetStakingContract",
     },
     {
       title: "Text",
-      value: "Text"
-    }
+      value: "Text",
+    },
   ],
   Policy: [
     {
       title: "Change Policy",
-      value: "ChangePolicy"
+      value: "ChangePolicy",
     },
     {
       title: "Add or Update Role",
-      value: "ChangePolicyAddOrUpdateRole"
+      value: "ChangePolicyAddOrUpdateRole",
     },
     {
       title: "Remove Role",
-      value: "ChangePolicyRemoveRole"
+      value: "ChangePolicyRemoveRole",
     },
     {
       title: "ChangePolicyUpdateParameters",
-      value: "ChangePolicyUpdateParameters"
+      value: "ChangePolicyUpdateParameters",
     },
     {
       title: "ChangePolicyUpdateDefaultVotePolicy",
-      value: "ChangePolicyUpdateDefaultVotePolicy"
-    }
+      value: "ChangePolicyUpdateDefaultVotePolicy",
+    },
   ],
   "Membership & Config": [
     {
       title: "Add member to role",
-      value: "AddMemberToRole"
+      value: "AddMemberToRole",
     },
     {
       title: "Remove member from role",
-      value: "RemoveMemberFromRole"
+      value: "RemoveMemberFromRole",
     },
     {
       title: "Change Config",
-      value: "ChangeConfig"
+      value: "ChangeConfig",
     },
     {
       title: "Factory Info Update",
-      value: "FactoryInfoUpdate"
+      value: "FactoryInfoUpdate",
     },
     {
       title: "Upgrade Remote",
-      value: "UpgradeRemote"
+      value: "UpgradeRemote",
     },
     {
       title: "Upgrade Self",
-      value: "UpgradeSelf"
-    }
-  ]
+      value: "UpgradeSelf",
+    },
+  ],
 };
 
 const proposalStatusOptions = [
   {
     title: "Approved",
-    value: "Approved"
+    value: "Approved",
   },
   {
     title: "Rejected",
-    value: "Rejected"
+    value: "Rejected",
   },
   {
     title: "In Progress",
-    value: "InProgress"
+    value: "InProgress",
   },
   {
     title: "Expired",
-    value: "Expired"
+    value: "Expired",
   },
   {
     title: "Failed",
-    value: "Failed"
+    value: "Failed",
   },
   {
     title: "Executed",
-    value: "Executed"
-  }
+    value: "Executed",
+  },
 ];
 
 return (
@@ -164,7 +167,7 @@ return (
     >
       <Wrapper>
         <h5 className="filter-title">Type</h5>
-        <div className="d-flex flex-wrap">
+        <div className="d-flex flex-wrap gap-3">
           {Object.keys(proposalTypeOptions).map((key) => {
             return (
               <div className="d-flex flex-column gap-1">
@@ -179,11 +182,11 @@ return (
                           setSelectedTypes(
                             checked
                               ? [...selectedTypes, item.value]
-                              : selectedTypes.filter((x) => x !== item.value)
+                              : selectedTypes.filter((x) => x !== item.value),
                           );
                         },
                         label: item.title,
-                        id: item.value
+                        id: item.value,
                       }}
                     />
                   );
@@ -204,10 +207,10 @@ return (
                     setSelectedStatus(
                       checked
                         ? [...selectedStatus, item.value]
-                        : selectedStatus.filter((x) => x !== item.value)
+                        : selectedStatus.filter((x) => x !== item.value),
                     );
                   },
-                  label: item.title
+                  label: item.title,
                 }}
               />
             );

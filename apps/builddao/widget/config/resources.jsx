@@ -8,17 +8,17 @@ return {
         name: "Guide",
         icon: "bi-map",
         mdPath:
-          "https://raw.githubusercontent.com/NEARBuilders/gateway/resources-page-ideation/resources.md",
+          "https://raw.githubusercontent.com/NEARBuilders/gateway/main/resources.md",
       },
     },
-    library: {
+    deployWeb4: {
       path: "buildhub.near/widget/Resources",
       blockHeight: "final",
       init: {
-        name: "Library",
-        icon: "bi-collection",
-        mdPath:
-          "https://raw.githubusercontent.com/NEARBuilders/docs/main/build-library.md",
+        name: "Deploying to Web4",
+        icon: "bi-rocket",
+        postAccountId: "efiz.near",
+        postBlockHeight: "113409716",
       },
     },
   },

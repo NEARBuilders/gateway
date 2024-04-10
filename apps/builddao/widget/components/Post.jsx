@@ -45,14 +45,14 @@ const StyledPost = styled.div`
   }
 
   .dropdown-menu {
-    background-color: var(--post-bg, #0b0c14) !important;
+    background-color: var(--post-bg, #000000) !important;
     color: var(--font-color, #fff) !important;
 
     li.dropdown-item {
       color: var(--font-color, #fff) !important;
       &:hover {
         a {
-          color: var(--post-bg, #0b0c14) !important;
+          color: var(--post-bg, #000000) !important;
         }
       }
     }
@@ -62,10 +62,10 @@ const StyledPost = styled.div`
       color: var(--font-color, #fff) !important;
 
       &:hover {
-        color: var(--post-bg, #0b0c14) !important;
+        color: var(--post-bg, #000000) !important;
 
         span {
-          color: var(--post-bg, #0b0c14) !important;
+          color: var(--post-bg, #000000) !important;
         }
       }
     }
@@ -179,8 +179,7 @@ const Wrapper = styled.div`
 
   .left {
     margin-right: 12px;
-    min-width: 40px;
-    width: 40px;
+    width: auto;
     overflow: hidden;
   }
   .right {
@@ -246,6 +245,20 @@ const item = {
   blockHeight,
 };
 
+const modifications = Social.index("modify", item, { limit: 1, order: "desc" });
+
+const [isEdited, setIsEdited] = useState(false);
+
+if (modifications.length) {
+  const modification = modifications[0].value;
+  if (modification.type === "edit") {
+    content = modification.value;
+    setIsEdited(true);
+  } else if (modification.type === "delete") {
+    return <></>;
+  }
+}
+
 const link =
   props.link ??
   props.fullPostLink ??
@@ -310,15 +323,17 @@ return (
               loading=""
               props={{
                 accountId: accountId,
-                blockHeight: blockHeight,
+                blockHeight: modifications[0].blockHeight ?? blockHeight,
                 pinned: pinned,
                 hideMenu: hideMenu,
                 link: link,
                 postType: "post",
-                flagItem: item,
+                item: item,
+                content: content,
                 customActions: customActions,
                 modalToggles: props.modalToggles,
                 setItem: props.setItem,
+                isEdited: isEdited,
               }}
             />
             {fullPostLink ? (
@@ -386,13 +401,14 @@ return (
           </div>
         </div>
         {state.showReply && (
-          <div className="border-top">
+          <div className="my-3">
             <Widget
               loading=""
-              src="mob.near/widget/MainPage.N.Comment.Compose"
+              src="buildhub.near/widget/Comment.Compose"
               props={{
                 notifyAccountId,
                 item,
+                initialText: `@${accountId}, `,
                 onComment: () => State.update({ showReply: false }),
               }}
             />
@@ -401,11 +417,20 @@ return (
         {props.customComments
           ? props.customComments
           : !props.hideComments && (
-              <div className="ms-5 my-3">
+              <div
+                className="ms-5 my-3 ps-4"
+                style={{
+                  border:
+                    "2px solid var(--stroke-color, rgba(255, 255, 255, 0.2))",
+                  borderTop: 0,
+                  borderRight: 0,
+                  borderBottom: 0,
+                }}
+              >
                 <Widget
                   key="comments"
                   loading={""}
-                  src="mob.near/widget/MainPage.N.Comment.Feed"
+                  src="buildhub.near/widget/Comment.Feed"
                   props={{
                     item,
                     highlightComment: props.highlightComment,

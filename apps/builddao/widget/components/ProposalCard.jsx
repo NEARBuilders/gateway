@@ -22,7 +22,7 @@ const ThemeContainer =
     --primary-border-color: #fff;
     --primary-text-color: #ffffff;
     --secondary-text-color: #b0b0b0;
-    --primary-btn-bg-color: #ffaf51;
+    --primary-btn-bg-color: #eca227;
     --primary-btn-text-color: #000;
     --approve-bg-color: #82e299;
     --reject-bg-color: #c23f38;
@@ -30,8 +30,8 @@ const ThemeContainer =
     --vote-button-color: #ffffff;
     --success-badge-bg-color: #38c7931a;
     --success-badge-text-color: #38c793;
-    --primary-badge-bg-color: #ffaf5133;
-    --primary-badge-text-color: #ffaf51;
+    --primary-badge-bg-color: #eca22733;
+    --primary-badge-text-color: #eca227;
     --info-badge-bg-color: #51b6ff33;
     --info-badge-text-color: #51b6ff;
     --danger-badge-bg-color: #fd2a5c1a;
@@ -310,7 +310,7 @@ function renderHeader({ typeName, id, status }) {
                         src="astraplusplus.ndctools.near/widget/Common.Layout.Countdown"
                         props={{
                           timeToCheck: parseInt(
-                            Big(expirationTime).div(1000000)
+                            Big(expirationTime).div(1000000),
                           ),
                         }}
                       />
@@ -367,7 +367,7 @@ function renderData({
             <div>
               <small className="secondary-text">
                 {new Date(
-                  parseInt(Big(submission_time).div(1000000))
+                  parseInt(Big(submission_time).div(1000000)),
                 ).toLocaleString()}
               </small>
             </div>
@@ -379,7 +379,7 @@ function renderData({
           <div>
             <small className="secondary-text">
               {new Date(
-                parseInt(Big(expirationTime).div(1000000))
+                parseInt(Big(expirationTime).div(1000000)),
               ).toLocaleString()}
             </small>
           </div>

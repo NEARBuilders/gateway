@@ -1,5 +1,5 @@
 const LoginContainer = styled.div`
-  background-color: #0b0c14;
+  background-color: #000000;
   color: #fff;
   height: 100%;
 
@@ -61,11 +61,10 @@ const LoginContainer = styled.div`
       align-self: stretch;
 
       border-radius: 8px;
-      border: 1px solid var(--white-100, #fff);
-      background: #fff;
+      background: #eca227;
 
       &:hover {
-        text-decoration: none;
+        background: #e49b48;
       }
 
       color: var(--black-100, #000);
@@ -82,13 +81,19 @@ const LoginView = () => {
   return (
     <LoginContainer>
       <div className="card">
-        <img src="https://ipfs.near.social/ipfs/bafkreihbwho3qfvnu4yss3eh5jrx6uxhrlzdgtdjyzyjrpa6odro6wdxya" />
+        <img
+          src="https://ipfs.near.social/ipfs/bafkreihbwho3qfvnu4yss3eh5jrx6uxhrlzdgtdjyzyjrpa6odro6wdxya"
+          alt="Build DAO Logo"
+        />
         <h1>
           Designed to connect and empower builders in a multi-chain ecosystem
         </h1>
         <button onClick={props.requestSignIn}>Login</button>
       </div>
-      <img src="https://ipfs.near.social/ipfs/bafybeibqnkvafyflci4iap73prugmjw4wlwmrazbiudvnsyr34yzmk75i4" />
+      <img
+        src="https://ipfs.near.social/ipfs/bafybeibqnkvafyflci4iap73prugmjw4wlwmrazbiudvnsyr34yzmk75i4"
+        alt="Preview of Profiles"
+      />
     </LoginContainer>
   );
 };

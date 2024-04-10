@@ -53,7 +53,7 @@ const NavPill = styled.button`
 `;
 
 const Container = styled.div`
-  background: #0b0c14;
+  background: #000000;
   color: #fff;
 
   min-height: 100%;
@@ -118,13 +118,13 @@ export default function EditorPage(props) {
   const [showOpenModal, setShowOpenModal] = useState(false);
   const [allSaved, setAllSaved] = useState({});
   const [uncommittedPreviews, setUncommittedPreviews] = useState(
-    ls.get(EditorUncommittedPreviewsKey) ?? false
+    ls.get(EditorUncommittedPreviewsKey) ?? false,
   );
   const [widgetConfig, setWidgetConfig] = useState(undefined);
 
   const [renderCode, setRenderCode] = useState(code);
   const [widgetProps, setWidgetProps] = useState(
-    ls.get(WidgetPropsKey) || "{}"
+    ls.get(WidgetPropsKey) || "{}",
   );
   const [parsedWidgetProps, setParsedWidgetProps] = useState({});
   const [propsError, setPropsError] = useState(null);
@@ -135,7 +135,7 @@ export default function EditorPage(props) {
 
   const [tab, setTab] = useState(Tab.Editor);
   const [layout, setLayoutState] = useState(
-    ls.get(EditorLayoutKey) || Layout.Tabs
+    ls.get(EditorLayoutKey) || Layout.Tabs,
   );
   const [previewKey, setPreviewKey] = useState("");
 
@@ -145,7 +145,7 @@ export default function EditorPage(props) {
     if (monaco) {
       monaco.languages.typescript.javascriptDefaults.setEagerModelSync(true);
       monaco.languages.typescript.javascriptDefaults.addExtraLib(
-        vmTypesDeclaration
+        vmTypesDeclaration,
       );
     }
   }, [monaco]);
@@ -155,7 +155,7 @@ export default function EditorPage(props) {
       ls.set(EditorLayoutKey, layout);
       setLayoutState(layout);
     },
-    [setLayoutState]
+    [setLayoutState],
   );
 
   useEffect(() => {
@@ -176,11 +176,11 @@ export default function EditorPage(props) {
         {
           code,
           time: Date.now(),
-        }
+        },
       );
       setCode(code);
     },
-    [cache, setCode]
+    [cache, setCode],
   );
 
   useEffect(() => {
@@ -199,11 +199,11 @@ export default function EditorPage(props) {
     (path) => {
       path = JSON.stringify(path);
       setFiles((files) =>
-        files.filter((file) => JSON.stringify(file) !== path)
+        files.filter((file) => JSON.stringify(file) !== path),
       );
       setLastPath(path);
     },
-    [setFiles, setLastPath]
+    [setFiles, setLastPath],
   );
 
   const addToFiles = useCallback(
@@ -218,7 +218,7 @@ export default function EditorPage(props) {
       });
       setLastPath(path);
     },
-    [setFiles, setLastPath]
+    [setFiles, setLastPath],
   );
 
   useEffect(() => {
@@ -228,7 +228,7 @@ export default function EditorPage(props) {
         {
           type: StorageType.Files,
         },
-        { files, lastPath }
+        { files, lastPath },
       );
     }
   }, [files, lastPath, cache]);
@@ -256,7 +256,7 @@ export default function EditorPage(props) {
           });
       }
     },
-    [updateCode, addToFiles]
+    [updateCode, addToFiles],
   );
 
   const updateSaved = useCallback((jp, saved, localCode) => {
@@ -281,7 +281,7 @@ export default function EditorPage(props) {
           false,
           undefined,
           undefined,
-          c
+          c,
         );
         if (code) {
           // const name = widgetSrc.split("/").slice(2).join("/");
@@ -291,7 +291,7 @@ export default function EditorPage(props) {
 
       c();
     },
-    [accountId, openFile, toPath, near, cache]
+    [accountId, openFile, toPath, near, cache],
   );
 
   const generateNewName = useCallback(
@@ -306,7 +306,7 @@ export default function EditorPage(props) {
         }
       }
     },
-    [toPath, files]
+    [toPath, files],
   );
 
   const createFile = useCallback(
@@ -314,7 +314,7 @@ export default function EditorPage(props) {
       const path = generateNewName(type);
       openFile(path, DefaultEditorCode);
     },
-    [generateNewName, openFile]
+    [generateNewName, openFile],
   );
 
   const renameFile = useCallback(
@@ -324,7 +324,7 @@ export default function EditorPage(props) {
       const jPath = JSON.stringify(path);
       setFiles((files) => {
         const newFiles = files.filter(
-          (file) => JSON.stringify(file) !== jNewPath
+          (file) => JSON.stringify(file) !== jNewPath,
         );
         const i = newFiles.findIndex((file) => JSON.stringify(file) === jPath);
         if (i >= 0) {
@@ -336,7 +336,7 @@ export default function EditorPage(props) {
       setPath(newPath);
       updateCode(newPath, code);
     },
-    [path, toPath, updateCode]
+    [path, toPath, updateCode],
   );
 
   useEffect(() => {
@@ -381,7 +381,7 @@ export default function EditorPage(props) {
         console.log(e);
       }
     },
-    [updateCode]
+    [updateCode],
   );
 
   const reformatProps = useCallback(
@@ -393,7 +393,7 @@ export default function EditorPage(props) {
         console.log(e);
       }
     },
-    [setWidgetProps]
+    [setWidgetProps],
   );
 
   const closeCommitted = useCallback(
@@ -410,7 +410,7 @@ export default function EditorPage(props) {
         return files;
       });
     },
-    [openFile, createFile]
+    [openFile, createFile],
   );
 
   const layoutClass = layout === Layout.Split ? "w-50" : "";
@@ -423,14 +423,14 @@ export default function EditorPage(props) {
       }
       setLayout(layout);
     },
-    [setLayout, tab, setTab]
+    [setLayout, tab, setTab],
   );
 
   const pathToSrc = useCallback(
     (path) => {
       return `${accountId}/${path?.type}/${path?.name}`;
     },
-    [accountId]
+    [accountId],
   );
 
   const generateWidgetConfig = useCallback(
@@ -448,12 +448,12 @@ export default function EditorPage(props) {
                       code,
                     },
                   ];
-                })
+                }),
             ),
           }
         : undefined;
     },
-    [allSaved, pathToSrc]
+    [allSaved, pathToSrc],
   );
 
   const widgetName = path?.name;
@@ -598,7 +598,7 @@ export default function EditorPage(props) {
                     </OverlayTrigger>
                   ),
                 }),
-                [loadFile]
+                [loadFile],
               )}
             />
           </CustomSearch>
@@ -697,7 +697,7 @@ export default function EditorPage(props) {
                     className={`nav-link ${tab === Tab.Editor ? "active" : ""}`}
                     style={{
                       background: `${
-                        tab === Tab.Editor ? "#23242b" : "#0b0c14"
+                        tab === Tab.Editor ? "#23242b" : "#000000"
                       }`,
                       color: "white",
                       border: "none",
@@ -713,7 +713,7 @@ export default function EditorPage(props) {
                     className={`nav-link ${tab === Tab.Props ? "active" : ""}`}
                     style={{
                       background: `${
-                        tab === Tab.Props ? "#23242b" : "#0b0c14"
+                        tab === Tab.Props ? "#23242b" : "#000000"
                       }`,
                       color: "white",
                       border: "none",
@@ -729,7 +729,7 @@ export default function EditorPage(props) {
                     <button
                       style={{
                         background: `${
-                          tab === Tab.Metadata ? "#23242b" : "#0b0c14"
+                          tab === Tab.Metadata ? "#23242b" : "#000000"
                         }`,
                         color: "white",
                         border: "none",
@@ -749,7 +749,7 @@ export default function EditorPage(props) {
                     <button
                       style={{
                         background: `${
-                          tab === Tab.Widget ? "#23242b" : "#0b0c14"
+                          tab === Tab.Widget ? "#23242b" : "#000000"
                         }`,
                         color: "white",
                         border: "none",
@@ -798,7 +798,7 @@ export default function EditorPage(props) {
                   <Button
                     style={{
                       color: "white",
-                      background: "#0b0c14",
+                      background: "#000000",
                       border: "1px solid white",
                     }}
                     // className={`btn ${
@@ -884,7 +884,7 @@ export default function EditorPage(props) {
                         widgetPath,
                         onChange: setMetadata,
                       }),
-                      [widgetPath]
+                      [widgetPath],
                     )}
                   />
                 </div>
@@ -901,7 +901,7 @@ export default function EditorPage(props) {
             >
               <div className="container mt-4">
                 <div className="row">
-                  <div className="d-inline-block position-relative overflow-hidden">
+                  <div className="position-relative">
                     {renderCode ? (
                       <Widget
                         key={`${previewKey}-${jpath}`}
@@ -923,7 +923,7 @@ export default function EditorPage(props) {
             >
               <div className="container">
                 <div className="row">
-                  <div className="d-inline-block position-relative overflow-hidden mt-4">
+                  <div className="position-relative mt-4">
                     <Widget
                       key={`metadata-${jpath}`}
                       src={props.widgets.widgetMetadata}
@@ -932,7 +932,7 @@ export default function EditorPage(props) {
                       }}
                       props={useMemo(
                         () => ({ metadata, accountId, widgetName }),
-                        [metadata, accountId, widgetName]
+                        [metadata, accountId, widgetName],
                       )}
                     />
                   </div>

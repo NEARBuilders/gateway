@@ -4,8 +4,12 @@ const { routes } = VM.require("buildhub.near/widget/config.resources") ?? {
   routes: {},
 };
 
+const { Footer } = VM.require("buildhub.near/widget/home.Home") || {
+  Footer: () => <></>,
+};
+
 const { SidebarLayout } = VM.require(
-  "buildhub.near/widget/template.SidebarLayout"
+  "buildhub.near/widget/template.SidebarLayout",
 ) || {
   SidebarLayout: () => <></>,
 };
@@ -56,15 +60,12 @@ const Content = styled.div`
 return (
   <Root>
     <Container>
-      <SidebarLayout
-        currentPath={currentPath}
-        page={page}
-        routes={routes}
-      >
+      <SidebarLayout currentPath={currentPath} page={page} routes={routes}>
         <Content>
           <Router active={page} routes={routes} />
         </Content>
       </SidebarLayout>
+      <Footer noBanner />
     </Container>
   </Root>
 );
