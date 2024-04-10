@@ -30,7 +30,7 @@ function Avatar(props) {
 
   return (
     <ImageWrapper variant={props.variant} size={props.size} style={props.style}>
-      <Widget src="mob.near/widget/ProfileImage" props={{ accountId }} />
+      <Widget src="${alias_mob}/widget/ProfileImage" props={{ accountId }} />
     </ImageWrapper>
   );
 }

@@ -69,7 +69,7 @@ return (
           style={{ width: "10em", height: "10em" }}
         >
           <Widget
-            src="mob.near/widget/Image"
+            src="${alias_mob}/widget/Image"
             props={{
               image,
               className: "w-100 h-100",
@@ -121,7 +121,7 @@ return (
             </button>
           )}
           <a
-            href={`#/mob.near/widget/WidgetSource?src=${widgetPath}`}
+            href={`#/${alias_mob}/widget/WidgetSource?src=${widgetPath}`}
             className="btn btn-sm btn-outline-secondary border-0"
             target="_blank"
           >
@@ -162,7 +162,7 @@ return (
         <CustomProfileLink className="flex-grow-1 me-1 text-truncate">
           <span className="text-secondary me-1">By</span>
           <Widget
-            src="mob.near/widget/ProfileLine"
+            src="${alias_mob}/widget/ProfileLine"
             props={{ accountId, link: props.profileLink }}
           />
         </CustomProfileLink>
@@ -170,7 +170,7 @@ return (
           <small className="ps-1 text-nowrap text-muted ms-auto">
             <i className="bi bi-clock me-1"></i>
             <Widget
-              src="mob.near/widget/TimeAgo"
+              src="${alias_mob}/widget/TimeAgo"
               props={{ keyPath: widgetPath, now: props.metadata, blockHeight }}
             />
           </small>

@@ -196,7 +196,7 @@ const InfoSection = () => {
     <>
       <div className="profile-image-section">
         <Widget
-          src="mob.near/widget/Image"
+          src="${alias_mob}/widget/Image"
           loading=""
           props={{
             image: profile.image,

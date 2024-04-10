@@ -549,7 +549,7 @@ const renderComponent = (component, index) => {
         <div className="d-flex flex-row flex-wrap justify-content-between mb-3">
           <div className="path font-monospace">
             <Widget
-              src="mob.near/widget/CopyButton"
+              src="${alias_mob}/widget/CopyButton"
               props={{
                 text: component.widgetSrc,
                 label: component.widgetSrc,
@@ -558,7 +558,7 @@ const renderComponent = (component, index) => {
           </div>
           <div className="source">
             <a
-              href={`/mob.near/widget/WidgetSource?src=${component.widgetSrc}`}
+              href={`/${alias_mob}/widget/WidgetSource?src=${component.widgetSrc}`}
               target="_blank"
               className="btn btn-outline-primary border-0"
             >
@@ -584,7 +584,7 @@ const renderComponent = (component, index) => {
           <Markdown text={`\`\`\`jsx\n${component.embedCode}\n\`\`\``} />
           <div className="embed-copy">
             <Widget
-              src="mob.near/widget/CopyButton"
+              src="${alias_mob}/widget/CopyButton"
               props={{
                 text: component.embedCode,
                 className: "btn btn-outline-light",

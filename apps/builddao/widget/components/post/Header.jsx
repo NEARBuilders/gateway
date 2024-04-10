@@ -118,7 +118,7 @@ const Overlay = (props) => (
     })}
   >
     <Widget
-      src="mob.near/widget/Profile.N.OverlayTrigger"
+      src="${alias_mob}/widget/Profile.N.OverlayTrigger"
       loading={""}
       props={{
         accountId,
@@ -180,7 +180,7 @@ const MemoizedOverlay = useMemo(
             <div className="flex-shrink-0">
               <Widget
                 loading={""}
-                src="mob.near/widget/Checkmark"
+                src="${alias_mob}/widget/Checkmark"
                 props={{ isPremium, accountId }}
               />
             </div>
@@ -201,7 +201,7 @@ const MemoizedOverlay = useMemo(
                 <Link className="text-white" href={link}>
                   <Widget
                     loading=""
-                    src="mob.near/widget/TimeAgo"
+                    src="${alias_mob}/widget/TimeAgo"
                     props={{ blockHeight }}
                   />
                 </Link>
@@ -338,13 +338,13 @@ return (
             </Link>
 
             <Widget
-              src="mob.near/widget/MainPage.Common.HideAccount"
+              src="${alias_mob}/widget/MainPage.Common.HideAccount"
               loading=""
               props={{ accountId }}
             />
             {item && (
               <Widget
-                src="mob.near/widget/MainPage.Common.FlagContent"
+                src="${alias_mob}/widget/MainPage.Common.FlagContent"
                 loading=""
                 props={{
                   item: item,

@@ -2,7 +2,7 @@ const { value } = props;
 
 return (
   <Widget
-    src="mob.near/widget/Notification.Item.LR"
+    src="${alias_mob}/widget/Notification.Item.LR"
     props={{
       L: (
         <Widget

@@ -67,7 +67,7 @@ const Overlay = (props) => (
     })}
   >
     <Widget
-      src="mob.near/widget/Profile.N.OverlayTrigger"
+      src="${alias_mob}/widget/Profile.N.OverlayTrigger"
       loading={""}
       props={{
         accountId,
@@ -87,7 +87,7 @@ return (
           <div className="flex-shrink-0">
             <Widget
               loading={""}
-              src="mob.near/widget/Checkmark"
+              src="${alias_mob}/widget/Checkmark"
               props={{ isPremium, accountId }}
             />
           </div>

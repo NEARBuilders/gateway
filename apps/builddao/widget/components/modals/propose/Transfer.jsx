@@ -258,7 +258,7 @@ return (
         key={memoizedKey}
       >
         <Widget
-          src="mob.near/widget/MarkdownEditorIframe"
+          src="${alias_mob}/widget/MarkdownEditorIframe"
           props={{
             initialText: text,
             embedCss: props.customCSS || MarkdownEditor,

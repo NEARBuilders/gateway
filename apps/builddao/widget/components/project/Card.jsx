@@ -80,7 +80,7 @@ const ProjectCard = ({ project, userProject }) => {
           style={{ width: "3em", height: "3em" }}
         >
           <Widget
-            src="mob.near/widget/Image"
+            src="${alias_mob}/widget/Image"
             props={{
               image: metadata.profileImage.image,
               alt: metadata.title,

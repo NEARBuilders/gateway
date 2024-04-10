@@ -142,7 +142,7 @@ const ProjectLayout = ({
       <BackgroundImage>
         {profile.backgroundImage && (
           <Widget
-            src="mob.near/widget/Image"
+            src="${alias_mob}/widget/Image"
             props={{
               image: profile.backgroundImage,
               alt: "profile background",
@@ -157,7 +157,7 @@ const ProjectLayout = ({
       <ProfileInfo>
         <div className="left">
           <Widget
-            src="mob.near/widget/Image"
+            src="${alias_mob}/widget/Image"
             props={{
               image: profile.image,
               alt: "profile image",

@@ -151,7 +151,7 @@ const Footer = ({ noBanner }) => {
           <a href="https://github.com/NEARBuilders" target="_blank">
             <i className="bi bi-github"></i>
           </a>
-          <a href="https://devs.near.social/" target="_blank">
+          <a href="https://${alias_devs}.social/" target="_blank">
             <i className="bi bi-code-slash"></i>
           </a>
         </LinksContainer>

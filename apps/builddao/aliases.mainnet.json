@@ -1,1 +1,4 @@
-{}
+{
+  "devs": "${alias_devs}",
+  "mob": "${alias_mob}"
+}

@@ -44,7 +44,7 @@ if (!config) {
 }
 
 const { Layout } = VM.require(
-  config.layout?.src ?? "devs.near/widget/Layout",
+  config.layout?.src ?? "${alias_devs}/widget/Layout",
 ) || {
   Layout: () => <></>,
 };

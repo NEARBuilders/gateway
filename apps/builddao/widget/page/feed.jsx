@@ -15,7 +15,7 @@ if (!page) page = Object.keys(routes)[0] || "home";
 const Root = styled.div``;
 
 function Router({ active, routes }) {
-  // this may be converted to a module at devs.near/widget/Router
+  // this may be converted to a module at ${alias_devs}/widget/Router
   const routeParts = active.split(".");
 
   let currentRoute = routes;

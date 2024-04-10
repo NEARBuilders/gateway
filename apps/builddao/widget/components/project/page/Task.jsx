@@ -188,7 +188,7 @@ const processData = useCallback(
   [type],
 );
 
-// devs.near/project/name-of-the-project/task/name-of-the-task
+// ${alias_devs}/project/name-of-the-project/task/name-of-the-task
 function fetchTasks() {
   if (!projectID) {
     return;
