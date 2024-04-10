@@ -200,7 +200,7 @@ return (
       }}
     />
     <Widget
-      src="buildhub.near/widget/components.modals.CreateProject"
+      src="${config_account}/widget/components.modals.CreateProject"
       loading=""
       props={{
         showModal: showCreateModal,

@@ -1,6 +1,6 @@
 const image = props.image;
 const onChange = props.onChange;
-const { InputField } = VM.require("buildhub.near/widget/components") || {
+const { InputField } = VM.require("${config_account}/widget/components") || {
   InputField: () => <></>,
 };
 

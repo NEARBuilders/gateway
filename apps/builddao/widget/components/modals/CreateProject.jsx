@@ -1,6 +1,6 @@
 const accountId = context.accountId;
 const { Modal, Button, InputField, TextEditor } = VM.require(
-  "buildhub.near/widget/components",
+  "${config_account}/widget/components",
 ) || {
   Modal: () => <></>,
   Button: () => <></>,
@@ -339,7 +339,7 @@ return (
         <div className="form-group mb-3">
           <label className="pb-2">Avatar</label>
           <Widget
-            src="buildhub.near/widget/components.ImageUploader"
+            src="${config_account}/widget/components.ImageUploader"
             props={{
               image: avatar,
               onChange: (image) => setAvatar({ image }),
@@ -349,7 +349,7 @@ return (
         <div className="form-group mb-3">
           <label className="pb-2">Cover Image</label>
           <Widget
-            src="buildhub.near/widget/components.ImageUploader"
+            src="${config_account}/widget/components.ImageUploader"
             props={{
               image: coverImage,
               onChange: (image) => setCoverImage({ image }),

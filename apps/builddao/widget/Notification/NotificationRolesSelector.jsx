@@ -1,5 +1,5 @@
 const DaoSDK = VM.require("sdks.near/widget/SDKs.Sputnik.DaoSDK");
-const { InputField } = VM.require("buildhub.near/widget/components") || {
+const { InputField } = VM.require("${config_account}/widget/components") || {
   InputField: <></>
 };
 
@@ -97,7 +97,7 @@ const createNotificationsData = () => {
                   page: "proposal"
                 },
                 type: "buildhub/custom",
-                widget: "buildhub.near/widget/home"
+                widget: "${config_account}/widget/home"
               }
             };
           })

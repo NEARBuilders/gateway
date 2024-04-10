@@ -230,7 +230,7 @@ return (
       </TextareaWrapper>
     </div>
     <Widget
-      src="buildhub.near/widget/notification.NotificationRolesSelector"
+      src="${config_account}/widget/notification.NotificationRolesSelector"
       props={{
         daoId: selectedDAO,
         onUpdate: (v) => {

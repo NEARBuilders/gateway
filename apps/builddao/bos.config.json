@@ -1,8 +1,10 @@
 {
-  "account": "buildhub.near",
+  "account": "${config_account}",
+  "aliases": ["./aliases.mainnet.json"],
   "overrides": {
-    "staging": {
-      "account": "staging.buildhub.near"
+    "testnet": {
+      "account": "builddao.testnet",
+      "aliases": ["./aliases.testnet.json"]
     }
   }
 }
