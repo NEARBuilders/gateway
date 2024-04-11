@@ -26,7 +26,7 @@ const LoginContainer = styled.div`
   margin-bottom: 1rem;
 `;
 
-const { name: feedName, template, requiredHashtags, customActions } = props;
+const { feedName, template, requiredHashtags, customActions } = props;
 
 // for modals
 const [item, setItem] = useState(null);
