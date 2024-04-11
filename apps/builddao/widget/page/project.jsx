@@ -126,7 +126,12 @@ const config = {
 };
 
 const Root = styled.div`
-  padding: 24px 56px;
+  display: flex;
+  gap: 24px;
+  flex-direction: column;
+  width: 100%;
+
+  padding: 24px 40px;
 `;
 
 return (
