@@ -55,6 +55,8 @@ const { SidebarLayout } = VM.require(
   SidebarLayout: () => <></>,
 };
 
+const profile = Social.getr(`${accountId}/profile`);
+
 const config = {
   theme: {},
   layout: {
@@ -69,7 +71,7 @@ const config = {
       <>
         <ProjectLayout
           profile={profile}
-          accountId={accountId}
+          projectAccountId={accountId}
           page={page}
           routes={config.router.routes}
           project={project}
@@ -86,28 +88,38 @@ const config = {
       overview: {
         path: "${config_account}/widget/components.project.page.Overview",
         blockHeight: "final",
-        init: {},
+        init: {
+          ...props,
+        },
         default: "true",
       },
       discussion: {
         path: "${config_account}/widget/components.project.page.Discussion",
         blockHeight: "final",
-        init: {},
+        init: {
+          ...props,
+        },
       },
       task: {
         path: "${config_account}/widget/components.project.page.Task",
         blockHeight: "final",
-        init: {},
+        init: {
+          ...props,
+        },
       },
       code: {
         path: "${config_account}/widget/components.project.page.Code",
         blockHeight: "final",
-        init: {},
+        init: {
+          ...props,
+        },
       },
       roadmap: {
         path: "${config_account}/widget/components.project.page.Roadmap",
         blockHeight: "final",
-        init: {},
+        init: {
+          ...props,
+        },
       },
     },
   },

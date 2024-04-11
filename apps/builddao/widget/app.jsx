@@ -79,7 +79,7 @@ const config = {
         hide: true,
       },
       projects: {
-        path: "${config_account}/widget/page.project-feed",
+        path: "${config_account}/widget/page.projects",
         blockHeight: "final",
         init: {
           name: "Project Feed",

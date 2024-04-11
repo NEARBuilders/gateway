@@ -206,7 +206,6 @@ const MobileContent = styled.div`
 
 function Navbar(props) {
   const { page, routes } = props;
-  console.log("navbar props", props);
   const [dropdown, setDropdown] = useState(false);
 
   const toggleDropdown = () => {
