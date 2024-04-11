@@ -43,7 +43,7 @@ if (!config) {
   );
 }
 
-const { Layout } = VM.require(
+const Layout = VM.require(
   config.layout?.src ?? "${alias_devs}/widget/Layout",
 ) || {
   Layout: () => <></>,
