@@ -4,12 +4,11 @@ import { useLocation } from "react-router-dom";
 import OnboardingFlow from "../components/OnboardingFlow";
 import { useBosLoaderStore } from "../stores/bos-loader";
 
-export default function JoinPage({ signedIn, widgets, ...passProps}) {
+export default function JoinPage({ signedIn, widgets, ...passProps }) {
   const redirectMapStore = useBosLoaderStore();
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
   const from = searchParams.get("from");
-  
 
   const CurrentView = signedIn
     ? widgets.default
@@ -17,7 +16,7 @@ export default function JoinPage({ signedIn, widgets, ...passProps}) {
       ? widgets.trialAccountBanner
       : widgets.login;
 
-      console.log("CurrentView", CurrentView)
+  console.log("CurrentView", CurrentView);
   return (
     <>
       <OnboardingFlow signedIn={signedIn} widgets={widgets} />
