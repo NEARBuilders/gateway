@@ -23,7 +23,7 @@ const VerifiedHuman = state.human ? (
 return (
   <Widget
     loading={VerifiedHuman}
-    src="mob.near/widget/N.Common.OverlayTrigger"
+    src="${alias_mob}/widget/N.Common.OverlayTrigger"
     props={{
       popup: <div>Verified Human!</div>,
       children: VerifiedHuman,

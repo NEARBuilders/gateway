@@ -18,25 +18,36 @@ const extractNearAddress = (id) => {
 };
 const accountId = extractNearAddress(id);
 
-const data = Social.get(id + "/**", "final");
-
+const data = JSON.parse(Social.get(id, "final") ?? {});
 if (!id || !data) {
   return "Loading...";
 }
 
-function transformKeys(obj) {
-  obj.tags = obj.tracks;
-  delete obj.tracks;
+const project = JSON.parse(data);
 
-  obj.contributors = obj.teammates;
-  delete obj.teammates;
+const projectSelectedRoutes = routes;
 
-  return obj;
+// remove unselected tabs
+if (Array.isArray(project?.tabs)) {
+  Object.keys(projectSelectedRoutes).forEach((key) => {
+    if (!project.tabs.includes(key)) {
+      delete projectSelectedRoutes[key];
+    }
+  });
 }
 
-const project = transformKeys(JSON.parse(data[""]));
-
-const profile = Social.getr(`${accountId}/profile`, "final");
+const profileData = {
+  name: data.title,
+  description: data.description,
+  linktree: {
+    github: data.github,
+    telegram: data.telegram,
+    twitter: data.twitter,
+    website: data.website,
+  },
+  backgroundImage: data.backgroundImage?.image,
+  image: data.profileImage?.image,
+};
 
 const { SidebarLayout } = VM.require(
   "${config_account}/widget/template.SidebarLayout",
@@ -47,7 +58,7 @@ const { SidebarLayout } = VM.require(
 const config = {
   theme: {},
   layout: {
-    src: "devs.near/widget/Layout",
+    src: "${alias_devs}/widget/Layout",
     props: {
       variant: "standard",
     },

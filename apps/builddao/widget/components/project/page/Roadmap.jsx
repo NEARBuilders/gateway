@@ -12,7 +12,6 @@ const { id } = props;
 
 const project = getProjectMeta(id);
 
-const { demoLink, learning } = project;
 const Container = styled.div`
   display: flex;
   flex-direction: column;
@@ -24,24 +23,6 @@ const Container = styled.div`
     flex-direction: row;
     align-items: center;
   }
-  .learning {
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-  }
 `;
 
-return (
-  <Container className="text-white">
-    <div className="link">
-      <h5 className="heading">Link: </h5>
-      <Button variant="secondary" href={demoLink} target="_blank" noLink={true}>
-        Project Demo
-      </Button>
-    </div>
-    <div className="learning">
-      <h5 className="heading">What I learned</h5>
-      <p className="learning">{learning}</p>
-    </div>
-  </Container>
-);
+return <Container className="text-white"></Container>;

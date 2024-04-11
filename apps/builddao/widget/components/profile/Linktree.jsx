@@ -21,7 +21,7 @@ return (
   <div className="d-flex align-items-center flex-wrap" style={{ gap: 10 }}>
     {profile.linktree.twitter && (
       <a
-        href={`https://x.com/${profile.linktree.twitter}`}
+        href={profile.linktree.twitter}
         target="_blank"
         style={{ textDecoration: "none" }}
       >
@@ -32,7 +32,7 @@ return (
     )}
     {profile.linktree.github && (
       <a
-        href={`https://github.com/${profile.linktree.github}`}
+        href={profile.linktree.github}
         target="_blank"
         style={{ textDecoration: "none" }}
       >
@@ -43,7 +43,7 @@ return (
     )}
     {profile.linktree.telegram && (
       <a
-        href={`https://t.me/${profile.linktree.telegram}`}
+        href={profile.linktree.telegram}
         target="_blank"
         style={{ textDecoration: "none" }}
       >
@@ -54,7 +54,7 @@ return (
     )}
     {profile.linktree.website && (
       <a
-        href={`https://${profile.linktree.website}`}
+        href={profile.linktree.website}
         target="_blank"
         style={{ textDecoration: "none" }}
       >
@@ -65,7 +65,7 @@ return (
     )}
     {profile.linktree.youtube && (
       <a
-        href={`https://youtube.com/${profile.linktree.youtube}`}
+        href={profile.linktree.youtube}
         target="_blank"
         style={{ textDecoration: "none" }}
       >

@@ -22,7 +22,7 @@ return (
     {dependencySources.map((c, i) => (
       <div key={c.src}>
         <Widget
-          src="mob.near/widget/ComponentSearch.Item"
+          src="${alias_mob}/widget/ComponentSearch.Item"
           props={{
             link: `/${c.src}`,
             accountId: c.accountId,
@@ -30,7 +30,7 @@ return (
             extraButtons: ({ widgetPath }) => (
               <Link
                 className="btn btn-outline-secondary"
-                //href={`#/mob.near/widget/WidgetSource?src=${widgetPath}`}
+                //href={`#/${alias_mob}/widget/WidgetSource?src=${widgetPath}`}
                 to={href({
                   widgetSrc: "${config_account}/widget/app",
                   params: {

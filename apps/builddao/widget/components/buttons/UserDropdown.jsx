@@ -161,7 +161,7 @@ return (
     >
       <div>
         <Widget
-          src={"mob.near/widget/ProfileImage"}
+          src={"${alias_mob}/widget/ProfileImage"}
           props={{
             accountId: context.accountId,
             className: "d-inline-block",

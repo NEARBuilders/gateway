@@ -2,12 +2,12 @@
 
 const EmbedMap = new Map([
   [
-    "mob.near/widget/MainPage.N.Post.Page",
-    "mob.near/widget/MainPage.N.Post.Embed",
+    "${alias_mob}/widget/MainPage.N.Post.Page",
+    "${alias_mob}/widget/MainPage.N.Post.Embed",
   ],
   [
-    "mob.near/widget/MainPage.N.Post.Embed",
-    "mob.near/widget/MainPage.N.Post.Embed",
+    "${alias_mob}/widget/MainPage.N.Post.Embed",
+    "${alias_mob}/widget/MainPage.N.Post.Embed",
   ],
 ]);
 

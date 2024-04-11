@@ -7,7 +7,7 @@ const { SidebarLayout } = VM.require(
 const config = {
   theme: {},
   layout: {
-    src: "devs.near/widget/Layout",
+    src: "${alias_devs}/widget/Layout",
     props: {
       variant: "standard",
     },

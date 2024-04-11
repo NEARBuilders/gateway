@@ -17,6 +17,8 @@ const bootstrapTheme = props.bootstrapTheme;
 
 const [text, setText] = useState("");
 const [editorKey, setEditorKey] = useState(0);
+const [notificationsData, setNotificationData] = useState(null);
+
 useEffect(() => {
   if (!props.item) {
     return;
@@ -256,7 +258,7 @@ return (
         key={memoizedKey}
       >
         <Widget
-          src="mob.near/widget/MarkdownEditorIframe"
+          src="${alias_mob}/widget/MarkdownEditorIframe"
           props={{
             initialText: text,
             embedCss: props.customCSS || MarkdownEditor,
@@ -267,6 +269,16 @@ return (
         />
       </TextareaWrapper>
     </div>
+    <Widget
+      src="${config_account}/widget/notification.NotificationRolesSelector"
+      props={{
+        daoId: selectedDAO,
+        onUpdate: (v) => {
+          setNotificationData(v);
+        },
+        proposalType: "Add Member",
+      }}
+    />
     <div className="w-100 d-flex">
       <Button
         disabled={!token || !recipient || !amount || !validatedAddresss}
@@ -286,10 +298,11 @@ return (
             deposit,
             gas: 180000000000000,
             deposit: 200000000000000,
+            additionalCalls: notificationsData,
           });
         }}
       >
-        Next
+        Create
       </Button>
     </div>
   </div>

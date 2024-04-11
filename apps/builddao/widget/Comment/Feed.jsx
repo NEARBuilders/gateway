@@ -56,7 +56,7 @@ const ShowMore = styled.div`
 return (
   <Widget
     loading={false}
-    src="mob.near/widget/FilteredIndexFeed"
+    src="${alias_mob}/widget/FilteredIndexFeed"
     props={{
       loading: false,
       index,

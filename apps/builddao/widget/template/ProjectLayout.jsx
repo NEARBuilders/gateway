@@ -108,28 +108,17 @@ const Nav = styled.div`
 `;
 
 const ProjectLayout = ({
-  accountId,
+  projectAccountId,
   profile,
   routes,
   children,
   project,
   id,
+  tab,
 }) => {
-  const {
-    title,
-    description,
-    tags,
-    collaborators,
-    projectLink,
-    demoLink,
-    contactInfo,
-    referrer,
-    learning,
-  } = project;
+  const { title } = project;
 
-  const [address, app, type, titleUrl] = id.split("/");
-
-  if (!accountId) {
+  if (!projectAccountId) {
     return <p className="fw-bold text-white">No Account ID</p>;
   }
 
@@ -153,7 +142,7 @@ const ProjectLayout = ({
       <BackgroundImage>
         {profile.backgroundImage && (
           <Widget
-            src="mob.near/widget/Image"
+            src="${alias_mob}/widget/Image"
             props={{
               image: profile.backgroundImage,
               alt: "profile background",
@@ -168,7 +157,7 @@ const ProjectLayout = ({
       <ProfileInfo>
         <div className="left">
           <Widget
-            src="mob.near/widget/Image"
+            src="${alias_mob}/widget/Image"
             props={{
               image: profile.image,
               alt: "profile image",
@@ -181,7 +170,7 @@ const ProjectLayout = ({
         <div className="right">
           <div className="info">
             <h3>{title ?? profile.name}</h3>
-            <p>@{accountId}</p>
+            <p>@{projectAccountId}</p>
           </div>
 
           <div className="links">
@@ -206,7 +195,7 @@ const ProjectLayout = ({
                     widgetSrc: `${config_account}/widget/app`,
                     params: {
                       page: "project",
-                      id: `${accountId}/${app}/${type}/${titleUrl}`,
+                      id: id,
                       tab: it,
                     },
                   })}
@@ -214,7 +203,7 @@ const ProjectLayout = ({
                   style={{ textDecoration: "none" }}
                 >
                   <button
-                    className={`nav-link ${it === page ? "active" : ""}`}
+                    className={`nav-link ${it === tab ? "active" : ""}`}
                     id={`pills-${id}-tab`}
                     data-bs-toggle="pill"
                     data-bs-target={`#pills-${it}`}
@@ -240,7 +229,6 @@ const ProjectLayout = ({
           id="pills-overview"
           role="tabpanel"
           aria-labelledby="pills-overview-tab"
-          key={tab}
         >
           {children}
         </div>

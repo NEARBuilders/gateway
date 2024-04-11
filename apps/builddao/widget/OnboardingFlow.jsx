@@ -149,7 +149,7 @@ function OnboardingFlow() {
               <p className="text-muted">First off, follow our DAO</p>
               <Container className="d-flex justify-content-between align-items-center py-3 px-4">
                 <Widget
-                  src="mob.near/widget/Profile.ShortInlineBlock"
+                  src="${alias_mob}/widget/Profile.ShortInlineBlock"
                   props={{ accountId: daoID }}
                 />
                 <FollowBtn
@@ -179,7 +179,7 @@ function OnboardingFlow() {
                   <Container className="d-flex justify-content-between align-items-center my-3 py-3 px-4">
                     <div style={{ maxWidth: "70%" }}>
                       <Widget
-                        src="mob.near/widget/Profile.ShortInlineBlock"
+                        src="${alias_mob}/widget/Profile.ShortInlineBlock"
                         props={{ accountId: account }}
                       />
                     </div>

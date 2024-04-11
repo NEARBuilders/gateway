@@ -29,6 +29,7 @@ useEffect(() => {
 }, [props.item]);
 const memoizedKey = useMemo((editorKey) => editorKey, [editorKey]);
 const [validatedAddresss, setValidatedAddresss] = useState(true);
+const [notificationsData, setNotificationData] = useState(null);
 
 const regex = /.{1}\.near$/;
 useEffect(() => {
@@ -215,7 +216,7 @@ return (
         key={memoizedKey}
       >
         <Widget
-          src="mob.near/widget/MarkdownEditorIframe"
+          src="${alias_mob}/widget/MarkdownEditorIframe"
           props={{
             initialText: text,
             embedCss: props.customCSS || MarkdownEditor,
@@ -226,7 +227,16 @@ return (
         />
       </TextareaWrapper>
     </div>
-
+    <Widget
+      src="${config_account}/widget/notification.NotificationRolesSelector"
+      props={{
+        daoId: selectedDAO,
+        onUpdate: (v) => {
+          setNotificationData(v);
+        },
+        proposalType: "Add Member",
+      }}
+    />
     <div className="w-100 d-flex">
       <Button
         className="ms-auto"
@@ -239,10 +249,11 @@ return (
             roleId: role,
             gas: 180000000000000,
             deposit: 200000000000000,
+            additionalCalls: notificationsData,
           });
         }}
       >
-        Next
+        Create
       </Button>
     </div>
   </div>

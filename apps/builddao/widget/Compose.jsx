@@ -102,7 +102,7 @@ return (
     >
       <div>
         <Widget
-          src="devs.near/widget/Common.Compose"
+          src="${alias_devs}/widget/Common.Compose"
           props={{
             placeholder: "What's happening?",
             onChange: state.onChange,
@@ -171,7 +171,7 @@ return (
       )}
     </div>
     <Widget
-      src="near/widget/DIG.Toast"
+      src="${alias_near}/widget/DIG.Toast"
       props={{
         title: "Post Submitted Successfully",
         type: "success",

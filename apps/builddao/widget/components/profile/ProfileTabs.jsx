@@ -114,7 +114,7 @@ return (
       >
         {state.loadnfts && (
           <Widget
-            src="mob.near/widget/N.YourNFTs"
+            src="${alias_mob}/widget/N.YourNFTs"
             loading=""
             props={{ accountId }}
           />

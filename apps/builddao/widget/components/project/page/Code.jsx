@@ -12,7 +12,7 @@ const { id } = props;
 
 const project = getProjectMeta(id);
 
-const { projectLink } = project;
+const { gitHub } = project;
 const Container = styled.div`
   display: flex;
   flex-direction: column;
@@ -23,12 +23,7 @@ const Container = styled.div`
 
 return (
   <Container className="text-white">
-    <Button
-      variant="secondary"
-      href={projectLink}
-      target="_blank"
-      noLink={true}
-    >
+    <Button variant="secondary" href={gitHub} target="_blank" noLink={true}>
       GitHub Repo
     </Button>
   </Container>

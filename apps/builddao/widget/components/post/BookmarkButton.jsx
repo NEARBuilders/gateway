@@ -201,7 +201,7 @@ const inner = (
         <span className={`count ${hasBookmark ? "bookmarked" : ""}`}>
           <Widget
             loading={bookmarkCount || ""}
-            src="mob.near/widget/N.Overlay.Faces"
+            src="${alias_mob}/widget/N.Overlay.Faces"
             props={{ accounts: bookmarksByUser, limit: 10 }}
           />
         </span>

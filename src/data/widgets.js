@@ -5,9 +5,14 @@ const TestnetDomains = {
 
 export const NetworkId =
   window.location.hostname in TestnetDomains ? "testnet" : "mainnet";
+
 const TestnetWidgets = {
+  default: "builddao.testnet/widget/app",
+  login: "builddao.testnet/widget/Login",
+  trialAccountBanner: "builddao.testnet/widget/TrialAccountBanner",
+  onboardingFlow: "builddao.testnet/widget/OnboardingFlow",
+
   image: "eugenethedream/widget/Image",
-  default: "eugenethedream/widget/Welcome",
   viewSource: "eugenethedream/widget/WidgetSource",
   widgetMetadataEditor: "eugenethedream/widget/WidgetMetadataEditor",
   widgetMetadata: "eugenethedream/widget/WidgetMetadata",
@@ -19,8 +24,12 @@ const TestnetWidgets = {
 };
 
 const MainnetWidgets = {
+  default: "buildhub.near/widget/app",
+  login: "buildhub.near/widget/Login",
+  trialAccountBanner: "buildhub.near/widget/TrialAccountBanner",
+  onboardingFlow: "buildhub.near/widget/OnboardingFlow",
+
   image: "mob.near/widget/Image",
-  default: "buildhub.near/widget/home",
   feed: "buildhub.near/widget/Feed",
   resources: "buildhub.near/widget/Resources",
   viewSource: "mob.near/widget/WidgetSource",

@@ -1,4 +1,4 @@
-const { Feed } = VM.require("devs.near/widget/Feed") || {
+const { Feed } = VM.require("${alias_devs}/widget/Feed") || {
   Feed: () => <></>,
 };
 const { Post, Button } = VM.require("${config_account}/widget/components") || {

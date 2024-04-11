@@ -1,8 +1,11 @@
-const { fetchProjects, extractValidNearAddresses } = VM.require(
-  "buildbox.near/widget/utils.projects-sdk",
-) || {
-  fetchProjects: () => {},
-  extractValidNearAddresses: () => {},
+const { currentPath, tab: page, ...passProps } = props;
+
+const { routes } = VM.require("${config_account}/widget/config.projects") ?? {
+  routes: {},
+};
+
+const { theme } = VM.require("${config_account}/widget/config.theme") ?? {
+  theme: {},
 };
 
 const { Button } = VM.require("${config_account}/widget/components") || {
@@ -15,10 +18,54 @@ const { ProjectCard } = VM.require(
   ProjectCard: () => <></>,
 };
 
-const app = props.app || "buildbox";
+const app = props.app || "testing122.near";
 const type = props.type || "project";
+const userProject = props.type || "user-project";
 
-const data = fetchProjects(app, type);
+const flattenObject = (obj) => {
+  let paths = [];
+
+  try {
+    Object.keys(obj).forEach((key) => {
+      const projects = Object.keys(obj?.[key]?.[app]?.[type] ?? {});
+      projects.map((path) => {
+        if (!path || !path.includes("_")) {
+          return;
+        }
+        const convertedStr = path.replace(/_/g, "/");
+        paths.push(convertedStr);
+      });
+    });
+  } catch (e) {}
+  return paths;
+};
+
+// ${alias_devs}/project/name-of-the-project
+const fetchProjects = () => {
+  const keys = Social.keys(`*/${app}/${type}/*`, "final", { order: "desc" });
+  if (!keys) {
+    return "Loading...";
+  }
+  let flattenedKeys = flattenObject(keys);
+  const projects = Social.get(flattenedKeys, "final");
+  // check if projects is singular (since we have to update the return format for parsing)
+  const isSingular = flattenedKeys.length === 1;
+  if (isSingular) {
+    const [name, project, projectName] = flattenedKeys?.[0]
+      ?.split("/")
+      .slice(0, 3);
+    return {
+      [name]: {
+        [project]: {
+          [projectName]: projects,
+        },
+      },
+    };
+  }
+  return projects;
+};
+
+const data = fetchProjects();
 
 if (!data) {
   return "Loading...";
@@ -26,40 +73,27 @@ if (!data) {
 
 const processData = useCallback(
   (data) => {
-    const accounts = Object.entries(data);
-
-    const allItems = accounts
+    const accounts = Object.entries(data ?? {});
+    const allProjects = accounts
       .map((account) => {
         const accountId = account[0];
-
-        return Object.entries(account[1][app][type]).map((kv) => {
+        return Object.entries(account?.[1]?.[userProject] ?? {}).map((kv) => {
           const metadata = JSON.parse(kv[1]);
-          const members = metadata.teammates;
-
-          const valid = extractValidNearAddresses(members);
-
-          valid.unshift(accountId);
-
-          // making sure the array is unique
-          const unique = [...new Set(valid)];
-          // }
-          const collaborators = unique || [];
-
           return {
+            ...metadata,
             accountId,
             type: type,
-            title: kv[0],
+            title: metadata.title,
             metadata,
-            tags: metadata.tracks || [],
-            collaborators,
+            tags: metadata.tags || [],
+            collaborators: metadata.contributors,
+            projectID: kv[0],
           };
         });
       })
       .flat();
 
-    // sort by latest
-    allItems.sort((a, b) => b.blockHeight - a.blockHeight);
-    return allItems;
+    return allProjects;
   },
   [type],
 );
@@ -166,7 +200,7 @@ return (
       }}
     />
     <Widget
-      src="buildhub.near/widget/components.modals.CreateProject"
+      src="${config_account}/widget/components.modals.CreateProject"
       loading=""
       props={{
         showModal: showCreateModal,
@@ -210,7 +244,7 @@ return (
         <p className="fw-bold text-white">No Projects Found</p>
       )}
       {filteredProjects.map((project) => (
-        <ProjectCard project={project} app={app} type={type} />
+        <ProjectCard project={project} userProject={userProject} />
       ))}
     </Container>
   </Wrapper>

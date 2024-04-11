@@ -342,7 +342,7 @@ function renderData({
           </div>
           <div className="secondary-text">
             <Widget
-              src="mob.near/widget/Profile.ShortInlineBlock"
+              src="${alias_mob}/widget/Profile.ShortInlineBlock"
               props={{ accountId: proposer, tooltip: true }}
             />
           </div>

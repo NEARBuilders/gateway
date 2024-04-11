@@ -7,7 +7,7 @@ const config = {
     color: "var(--secondary-color)",
   },
   layout: {
-    src: "devs.near/widget/Layout",
+    src: "${alias_devs}/widget/Layout",
     props: {
       variant: "standard",
     },

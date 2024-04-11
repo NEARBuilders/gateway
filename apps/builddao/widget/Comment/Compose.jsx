@@ -73,7 +73,7 @@ State.init({
 return (
   <>
     <Widget
-      src="devs.near/widget/Common.Compose"
+      src="${alias_devs}/widget/Common.Compose"
       props={{
         placeholder: "Reply",
         initialText: props.initialText,

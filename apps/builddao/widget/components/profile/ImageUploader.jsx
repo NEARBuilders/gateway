@@ -28,7 +28,7 @@ return (
       <img src={`https://ipfs.near.social/ipfs/${img}`} alt="Image Preview" />
     ) : (
       <Widget
-        src="mob.near/widget/Image"
+        src="${alias_mob}/widget/Image"
         loading=""
         props={{ image: props.image }}
       />
