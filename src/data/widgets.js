@@ -1,6 +1,7 @@
 const TestnetDomains = {
   "test.nearbuilders.org": true,
   "127.0.0.1": true,
+  "192.168.1.24": true,
 };
 
 export const NetworkId =
