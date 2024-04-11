@@ -19,7 +19,7 @@ const config = {
       // customize your header
       <Widget
         src="${config_account}/widget/components.Navbar"
-        props={{ routes: config.router.routes, ...passProps }}
+        props={{ routes: config.router.routes, ...passProps, page: props.page }}
       />
     ),
     Footer: () => <></>, // customize your footer
@@ -43,10 +43,10 @@ const config = {
         },
       },
       proposal: {
-        path: "${config_account}/widget/page.projects",
+        path: "${config_account}/widget/page.proposal",
         blockHeight: "final",
         init: {
-          name: "Projects",
+          name: "Proposals",
         },
       },
       resources: {
@@ -80,7 +80,7 @@ const config = {
         hide: true,
       },
       projects: {
-        path: "${config_account}/widget/page.project-feed",
+        path: "${config_account}/widget/page.projects",
         blockHeight: "final",
         init: {
           name: "Project Feed",

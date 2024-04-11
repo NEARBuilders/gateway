@@ -85,8 +85,6 @@ const Content = styled.div`
 `;
 
 // const Template = config.Template ?? (({children}) => <>{children}</>);
-console.log("view props", passProps);
-
 return (
   <CSS style={config.theme}>
     <Container>

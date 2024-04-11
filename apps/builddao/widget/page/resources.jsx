@@ -1,75 +1,65 @@
-const { currentPath, tab: page, ...passProps } = props;
-
-const { routes } = VM.require("${config_account}/widget/config.resources") ?? {
-  routes: {},
-};
-
-const { Footer } = VM.require("${config_account}/widget/home.Home") || {
-  Footer: () => <></>,
-};
-
 const { SidebarLayout } = VM.require(
   "${config_account}/widget/template.SidebarLayout",
 ) || {
   SidebarLayout: () => <></>,
 };
 
-if (!page) page = Object.keys(routes)[0] || "home";
+const config = {
+  theme: {},
+  layout: {
+    src: "${alias_devs}/widget/Layout",
+    props: {
+      variant: "standard",
+    },
+  },
+  blocks: {
+    // these get passed to the layout and children
+    Header: () => <></>,
+    Footer: () => <></>, // customize your footer
+  },
+  router: {
+    param: "tab",
+    routes: {
+      guide: {
+        path: "${config_account}/widget/Resources",
+        blockHeight: "final",
+        init: {
+          feedName: "Guide",
+          name: "Guide",
+          icon: "bi-map",
+          mdPath:
+            "https://raw.githubusercontent.com/NEARBuilders/gateway/main/resources.md",
+        },
+        default: "true",
+      },
+      deployWeb4: {
+        path: "${config_account}/widget/Resources",
+        blockHeight: "final",
+        init: {
+          feedName: "Deploying to Web4",
+          name: "Deploying to Web4",
+          icon: "bi-rocket",
+          postAccountId: "efiz.near",
+          postBlockHeight: "113409716",
+        },
+      },
+    },
+  },
+};
 
 const Root = styled.div``;
 
-function Router({ active, routes }) {
-  // this may be converted to a module at ${alias_devs}/widget/Router
-  const routeParts = active.split(".");
-
-  let currentRoute = routes;
-  let src = "";
-  let defaultProps = {};
-
-  for (let part of routeParts) {
-    if (currentRoute[part]) {
-      currentRoute = currentRoute[part];
-      src = currentRoute.path;
-
-      if (currentRoute.init) {
-        defaultProps = { ...defaultProps, ...currentRoute.init };
-      }
-    } else {
-      // Handle 404 or default case for unknown routes
-      return <p>404 Not Found</p>;
-    }
-  }
-
-  return (
-    <div key={active}>
-      <Widget src={src} props={{ ...passProps, ...defaultProps }} />
-    </div>
-  );
-}
-
-const Container = styled.div`
-  // display: flex;
-  height: 100%;
-`;
-
-const Content = styled.div`
-  width: 100%;
-  height: 100%;
-`;
-
 return (
   <Root>
-    <Container>
-      <SidebarLayout
-        currentPath={"/${config_account}/widget/app?page=resources"}
-        page={page}
-        routes={routes}
-      >
-        <Content>
-          <Router active={page} routes={routes} />
-        </Content>
-      </SidebarLayout>
-      <Footer noBanner />
-    </Container>
+    <SidebarLayout
+      currentPath={"/${config_account}/widget/app?page=resources"}
+      page={props.tab}
+      routes={config.router.routes}
+    >
+      <Widget
+        src="${config_account}/widget/app.view"
+        props={{ config, ...props }}
+      />
+    </SidebarLayout>
   </Root>
 );
