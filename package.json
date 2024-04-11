@@ -51,7 +51,7 @@
     "bw": "bos-workspace",
     "serve": "webpack serve",
     "webpack": "webpack",
-    "dev": "yarn bw ws dev",
+    "dev": "yarn dev:testnet",
     "dev:testnet": "yarn bw ws dev -n testnet",
     "dev:gateway": "yarn run serve -- --env mode=development",
     "prod": "yarn webpack -- --env mode=production",

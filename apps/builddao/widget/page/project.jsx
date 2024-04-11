@@ -1,5 +1,3 @@
-const { page, tab, type, app, ...passProps } = props;
-
 const { routes } = VM.require("${config_account}/widget/config.project") ?? {
   routes: {},
 };
@@ -24,54 +22,6 @@ const data = JSON.parse(Social.get(id, "final") ?? {});
 if (!id || !data) {
   return "Loading...";
 }
-
-const Root = styled.div``;
-
-function Router({ active, routes }) {
-  // this may be converted to a module at ${alias_devs}/widget/Router
-  const routeParts = active.split(".");
-
-  let currentRoute = routes;
-  let src = "";
-  let defaultProps = {};
-
-  for (let part of routeParts) {
-    if (currentRoute[part]) {
-      currentRoute = currentRoute[part];
-      src = currentRoute.path;
-
-      if (currentRoute.init) {
-        defaultProps = { ...defaultProps, ...currentRoute.init };
-      }
-    } else {
-      // Handle 404 or default case for unknown routes
-      return <p>404 Not Found</p>;
-    }
-  }
-  return (
-    <div key={active}>
-      <Widget
-        src={src}
-        props={{
-          currentPath: `/${config_account}/widget/app?page=${page}&tab=${tab}`,
-          page: tab,
-          ...passProps,
-          ...defaultProps,
-        }}
-      />
-    </div>
-  );
-}
-
-const Container = styled.div`
-  display: flex;
-  height: 100%;
-`;
-
-const Content = styled.div`
-  width: 100%;
-  height: 100%;
-`;
 
 const project = JSON.parse(data);
 
@@ -99,22 +49,96 @@ const profileData = {
   image: data.profileImage?.image,
 };
 
+const { SidebarLayout } = VM.require(
+  "${config_account}/widget/template.SidebarLayout",
+) || {
+  SidebarLayout: () => <></>,
+};
+
+const profile = Social.getr(`${accountId}/profile`);
+
+const config = {
+  theme: {},
+  layout: {
+    src: "${alias_devs}/widget/Layout",
+    props: {
+      variant: "standard",
+    },
+  },
+  blocks: {
+    // these get passed to the layout and children
+    Header: () => (
+      <>
+        <ProjectLayout
+          profile={profile}
+          projectAccountId={accountId}
+          page={page}
+          routes={config.router.routes}
+          project={project}
+          id={id}
+          {...props}
+        ></ProjectLayout>
+      </>
+    ),
+    Footer: () => <></>, // customize your footer
+  },
+  router: {
+    param: "tab",
+    routes: {
+      overview: {
+        path: "${config_account}/widget/components.project.page.Overview",
+        blockHeight: "final",
+        init: {
+          ...props,
+        },
+        default: "true",
+      },
+      discussion: {
+        path: "${config_account}/widget/components.project.page.Discussion",
+        blockHeight: "final",
+        init: {
+          ...props,
+        },
+      },
+      task: {
+        path: "${config_account}/widget/components.project.page.Task",
+        blockHeight: "final",
+        init: {
+          ...props,
+        },
+      },
+      code: {
+        path: "${config_account}/widget/components.project.page.Code",
+        blockHeight: "final",
+        init: {
+          ...props,
+        },
+      },
+      roadmap: {
+        path: "${config_account}/widget/components.project.page.Roadmap",
+        blockHeight: "final",
+        init: {
+          ...props,
+        },
+      },
+    },
+  },
+};
+
+const Root = styled.div`
+  display: flex;
+  gap: 24px;
+  flex-direction: column;
+  width: 100%;
+
+  padding: 24px 40px;
+`;
+
 return (
   <Root>
-    <Container>
-      <ProjectLayout
-        profile={profileData}
-        projectAccountId={data.projectAccountId}
-        tab={page}
-        routes={routes}
-        project={project}
-        id={id}
-        {...props}
-      >
-        <Content>
-          <Router active={page} routes={routes} />
-        </Content>
-      </ProjectLayout>
-    </Container>
+    <Widget
+      src="${config_account}/widget/app.view"
+      props={{ config, ...props }}
+    />
   </Root>
 );

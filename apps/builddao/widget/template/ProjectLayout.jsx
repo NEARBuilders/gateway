@@ -6,14 +6,7 @@ const { href } = VM.require("${config_account}/widget/lib.url") || {
   href: () => {},
 };
 
-const Container = styled.div`
-  display: flex;
-  gap: 24px;
-  flex-direction: column;
-  width: 100%;
-
-  padding: 24px 40px;
-`;
+const Container = styled.div``;
 
 const BackgroundImage = styled.div`
   img {
@@ -200,6 +193,7 @@ const ProjectLayout = ({
                     },
                   })}
                   key={it}
+                  style={{ textDecoration: "none" }}
                 >
                   <button
                     className={`nav-link ${it === tab ? "active" : ""}`}
