@@ -58,19 +58,19 @@ const Wrapper = styled.div`
     color: var(--primary-color) !important;
   }
 
-  .secondary-text{
+  .secondary-text {
     color: var(--secondary-font-color) !important;
   }
-  
+
   .dropdown-menu {
     background-color: var(--menu-bg-color) !important;
     color: var(--font-color) !important;
 
     li.dropdown-item {
-      display:flex;
-      gap:10px;
-      align-items:center;
-      cursor:pointer;
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      cursor: pointer;
       color: var(--font-color) !important;
       &:hover {
         a {
@@ -92,9 +92,11 @@ const Wrapper = styled.div`
       }
     }
 
-    .dropdown-item.active, .dropdown-item:active {
+    .dropdown-item.active,
+    .dropdown-item:active {
       background-color: var(--primary-color) !important;
     }
+  }
 `;
 
 const projectID = "";

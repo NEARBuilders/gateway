@@ -211,6 +211,7 @@ const ProjectLayout = ({
                     },
                   })}
                   key={it}
+                  style={{ textDecoration: "none" }}
                 >
                   <button
                     className={`nav-link ${it === page ? "active" : ""}`}
