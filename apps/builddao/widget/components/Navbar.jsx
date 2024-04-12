@@ -2,6 +2,10 @@ const { Button } = VM.require("${config_account}/widget/components") || {
   Button: () => <></>,
 };
 
+if (!Button) {
+  return ""
+}
+
 const { href } = VM.require("${config_account}/widget/lib.url") || {
   href: () => {},
 };
