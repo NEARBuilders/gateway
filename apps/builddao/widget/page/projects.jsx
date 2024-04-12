@@ -12,6 +12,10 @@ const { Button } = VM.require("${config_account}/widget/components") || {
   Button: () => <></>,
 };
 
+if (!Button) {
+  return ""
+}
+
 const { ProjectCard } = VM.require(
   "${config_account}/widget/components.project.Card",
 ) || {
