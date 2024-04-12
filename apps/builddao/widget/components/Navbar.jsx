@@ -3,7 +3,7 @@ const { Button } = VM.require("${config_account}/widget/components") || {
 };
 
 if (!Button) {
-  return ""
+  return "";
 }
 
 const { href } = VM.require("${config_account}/widget/lib.url") || {
