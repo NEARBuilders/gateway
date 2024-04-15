@@ -154,7 +154,7 @@ const Main = styled.div`
 `;
 
 function onCreateProject() {
-  const projectAccountId = "testing122.near";
+  const projectAccountId = accountId;
   const projectID = normalize(title);
   const project = {
     title,
