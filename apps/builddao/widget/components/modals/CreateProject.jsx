@@ -205,7 +205,7 @@ const Main = styled.div`
     }
   }
   .err {
-    color: #FF8888;
+    color: #ff8888;
     font-size: 12px;
     padding: 0;
     margin: 0;
@@ -287,6 +287,7 @@ return (
     title={"Create Project"}
     onOpenChange={toggleModal}
     toggle={toggle}
+    disableOutsideClick={true}
   >
     <Main>
       <div className="lhs d-flex flex-column gap-4">
