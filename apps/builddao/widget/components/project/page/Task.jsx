@@ -118,6 +118,18 @@ const Wrapper = styled.div`
   .container {
     border: none !important;
   }
+
+  .assignee-item {
+    display: inline-block;
+    padding: 0.2em 0.4em;
+    border-radius: 10px;
+    border: 0.8px solid lightgray;
+    position: relative;
+  }
+
+  .flex-1 {
+    flex: 1;
+  }
 `;
 
 const projectID = normalize(project?.title);
@@ -136,6 +148,10 @@ const task = {
   tags: [],
   list: [], // listItem
   status: "",
+  priority: "",
+  assignees: [],
+  startDate: "",
+  endDate: "",
 };
 
 const [proposedTasks, setProposedTasks] = useState([]);
@@ -177,7 +193,6 @@ const flattenObject = (obj) => {
 const processData = useCallback(
   (data) => {
     const accounts = Object.entries(data ?? {});
-    console.log(accounts, "accounds");
     const allTasks = accounts
       .map((account) => {
         return Object.entries(account?.[1]?.[type] ?? {}).map((kv) => {
@@ -412,6 +427,8 @@ const DeleteConfirmationModal = () => {
   );
 };
 
+const today = new Date().toISOString().split("T")[0];
+
 const AddTaskModal = () => {
   return (
     <Modal
@@ -442,18 +459,74 @@ const AddTaskModal = () => {
           />
         </div>
         <div className="form-group">
-          <label class="mb-1">Tags</label>
+          <label class="mb-1">Priority</label>
+          <select
+            name="proposal-type"
+            id="proposal-type"
+            data-bs-theme={"dark"}
+            class="form-select"
+            onChange={(e) => updateTaskDetail({ priority: e.target.value })}
+            value={taskDetail.priority}
+          >
+            <option selected value="">
+              Select
+            </option>
+            <option value="P0">P0</option>
+            <option value="P1">P1</option>
+            <option value="P2">P2</option>
+            <option value="P3">P3</option>
+          </select>
+        </div>
+        <div className="form-group">
+          <label class="mb-1">Assignee/s</label>
           <Typeahead
             multiple
-            options={["Community", "Open Source", "Weekly", "DAO"]}
+            options={project.contributors}
             allowNew
-            placeholder="Start Typing"
+            placeholder="Add task assignee"
+            selected={taskDetail?.assignees ?? []}
+            onChange={(e) => {
+              const data = e.map((i) => (i.label ? i.label : i));
+              updateTaskDetail({ assignees: data });
+            }}
+          />
+        </div>
+        <div className="form-group">
+          <label class="mb-1">Labels</label>
+          <Typeahead
+            multiple
+            options={project.tags}
+            allowNew
+            placeholder="Add labels"
             selected={taskDetail?.tags ?? []}
             onChange={(e) => {
               const data = e.map((i) => (i.label ? i.label : i));
               updateTaskDetail({ tags: data });
             }}
           />
+        </div>
+        <div className="d-flex gap-2">
+          <div className="form-group flex-1">
+            <label>Start Date</label>
+            <input
+              placeholder="Enter start date"
+              min={today}
+              type="date"
+              value={taskDetail?.startDate ?? ""}
+              onChange={(e) => updateTaskDetail({ startDate: e.target.value })}
+            />
+          </div>
+
+          <div className="form-group flex-1">
+            <label>End Date</label>
+            <input
+              placeholder="Enter end date"
+              type="date"
+              min={today}
+              value={taskDetail?.endDate ?? ""}
+              onChange={(e) => updateTaskDetail({ endDate: e.target.value })}
+            />
+          </div>
         </div>
         <div>
           <div className="d-flex justify-content-between mb-1 align-items-center">
@@ -522,6 +595,10 @@ const AddTaskModal = () => {
   );
 };
 
+function formatDate(date) {
+  return date;
+}
+
 const ViewTaskModal = () => {
   return (
     <Modal
@@ -542,15 +619,53 @@ const ViewTaskModal = () => {
           <div className="secondary-text">{taskDetail.description}</div>
         </div>
         <div>
-          <label class="mb-1">Tags</label>
+          <label class="mb-1">Priority</label>
+          <div className="secondary-text">{taskDetail.priority ?? "None"}</div>
+        </div>
+        <div>
+          <label class="mb-1">Assignee</label>
+          <div className="d-flex gap-2 align-items-center">
+            {Array.isArray(taskDetail.assignees) &&
+              taskDetail.assignees.map((assignee) => (
+                <div className="assignee-item" key={index}>
+                  <Widget
+                    src={
+                      "devhub.near/widget/devhub.components.molecule.ProfileCard"
+                    }
+                    props={{
+                      accountId: assignee,
+                      openLinkInNewTab: true,
+                    }}
+                  />
+                </div>
+              ))}
+          </div>
+        </div>
+        <div>
+          <label class="mb-1">Labels</label>
           <div className="d-flex gap-2 align-items-center">
             {Array.isArray(taskDetail.tags) &&
               taskDetail.tags.map((tag) => (
                 <span key={i} className="badge p-2 rounded-0">
                   <span className="hashtag">#</span>
-                  {(tag ?? "").trim()}
+                  {tag}
                 </span>
               ))}
+          </div>
+        </div>
+        <div className="d-flex gap-4 align-items-center">
+          <div>
+            <label>Start Date</label>
+            <div className="secondary-text">
+              {formatDate(taskDetail.startDate)}
+            </div>
+          </div>
+
+          <div>
+            <label>End Date</label>
+            <div className="secondary-text">
+              {formatDate(taskDetail.endDate)}
+            </div>
           </div>
         </div>
         <div>
