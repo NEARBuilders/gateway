@@ -38,6 +38,7 @@ const [selectedTabs, setSelectedTabs] = useState(
 );
 const [avatar, setAvatar] = useState("");
 const [coverImage, setCoverImage] = useState("");
+const [teamSize, setTeamSize] = useState(teamSize ?? "");
 
 const handleCheckboxChange = (event) => {
   const { id } = event.target;
@@ -78,7 +79,7 @@ const websiteUrlHandler = (e) => {
 
 const Main = styled.div`
   display: flex;
-  gap: 1rem;
+  gap: 1.5rem;
   padding: 1rem;
 
   .form-control {
@@ -94,7 +95,7 @@ const Main = styled.div`
     width: 400px;
   }
 
-  @media (max-width: 768px) {
+  @media only screen and (max-width: 768px) {
     flex-direction: column;
     .lhs,
     .rhs {
@@ -128,6 +129,10 @@ const Main = styled.div`
       color: var(--text-color, #fff);
     }
   }
+  .form-select {
+    background-color: #000 !important;
+    height: 100%;
+  }
   .form-check {
     display: flex;
     flex-direction: row;
@@ -149,6 +154,15 @@ const Main = styled.div`
     }
     &:not(:checked):not(:focus) {
       background-image: url("data:image/svg+xml,%3csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%27-4 -4 8 8%27%3e%3ccircle r=%273%27 fill=%27%23fff%27/%3e%3c/svg%3e");
+    }
+  }
+  .location-team {
+    display: flex;
+    gap: 10px;
+    flex-direction: row;
+    @media only screen and (max-width: 768px) {
+      column-gap: 20px;
+      flex-direction: column;
     }
   }
 `;
@@ -238,18 +252,35 @@ return (
           value={title}
           onChange={(e) => setTitle(e.target.value)}
         />
-
         <div className="form-group">
           <label className="mb-1">Description</label>
           <TextEditor value={description} onChange={(e) => setDescription(e)} />
         </div>
-        <InputField
-          key={"Location"}
-          label={"Location"}
-          placeholder={"Enter location"}
-          value={location}
-          onChange={(e) => setLocation(e.target.value)}
-        />
+        <div className="location-team form-group">
+          <InputField
+            key={"Location"}
+            label={"Location"}
+            placeholder={"Enter location"}
+            value={location}
+            onChange={(e) => setLocation(e.target.value)}
+          />
+          <div className="d-flex flex-column gap-2" key={"team-sizes"}>
+            <label>Team Size</label>
+            <select
+              value={teamSize}
+              onChange={(e) => setTeamSize(e.target.value)}
+              className="form-select"
+            >
+              <option selected disabled value="">
+                Select Team Size
+              </option>
+              <option value="1-10">1-10</option>
+              <option value="10-50">10-50</option>
+              <option value="50-100">50-100</option>
+              <option value="100+">100+</option>
+            </select>
+          </div>
+        </div>
         <div className="form-group">
           <label className="mb-1">Project Contributors</label>
           <Typeahead
