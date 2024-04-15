@@ -10,6 +10,38 @@ const { Modal, Button, InputField, TextEditor } = VM.require(
 const { normalize } = VM.require("devhub.near/widget/core.lib.stringUtils") || {
   normalize: () => {},
 };
+
+const isNearAddress = (address) => {
+  if (typeof address !== "string") {
+    return false;
+  }
+
+  // Check for unnamed wallet address format
+  if (address.length === 64 && /^[0-9A-F]+$/i.test(address)) {
+    return true;
+  }
+
+  // Existing logic for account name validation (assuming .near or .testnet suffix)
+  if (!address.endsWith(".near") && !address.endsWith(".testnet")) {
+    return false;
+  }
+
+  const parts = address.split(".");
+  if (parts.length !== 2) {
+    return false;
+  }
+
+  if (parts[0].length < 2 || parts[0].length > 32) {
+    return false;
+  }
+
+  if (!/^[a-z0-9_-]+$/i.test(parts[0])) {
+    return false;
+  }
+
+  return true;
+};
+
 const showModal = props.showModal;
 const toggleModal = props.toggleModal;
 const toggle = props.toggle;
@@ -39,6 +71,7 @@ const [selectedTabs, setSelectedTabs] = useState(
 const [avatar, setAvatar] = useState("");
 const [coverImage, setCoverImage] = useState("");
 const [teamSize, setTeamSize] = useState(teamSize ?? "");
+const [invalidAddressFound, setInvalidAddressFound] = useState(false);
 
 const handleCheckboxChange = (event) => {
   const { id } = event.target;
@@ -61,9 +94,15 @@ const handleTags = (tags) => {
 };
 
 const handleContributors = (contributors) => {
-  let filtered = contributors.map((contributor) =>
-    contributor.customOption ? contributor.label : contributor,
-  );
+  let filtered = contributors.map((contributor) => {
+    if (contributor.customOption) {
+      return contributor.label;
+    } else {
+      return contributor;
+    }
+  });
+  const invalidAddress = filtered.find((address) => !isNearAddress(address));
+  invalidAddress ? setInvalidAddressFound(true) : setInvalidAddressFound(false);
   setDistributors(filtered);
 };
 
@@ -165,6 +204,12 @@ const Main = styled.div`
       flex-direction: column;
     }
   }
+  .err {
+    color: #FF8888;
+    font-size: 12px;
+    padding: 0;
+    margin: 0;
+  }
 `;
 
 function onCreateProject() {
@@ -264,7 +309,7 @@ return (
             value={location}
             onChange={(e) => setLocation(e.target.value)}
           />
-          <div className="d-flex flex-column gap-2" key={"team-sizes"}>
+          <div className="d-flex flex-column gap-2 h-100" key={"team-sizes"}>
             <label>Team Size</label>
             <select
               value={teamSize}
@@ -281,18 +326,26 @@ return (
             </select>
           </div>
         </div>
-        <div className="form-group">
-          <label className="mb-1">Project Contributors</label>
-          <Typeahead
-            multiple
-            options={
-              allMainnetAddresses ?? ["frank.near", "ellie.near", "jane.near"]
-            }
-            allowNew
-            placeholder="frank.near, ellie.near"
-            selected={contributors}
-            onChange={(e) => handleContributors(e)}
-          />
+        <div className="d-flex flex-column gap-1">
+          <div className="form-group">
+            <label className="mb-1">Project Contributors</label>
+            <Typeahead
+              multiple
+              options={
+                allMainnetAddresses ?? ["frank.near", "ellie.near", "jane.near"]
+              }
+              allowNew
+              placeholder="frank.near, ellie.near"
+              selected={contributors}
+              onChange={(e) => handleContributors(e)}
+            />
+          </div>
+          {invalidAddressFound && (
+            <p className="err text-center">
+              The address you just entered are invalid, please enter valid near
+              addresses
+            </p>
+          )}
         </div>
 
         <InputField
@@ -390,7 +443,11 @@ return (
       </div>
     </Main>
     <div className="d-flex align-items-center justify-content-end gap-2">
-      <Button variant="primary" onClick={onCreateProject}>
+      <Button
+        variant="primary"
+        onClick={onCreateProject}
+        disabled={invalidAddressFound}
+      >
         Create
       </Button>
     </div>
