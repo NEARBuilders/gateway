@@ -62,7 +62,7 @@ const Card = styled.div`
 const fallbackUrl =
   "https://ipfs.near.social/ipfs/bafkreibmiy4ozblcgv3fm3gc6q62s55em33vconbavfd2ekkuliznaq3zm";
 
-const ProjectCard = ({ project, userProject }) => {
+const ProjectCard = ({ project, type }) => {
   const {
     accountId,
     projectAccountId,
@@ -122,7 +122,7 @@ const ProjectCard = ({ project, userProject }) => {
             widgetSrc: `${config_account}/widget/app`,
             params: {
               page: "project",
-              id: `${accountId}/${userProject}/${projectID}`,
+              id: `${accountId}/${type}/${projectID}`,
               tab: "overview",
             },
           })}

@@ -172,13 +172,15 @@ function onCreateProject() {
     projectAccountId,
   };
   const data = {
-    "user-project": {
-      [projectID]: JSON.stringify(project),
-      metadata: project,
+    project: {
+      [projectID]: {
+        "": JSON.stringify(project),
+        metadata: project,
+      },
     },
     [app]: {
       project: {
-        [`${context.accountId}_user-project_${projectID}`]: "",
+        [`${context.accountId}_project_${projectID}`]: "",
       },
     },
   };

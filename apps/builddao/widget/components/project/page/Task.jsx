@@ -21,7 +21,7 @@ const { id } = props;
 const project = getProjectMeta(id);
 const app = props.app || "testing122.near";
 const type = props.type || "task";
-const userTask = props.userTask || "user-task";
+const projectTask = "project-task";
 
 const ThemeContainer =
   props.ThemeContainer ||
@@ -114,6 +114,10 @@ const Wrapper = styled.div`
       background-color: var(--primary-color) !important;
     }
   }
+
+  .container {
+    border: none !important;
+  }
 `;
 
 const projectID = normalize(project?.title);
@@ -156,7 +160,7 @@ const flattenObject = (obj) => {
   try {
     Object.keys(obj).forEach((key) => {
       const projects = Object.keys(
-        obj?.[key]?.[app]?.["project-task"]?.[projectID]?.[type] ?? {},
+        obj?.[key]?.[app]?.[projectTask]?.[projectID]?.[type] ?? {},
       );
       projects.map((path) => {
         if (!path || !path.includes("_")) {
@@ -173,9 +177,10 @@ const flattenObject = (obj) => {
 const processData = useCallback(
   (data) => {
     const accounts = Object.entries(data ?? {});
+    console.log(accounts, "accounds");
     const allTasks = accounts
       .map((account) => {
-        return Object.entries(account?.[1]?.[userTask] ?? {}).map((kv) => {
+        return Object.entries(account?.[1]?.[type] ?? {}).map((kv) => {
           const metadata = JSON.parse(kv[1]);
           return {
             ...metadata,
@@ -195,7 +200,7 @@ function fetchTasks() {
     return;
   }
   const keys = Social.keys(
-    `*/${app}/project-task/${projectID}/${type}/*`,
+    `*/${app}/${projectTask}/${projectID}/${type}/*`,
     "final",
     {
       order: "desc",
@@ -257,15 +262,17 @@ const deleteTaskListItem = (index) => {
 const onAddTask = () => {
   const taskId = normalize(taskDetail.title);
   const data = {
-    "user-task": {
-      [taskId]: JSON.stringify(taskDetail),
-      metadata: taskDetail,
+    [type]: {
+      [taskId]: {
+        "": JSON.stringify(taskDetail),
+        metadata: taskDetail,
+      },
     },
     [app]: {
-      "project-task": {
+      [projectTask]: {
         [projectID]: {
           [type]: {
-            [`${context.accountId}_user-task_${taskId}`]: "",
+            [`${context.accountId}_task_${taskId}`]: "",
           },
         },
       },
@@ -279,15 +286,17 @@ const onEditTask = useCallback(
     const newData = data ?? taskDetail;
     const taskId = currentEditTaskId;
     const updatedData = {
-      "user-task": {
-        [taskId]: JSON.stringify(newData),
-        metadata: newData,
+      [type]: {
+        [taskId]: {
+          "": JSON.stringify(newData),
+          metadata: newData,
+        },
       },
       [app]: {
-        "project-task": {
+        [projectTask]: {
           [projectID]: {
             [type]: {
-              [`${context.accountId}_user-task_${taskId}`]: "",
+              [`${context.accountId}_task_${taskId}`]: "",
             },
           },
         },
@@ -651,8 +660,8 @@ return (
       <AddTaskModal />
       <ViewTaskModal />
       <DeleteConfirmationModal />
-      <div class="container">
-        <div class="row">
+      <div className="container">
+        <div className="row">
           {columns.map((item) => (
             <Column
               title={item.title}
