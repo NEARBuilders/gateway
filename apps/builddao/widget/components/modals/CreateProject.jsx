@@ -57,10 +57,11 @@ const tabs = [
 const app = props.app ?? "testing122.near";
 
 const [tags, setTags] = useState(props.filters.tags ?? []);
+const [projectAccount, setProjectAccount] = useState(accountId);
 const [title, setTitle] = useState("");
 const [description, setDescription] = useState("");
 const [location, setLocation] = useState("");
-const [contributors, setDistributors] = useState("");
+const [contributors, setContributors] = useState("");
 const [twitter, setTwitter] = useState("");
 const [gitHub, setGitHub] = useState("");
 const [telegram, setTelegram] = useState("");
@@ -71,7 +72,8 @@ const [selectedTabs, setSelectedTabs] = useState(
 const [avatar, setAvatar] = useState("");
 const [coverImage, setCoverImage] = useState("");
 const [teamSize, setTeamSize] = useState(teamSize ?? "");
-const [invalidAddressFound, setInvalidAddressFound] = useState(false);
+const [invalidContributorFound, setInvalidContributorFound] = useState(false);
+const [invalidProjectAccount, setInvalidProjectAccount] = useState(false);
 
 const handleCheckboxChange = (event) => {
   const { id } = event.target;
@@ -102,7 +104,9 @@ const handleContributors = (contributors) => {
     }
   });
   const invalidAddress = filtered.find((address) => !isNearAddress(address));
-  invalidAddress ? setInvalidAddressFound(true) : setInvalidAddressFound(false);
+  invalidAddress
+    ? setInvalidContributorFound(true)
+    : setInvalidContributorFound(false);
   setDistributors(filtered);
 };
 
@@ -114,6 +118,13 @@ function isValidUrl(url) {
 const websiteUrlHandler = (e) => {
   const url = e.target.value;
   setWebsite(url);
+};
+
+const projectAccountIdHandler = (e) => {
+  const accountId = e.target.value;
+  const isValid = isNearAddress(accountId);
+  !isValid ? setInvalidProjectAccount(true) : setInvalidProjectAccount(false);
+  setProjectAccount(accountId);
 };
 
 const Main = styled.div`
@@ -213,7 +224,7 @@ const Main = styled.div`
 `;
 
 function onCreateProject() {
-  const projectAccountId = accountId || "";
+  const projectAccountId = projectAccount;
   const projectID = normalize(title);
   const project = {
     title,
@@ -292,6 +303,19 @@ return (
     <Main>
       <div className="lhs d-flex flex-column gap-4">
         <InputField
+          key={"Project-AccountId"}
+          label={"Project AccountId"}
+          placeholder={"Enter Project AccountId"}
+          value={projectAccount}
+          error={invalidProjectAccount}
+          onChange={projectAccountIdHandler}
+        />
+        {invalidProjectAccount && (
+          <p className="err text-center">
+            Invalid Near Address, please enter a valid near address
+          </p>
+        )}
+        <InputField
           key={"Project-Title"}
           label={"Project Title"}
           placeholder={"Enter Project Title"}
@@ -341,7 +365,7 @@ return (
               onChange={(e) => handleContributors(e)}
             />
           </div>
-          {invalidAddressFound && (
+          {invalidContributorFound && (
             <p className="err text-center">
               The address you just entered are invalid, please enter valid near
               addresses
@@ -447,7 +471,7 @@ return (
       <Button
         variant="primary"
         onClick={onCreateProject}
-        disabled={invalidAddressFound}
+        disabled={invalidContributorFound || invalidProjectAccount}
       >
         Create
       </Button>
