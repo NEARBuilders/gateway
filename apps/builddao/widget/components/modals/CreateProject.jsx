@@ -215,11 +215,15 @@ const Main = styled.div`
       flex-direction: column;
     }
   }
-  .err {
+  .err,
+  .err-p_id {
     color: #ff8888;
     font-size: 12px;
     padding: 0;
     margin: 0;
+  }
+  .err-p_id {
+    margin-top: -20px;
   }
 `;
 
@@ -311,7 +315,7 @@ return (
           onChange={projectAccountIdHandler}
         />
         {invalidProjectAccount && (
-          <p className="err text-center">
+          <p className="err-p_id text-center">
             Invalid Near Address, please enter a valid near address
           </p>
         )}
