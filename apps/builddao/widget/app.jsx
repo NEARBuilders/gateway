@@ -42,11 +42,11 @@ const config = {
           name: "Feed",
         },
       },
-      proposal: {
-        path: "${config_account}/widget/page.proposal",
+      projects: {
+        path: "${config_account}/widget/page.projects",
         blockHeight: "final",
         init: {
-          name: "Proposals",
+          name: "Projects",
         },
       },
       resources: {
@@ -76,14 +76,6 @@ const config = {
         blockHeight: "final",
         init: {
           name: "Inspect",
-        },
-        hide: true,
-      },
-      projects: {
-        path: "${config_account}/widget/page.projects",
-        blockHeight: "final",
-        init: {
-          name: "Project Feed",
         },
         hide: true,
       },

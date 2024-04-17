@@ -7,7 +7,7 @@ const { Modal, Button, InputField, TextEditor } = VM.require(
   InputField: () => <></>,
   TextEditor: () => <></>,
 };
-const { normalize } = VM.require("devhub.near/widget/core.lib.stringUtils") || {
+const { normalize } = VM.require("${alias_devs}/widget/lib.stringUtils") || {
   normalize: () => {},
 };
 const showModal = props.showModal;
@@ -22,7 +22,7 @@ const tabs = [
   { id: "roadmap", label: "Roadmap", checked: false },
 ];
 
-const app = props.app ?? "testing122.near";
+const app = props.app ?? "${config_account}";
 
 const [tags, setTags] = useState(props.filters.tags ?? []);
 const [title, setTitle] = useState("");
@@ -154,7 +154,7 @@ const Main = styled.div`
 `;
 
 function onCreateProject() {
-  const projectAccountId = "testing122.near";
+  const projectAccountId = context.accountId;
   const projectID = normalize(title);
   const project = {
     title,
@@ -172,13 +172,15 @@ function onCreateProject() {
     projectAccountId,
   };
   const data = {
-    "user-project": {
-      [projectID]: JSON.stringify(project),
-      metadata: project,
+    project: {
+      [projectID]: {
+        "": JSON.stringify(project),
+        metadata: project,
+      },
     },
     [app]: {
       project: {
-        [`${context.accountId}_user-project_${projectID}`]: "",
+        [`${context.accountId}_project_${projectID}`]: "",
       },
     },
   };

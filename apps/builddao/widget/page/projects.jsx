@@ -1,20 +1,6 @@
-const { currentPath, tab: page, ...passProps } = props;
-
-const { routes } = VM.require("${config_account}/widget/config.projects") ?? {
-  routes: {},
-};
-
-const { theme } = VM.require("${config_account}/widget/config.theme") ?? {
-  theme: {},
-};
-
 const { Button } = VM.require("${config_account}/widget/components") || {
   Button: () => <></>,
 };
-
-if (!Button) {
-  return "";
-}
 
 const { ProjectCard } = VM.require(
   "${config_account}/widget/components.project.Card",
@@ -24,7 +10,6 @@ const { ProjectCard } = VM.require(
 
 const app = props.app || "testing122.near";
 const type = props.type || "project";
-const userProject = props.type || "user-project";
 
 const flattenObject = (obj) => {
   let paths = [];
@@ -81,7 +66,7 @@ const processData = useCallback(
     const allProjects = accounts
       .map((account) => {
         const accountId = account[0];
-        return Object.entries(account?.[1]?.[userProject] ?? {}).map((kv) => {
+        return Object.entries(account?.[1]?.[type] ?? {}).map((kv) => {
           const metadata = JSON.parse(kv[1]);
           return {
             ...metadata,
@@ -248,7 +233,7 @@ return (
         <p className="fw-bold text-white">No Projects Found</p>
       )}
       {filteredProjects.map((project) => (
-        <ProjectCard project={project} userProject={userProject} />
+        <ProjectCard project={project} type={type} />
       ))}
     </Container>
   </Wrapper>
