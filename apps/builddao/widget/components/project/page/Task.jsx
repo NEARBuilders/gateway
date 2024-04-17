@@ -6,7 +6,7 @@ const { Modal, Button, ProgressState } = VM.require(
   ProgressState: () => <></>,
 };
 
-const { normalize } = VM.require("devhub.near/widget/core.lib.stringUtils") || {
+const { normalize } = VM.require("${alias_devs}/widget/lib.stringUtils") || {
   normalize: () => {},
 };
 
@@ -19,9 +19,9 @@ const { getProjectMeta } = VM.require(
 const { id } = props;
 
 const project = getProjectMeta(id);
-const app = props.app || "testing122.near";
+const app = props.app || "${config_account}";
 const type = props.type || "task";
-const projectTask = "project-task";
+const projectTask = "project";
 
 const ThemeContainer =
   props.ThemeContainer ||
