@@ -10,6 +10,38 @@ const { Modal, Button, InputField, TextEditor } = VM.require(
 const { normalize } = VM.require("${alias_devs}/widget/lib.stringUtils") || {
   normalize: () => {},
 };
+
+const isNearAddress = (address) => {
+  if (typeof address !== "string") {
+    return false;
+  }
+
+  // Check for unnamed wallet address format
+  if (address.length === 64 && /^[0-9A-F]+$/i.test(address)) {
+    return true;
+  }
+
+  // Existing logic for account name validation (assuming .near or .testnet suffix)
+  if (!address.endsWith(".near") && !address.endsWith(".testnet")) {
+    return false;
+  }
+
+  const parts = address.split(".");
+  if (parts.length !== 2) {
+    return false;
+  }
+
+  if (parts[0].length < 2 || parts[0].length > 32) {
+    return false;
+  }
+
+  if (!/^[a-z0-9_-]+$/i.test(parts[0])) {
+    return false;
+  }
+
+  return true;
+};
+
 const showModal = props.showModal;
 const toggleModal = props.toggleModal;
 const toggle = props.toggle;
@@ -25,10 +57,11 @@ const tabs = [
 const app = props.app ?? "${config_account}";
 
 const [tags, setTags] = useState(props.filters.tags ?? []);
+const [projectAccount, setProjectAccount] = useState(accountId);
 const [title, setTitle] = useState("");
 const [description, setDescription] = useState("");
 const [location, setLocation] = useState("");
-const [contributors, setDistributors] = useState("");
+const [contributors, setContributors] = useState("");
 const [twitter, setTwitter] = useState("");
 const [gitHub, setGitHub] = useState("");
 const [telegram, setTelegram] = useState("");
@@ -38,6 +71,9 @@ const [selectedTabs, setSelectedTabs] = useState(
 );
 const [avatar, setAvatar] = useState("");
 const [coverImage, setCoverImage] = useState("");
+const [teamSize, setTeamSize] = useState(teamSize ?? "");
+const [invalidContributorFound, setInvalidContributorFound] = useState(false);
+const [invalidProjectAccount, setInvalidProjectAccount] = useState(false);
 
 const handleCheckboxChange = (event) => {
   const { id } = event.target;
@@ -60,9 +96,17 @@ const handleTags = (tags) => {
 };
 
 const handleContributors = (contributors) => {
-  let filtered = contributors.map((contributor) =>
-    contributor.customOption ? contributor.label : contributor,
-  );
+  let filtered = contributors.map((contributor) => {
+    if (contributor.customOption) {
+      return contributor.label;
+    } else {
+      return contributor;
+    }
+  });
+  const invalidAddress = filtered.find((address) => !isNearAddress(address));
+  invalidAddress
+    ? setInvalidContributorFound(true)
+    : setInvalidContributorFound(false);
   setDistributors(filtered);
 };
 
@@ -76,9 +120,16 @@ const websiteUrlHandler = (e) => {
   setWebsite(url);
 };
 
+const projectAccountIdHandler = (e) => {
+  const accountId = e.target.value;
+  const isValid = isNearAddress(accountId);
+  !isValid ? setInvalidProjectAccount(true) : setInvalidProjectAccount(false);
+  setProjectAccount(accountId);
+};
+
 const Main = styled.div`
   display: flex;
-  gap: 1rem;
+  gap: 1.5rem;
   padding: 1rem;
 
   .form-control {
@@ -94,7 +145,7 @@ const Main = styled.div`
     width: 400px;
   }
 
-  @media (max-width: 768px) {
+  @media only screen and (max-width: 768px) {
     flex-direction: column;
     .lhs,
     .rhs {
@@ -128,6 +179,10 @@ const Main = styled.div`
       color: var(--text-color, #fff);
     }
   }
+  .form-select {
+    background-color: #000 !important;
+    height: 100%;
+  }
   .form-check {
     display: flex;
     flex-direction: row;
@@ -151,10 +206,29 @@ const Main = styled.div`
       background-image: url("data:image/svg+xml,%3csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%27-4 -4 8 8%27%3e%3ccircle r=%273%27 fill=%27%23fff%27/%3e%3c/svg%3e");
     }
   }
+  .location-team {
+    display: flex;
+    gap: 10px;
+    flex-direction: row;
+    @media only screen and (max-width: 768px) {
+      column-gap: 20px;
+      flex-direction: column;
+    }
+  }
+  .err,
+  .err-p_id {
+    color: #ff8888;
+    font-size: 12px;
+    padding: 0;
+    margin: 0;
+  }
+  .err-p_id {
+    margin-top: -20px;
+  }
 `;
 
 function onCreateProject() {
-  const projectAccountId = context.accountId;
+  const projectAccountId = projectAccount;
   const projectID = normalize(title);
   const project = {
     title,
@@ -230,9 +304,23 @@ return (
     title={"Create Project"}
     onOpenChange={toggleModal}
     toggle={toggle}
+    disableOutsideClick={true}
   >
     <Main>
       <div className="lhs d-flex flex-column gap-4">
+        <InputField
+          key={"Project-AccountId"}
+          label={"Project AccountId"}
+          placeholder={"Enter Project AccountId"}
+          value={projectAccount}
+          error={invalidProjectAccount}
+          onChange={projectAccountIdHandler}
+        />
+        {invalidProjectAccount && (
+          <p className="err-p_id text-center">
+            Invalid Near Address, please enter a valid near address
+          </p>
+        )}
         <InputField
           key={"Project-Title"}
           label={"Project Title"}
@@ -240,30 +328,55 @@ return (
           value={title}
           onChange={(e) => setTitle(e.target.value)}
         />
-
         <div className="form-group">
           <label className="mb-1">Description</label>
           <TextEditor value={description} onChange={(e) => setDescription(e)} />
         </div>
-        <InputField
-          key={"Location"}
-          label={"Location"}
-          placeholder={"Enter location"}
-          value={location}
-          onChange={(e) => setLocation(e.target.value)}
-        />
-        <div className="form-group">
-          <label className="mb-1">Project Contributors</label>
-          <Typeahead
-            multiple
-            options={
-              allMainnetAddresses ?? ["frank.near", "ellie.near", "jane.near"]
-            }
-            allowNew
-            placeholder="frank.near, ellie.near"
-            selected={contributors}
-            onChange={(e) => handleContributors(e)}
+        <div className="location-team form-group">
+          <InputField
+            key={"Location"}
+            label={"Location"}
+            placeholder={"Enter location"}
+            value={location}
+            onChange={(e) => setLocation(e.target.value)}
           />
+          <div className="d-flex flex-column gap-2 h-100" key={"team-sizes"}>
+            <label>Team Size</label>
+            <select
+              value={teamSize}
+              onChange={(e) => setTeamSize(e.target.value)}
+              className="form-select"
+            >
+              <option selected disabled value="">
+                Select Team Size
+              </option>
+              <option value="1-10">1-10</option>
+              <option value="10-50">10-50</option>
+              <option value="50-100">50-100</option>
+              <option value="100+">100+</option>
+            </select>
+          </div>
+        </div>
+        <div className="d-flex flex-column gap-1">
+          <div className="form-group">
+            <label className="mb-1">Project Contributors</label>
+            <Typeahead
+              multiple
+              options={
+                allMainnetAddresses ?? ["frank.near", "ellie.near", "jane.near"]
+              }
+              allowNew
+              placeholder="frank.near, ellie.near"
+              selected={contributors}
+              onChange={(e) => handleContributors(e)}
+            />
+          </div>
+          {invalidContributorFound && (
+            <p className="err text-center">
+              The address you just entered are invalid, please enter valid near
+              addresses
+            </p>
+          )}
         </div>
 
         <InputField
@@ -361,7 +474,11 @@ return (
       </div>
     </Main>
     <div className="d-flex align-items-center justify-content-end gap-2">
-      <Button variant="primary" onClick={onCreateProject}>
+      <Button
+        variant="primary"
+        onClick={onCreateProject}
+        disabled={invalidContributorFound || invalidProjectAccount}
+      >
         Create
       </Button>
     </div>
