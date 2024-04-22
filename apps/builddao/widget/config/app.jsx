@@ -21,6 +21,14 @@ return {
       init: {
         name: "Projects",
       },
+      hide: true,
+    },
+    proposal: {
+      path: "buildhub.near/widget/Proposals",
+      blockHeight: "final",
+      init: {
+        name: "Proposals",
+      },
     },
     resources: {
       path: "${config_account}/widget/page.resources",

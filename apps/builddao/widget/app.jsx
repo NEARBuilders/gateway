@@ -39,7 +39,7 @@ const config = {
         path: "${config_account}/widget/page.feed",
         blockHeight: "final",
         init: {
-          name: "Feed",
+          name: "Activity",
         },
       },
       projects: {
@@ -48,6 +48,15 @@ const config = {
         init: {
           name: "Projects",
         },
+        hide: true,
+      },
+      proposal: {
+        path: "${config_account}/widget/Proposals",
+        blockHeight: "final",
+        init: {
+          name: "Proposals",
+        },
+        hide: true,
       },
       resources: {
         path: "${config_account}/widget/page.resources",
