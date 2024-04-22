@@ -8,7 +8,7 @@ const { ProjectCard } = VM.require(
   ProjectCard: () => <></>,
 };
 
-const app = props.app || "testing122.near";
+const app = props.app || "${config_account}";
 const type = props.type || "project";
 
 const flattenObject = (obj) => {
@@ -31,7 +31,10 @@ const flattenObject = (obj) => {
 
 // ${alias_devs}/project/name-of-the-project
 const fetchProjects = () => {
-  const keys = Social.keys(`*/${app}/${type}/*`, "final", { order: "desc" });
+  const keys = Social.keys(`*/${app}/${type}/*`, "final", {
+    order: "desc",
+    subscribe: true,
+  });
   if (!keys) {
     return "Loading...";
   }

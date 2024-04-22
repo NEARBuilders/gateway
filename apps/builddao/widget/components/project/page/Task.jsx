@@ -21,7 +21,7 @@ const { id } = props;
 const project = getProjectMeta(id);
 const app = props.app || "${config_account}";
 const type = props.type || "task";
-const projectTask = "project";
+const projectTask = "project-task";
 
 const ThemeContainer =
   props.ThemeContainer ||
@@ -219,6 +219,7 @@ function fetchTasks() {
     "final",
     {
       order: "desc",
+      subscribe: true,
     },
   );
   if (!keys) {
@@ -245,11 +246,28 @@ function fetchTasks() {
 const data = fetchTasks();
 const tasks = processData(data);
 
+function sortByPriority(a, b) {
+  const priorityOrder = { P0: 0, P1: 1, P2: 2, P3: 3 };
+  return priorityOrder[a.priority] - priorityOrder[b.priority];
+}
+
 useEffect(() => {
   if (Array.isArray(tasks)) {
-    setProposedTasks(tasks.filter((i) => i.status === StatusValues.PROPOSED));
-    setProgresTasks(tasks.filter((i) => i.status === StatusValues.PROGRESS));
-    setCompletedTasks(tasks.filter((i) => i.status === StatusValues.COMPLETED));
+    setProposedTasks(
+      tasks
+        .filter((i) => i.status === StatusValues.PROPOSED)
+        .sort(sortByPriority),
+    );
+    setProgresTasks(
+      tasks
+        .filter((i) => i.status === StatusValues.PROGRESS)
+        .sort(sortByPriority),
+    );
+    setCompletedTasks(
+      tasks
+        .filter((i) => i.status === StatusValues.COMPLETED)
+        .sort(sortByPriority),
+    );
   }
 }, [tasks]);
 
@@ -322,7 +340,27 @@ const onEditTask = useCallback(
   [taskDetail, currentEditTaskId],
 );
 
-const onDeleteTask = () => {};
+const onDeleteTask = useCallback(
+  (data) => {
+    const taskId = currentEditTaskId;
+    const updatedData = {
+      [type]: {
+        [taskId]: null,
+      },
+      [app]: {
+        [projectTask]: {
+          [projectID]: {
+            [type]: {
+              [`${context.accountId}_task_${taskId}`]: null,
+            },
+          },
+        },
+      },
+    };
+    Social.set(updatedData, { force: true });
+  },
+  [taskDetail, currentEditTaskId],
+);
 
 function handleDropdownToggle(columnTitle, index, value) {
   setShowDropdownIndex((prevState) => ({
@@ -718,6 +756,7 @@ const Column = ({ title, addTask, columnTasks, changeStatusOptions }) => {
             <div className="d-flex flex-column gap-2">
               <div className="h6 bold">{item.title}</div>
               <div className="h6">Author: {item.author}</div>
+              <div className="h6">Priority: {item.priority}</div>
               {/* <div className="h6">Last edited: </div> */}
             </div>
             {isAllowedToEdit && (
