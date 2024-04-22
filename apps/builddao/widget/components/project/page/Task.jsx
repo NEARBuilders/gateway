@@ -132,7 +132,7 @@ const Wrapper = styled.div`
   }
 `;
 
-const projectID = normalize(project?.title);
+const projectID = normalize(project?.title, "-");
 
 const StatusValues = {
   PROPOSED: "proposed",
@@ -293,7 +293,7 @@ const deleteTaskListItem = (index) => {
 };
 
 const onAddTask = () => {
-  const taskId = normalize(taskDetail.title);
+  const taskId = normalize(taskDetail.title, "-");
   const data = {
     [type]: {
       [taskId]: {

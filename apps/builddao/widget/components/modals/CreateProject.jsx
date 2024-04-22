@@ -7,7 +7,7 @@ const { Modal, Button, InputField, TextEditor } = VM.require(
   InputField: () => <></>,
   TextEditor: () => <></>,
 };
-const { normalize } = VM.require("devhub.near/widget/core.lib.stringUtils") || {
+const { normalize } = VM.require("${alias_devs}/widget/lib.stringUtils") || {
   normalize: () => {},
 };
 
@@ -226,7 +226,7 @@ const Main = styled.div`
 `;
 
 function onCreateProject() {
-  const projectID = normalize(title);
+  const projectID = normalize(title, "-");
   const project = {
     title,
     description,
@@ -247,7 +247,20 @@ function onCreateProject() {
     project: {
       [projectID]: {
         "": JSON.stringify(project),
-        metadata: project,
+        metadata: {
+          name: title,
+          description: description,
+          image: avatar,
+          backgroundImage: coverImage,
+          tags:
+            tags && tags.reduce((obj, item) => ({ ...obj, [item]: "" }), {}), // need to transform,
+          linktree: {
+            twitter: twitter,
+            github: gitHub,
+            telegram: telegram,
+            website: website,
+          },
+        },
       },
     },
     [app]: {

@@ -21,6 +21,19 @@ if (!id || !data) {
   return "Loading...";
 }
 
+const profileData = {
+  name: data.title,
+  description: data.description,
+  linktree: {
+    github: data.github,
+    telegram: data.telegram,
+    twitter: data.twitter,
+    website: data.website,
+  },
+  backgroundImage: data.backgroundImage?.image,
+  image: data.profileImage?.image,
+};
+
 const profile = Social.getr(`${data.projectAccountId}/profile`);
 
 const config = {
@@ -36,7 +49,7 @@ const config = {
     Header: () => (
       <>
         <ProjectLayout
-          profile={profile}
+          profile={profileData}
           projectAccountId={data.projectAccountId}
           page={page}
           routes={config.router.routes}
@@ -106,19 +119,6 @@ if (Array.isArray(data?.tabs)) {
     }
   });
 }
-
-const profileData = {
-  name: data.title,
-  description: data.description,
-  linktree: {
-    github: data.github,
-    telegram: data.telegram,
-    twitter: data.twitter,
-    website: data.website,
-  },
-  backgroundImage: data.backgroundImage?.image,
-  image: data.profileImage?.image,
-};
 
 const Root = styled.div`
   display: flex;

@@ -191,6 +191,7 @@ return (
         tagFilters,
       }}
     />
+
     <Widget
       src="${config_account}/widget/components.modals.CreateProject"
       loading=""
@@ -206,9 +207,11 @@ return (
       <h2 style={{ color: "var(--text-color, #fff)", fontSize: "18px" }}>
         Projects
       </h2>
-      <Button variant="primary" onClick={() => setShowCreateModal(true)}>
-        Create Project
-      </Button>
+      {context.accountId && (
+        <Button variant="primary" onClick={() => setShowCreateModal(true)}>
+          Create Project
+        </Button>
+      )}
     </div>
     <div className="form-group d-flex gap-4 align-items-center justify-content-between">
       <div className="input-group">
