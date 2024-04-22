@@ -27,9 +27,6 @@ const isNearAddress = (address) => {
   }
 
   const parts = address.split(".");
-  if (parts.length !== 2) {
-    return false;
-  }
 
   if (parts[0].length < 2 || parts[0].length > 32) {
     return false;
@@ -54,7 +51,7 @@ const tabs = [
   { id: "roadmap", label: "Roadmap", checked: false },
 ];
 
-const app = props.app ?? "testing122.near";
+const app = props.app ?? "${config_account}";
 
 const [tags, setTags] = useState(props.filters.tags ?? []);
 const [projectAccount, setProjectAccount] = useState(accountId);
@@ -87,8 +84,7 @@ const handleCheckboxChange = (event) => {
 };
 
 const following = Social.get(`${context.accountId}/graph/follow/*`);
-
-const accounts = following && Object.keys(following);
+const followingAccountSuggestion = following && Object.keys(following);
 
 const handleTags = (tags) => {
   let filtered = tags.map((tag) => (tag.customOption ? tag.label : tag));
@@ -228,7 +224,6 @@ const Main = styled.div`
 `;
 
 function onCreateProject() {
-  const projectAccountId = projectAccount;
   const projectID = normalize(title);
   const project = {
     title,
@@ -243,32 +238,35 @@ function onCreateProject() {
     tabs: Array.from(selectedTabs),
     profileImage: avatar,
     backgroundImage: coverImage,
-    projectAccountId,
+    projectAccountId: projectAccount,
+    teamSize,
   };
   const data = {
-    "user-project": {
-      [projectID]: JSON.stringify(project),
-      metadata: project,
+    project: {
+      [projectID]: {
+        "": JSON.stringify(project),
+        metadata: project,
+      },
     },
     [app]: {
       project: {
-        [`${context.accountId}_user-project_${projectID}`]: "",
+        [`${context.accountId}_project_${projectID}`]: "",
       },
     },
   };
-  if (projectAccountId.includes(".sputnik-dao.near")) {
-    const policy = Near.view(projectAccountId, "get_policy");
+  if (projectAccount.includes(".sputnik-dao.near")) {
+    const policy = Near.view(projectAccount, "get_policy");
     const base64 = Buffer.from(
       JSON.stringify({
         data: {
-          [projectAccountId]: data,
+          [projectAccount]: data,
         },
         options: { refund_unused_deposit: true },
       }),
       "utf-8",
     ).toString("base64");
     Near.call({
-      contractName: projectAccountId,
+      contractName: projectAccount,
       methodName: "add_proposal",
       args: {
         proposal: {
@@ -361,7 +359,11 @@ return (
             <Typeahead
               multiple
               options={
-                allMainnetAddresses ?? ["frank.near", "ellie.near", "jane.near"]
+                followingAccountSuggestion ?? [
+                  "frank.near",
+                  "ellie.near",
+                  "jane.near",
+                ]
               }
               allowNew
               placeholder="frank.near, ellie.near"

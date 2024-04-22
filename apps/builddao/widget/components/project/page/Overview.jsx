@@ -13,7 +13,8 @@ const { id } = props;
 
 const project = getProjectMeta(id);
 
-const { description, tags, contributors, accountId, location } = project;
+const { description, tags, contributors, accountId, location, teamSize } =
+  project;
 
 const Container = styled.div`
   display: flex;
@@ -84,15 +85,7 @@ return (
         <p className="heading">Team Size</p>
         <p className="description d-flex align-items-center gap-2">
           <i className="bi bi-person"></i>
-          {!contributors || !contributors.length
-            ? "0"
-            : contributors.length <= 10
-              ? "1-10"
-              : contributors.length <= 50
-                ? "10-50"
-                : contributors.length <= 100
-                  ? "50-100"
-                  : "100+"}
+          {teamSize}
         </p>
       </div>
     </div>
