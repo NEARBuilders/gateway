@@ -19,7 +19,7 @@ const extractNotifyAccountId = (item) => {
   return `${accountId}/post/main` === item.path ? accountId : undefined;
 };
 
-const link = `/mob.near/widget/MainPage.N.Comment.Page?accountId=${accountId}&blockHeight=${blockHeight}${groupIdLinkPart}`;
+const link = `/${alias_mob}/widget/MainPage.N.Comment.Page?accountId=${accountId}&blockHeight=${blockHeight}${groupIdLinkPart}`;
 
 const item = {
   type: "social",
@@ -231,7 +231,7 @@ return (
       <div className="right">
         <div className="mb-3">
           <Widget
-            src="buildhub.near/widget/components.post.Header"
+            src="${config_account}/widget/components.post.Header"
             props={{
               accountId,
               blockHeight,
@@ -248,7 +248,7 @@ return (
               style={{ minHeight: "100px" }}
             />
           }
-          src="mob.near/widget/MainPage.N.Post.Content"
+          src="${alias_mob}/widget/MainPage.N.Post.Content"
           props={{ content, raw }}
         />
         {blockHeight !== "now" ? (
@@ -257,7 +257,7 @@ return (
               <div key="comment">
                 <Widget
                   loading=""
-                  src="mob.near/widget/N.CommentButton"
+                  src="${alias_mob}/widget/N.CommentButton"
                   props={{
                     disabled: permissions.disableComment,
                     onClick: () =>
@@ -268,7 +268,7 @@ return (
             )}
             <Widget
               loading=""
-              src="mob.near/widget/N.RepostButton"
+              src="${alias_mob}/widget/N.RepostButton"
               props={{
                 item,
                 disabled: true,
@@ -276,7 +276,7 @@ return (
             />
             <Widget
               loading=""
-              src="mob.near/widget/N.LikeButton"
+              src="${alias_mob}/widget/N.LikeButton"
               props={{
                 notifyAccountId,
                 item,
@@ -284,7 +284,7 @@ return (
             />
             <Widget
               loading=""
-              src="mob.near/widget/MainPage.N.Post.ShareButton"
+              src="${alias_mob}/widget/MainPage.N.Post.ShareButton"
               props={{ accountId, blockHeight, postType: "comment", groupId }}
             />
           </div>
@@ -296,7 +296,7 @@ return (
     {state.showReply && (
       <div className="mb-2" key="reply">
         <Widget
-          src="buildhub.near/widget/Comment.Compose"
+          src="${config_account}/widget/Comment.Compose"
           props={{
             initialText: `@${accountId}, `,
             notifyAccountId: extractNotifyAccountId(parentItem),

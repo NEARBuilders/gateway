@@ -126,7 +126,7 @@ return (
           <ProfileCardWrapper>
             <Widget
               key={result.accountId}
-              src="near/widget/AccountProfile"
+              src="${alias_near}/widget/AccountProfile"
               props={{
                 avatarSize: "34px",
                 accountId: result.accountId,

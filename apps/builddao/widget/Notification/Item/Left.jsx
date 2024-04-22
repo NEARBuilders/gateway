@@ -1,5 +1,5 @@
-const { href } = VM.require("buildhub.near/widget/lib.url") || {
-  href: () => {}
+const { href } = VM.require("${config_account}/widget/lib.url") || {
+  href: () => {},
 };
 
 if (!props.type) {

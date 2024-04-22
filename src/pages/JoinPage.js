@@ -4,26 +4,27 @@ import { useLocation } from "react-router-dom";
 import OnboardingFlow from "../components/OnboardingFlow";
 import { useBosLoaderStore } from "../stores/bos-loader";
 
-export default function JoinPage(props) {
+export default function JoinPage({ signedIn, widgets, ...passProps }) {
   const redirectMapStore = useBosLoaderStore();
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
   const from = searchParams.get("from");
 
-  const CurrentView = props.signedIn
-    ? "buildhub.near/widget/app"
+  const CurrentView = signedIn
+    ? widgets.default
     : from === "trial"
-      ? "buildhub.near/widget/TrialAccountBanner"
-      : "buildhub.near/widget/login";
+      ? widgets.trialAccountBanner
+      : widgets.login;
 
+  console.log("CurrentView", CurrentView);
   return (
     <>
-      <OnboardingFlow signedIn={props.signedIn} />
+      <OnboardingFlow signedIn={signedIn} widgets={widgets} />
       <div className="h-100">
         <Widget
           src={CurrentView}
           props={{
-            ...props,
+            ...passProps,
           }}
           config={{
             redirectMap: redirectMapStore.redirectMap,

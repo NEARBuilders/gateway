@@ -1,12 +1,12 @@
-const { Header } = VM.require("buildhub.near/widget/components.Header") || {
+const { Header } = VM.require("${config_account}/widget/components.Header") || {
   Header: () => <></>,
 };
 
-const { Post } = VM.require("buildhub.near/widget/components") || {
+const { Post } = VM.require("${config_account}/widget/components") || {
   Post: () => <></>,
 };
 
-const { MarkdownView } = VM.require("buildhub.near/widget/md-view") || {
+const { MarkdownView } = VM.require("${config_account}/widget/md-view") || {
   MarkdownView: () => <></>,
 };
 
@@ -16,7 +16,7 @@ const postAccountId = props.postAccountId;
 if (mdPath && !postAccountId) {
   return (
     <div>
-      <Header>{props.name}</Header>
+      <Header>{props.feedName}</Header>
       <MarkdownView path={mdPath} />
     </div>
   );
@@ -25,7 +25,7 @@ if (mdPath && !postAccountId) {
 if (!mdPath && postAccountId) {
   return (
     <div>
-      <Header>{props.name}</Header>
+      <Header>{props.feedName}</Header>
 
       <Post
         accountId={postAccountId}
@@ -38,7 +38,7 @@ if (!mdPath && postAccountId) {
 
 return (
   <div>
-    <Header>{props.name}</Header>
+    <Header>{props.feedName}</Header>
     <p>No mdPath or post accountId configured</p>
   </div>
 );

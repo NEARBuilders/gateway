@@ -1,4 +1,6 @@
-const { Button, Hashtag } = VM.require("buildhub.near/widget/components") || {
+const { Button, Hashtag } = VM.require(
+  "${config_account}/widget/components",
+) || {
   Button: () => <></>,
   Hashtag: () => <></>,
 };
@@ -314,7 +316,7 @@ const EventGroup = ({ date }) => {
                 <div className="d-flex gap-3">
                   <div className="cover-image">
                     <Widget
-                      src="mob.near/widget/Image"
+                      src="${alias_mob}/widget/Image"
                       props={{
                         image: event.extendedProps.cover,
                         fallbackUrl:
@@ -330,7 +332,7 @@ const EventGroup = ({ date }) => {
                 <div className="d-flex align-items-center flex-wrap gap-3">
                   <span className="d-flex align-items-center gap-1">
                     <Widget
-                      src="mob.near/widget/Image"
+                      src="${alias_mob}/widget/Image"
                       loading=""
                       props={{
                         image: organizerProfile.image,

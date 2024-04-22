@@ -50,7 +50,7 @@ const linktreeObjects = linktree.map((o, i) => {
 });
 
 const descriptionKey = `${widgetPath}-description`.replaceAll(/[._\/-]/g, "--");
-const { href } = VM.require("buildhub.near/widget/lib.url") || {
+const { href } = VM.require("${config_account}/widget/lib.url") || {
   href: () => {},
 };
 
@@ -81,7 +81,7 @@ return (
           }}
         >
           <Widget
-            src="mob.near/widget/Image"
+            src="${alias_mob}/widget/Image"
             props={{
               image,
               className: "w-100 h-100",
@@ -133,7 +133,7 @@ return (
           )}
           <Link
             to={href({
-              widgetSrc: "mob.near/widget/WidgetSource",
+              widgetSrc: "${alias_mob}/widget/WidgetSource",
               params: { src: widgetPath },
             })}
             className="btn text-white btn-sm btn-outline-secondary border-0"
@@ -173,7 +173,7 @@ return (
         <div className="flex-grow-1 me-1 text-truncate text-white">
           <span className="text-white me-1">By</span>
           <Widget
-            src="buildhub.near/widget/components.profile.ProfileLine"
+            src="${config_account}/widget/components.profile.ProfileLine"
             props={{ accountId, link: props.profileLink }}
           />
         </div>
@@ -181,7 +181,7 @@ return (
           <small className="ps-1 text-nowrap text-white ms-auto">
             <i className="bi bi-clock me-1"></i>
             <Widget
-              src="mob.near/widget/TimeAgo"
+              src="${alias_mob}/widget/TimeAgo"
               props={{ keyPath: widgetPath, now: props.metadata, blockHeight }}
             />
           </small>

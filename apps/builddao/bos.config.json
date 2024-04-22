@@ -1,3 +1,10 @@
 {
-  "appAccount": "buildhub.near"
+  "account": "buildhub.near",
+  "aliases": ["./aliases.mainnet.json"],
+  "overrides": {
+    "testnet": {
+      "account": "builddao.testnet",
+      "aliases": ["./aliases.testnet.json"]
+    }
+  }
 }

@@ -9,7 +9,7 @@ const makeLink = (accountId, tag) => {
   if (tag) {
     args.push(`tag=${tag}`);
   }
-  return `#/mob.near/widget/LastWidgets${args.length > 0 ? "?" : ""}${args.join(
+  return `#/${alias_mob}/widget/LastWidgets${args.length > 0 ? "?" : ""}${args.join(
     "&",
   )}`;
 };
@@ -77,7 +77,7 @@ const renderItem = (a) => {
   return (
     <div className="mb-3" key={JSON.stringify(a)} style={{ minHeight: "10em" }}>
       <Widget
-        src="buildhub.near/widget/components.profile.WidgetMetadata"
+        src="${config_account}/widget/components.profile.WidgetMetadata"
         props={{
           accountId: a.accountId,
           widgetName: a.widgetName,
@@ -99,7 +99,7 @@ if (JSON.stringify(data) !== JSON.stringify(state.data || {})) {
 
 return render(
   <Widget
-    src="mob.near/widget/ItemFeed"
+    src="${alias_mob}/widget/ItemFeed"
     props={{ items: state.allItems || [], renderItem }}
   />,
 );

@@ -1,4 +1,4 @@
-const { Post } = VM.require("buildhub.near/widget/components") || {
+const { Post } = VM.require("${config_account}/widget/components") || {
   Post: () => <></>,
 };
 
@@ -14,7 +14,7 @@ return {
   type: "app", // every.near/type/app
   routes: {
     all: {
-      path: "buildhub.near/widget/Feed",
+      path: "${config_account}/widget/Feed",
       blockHeight: "final",
       init: {
         name: "All", // maybe these should be moved to navbar specific
@@ -23,7 +23,7 @@ return {
       },
     },
     updates: {
-      path: "buildhub.near/widget/Feed",
+      path: "${config_account}/widget/Feed",
       blockHeight: "final",
       init: {
         name: "Updates",
@@ -47,7 +47,7 @@ return {
       },
     },
     question: {
-      path: "buildhub.near/widget/Feed",
+      path: "${config_account}/widget/Feed",
       blockHeight: "final",
       init: {
         name: "Question",
@@ -62,7 +62,7 @@ return {
       },
     },
     idea: {
-      path: "buildhub.near/widget/Feed",
+      path: "${config_account}/widget/Feed",
       blockHeight: "final",
       init: {
         name: "Idea",
@@ -80,7 +80,7 @@ return {
       },
     },
     feedback: {
-      path: "buildhub.near/widget/Feed",
+      path: "${config_account}/widget/Feed",
       blockHeight: "final",
       init: {
         name: "Feedback",
@@ -89,7 +89,7 @@ return {
       },
     },
     events: {
-      path: "buildhub.near/widget/events.Calendar",
+      path: "${config_account}/widget/events.Calendar",
       blockHeight: "final",
       init: {
         name: "Events",
@@ -99,7 +99,7 @@ return {
       },
     },
     bookmarks: {
-      path: "buildhub.near/widget/OrderedGraphFeed",
+      path: "${config_account}/widget/OrderedGraphFeed",
       blockHeight: "final",
       init: {
         name: "Bookmarks",
@@ -115,6 +115,44 @@ return {
             />
           );
         },
+      },
+    },
+    request: {
+      path: "${config_account}/widget/Feed",
+      blockHeight: "final",
+      init: {
+        name: "Request",
+        icon: "bi-file-earmark-text",
+        requiredHashtags: ["build", "request"],
+        customActions: [
+          {
+            type: "modal",
+            icon: "bi-file-earmark-text",
+            label: "Propose",
+            onClick: (modalToggles) => {
+              const toggle = modalToggles.propose;
+              toggle();
+            },
+          },
+        ],
+        template: `## REQUEST TITLE
+(posted via [${daoName} Gateway](${feedLink}?tab=request))
+
+#### Description
+[Detailed description of what the proposal is about.]
+
+#### Why This Proposal?
+[Explanation of why this proposal is necessary or beneficial.]
+`,
+      },
+    },
+    proposals: {
+      path: "${config_account}/widget/Proposals",
+      blockHeight: "final",
+      init: {
+        name: "Proposals",
+        icon: "bi-file-earmark-text",
+        daoId: "build.sputnik-dao.near",
       },
     },
   },

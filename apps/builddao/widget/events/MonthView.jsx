@@ -1,5 +1,5 @@
 const { Modal, Hashtag, Button } = VM.require(
-  "buildhub.near/widget/components",
+  "${config_account}/widget/components",
 ) || {
   Modal: () => <></>,
   Hashtag: () => <></>,
@@ -241,7 +241,7 @@ return (
                   return (
                     <span className="d-flex align-items-center gap-1">
                       <Widget
-                        src="mob.near/widget/Image"
+                        src="${alias_mob}/widget/Image"
                         loading=""
                         props={{
                           image: organizerProfile.image,

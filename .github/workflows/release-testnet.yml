@@ -1,0 +1,19 @@
+name: Deploy Components to Testnet
+
+on:
+  push:
+    branches: [develop]
+
+jobs:
+  deploy-staging:
+    uses: nearbuilders/bos-workspace/.github/workflows/deploy.yml@main
+    with:
+      build-env: "testnet"
+      deploy-env: "testnet"
+      bw-legacy: false
+      app-name: "builddao"
+      deploy-account-address: builddao.testnet
+      signer-account-address: builddao.testnet
+      signer-public-key: ed25519:6ycWXZES2zEGPurZqP35AUQx92aAzuS7r9ea1GcSQQiT
+    secrets:
+      SIGNER_PRIVATE_KEY: ${{ secrets.BOS_TESTNET_SIGNER_PRIVATE_KEY }}

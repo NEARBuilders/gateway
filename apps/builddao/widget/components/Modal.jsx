@@ -1,4 +1,4 @@
-const { Button } = VM.require("buildhub.near/widget/components.Button") || {
+const { Button } = VM.require("${config_account}/widget/components.Button") || {
   Button: () => <></>,
 };
 
@@ -24,7 +24,7 @@ const Content = styled.div`
   max-width: 1000px;
   padding: 24px;
   outline: none !important;
-  background: var(--modal-background-color, #23242b);
+  background: var(--modal-background-color, #000);
   border-radius: 16px;
   color: var(--modal-text-color, #fff);
 
@@ -54,6 +54,11 @@ const Icon = styled.i`
   font-size: 24px;
 `;
 
+const avoidDefaultBehavior = (e) => {
+  e.preventDefault();
+  e.stopPropagation();
+};
+
 function Modal({
   children,
   title,
@@ -63,6 +68,7 @@ function Modal({
   toggleContainerProps,
   key,
   hideCloseBtn,
+  disableOutsideClick,
 }) {
   return (
     <Dialog.Root key={key} open={open} onOpenChange={onOpenChange}>
@@ -71,18 +77,22 @@ function Modal({
       </Dialog.Trigger>
       <Dialog.Overlay asChild>
         <Overlay key={`Overlay-${key}`}>
-          <Dialog.Content asChild>
+          <Dialog.Content
+            asChild
+            onPointerDownOutside={disableOutsideClick && avoidDefaultBehavior}
+            onInteractOutside={disableOutsideClick && avoidDefaultBehavior}
+          >
             <Content>
               <div className="d-flex align-items-center justify-content-between pb-4">
                 <h5 className="w-100">{title}</h5>
                 {!hideCloseBtn && (
-                  <Dialog.Trigger asChild>
+                  <Dialog.Close asChild>
                     <CloseContainer>
                       <Button variant="outline" type="icon">
                         <Icon className="bi bi-x" />
                       </Button>
                     </CloseContainer>
-                  </Dialog.Trigger>
+                  </Dialog.Close>
                 )}
               </div>
               {children}

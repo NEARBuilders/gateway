@@ -1,4 +1,4 @@
-const { Button } = VM.require("buildhub.near/widget/components") || {
+const { Button } = VM.require("${config_account}/widget/components") || {
   Button: () => <></>,
 };
 
@@ -204,7 +204,7 @@ return (
       >
         <Widget
           key={`markdown-editor-${markdownEditor}-${memoizedEditorKey}`}
-          src="mob.near/widget/MarkdownEditorIframe"
+          src="${alias_mob}/widget/MarkdownEditorIframe"
           props={{
             initialText: state.text,
             onChange,
@@ -214,7 +214,7 @@ return (
         {autocompleteEnabled && state.showAccountAutocomplete && (
           <div className="pt-1 w-100 overflow-hidden">
             <Widget
-              src="devs.near/widget/Common.AccountAutocomplete"
+              src="${alias_devs}/widget/Common.AccountAutocomplete"
               props={{
                 term: state.text.split("@").pop(),
                 onSelect: autoCompleteAccountId,

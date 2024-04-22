@@ -1,4 +1,4 @@
-const src = props.src ?? "mob.near/widget/WidgetSource";
+const src = props.src ?? "${alias_mob}/widget/WidgetSource";
 const blockHeight = props.blockHeight;
 const [accountId, widget, widgetName] = src.split("/");
 
@@ -13,13 +13,13 @@ ${code}
 return (
   <>
     <Widget
-      src="mob.near/widget/WidgetMetadata"
+      src="${alias_mob}/widget/WidgetMetadata"
       props={{ accountId, widgetName, expanded: true }}
     />
     <Markdown text={text} />
     <h3>Dependencies</h3>
     <Widget
-      src="buildhub.near/widget/inspect.WidgetDependencies"
+      src="${config_account}/widget/inspect.WidgetDependencies"
       props={{ src, code }}
     />
   </>

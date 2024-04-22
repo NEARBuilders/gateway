@@ -1,4 +1,4 @@
-const { Avatar } = VM.require("buildhub.near/widget/components") || {
+const { Avatar } = VM.require("${config_account}/widget/components") || {
   Avatar: () => <></>,
 };
 
@@ -47,7 +47,7 @@ const Wrapper = styled.div`
   }
 `;
 
-const { href } = VM.require("buildhub.near/widget/lib.url") || {
+const { href } = VM.require("${config_account}/widget/lib.url") || {
   href: () => {},
 };
 
@@ -59,7 +59,7 @@ const Overlay = (props) => (
   <Link
     className="link-dark text-truncate d-inline-flex mw-100"
     to={href({
-      widgetSrc: "buildhub.near/widget/app",
+      widgetSrc: "${config_account}/widget/app",
       params: {
         page: "profile",
         accountId,
@@ -67,7 +67,7 @@ const Overlay = (props) => (
     })}
   >
     <Widget
-      src="mob.near/widget/Profile.N.OverlayTrigger"
+      src="${alias_mob}/widget/Profile.N.OverlayTrigger"
       loading={""}
       props={{
         accountId,
@@ -87,13 +87,13 @@ return (
           <div className="flex-shrink-0">
             <Widget
               loading={""}
-              src="mob.near/widget/Checkmark"
+              src="${alias_mob}/widget/Checkmark"
               props={{ isPremium, accountId }}
             />
           </div>
           <Widget
             loading=""
-            src="buildhub.near/widget/components.VerifiedHuman"
+            src="${config_account}/widget/components.VerifiedHuman"
             props={{
               accountId: accountId,
             }}

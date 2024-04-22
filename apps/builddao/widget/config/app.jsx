@@ -2,42 +2,50 @@ return {
   type: "app",
   routes: {
     home: {
-      path: "buildhub.near/widget/page.home",
+      path: "${config_account}/widget/page.home",
       blockHeight: "final",
       init: {
         name: "Home",
       },
     },
     feed: {
-      path: "buildhub.near/widget/page.feed",
+      path: "${config_account}/widget/page.feed",
       blockHeight: "final",
       init: {
-        name: "Feed",
+        name: "Activity",
       },
     },
-    proposal: {
-      path: "buildhub.near/widget/page.projects",
+    projects: {
+      path: "${config_account}/widget/page.projects",
       blockHeight: "final",
       init: {
         name: "Projects",
       },
+      hide: true,
+    },
+    proposal: {
+      path: "buildhub.near/widget/Proposals",
+      blockHeight: "final",
+      init: {
+        name: "Proposals",
+      },
     },
     resources: {
-      path: "buildhub.near/widget/page.resources",
+      path: "${config_account}/widget/page.resources",
       blockHeight: "final",
       init: {
         name: "Resources",
       },
     },
     library: {
-      path: "buildhub.near/widget/page.library",
+      path: "${config_account}/widget/page.library",
       blockHeight: "final",
       init: {
         name: "Library",
       },
     },
     profile: {
-      path: "buildhub.near/widget/page.profile",
+      path: "${config_account}/widget/page.profile",
       blockHeight: "final",
       init: {
         name: "Profile",
@@ -45,10 +53,18 @@ return {
       hide: true,
     },
     inspect: {
-      path: "buildhub.near/widget/page.inspect",
+      path: "${config_account}/widget/page.inspect",
       blockHeight: "final",
       init: {
         name: "Inspect",
+      },
+      hide: true,
+    },
+    project: {
+      path: "${config_account}/widget/page.project",
+      blockHeight: "final",
+      init: {
+        name: "Project Page",
       },
       hide: true,
     },

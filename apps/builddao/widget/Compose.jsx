@@ -1,4 +1,4 @@
-const { Button } = VM.require("buildhub.near/widget/components") || {
+const { Button } = VM.require("${config_account}/widget/components") || {
   Button: () => <></>,
 };
 
@@ -102,7 +102,7 @@ return (
     >
       <div>
         <Widget
-          src="devs.near/widget/Common.Compose"
+          src="${alias_devs}/widget/Common.Compose"
           props={{
             placeholder: "What's happening?",
             onChange: state.onChange,
@@ -159,7 +159,7 @@ return (
         <div className="px-3">
           <Widget
             key="post-preview"
-            src="buildhub.near/widget/components.Post"
+            src="${config_account}/widget/components.Post"
             props={{
               accountId: context.accountId,
               content: state.content || { type: "md", text: "" },
@@ -171,7 +171,7 @@ return (
       )}
     </div>
     <Widget
-      src="near/widget/DIG.Toast"
+      src="${alias_near}/widget/DIG.Toast"
       props={{
         title: "Post Submitted Successfully",
         type: "success",

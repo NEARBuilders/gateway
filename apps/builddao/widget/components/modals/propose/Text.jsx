@@ -1,5 +1,5 @@
-const { Button } = VM.require("buildhub.near/widget/components") || {
-  Button: () => <></>
+const { Button } = VM.require("${config_account}/widget/components") || {
+  Button: () => <></>,
 };
 const DaoSDK = VM.require("sdks.near/widget/SDKs.Sputnik.DaoSDK") || (() => {});
 
@@ -160,27 +160,27 @@ return (
       key={memoizedKey}
     >
       <Widget
-        src="mob.near/widget/MarkdownEditorIframe"
+        src="${alias_mob}/widget/MarkdownEditorIframe"
         props={{
           initialText: text,
           embedCss: props.customCSS || MarkdownEditor,
           onChange: (v) => {
             setText(v);
-          }
+          },
         }}
       />
     </TextareaWrapper>
     <Widget
-      src="buildhub.near/widget/notification.NotificationRolesSelector"
+      src="${config_account}/widget/notification.NotificationRolesSelector"
       props={{
         daoId: selectedDAO,
         onUpdate: (v) => {
           setNotificationData(v);
         },
-        proposalType: "Add Member"
+        proposalType: "Add Member",
       }}
     />
-    {console.log(notificationsData)}
+    {/* {console.log(notificationsData)} */}
     <div className="w-100 d-flex">
       <Button
         className="ms-auto"
@@ -190,7 +190,7 @@ return (
             description: text,
             gas: 180000000000000,
             deposit: 200000000000000,
-            additionalCalls: notificationsData
+            additionalCalls: notificationsData,
           });
         }}
       >

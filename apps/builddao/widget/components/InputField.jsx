@@ -23,11 +23,12 @@ const Input = styled.input`
   gap: 10px;
 
   border-radius: 8px;
-  border: 1px solid var(--stroke-color, rgba(255, 255, 255, 0.2));
+  border-width: 1px;
+  border-style: solid;
   background: var(--bg-1, #000000);
-
+  border-color: var(--stroke-color, rgba(255, 255, 255, 0.2));
   flex: 1 0 0;
-
+  outline: none;
   color: var(--font-muted-color, #cdd0d5);
 
   /* Body/16px */
@@ -35,6 +36,12 @@ const Input = styled.input`
   font-style: normal;
   font-weight: 400;
   line-height: 170%; /* 27.2px */
+  &.invalid {
+    border-color: #ed5a5a;
+    :focus-within {
+      border: 1px solid #ed5a5a;
+    }
+  }
 `;
 
 function InputField({
@@ -44,6 +51,7 @@ function InputField({
   placeholder,
   value,
   onChange,
+  error,
   maxWidth,
 }) {
   return (
@@ -55,6 +63,7 @@ function InputField({
       <Input
         key={`input-field-${key}`}
         value={value}
+        className={error ? "invalid" : ""}
         onChange={onChange}
         placeholder={placeholder}
         type={type ?? "text"}

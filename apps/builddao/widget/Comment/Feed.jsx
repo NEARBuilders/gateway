@@ -18,7 +18,7 @@ const renderItem = (a) =>
     <Widget
       key={JSON.stringify(a)}
       loading={<div className="w-100 mb-2" style={{ minHeight: "200px" }} />}
-      src="buildhub.near/widget/Comment.Comment"
+      src="${config_account}/widget/Comment.Comment"
       props={{
         accountId: a.accountId,
         blockHeight: a.blockHeight,
@@ -56,7 +56,7 @@ const ShowMore = styled.div`
 return (
   <Widget
     loading={false}
-    src="mob.near/widget/FilteredIndexFeed"
+    src="${alias_mob}/widget/FilteredIndexFeed"
     props={{
       loading: false,
       index,

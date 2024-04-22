@@ -53,7 +53,8 @@ const Wrapper = styled.div`
   }
 `;
 
-const currentPath = props.currentPath ?? "/buildhub.near/widget/app?page=feed";
+const currentPath =
+  props.currentPath ?? "/${config_account}/widget/app?page=feed";
 
 const [onHashtag] = useState(() => (hashtag) => (
   <span
@@ -72,7 +73,7 @@ const [onImage] = useState(
     props.src && (
       <Widget
         key="content-img"
-        src="mob.near/widget/MainPage.N.Post.Content.Image"
+        src="${alias_mob}/widget/MainPage.N.Post.Content.Image"
         loading={<div className="w-100" style={{ height: "24em" }} />}
         props={{
           image: {
@@ -89,7 +90,7 @@ const onLink = useCallback((props) => {
     // EMBED
     return (
       <Widget
-        src="buildhub.near/widget/components.post.Embed"
+        src="${config_account}/widget/components.post.Embed"
         loading=""
         props={props}
       />
@@ -106,7 +107,7 @@ return (
         <Widget
           key="content"
           loading={<div className="w-100" style={{ height: "100px" }} />}
-          src="mob.near/widget/N.SocialMarkdown"
+          src="${alias_mob}/widget/N.SocialMarkdown"
           props={{
             text: content.text,
             onHashtag,
@@ -118,7 +119,7 @@ return (
       {content.image && (
         <div key="content-img" className="mt-2">
           <Widget
-            src="mob.near/widget/MainPage.N.Post.Content.Image"
+            src="${alias_mob}/widget/MainPage.N.Post.Content.Image"
             loading={<div className="w-100" style={{ height: "24em" }} />}
             props={{ image: content.image, alt: "attached image" }}
           />

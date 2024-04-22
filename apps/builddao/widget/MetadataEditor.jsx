@@ -109,7 +109,7 @@ return (
         </label>
         <CustomImageUpload>
           <Widget
-            src="mob.near/widget/ImageEditorTabs"
+            src="${alias_mob}/widget/ImageEditorTabs"
             props={{
               image: state.image,
               onChange: (image) => State.update({ image }),
@@ -124,7 +124,7 @@ return (
           {options.backgroundImage.label ?? "Background image"}
         </label>
         <Widget
-          src="mob.near/widget/ImageEditorTabs"
+          src="${alias_mob}/widget/ImageEditorTabs"
           props={{
             image: state.backgroundImage,
             onChange: (backgroundImage) => State.update({ backgroundImage }),
@@ -158,7 +158,7 @@ return (
       <CustomTagEditor className="mb-3">
         <label className="mb-2">{options.tags.label ?? "Tags"}</label>
         <Widget
-          src="mob.near/widget/TagsEditor"
+          src="${alias_mob}/widget/TagsEditor"
           props={{
             initialTagsObject: metadata.tags,
             tagsPattern: options.tags.pattern,

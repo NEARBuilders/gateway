@@ -1,5 +1,8 @@
 const image = props.image;
 const onChange = props.onChange;
+const { InputField } = VM.require("${config_account}/widget/components") || {
+  InputField: () => <></>,
+};
 
 const Tab = {
   Upload: "Upload",
@@ -93,6 +96,30 @@ const onImageChange = debounce((e) => {
   });
 });
 
+const Button = styled.div`
+  .btn {
+    all: unset;
+    display: inline-flex;
+    padding: 10px 20px;
+    justify-content: center;
+    align-items: center;
+    gap: 4px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: normal;
+    font-family: "Poppins", sans-serif;
+    transition: all 300ms;
+    background: var(--button-outline-bg, transparent);
+    color: var(--button-outline-color, #fff);
+    border: 1px solid var(--stroke-color, rgba(255, 255, 255, 0.2));
+    &:hover:not(:disabled) {
+      background: var(--button-outline-hover-bg, rgba(255, 255, 255, 0.2));
+      cursor: pointer;
+    }
+  }
+`;
+
 return (
   <div>
     <ul className={`nav nav-tabs`}>
@@ -124,32 +151,51 @@ return (
         </button>
       </li>
     </ul>
-    <div className="p-2">
-      <div className={`${state.tab === Tab.Upload ? "" : "visually-hidden"}`}>
+    <div
+      className="p-2"
+      style={{
+        border: "solid 1px #FFFFFF33",
+        borderTop: 0,
+        borderBottomLeftRadius: ".375rem",
+        borderBottomRightRadius: ".375rem",
+        minHeight: "9em",
+      }}
+    >
+      <Button
+        className={`${state.tab === Tab.Upload ? "" : "visually-hidden"}`}
+      >
         <IpfsImageUpload image={state.img} />
-      </div>
-      <div className={`${state.tab === Tab.NFT ? "" : "visually-hidden"}`}>
-        NFT contract
-        <input
-          type="text"
-          id="contractId"
-          defaultValue={state.nft.contractId}
+      </Button>
+      <div
+        className={`${
+          state.tab === Tab.NFT ? "d-flex flex-column gap-2" : "visually-hidden"
+        }`}
+      >
+        <InputField
+          key={"contractId"}
+          label={"NFT contract"}
+          placeholder={"nft contract id"}
+          value={state.nft.contractId}
           onChange={onNFTChange}
         />
-        NFT token id
-        <input
-          type="text"
-          id="tokenId"
-          defaultValue={state.nft.tokenId}
+        <InputField
+          key={"tokenId"}
+          label={"NFT token id"}
+          placeholder={"nft token id"}
+          value={state.nft.tokenId}
           onChange={onNFTChange}
         />
       </div>
-      <div className={`${state.tab === Tab.URL ? "" : "visually-hidden"}`}>
-        Image URL
-        <input
-          type="text"
-          id="url"
-          defaultValue={state.url}
+      <div
+        className={`${
+          state.tab === Tab.URL ? "d-flex flex-column gap-2" : "visually-hidden"
+        }`}
+      >
+        <InputField
+          key={"url"}
+          label={"Image URL"}
+          placeholder={"image url"}
+          value={state.url}
           onChange={onImageChange}
         />
       </div>
