@@ -148,6 +148,7 @@ const config = {
         path: "${config_account}/widget/Feed",
         blockHeight: "final",
         init: {
+          feedName: "Request",
           name: "Request",
           icon: "bi-file-earmark-text",
           requiredHashtags: ["build", "request"],
@@ -177,9 +178,11 @@ const config = {
         path: "${config_account}/widget/Proposals",
         blockHeight: "final",
         init: {
+          feedName: "Proposals",
           name: "Proposals",
           icon: "bi-file-earmark-text",
           daoId: "build.sputnik-dao.near",
+          template: "",
         },
       },
     },
