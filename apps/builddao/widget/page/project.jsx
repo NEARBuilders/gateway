@@ -8,54 +8,20 @@ const { ProjectLayout } = VM.require(
   ProjectLayout: () => <></>,
 };
 
-const { id } = props;
-const extractNearAddress = (id) => {
-  const parts = id.split("/");
-  if (parts.length > 0) {
-    return parts[0];
-  }
-  return "";
-};
-const accountId = extractNearAddress(id);
-
-const data = JSON.parse(Social.get(id, "final") ?? {});
-if (!id || !data) {
-  return "Loading...";
-}
-
-const project = JSON.parse(data);
-
-const projectSelectedRoutes = routes;
-
-// remove unselected tabs
-if (Array.isArray(project?.tabs)) {
-  Object.keys(projectSelectedRoutes).forEach((key) => {
-    if (!project.tabs.includes(key)) {
-      delete projectSelectedRoutes[key];
-    }
-  });
-}
-
-const profileData = {
-  name: data.title,
-  description: data.description,
-  linktree: {
-    github: data.github,
-    telegram: data.telegram,
-    twitter: data.twitter,
-    website: data.website,
-  },
-  backgroundImage: data.backgroundImage?.image,
-  image: data.profileImage?.image,
-};
-
 const { SidebarLayout } = VM.require(
   "${config_account}/widget/template.SidebarLayout",
 ) || {
   SidebarLayout: () => <></>,
 };
 
-const profile = Social.getr(`${accountId}/profile`);
+const { id } = props;
+
+const data = JSON.parse(Social.get(id, "final") ?? {});
+if (!id || !data) {
+  return "Loading...";
+}
+
+const profile = Social.getr(`${data.projectAccountId}/profile`);
 
 const config = {
   theme: {},
@@ -71,7 +37,7 @@ const config = {
       <>
         <ProjectLayout
           profile={profile}
-          projectAccountId={accountId}
+          projectAccountId={data.projectAccountId}
           page={page}
           routes={config.router.routes}
           project={project}
@@ -92,6 +58,13 @@ const config = {
           ...props,
         },
         default: "true",
+      },
+      activity: {
+        path: "${config_account}/widget/components.project.page.Activity",
+        blockHeight: "final",
+        init: {
+          ...props,
+        },
       },
       discussion: {
         path: "${config_account}/widget/components.project.page.Discussion",
@@ -123,6 +96,28 @@ const config = {
       },
     },
   },
+};
+
+// remove unselected tabs
+if (Array.isArray(data?.tabs)) {
+  Object.keys(config.router.routes).forEach((key) => {
+    if (!data.tabs.includes(key)) {
+      delete config.router.routes[key];
+    }
+  });
+}
+
+const profileData = {
+  name: data.title,
+  description: data.description,
+  linktree: {
+    github: data.github,
+    telegram: data.telegram,
+    twitter: data.twitter,
+    website: data.website,
+  },
+  backgroundImage: data.backgroundImage?.image,
+  image: data.profileImage?.image,
 };
 
 const Root = styled.div`
