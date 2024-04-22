@@ -45,10 +45,12 @@ const toggle = props.toggle;
 
 const tabs = [
   { id: "overview", label: "Overview", disabled: true, checked: true },
-  { id: "discussion", label: "Discussion", checked: false },
-  { id: "tasks", label: "Tasks", checked: false },
-  { id: "code", label: "Code", checked: false },
-  { id: "roadmap", label: "Roadmap", checked: false },
+  { id: "activity", label: "Activity", checked: true },
+  { id: "tasks", label: "Tasks", checked: true },
+  // Uncomment after the support is added
+  // { id: "discussion", label: "Discussion", checked: false },
+  // { id: "code", label: "Code", checked: false },
+  // { id: "roadmap", label: "Roadmap", checked: false },
 ];
 
 const app = props.app ?? "${config_account}";
