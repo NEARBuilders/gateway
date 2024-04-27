@@ -85,7 +85,7 @@ const LogoutView = () => {
           src="https://ipfs.near.social/ipfs/bafkreihbwho3qfvnu4yss3eh5jrx6uxhrlzdgtdjyzyjrpa6odro6wdxya"
           alt="Build DAO Logo"
         />
-        <button onClick={props.logOut}>LogOut</button>
+        <button onClick={props.logOut}>Sign Out</button>
       </div>
       <img
         src="https://ipfs.near.social/ipfs/bafybeibqnkvafyflci4iap73prugmjw4wlwmrazbiudvnsyr34yzmk75i4"
