@@ -190,18 +190,12 @@ return (
           My Profile
         </Link>
       </li>
-      {props.logOut && (
-        <li>
-          <button
-            className="dropdown-item"
-            type="button"
-            onClick={() => props.logOut()}
-          >
-            <LogOut />
-            Sign Out
-          </button>
-        </li>
-      )}
+      <li>
+        <Link className="dropdown-item" type="button" to={"/logout"}>
+          <LogOut />
+          Sign Out
+        </Link>
+      </li>
     </ul>
   </StyledDropdown>
 );

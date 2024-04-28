@@ -10,6 +10,7 @@ export const NetworkId =
 const TestnetWidgets = {
   default: "builddao.testnet/widget/app",
   login: "builddao.testnet/widget/login",
+  logout: "builddao.testnet/widget/logout",
   trialAccountBanner: "builddao.testnet/widget/TrialAccountBanner",
   onboardingFlow: "builddao.testnet/widget/OnboardingFlow",
 
@@ -27,6 +28,7 @@ const TestnetWidgets = {
 const MainnetWidgets = {
   default: "buildhub.near/widget/app",
   login: "buildhub.near/widget/login",
+  logout: "buildhub.near/widget/logout",
   trialAccountBanner: "buildhub.near/widget/TrialAccountBanner",
   onboardingFlow: "buildhub.near/widget/OnboardingFlow",
 

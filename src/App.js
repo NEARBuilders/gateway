@@ -42,6 +42,7 @@ import Viewer from "./pages/Viewer";
 import { KEYPOM_OPTIONS } from "./utils/keypom-options";
 import { TrialAccountGenerator } from "./components/TrialAccountGenerator";
 import { Analytics } from "@vercel/analytics/react";
+import LogoutPage from "./pages/LogoutPage";
 
 export const refreshAllowanceObj = {};
 const documentationHref = "https://docs.near.org/bos/overview";
@@ -212,6 +213,10 @@ function App() {
             <Route path={"/join"}>
               <BosLoaderBanner />
               <JoinPage {...passProps} />
+            </Route>
+            <Route path={"/logout"}>
+              <BosLoaderBanner />
+              <LogoutPage {...passProps} />
             </Route>
             <Route path={"/library"}>
               <Redirect to={`${index}?page=library`} />
