@@ -326,7 +326,7 @@ function Navbar(props) {
             <Button
               variant="primary"
               linkClassName="d-flex"
-              href="https://nearbuilders.org/join"
+              href="${alias_gateway_url}/join"
               noLink={true}
               className="w-100"
             >
@@ -456,7 +456,7 @@ function Navbar(props) {
                   <Button
                     variant="primary"
                     linkClassName="d-flex"
-                    href="https://nearbuilders.org/join"
+                    href="${alias_gateway_url}/join"
                     noLink={true}
                     className="w-100"
                     onClick={() => setDropdown(false)}

@@ -68,7 +68,7 @@ return (
       <LoginContainer>
         <p>Please login in order to post.</p>
         <a
-          href={"https://nearbuilders.org/join"}
+          href={"${alias_gateway_url}/join"}
           style={{ textDecoration: "none" }}
         >
           <Button variant="primary">Login</Button>

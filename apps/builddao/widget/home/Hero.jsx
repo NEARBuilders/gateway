@@ -230,7 +230,7 @@ const Hero = (props) => {
           {currentGateway && !signedIn ? (
             <>
               <a
-                href={"https://nearbuilders.org/join?from=trial"}
+                href={"${alias_gateway_url}/join?from=trial"}
                 style={{ textDecoration: "none" }}
               >
                 <Button style={{ background: "#4A21A5", color: "white" }}>
