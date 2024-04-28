@@ -6,13 +6,13 @@ return (
     props={{
       L: (
         <Widget
-          src="${config_account}/widget/notification.Item.Left"
+          src="${config_account}/widget/Notification.Item.Left"
           props={{ ...value }}
         />
       ),
       R: (
         <Widget
-          src="${config_account}/widget/notification.Item.Right"
+          src="${config_account}/widget/Notification.Item.Right"
           props={{ ...value }}
         />
       ),

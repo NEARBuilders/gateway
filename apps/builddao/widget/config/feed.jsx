@@ -8,7 +8,7 @@ function formatDate(date) {
 }
 
 const daoName = "Build DAO";
-const feedLink = "https://nearbuilders.org/feed";
+const feedLink = "${alias_gateway_url}/feed";
 
 return {
   type: "app", // every.near/type/app

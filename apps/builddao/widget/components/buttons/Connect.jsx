@@ -132,7 +132,7 @@ const Component = () => {
   if (!context.accountId) {
     return (
       <Button
-        href={"https://nearbuilders.org/join"}
+        href={"${alias_gateway_url}/join"}
         variant="primary"
         noLink={true}
       >

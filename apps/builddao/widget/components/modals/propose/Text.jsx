@@ -171,7 +171,7 @@ return (
       />
     </TextareaWrapper>
     <Widget
-      src="${config_account}/widget/notification.NotificationRolesSelector"
+      src="${config_account}/widget/Notification.NotificationRolesSelector"
       props={{
         daoId: selectedDAO,
         onUpdate: (v) => {
