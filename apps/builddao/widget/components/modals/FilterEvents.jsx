@@ -15,6 +15,7 @@ return (
     title={"Filter Events"}
     onOpenChange={toggleModal}
     toggle={toggle}
+    theme={bootstrapTheme}
   >
     <Widget
       src="${config_account}/widget/components.modals.event.Filters"

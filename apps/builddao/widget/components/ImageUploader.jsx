@@ -112,6 +112,7 @@ const Button = styled.div`
     transition: all 300ms;
     background: var(--button-outline-bg, transparent);
     color: var(--button-outline-color, #fff);
+    color: ${props.theme === "light" ? "black" : ""};
     border: 1px solid var(--stroke-color, rgba(255, 255, 255, 0.2));
     &:hover:not(:disabled) {
       background: var(--button-outline-hover-bg, rgba(255, 255, 255, 0.2));
@@ -167,18 +168,19 @@ return (
         <IpfsImageUpload image={state.img} />
       </Button>
       <div
+        data-bs-theme={props.theme}
         className={`${
           state.tab === Tab.NFT ? "d-flex flex-column gap-2" : "visually-hidden"
         }`}
       >
-        <InputField
+        <input
           key={"contractId"}
           label={"NFT contract"}
           placeholder={"nft contract id"}
           value={state.nft.contractId}
           onChange={onNFTChange}
         />
-        <InputField
+        <input
           key={"tokenId"}
           label={"NFT token id"}
           placeholder={"nft token id"}
@@ -187,11 +189,12 @@ return (
         />
       </div>
       <div
+        data-bs-theme={props.theme}
         className={`${
           state.tab === Tab.URL ? "d-flex flex-column gap-2" : "visually-hidden"
         }`}
       >
-        <InputField
+        <input
           key={"url"}
           label={"Image URL"}
           placeholder={"image url"}

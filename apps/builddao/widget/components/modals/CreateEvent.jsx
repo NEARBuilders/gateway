@@ -15,6 +15,7 @@ return (
     title={"Create Event"}
     onOpenChange={toggleModal}
     toggle={toggle}
+    theme={bootstrapTheme}
   >
     <Widget
       src="${config_account}/widget/components.modals.event.Form"
