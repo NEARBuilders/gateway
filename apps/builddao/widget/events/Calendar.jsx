@@ -331,7 +331,10 @@ const CurrentView = () => {
 };
 
 const Container = styled.div`
+  padding: 1rem;
   background: var(--bg-1, #000000);
+  min-height: 80vh;
+  height: 100%;
   ${theme === "light" &&
   `
     background: white;
@@ -353,7 +356,7 @@ return (
         toggleModal: toggleCreateModal,
         app,
         thing,
-        bootstrapTheme: theme,
+        theme: theme,
       }}
     />
     <Widget
@@ -364,7 +367,7 @@ return (
         toggleModal: toggleFilterModal,
         filters: filters,
         setFilters: setFilters,
-        bootstrapTheme: theme,
+        theme: theme,
       }}
     />
     <Toolbar />
