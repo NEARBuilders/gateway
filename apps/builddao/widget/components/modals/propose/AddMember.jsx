@@ -2,11 +2,8 @@ const { Button } = VM.require("${config_account}/widget/components") || {
   Button: () => <></>,
 };
 
-const DaoSDK = VM.require("sdks.near/widget/SDKs.Sputnik.DaoSDK") || (() => {});
-
-if (!DaoSDK) {
-  return <></>;
-}
+const DaoSDK =
+  VM.require("sdks.near/widget/SDKs.Sputnik.DaoSDK") || (() => <></>);
 
 const [accountId, setAccountId] = useState("");
 const [role, setRole] = useState("");
@@ -14,6 +11,9 @@ const roles = props.roles;
 const selectedDAO = props.selectedDAO;
 
 const sdk = DaoSDK(selectedDAO);
+if (!sdk) {
+  return <></>;
+}
 
 const [text, setText] = useState("");
 const [editorKey, setEditorKey] = useState(0);
