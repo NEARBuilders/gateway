@@ -2,13 +2,7 @@ const { Button } = VM.require("${config_account}/widget/components") || {
   Button: () => <></>,
 };
 
-let profile = {};
-
-if (context.accountId) {
-  profile = Social.getr(`${context.accountId}`);
-}
-
-const theme = profile?.calendar?.theme ?? "dark";
+const theme = Storage.get("event_theme") ?? "dark";
 
 const { fetchThings } = VM.require(
   "${config_account}/widget/lib.everything-sdk",
@@ -166,9 +160,7 @@ const Toolbar = () => {
                 justifyContent: "center",
               }}
               onClick={() =>
-                Social.set({
-                  calendar: { theme: theme === "light" ? "dark" : "light" },
-                })
+                Storage.set("event_theme", theme === "light" ? "dark" : "light")
               }
             >
               <i className={theme === "light" ? "bi bi-moon" : "bi bi-sun"}></i>
