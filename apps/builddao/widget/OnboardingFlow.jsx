@@ -6,7 +6,9 @@ const { Modal, Button, ProgressState } = VM.require(
   ProgressState: () => <></>,
 };
 
-const DaoSDK = VM.require("sdks.near/widget/SDKs.Sputnik.DaoSDK");
+const DaoSDK = VM.require("sdks.near/widget/SDKs.Sputnik.DaoSDK") || {
+  DaoSDK: () => {},
+};
 
 const stepsArray = [1, 2, 3];
 

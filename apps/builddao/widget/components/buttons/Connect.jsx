@@ -7,7 +7,9 @@ const { Bullet, Button } = VM.require(
   Bullet: () => <></>,
   Button: () => <></>,
 };
-const DaoSDK = VM.require("sdks.near/widget/SDKs.Sputnik.DaoSDK") || (() => {});
+const DaoSDK = VM.require("sdks.near/widget/SDKs.Sputnik.DaoSDK") || {
+  DaoSDK: () => {},
+};
 
 if (!DaoSDK) {
   return <></>;

@@ -6,7 +6,9 @@ const { Button, Modal } = VM.require("${config_account}/widget/components") || {
 const { Header } = VM.require("${config_account}/widget/components.Header") || {
   Header: () => <></>,
 };
-const DaoSDK = VM.require("sdks.near/widget/SDKs.Sputnik.DaoSDK") || (() => {});
+const DaoSDK = VM.require("sdks.near/widget/SDKs.Sputnik.DaoSDK") || {
+  DaoSDK: () => {},
+};
 
 if (!DaoSDK) {
   return <></>;
