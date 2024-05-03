@@ -223,7 +223,6 @@ const [startTime, setStartTime] = useState(getCurrentTime());
 const [endTime, setEndTime] = useState(getCurrentTime());
 const [location, setLocation] = useState("");
 const [hashtags, setHashtags] = useState([]);
-// const [customButtonSrc, setCustomButtonSrc] = useState("");
 const [repeat, setRepeat] = useState(false);
 const [customModal, setCustomModal] = useState(false);
 const [customFrequency, setCustomFrequency] = useState("weekly");
@@ -280,13 +279,6 @@ const onSubmit = () => {
     Sat: 6,
   };
   const thingId = UUID.generate(); // we could replace this with a normalized title
-  // you mean just UUID();?
-  // recurrence: {
-  //   frequency: "weekly", // "daily", "weekly", "monthly", "yearly"
-  //   interval: 1, // Repeat every interval (e.g., every 1 week)
-  //   daysOfWeek: [1, 3] (1 for Monday, 2 for Tuesday, etc.)
-  //   daysOfYear:[]
-  // }
 
   let recurrence = null;
   switch (repeat) {

@@ -255,40 +255,6 @@ const Purposes = () => {
           </div>
         </Step>
       </StepContainer>
-      {/* <Banner>
-        <div className="container z-2">
-          <h3>
-            Your project & Everything.dev & <span>Create together.</span>
-          </h3>
-          <div className="right">
-            <p>
-              Use a toolkit + workspaces using the app structure from{" "}
-              <a href="https://everything.dev" target="_blank">
-                Everything.dev
-              </a>
-              , with{" "}
-              <span>
-                flexible, customizable type system to support development of any
-                & all open web things.
-              </span>
-            </p>
-            <p className="fw-light">
-              Including SDKs, libraries, apps, docs, groups, etc.
-            </p>
-          </div>
-        </div>
-        <div className="z-2 mt-3 d-flex justify-content-center justify-content-md-start mt-md-4 position-relative">
-          <Button
-            href={`https://near.social/hack.near/widget/app.create`}
-            noLink={true}
-            target="_blank"
-            style={{ width: 60, backgroundColor: "#4A21A5" }}
-          >
-            Try it
-          </Button>
-        </div>
-        <GridImage src={gridLink} />
-      </Banner> */}
     </Container>
   );
 };

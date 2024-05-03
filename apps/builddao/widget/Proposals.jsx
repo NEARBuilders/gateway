@@ -8,10 +8,6 @@ const { Header } = VM.require("${config_account}/widget/components.Header") || {
 };
 const DaoSDK = VM.require("sdks.near/widget/SDKs.Sputnik.DaoSDK") || (() => {});
 
-if (!DaoSDK) {
-  return <></>;
-}
-
 const NotificationModalContainer = styled.div`
   .pb-4 {
     padding-bottom: 0px !important;
@@ -24,6 +20,10 @@ const proposalId = props.proposalId ?? null;
 const sdk = DaoSDK(daoId);
 const [currentPage, setCurrentPage] = useState(0);
 const accountId = context.accountId;
+
+if (!sdk) {
+  return <></>;
+}
 
 const [showProposalModal, setShowModal] = useState(false);
 const [showNotificationModal, setNotificationModal] = useState(false);
@@ -341,7 +341,7 @@ return (
         }}
       />
       <Header asChild>
-        <div className="d-flex justify-content-between">
+        <div className="d-flex justify-content-between w-100 align-items-center">
           <h3 className="text-white">Proposals</h3>
           <div className="d-flex gap-3">
             <Button variant="outline" onClick={() => setFiltersModal(true)}>
