@@ -25,7 +25,7 @@ return (
     <Widget
       src="${config_account}/widget/inspect.WidgetSource"
       props={{
-        src: props.widgetPath,
+        src: props.widgetPath ?? "${config_account}/widget/app",
       }}
       loading=""
     />
