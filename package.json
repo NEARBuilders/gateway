@@ -58,6 +58,7 @@
     "prod:analyze": "yarn prod -- --env presets=analyze",
     "build": "yarn prod",
     "start": "yarn dev",
+    "test": "npx playwright test",
     "lint": "eslint src --ext js,jsx --report-unused-disable-directives --max-warnings 0"
   },
   "eslintConfig": {
@@ -83,6 +84,7 @@
     "@babel/core": "^7.15.5",
     "@babel/preset-env": "^7.15.4",
     "@babel/preset-react": "^7.14.5",
+    "@playwright/test": "^1.43.1",
     "assert": "^2.0.0",
     "babel-loader": "^8.2.2",
     "bos-workspace": "^1.0.0-alpha",
