@@ -4,6 +4,7 @@ const { Button } = VM.require("${config_account}/widget/components") || {
 
 const Container = styled.div`
   display: grid;
+  background: var(--bg-1, #000000);
   grid-template-columns: repeat(5, minmax(0, 1fr));
   gap: 1rem;
 

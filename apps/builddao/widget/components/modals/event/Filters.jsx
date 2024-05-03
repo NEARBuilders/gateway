@@ -2,7 +2,7 @@ const { Button } = VM.require("${config_account}/widget/components") || {
   Button: () => <></>,
 };
 
-const bootstrapTheme = props.bootstrapTheme;
+const theme = props.theme;
 
 const [from, setFrom] = useState(props.filters.from || "");
 const [to, setTo] = useState(props.filters.to || "");
@@ -12,7 +12,7 @@ const [organizers, setOrganizers] = useState(props.filters.organizers || []);
 const [tags, setTags] = useState(props.filters.tags || []);
 
 return (
-  <div data-bs-theme={bootstrapTheme}>
+  <div data-bs-theme={theme}>
     <div className="d-flex align-items-center mb-3" style={{ gap: 24 }}>
       <div className="form-group flex-grow-1">
         <label>From</label>

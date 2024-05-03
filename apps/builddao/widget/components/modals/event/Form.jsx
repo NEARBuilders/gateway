@@ -6,7 +6,7 @@ const { Modal, Button, ProgressState } = VM.require(
   ProgressState: () => <></>,
 };
 
-const bootstrapTheme = props.bootstrapTheme || "dark";
+const theme = props.theme || "dark";
 
 const Wrapper = styled.div`
   .btn-close {
@@ -248,7 +248,7 @@ const RepeatDropDown = () => {
       <select
         name="event-repeat"
         id="event-repeat"
-        data-bs-theme={bootstrapTheme}
+        data-bs-theme={theme}
         class="form-select"
         onChange={(e) => setRepeat(e.target.value)}
         value={repeat}
@@ -411,7 +411,7 @@ const CustomRepeatInputModal = () => {
           <select
             name="custom-frequency"
             id="custom-frequency"
-            data-bs-theme={bootstrapTheme}
+            data-bs-theme={theme}
             class="form-select"
             onChange={(e) => setCustomFrequency(e.target.value)}
             value={customFrequency}
@@ -457,7 +457,7 @@ const CustomRepeatInputModal = () => {
 
 return (
   <Wrapper>
-    <div data-bs-theme={bootstrapTheme}>
+    <div data-bs-theme={theme}>
       <CustomRepeatInputModal />
       <div className="form-group mb-3">
         <label htmlFor="title">
@@ -486,8 +486,7 @@ return (
             props={{
               initialText: description,
               embedCss:
-                props.customCSS ||
-                (bootstrapTheme !== "light" && MarkdownEditor),
+                props.customCSS || (theme !== "light" && MarkdownEditor),
               onChange: (v) => {
                 setDescription(v);
               },
@@ -592,7 +591,7 @@ return (
             onChange={(e) => setLocation(e.target.value)}
           />
         </div>
-        <div className="form-group mb-3" data-bs-theme={bootstrapTheme}>
+        <div className="form-group mb-3" data-bs-theme={theme}>
           <label htmlFor="hashtags">Hashtags</label>
           <Typeahead
             id="hashtags"
@@ -614,7 +613,7 @@ return (
             props={{
               image: state.image,
               onChange: onCoverChange,
-              theme: bootstrapTheme,
+              theme: theme,
             }}
           />
         </div>

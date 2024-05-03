@@ -5,7 +5,7 @@ const { Modal } = VM.require("${config_account}/widget/components") || {
 const showModal = props.showModal;
 const toggleModal = props.toggleModal;
 const toggle = props.toggle;
-const bootstrapTheme = props.bootstrapTheme || "dark";
+const theme = props.theme || "dark";
 const filters = props.filters;
 const setFilters = props.setFilters;
 
@@ -15,13 +15,13 @@ return (
     title={"Filter Events"}
     onOpenChange={toggleModal}
     toggle={toggle}
-    theme={bootstrapTheme}
+    theme={theme}
   >
     <Widget
       src="${config_account}/widget/components.modals.event.Filters"
       loading=""
       props={{
-        bootstrapTheme,
+        theme,
         toggleModal,
         filters,
         setFilters,

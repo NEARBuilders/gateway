@@ -2,13 +2,7 @@ const { Button } = VM.require("${config_account}/widget/components") || {
   Button: () => <></>,
 };
 
-let profile = {};
-
-if (context.accountId) {
-  profile = Social.getr(`${context.accountId}`);
-}
-
-const theme = profile?.calendar?.theme ?? "dark";
+const theme = props.theme || (Storage.get("event_theme") ?? "dark");
 
 const { fetchThings } = VM.require(
   "${config_account}/widget/lib.everything-sdk",
@@ -152,7 +146,7 @@ const Toolbar = () => {
           <button className="date-changer" onClick={() => handleMonthChange(1)}>
             <i className="bi bi-chevron-right"></i>
           </button>
-          {context.accountId && (
+          {(!props.theme || props.hideThemeSwitcher) && (
             <button
               className="date-changer"
               style={{
@@ -166,9 +160,7 @@ const Toolbar = () => {
                 justifyContent: "center",
               }}
               onClick={() =>
-                Social.set({
-                  calendar: { theme: theme === "light" ? "dark" : "light" },
-                })
+                Storage.set("event_theme", theme === "light" ? "dark" : "light")
               }
             >
               <i className={theme === "light" ? "bi bi-moon" : "bi bi-sun"}></i>
@@ -339,7 +331,10 @@ const CurrentView = () => {
 };
 
 const Container = styled.div`
+  padding: 1rem;
   background: var(--bg-1, #000000);
+  min-height: 80vh;
+  height: 100%;
   ${theme === "light" &&
   `
     background: white;
@@ -361,7 +356,7 @@ return (
         toggleModal: toggleCreateModal,
         app,
         thing,
-        bootstrapTheme: theme,
+        theme: theme,
       }}
     />
     <Widget
@@ -372,7 +367,7 @@ return (
         toggleModal: toggleFilterModal,
         filters: filters,
         setFilters: setFilters,
-        bootstrapTheme: theme,
+        theme: theme,
       }}
     />
     <Toolbar />
