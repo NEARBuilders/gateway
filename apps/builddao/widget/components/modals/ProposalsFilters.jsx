@@ -1,9 +1,11 @@
-const { daos } = VM.require("${config_account}/widget/fetch.daos") || {
-  daos: [],
-};
-
+const DaoSDK = VM.require("sdks.near/widget/SDKs.Sputnik.DaoSDK") || (() => {});
+const sdk = DaoSDK("build.sputnik-dao.near");
+if (!sdk) {
+  return <></>;
+}
+const daos = DaoSDK.getDAOs();
 if (!daos) {
-  return "";
+  return <></>;
 }
 const options = daos.map((dao) => dao.contract_id);
 

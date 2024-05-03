@@ -1,3 +1,7 @@
+const { TEMPLATES } = VM.require("${config_account}/widget/feed.templates") || {
+  TEMPLATES: {},
+};
+
 const { SidebarLayout } = VM.require(
   "${config_account}/widget/template.SidebarLayout",
 ) || {
@@ -8,14 +12,6 @@ const { Post } = VM.require("${config_account}/widget/components") || {
   Post: () => <></>,
 };
 
-function formatDate(date) {
-  const options = { year: "numeric", month: "short", day: "numeric" };
-  return date.toLocaleDateString("en-US", options);
-}
-
-const daoName = "Build DAO";
-const feedLink = "${alias_gateway_url}/feed";
-
 const config = {
   theme: {},
   layout: {
@@ -25,9 +21,8 @@ const config = {
     },
   },
   blocks: {
-    // these get passed to the layout and children
     Header: () => <></>,
-    Footer: () => <></>, // customize your footer
+    Footer: () => <></>,
   },
   router: {
     param: "tab",
@@ -51,21 +46,7 @@ const config = {
           name: "Updates",
           icon: "bi-bell",
           requiredHashtags: ["build", "update"],
-          template: `### BUILDER UPDATE:  ${formatDate(new Date())}
-  (posted via [${daoName} Gateway](${feedLink}?tab=update))
-  
-  **✅ DONE**
-  - [what'd you do]
-  - [link proof]
-  
-  **⏩ NEXT**
-  - [what's next?]
-  - [what are you thinking about?]
-  
-  **🛑 BLOCKERS**
-  - [what's blocking you?]
-  - [how can someone help?]
-  `,
+          template: TEMPLATES.updates,
         },
       },
       question: {
@@ -76,12 +57,7 @@ const config = {
           name: "Question",
           icon: "bi-question-lg",
           requiredHashtags: ["build", "question"],
-          template: `## what is your question?
-  (posted via [${daoName} Gateway](${feedLink}?tab=question))
-  
-  [what are you thinking about?]
-  [why are you asking?]
-  `,
+          template: TEMPLATES.question,
         },
       },
       idea: {
@@ -92,15 +68,7 @@ const config = {
           name: "Idea",
           icon: "bi-lightbulb",
           requiredHashtags: ["build", "idea"],
-          template: `## IDEA TITLE
-  (posted via [${daoName} Gateway](${feedLink}?tab=idea))
-  
-  **What idea are you proposing?**
-  - [Describe the idea]
-  
-  **Context or additional information:**
-  - [Provide any context or details]
-  `,
+          template: TEMPLATES.idea,
         },
       },
       feedback: {
@@ -163,15 +131,7 @@ const config = {
               },
             },
           ],
-          template: `## REQUEST TITLE
-(posted via [${daoName} Gateway](${feedLink}?tab=request))
-
-#### Description
-[Detailed description of what the proposal is about.]
-
-#### Why This Proposal?
-[Explanation of why this proposal is necessary or beneficial.]
-`,
+          template: TEMPLATES.request,
         },
       },
       proposals: {
@@ -182,7 +142,6 @@ const config = {
           name: "Proposals",
           icon: "bi-file-earmark-text",
           daoId: "build.sputnik-dao.near",
-          template: "",
         },
       },
     },
