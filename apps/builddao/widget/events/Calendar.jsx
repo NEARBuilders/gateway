@@ -2,7 +2,7 @@ const { Button } = VM.require("${config_account}/widget/components") || {
   Button: () => <></>,
 };
 
-const theme = Storage.get("event_theme") ?? "dark";
+const theme = props.theme || (Storage.get("event_theme") ?? "dark");
 
 const { fetchThings } = VM.require(
   "${config_account}/widget/lib.everything-sdk",
@@ -146,26 +146,32 @@ const Toolbar = () => {
           <button className="date-changer" onClick={() => handleMonthChange(1)}>
             <i className="bi bi-chevron-right"></i>
           </button>
-          {context.accountId && (
-            <button
-              className="date-changer"
-              style={{
-                border: `1px solid ${theme === "light" ? "#cdcdcd" : "rgba(255, 255, 255, 0.2)"}`,
-                padding: "4px 12px",
-                widht: "32px",
-                height: "32px",
-                borderRadius: "8px",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-              }}
-              onClick={() =>
-                Storage.set("event_theme", theme === "light" ? "dark" : "light")
-              }
-            >
-              <i className={theme === "light" ? "bi bi-moon" : "bi bi-sun"}></i>
-            </button>
-          )}
+          {props.theme ||
+            (props.hideThemeSwitcher && (
+              <button
+                className="date-changer"
+                style={{
+                  border: `1px solid ${theme === "light" ? "#cdcdcd" : "rgba(255, 255, 255, 0.2)"}`,
+                  padding: "4px 12px",
+                  widht: "32px",
+                  height: "32px",
+                  borderRadius: "8px",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+                onClick={() =>
+                  Storage.set(
+                    "event_theme",
+                    theme === "light" ? "dark" : "light",
+                  )
+                }
+              >
+                <i
+                  className={theme === "light" ? "bi bi-moon" : "bi bi-sun"}
+                ></i>
+              </button>
+            ))}
         </div>
       </HeaderLeft>
       <HeaderCenter>
