@@ -1,9 +1,7 @@
 const { Button } = VM.require("${config_account}/widget/components") || {
   Button: () => <></>,
 };
-const DaoSDK = VM.require("sdks.near/widget/SDKs.Sputnik.DaoSDK") || {
-  DaoSDK: () => {},
-};
+const DaoSDK = VM.require("sdks.near/widget/SDKs.Sputnik.DaoSDK") || (() => {});
 if (!DaoSDK) {
   return <></>;
 }
@@ -23,6 +21,10 @@ const selectedDAO = props.selectedDAO;
 const [notificationsData, setNotificationData] = useState(null);
 
 const sdk = DaoSDK(selectedDAO);
+if (!sdk) {
+  return <></>;
+}
+
 const MarkdownEditor = `
   html {
     background: #23242b;
