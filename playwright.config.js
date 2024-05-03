@@ -49,7 +49,9 @@ export default defineConfig({
           localStorage: [
             {
               name: "flags",
-              value: JSON.stringify({ bosLoaderUrl: "http://127.0.0.1:8080/api/loader" }),
+              value: JSON.stringify({
+                bosLoaderUrl: "http://127.0.0.1:8080/api/loader",
+              }),
             },
           ],
         },
