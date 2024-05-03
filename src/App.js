@@ -2,6 +2,7 @@ import { setupKeypom } from "@keypom/selector";
 import { setupWalletSelector } from "@near-wallet-selector/core";
 import { setupHereWallet } from "@near-wallet-selector/here-wallet";
 import { setupMeteorWallet } from "@near-wallet-selector/meteor-wallet";
+import { setupMintbaseWallet } from "@near-wallet-selector/mintbase-wallet";
 import { setupModal } from "@near-wallet-selector/modal-ui";
 import "@near-wallet-selector/modal-ui/styles.css";
 import { setupMyNearWallet } from "@near-wallet-selector/my-near-wallet";
@@ -76,6 +77,12 @@ function App() {
             setupMyNearWallet(),
             setupSender(),
             setupHereWallet(),
+            setupMintbaseWallet({
+              networkId: NetworkId,
+              walletUrl: "https://wallet.mintbase.xyz",
+              callbackUrl: "https://www.nearbuilders.org",
+              deprecated: false,
+            }),
             setupMeteorWallet(),
             setupNeth({
               gas: "300000000000000",

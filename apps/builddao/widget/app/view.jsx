@@ -43,9 +43,11 @@ if (!config) {
   );
 }
 
-const { Layout } =
-  VM.require(config.layout?.src ?? "${alias_devs}/widget/Layout") ||
-  (() => <></>);
+const { Layout } = VM.require(
+  config.layout?.src ?? "${alias_devs}/widget/Layout",
+) || {
+  Layout: () => <></>,
+};
 
 // While something like Theme should be in the parent...
 const CSS = styled.div`
