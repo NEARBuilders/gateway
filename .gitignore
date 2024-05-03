@@ -12,6 +12,9 @@
 /build
 /dist
 
+# bos workspace
+apps/builddao/data.json
+
 # misc
 .DS_Store
 .env.local

@@ -8,7 +8,7 @@ const { Modal, Hashtag, Button } = VM.require(
 
 const currentDate = props.currentDate || new Date();
 const events = props.events || [];
-
+const theme = props.theme;
 const [parsedEvents, setParsedEvents] = useState(events);
 
 // update events recurring data according to calender library requirements (ref: https://fullcalendar.io/docs/recurring-events)
@@ -40,7 +40,7 @@ useEffect(() => {
   }
 }, [events]);
 
-const customCSS = `
+const customCSSDark = `
   :root {
     --fc-page-bg-color: var(--bg-color, #000000);
     --fc-border-color: var(--stroke-color, rgba(255, 255, 255, 0.20));
@@ -105,7 +105,82 @@ const customCSS = `
   }
 `;
 
-const embedCss = props.embedCss || customCSS;
+const customCSSLight = `
+  :root {
+    --fc-page-bg-color: var(--bg-color, #fff);
+    --fc-border-color: var(--stroke-color, #fff);
+    --fc-today-bg-color: #ededed;
+  }
+
+  body {
+    margin: 0;
+  }
+
+  html {
+    background-color: var(--fc-page-bg-color);
+    color: var(--text-color, #000);
+    font-family: sans-serif;
+  }
+
+  /* FC Header */
+  .fc-col-header-cell {
+    background: var(--bg-2, #ededed);
+    .fc-col-header-cell-cushion {
+      display: block;
+      text-align: left;
+      font-size: 16px;
+      font-style: normal;
+      font-weight: 400;
+      line-height: 170%; /* 27.2px */
+      padding: 10px;
+    }
+  }
+
+  /* FC Day */
+  .fc-day-today {
+    .fc-daygrid-day-frame {
+      background: var(--fc-today-bg-color, #fff);
+    }
+  }
+
+  .fc .fc-daygrid-event-harness {
+    a {
+      color: var(--text-color, #000);
+    }
+  }
+
+  .fc-day-other {
+    .fc-daygrid-day-frame {
+      background: var(--bg-1, #cdcdcd);
+    }
+  }
+
+  .fc-daygrid-day-frame {
+    padding: 10px;
+    background: var(--bg-2, #fff);
+  }
+  .fc .fc-daygrid-day-top {
+    flex-direction: row;
+    .fc-daygrid-day-number {
+      font-size: 16px;
+      font-style: normal;
+      font-weight: 400;
+      line-height: 170%; /* 27.2px */
+    }
+  }
+`;
+
+const EventModal = styled.div`
+  ${props.theme === "light" &&
+  `
+
+  background: white !important;
+  color: black;
+`}
+`;
+
+const embedCss =
+  props.embedCss ?? theme === "light" ? customCSSLight : customCSSDark;
 
 const code = `
 <script src='https://cdn.jsdelivr.net/npm/fullcalendar/index.global.js'></script>
@@ -198,7 +273,13 @@ return (
       }}
     />
     {data && (
-      <Modal open={showModal} onOpenChange={toggleModal} title={data.title}>
+      <Modal
+        className="modal-view"
+        open={showModal}
+        onOpenChange={toggleModal}
+        title={data.title}
+        theme={props.theme}
+      >
         <div style={{ maxWidth: 600 }}>
           <div className="mb-3 d-flex align-items-center gap-5 flex-wrap">
             <span>

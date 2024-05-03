@@ -485,7 +485,9 @@ return (
             src="${alias_mob}/widget/MarkdownEditorIframe"
             props={{
               initialText: description,
-              embedCss: props.customCSS || MarkdownEditor,
+              embedCss:
+                props.customCSS ||
+                (bootstrapTheme !== "light" && MarkdownEditor),
               onChange: (v) => {
                 setDescription(v);
               },
@@ -609,7 +611,11 @@ return (
           <Widget
             src="${config_account}/widget/components.ImageUploader"
             loading=""
-            props={{ image: state.image, onChange: onCoverChange }}
+            props={{
+              image: state.image,
+              onChange: onCoverChange,
+              theme: bootstrapTheme,
+            }}
           />
         </div>
       </div>
