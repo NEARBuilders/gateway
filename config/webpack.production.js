@@ -12,13 +12,6 @@ module.exports = () => {
     devtool: false,
     module: {
       rules: [
-        // {
-        //   test: /\.(css)$/,
-        //   use: [MiniCssExtractPlugin.loader, "css-loader"],
-        //   //   options: {
-        //   //     sourceMap: false,
-        //   //   },
-        // },
         {
           test: /\.(scss|css)$/,
           use: [
