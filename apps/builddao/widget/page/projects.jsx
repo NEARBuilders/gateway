@@ -29,7 +29,6 @@ const flattenObject = (obj) => {
   return paths;
 };
 
-// ${alias_devs}/project/name-of-the-project
 const fetchProjects = () => {
   const keys = Social.keys(`*/${app}/${type}/*`, "final", {
     order: "desc",

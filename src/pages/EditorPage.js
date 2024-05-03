@@ -117,7 +117,7 @@ export default function EditorPage(props) {
   const [showRenameModal, setShowRenameModal] = useState(false);
   const [showOpenModal, setShowOpenModal] = useState(false);
   const [allSaved, setAllSaved] = useState({});
-  const [uncommittedPreviews, setUncommittedPreviews] = useState(
+  const [uncommittedPreviews] = useState(
     ls.get(EditorUncommittedPreviewsKey) ?? false,
   );
   const [widgetConfig, setWidgetConfig] = useState(undefined);
@@ -284,7 +284,6 @@ export default function EditorPage(props) {
           c,
         );
         if (code) {
-          // const name = widgetSrc.split("/").slice(2).join("/");
           openFile(toPath(Filetype.Widget, widgetSrc), code);
         }
       };
@@ -670,7 +669,6 @@ export default function EditorPage(props) {
         </div>
         <div className="flex-grow-1">
           <div
-            // className="row"
             style={{
               display: "flex",
               flexWrap: "wrap",
@@ -784,7 +782,6 @@ export default function EditorPage(props) {
                 </div>
                 <div className="ms-4 mb-3 d-flex gap-3 flex-wrap">
                   <Button
-                    // className="btn btn-success"
                     onClick={() => {
                       renderPreview(code);
                       if (layout === Layout.Tabs) {
@@ -801,44 +798,12 @@ export default function EditorPage(props) {
                       background: "#000000",
                       border: "1px solid white",
                     }}
-                    // className={`btn ${
-                    //   path?.unnamed ? "btn-primary" : "btn-secondary"
-                    // }`}
                     onClick={() => {
                       setShowRenameModal(true);
                     }}
                   >
                     Rename {path?.type}
                   </Button>
-                  {/* {path && accountId && (
-                    <a
-                      key="open-comp"
-                      className="btn btn-outline-primary"
-                      href={`/${widgetPath}`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      Open Component in a new tab
-                    </a>
-                  )} */}
-                  {/* <button
-                    type="button"
-                    onClick={() => {
-                      const v = !uncommittedPreviews;
-                      ls.set(EditorUncommittedPreviewsKey, v);
-                      setUncommittedPreviews(v);
-                      setWidgetConfig(generateWidgetConfig(v));
-                    }}
-                    className={`btn btn-outline-secondary ${
-                      uncommittedPreviews ? "active" : ""
-                    }`}
-                    data-toggle="button"
-                    aria-pressed={uncommittedPreviews}
-                    title="When enabled, the preview uses uncommitted code from all opened files"
-                  >
-                    <i className="bi bi-asterisk"></i> Multi-file previews (
-                    {uncommittedPreviews ? "ON" : "OFF"})
-                  </button> */}
                 </div>
               </div>
               <div className={`${tab === Tab.Props ? "" : "visually-hidden"}`}>
