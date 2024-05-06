@@ -458,7 +458,16 @@ return (
           <Typeahead
             multiple
             options={
-              props.tagFilters ?? ["Community", "Open Source", "Weekly", "DAO"]
+              props.tagFilters ?? [
+                "Community",
+                "Open Source",
+                "Social Impact",
+                "DAO",
+                "Climate",
+                "Public Good",
+                "Education",
+                "Community",
+              ]
             }
             allowNew
             placeholder="Start Typing"
