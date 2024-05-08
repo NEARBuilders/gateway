@@ -55,6 +55,14 @@ const tabs = [
 
 const app = props.app ?? "${config_account}";
 
+const poltlockProjectId = props.poltlockProjectId;
+const potlockProjectProfile = null;
+const potlockProjectTags = null;
+
+if (poltlockProjectId) {
+  potlockProjectProfile = Social.getr(`${poltlockProjectId}/profile`);
+}
+
 const [tags, setTags] = useState(props.filters.tags ?? []);
 const [projectAccount, setProjectAccount] = useState(accountId);
 const [title, setTitle] = useState("");
@@ -73,6 +81,33 @@ const [coverImage, setCoverImage] = useState("");
 const [teamSize, setTeamSize] = useState(teamSize ?? "");
 const [invalidContributorFound, setInvalidContributorFound] = useState(false);
 const [invalidProjectAccount, setInvalidProjectAccount] = useState(false);
+
+useEffect(() => {
+  if (potlockProjectProfile && !title) {
+    const {
+      name,
+      description,
+      image,
+      backgroundImage,
+      linktree,
+      plTeam,
+      plCategories,
+    } = potlockProjectProfile;
+    setTitle(name);
+    setDescription(description);
+    setContributors(JSON.parse(plTeam ?? "[]"));
+    setTwitter(
+      linktree.twitter ? `https://twitter.com/${linktree.twitter}` : null,
+    );
+    setGitHub(linktree.github ? `https://github.com/${linktree.github}` : null);
+    setTelegram(linktree.telegram ? `https://t.me/${linktree.telegram}` : null);
+    setWebsite(linktree.website);
+    setAvatar(image);
+    setCoverImage(backgroundImage);
+    setProjectAccount(poltlockProjectId);
+    setTags(JSON.parse(plCategories ?? "[]"));
+  }
+}, [potlockProjectProfile]);
 
 const handleCheckboxChange = (event) => {
   const { id } = event.target;

@@ -25,6 +25,7 @@ const isRegisteredProject = allRegistrations.find(
   (registration) => registration.registrant_id === accountId,
 );
 
+const [showCreateModalProjectId, setShowCreateModalProjectId] = useState(null);
 const [projects, approvedProjects] = useMemo(() => {
   allRegistrations.sort((a, b) =>
     b.status === "Approved"
@@ -141,6 +142,7 @@ const ProjectsComponent = useMemo(() => {
               ...props,
               projectId: project.registrant_id,
               allowDonate: false,
+              setShowCreateModalProjectId: setShowCreateModalProjectId,
             }}
           />
         );
@@ -148,6 +150,20 @@ const ProjectsComponent = useMemo(() => {
     </ProjectList>
   );
 }, [filteredProjects]);
+
+if (showCreateModalProjectId) {
+  return (
+    <Widget
+      src="${config_account}/widget/components.modals.projects.Create"
+      loading=""
+      props={{
+        showModal: !!showCreateModalProjectId,
+        toggleModal: (v) => setShowCreateModalProjectId(v),
+        poltlockProjectId: showCreateModalProjectId,
+      }}
+    />
+  );
+}
 
 return (
   <Modal

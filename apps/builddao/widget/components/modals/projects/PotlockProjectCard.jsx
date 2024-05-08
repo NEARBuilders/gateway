@@ -37,12 +37,6 @@ let DonateSDK =
   }));
 DonateSDK = DonateSDK({ env: "production" });
 
-const CardLink = styled("Link")`
-  &:hover {
-    text-decoration: none;
-  }
-`;
-
 const Card = styled.div`
   display: flex;
   flex-direction: column;
@@ -59,6 +53,7 @@ const Card = styled.div`
   &:hover {
     transform: translateY(-0.5rem);
   }
+  cursor: pointer;
 `;
 
 const HeaderContainer = styled.div`
@@ -334,8 +329,6 @@ const [totalAmountNear, totalDonors] = useMemo(() => {
   return [totalDonationAmountNear.toString(), donors.length];
 }, [donationsForProject]);
 
-const projectUrl = `?tab=project&projectId=${projectId}${potId ? "&potId=" + potId : ""}`;
-
 const getImageSrc = (image) => {
   const defaultImageUrl =
     "https://ipfs.near.social/ipfs/bafkreih4i6kftb34wpdzcuvgafozxz6tk6u4f5kcr2gwvtvxikvwriteci";
@@ -370,83 +363,81 @@ const profileImageStyle = {
 const tags = getTagsFromSocialProfileData(profile);
 
 return (
-  <>
-    <CardLink href={projectUrl} key={projectId}>
-      <Card>
-        <HeaderContainer className="pt-0 position-relative">
-          <BackgroundImageContainer>
-            {profile.backgroundImage?.nft ? (
-              <Widget
-                src="mob.near/widget/Image"
-                props={{
-                  image: profile.backgroundImage,
-                  alt: "background",
-                  className: "position-absolute w-100",
-                  style: backgroundImageStyle,
-                  fallbackUrl:
-                    "https://ipfs.near.social/ipfs/bafkreih4i6kftb34wpdzcuvgafozxz6tk6u4f5kcr2gwvtvxikvwriteci",
-                }}
-              />
-            ) : (
-              <img
-                className="position-absolute w-100"
-                style={backgroundImageStyle}
-                src={getImageSrc(profile.backgroundImage)}
-                alt="background"
-              />
-            )}
-          </BackgroundImageContainer>
-          <ProfileImageContainer class="profile-picture d-inline-block">
-            {profile.image?.nft ? (
-              <Widget
-                src="mob.near/widget/Image"
-                props={{
-                  image: profile.image,
-                  alt: "avatar",
-                  className: "rounded-circle w-100 img-thumbnail d-block",
-                  style: profileImageStyle,
-                  fallbackUrl:
-                    "https://ipfs.near.social/ipfs/bafkreih4i6kftb34wpdzcuvgafozxz6tk6u4f5kcr2gwvtvxikvwriteci",
-                }}
-              />
-            ) : (
-              <img
-                className="rounded-circle w-100 img-thumbnail d-block"
-                style={profileImageStyle}
-                src={getImageSrc(profile.image)}
-                alt="avatar"
-              />
-            )}
-          </ProfileImageContainer>
-        </HeaderContainer>
-        <Info>
-          <Title>{_address(name, 30) || _address(projectId, 30)}</Title>
-          <SubTitle>
-            {description.length > MAX_DESCRIPTION_LENGTH
-              ? description.slice(0, MAX_DESCRIPTION_LENGTH) + "..."
-              : description}
-          </SubTitle>
-          {!tags.length ? (
-            "No tags"
+  <div onClick={() => props.setShowCreateModalProjectId(projectId)}>
+    <Card>
+      <HeaderContainer className="pt-0 position-relative">
+        <BackgroundImageContainer>
+          {profile.backgroundImage?.nft ? (
+            <Widget
+              src="mob.near/widget/Image"
+              props={{
+                image: profile.backgroundImage,
+                alt: "background",
+                className: "position-absolute w-100",
+                style: backgroundImageStyle,
+                fallbackUrl:
+                  "https://ipfs.near.social/ipfs/bafkreih4i6kftb34wpdzcuvgafozxz6tk6u4f5kcr2gwvtvxikvwriteci",
+              }}
+            />
           ) : (
-            <Tags>
-              {tags.map((tag, tagIndex) => (
-                <Tag key={tagIndex}>{tag}</Tag>
-              ))}
-            </Tags>
+            <img
+              className="position-absolute w-100"
+              style={backgroundImageStyle}
+              src={getImageSrc(profile.backgroundImage)}
+              alt="background"
+            />
           )}
-        </Info>
-        <DonationsInfoContainer>
-          <DonationsInfoItem>
-            <Amount>
-              {totalAmountNear
-                ? yoctosToUsdWithFallback(totalAmountNear, true)
-                : "-"}
-            </Amount>
-            <AmountDescriptor>Raised</AmountDescriptor>
-          </DonationsInfoItem>
-        </DonationsInfoContainer>
-      </Card>
-    </CardLink>
-  </>
+        </BackgroundImageContainer>
+        <ProfileImageContainer class="profile-picture d-inline-block">
+          {profile.image?.nft ? (
+            <Widget
+              src="mob.near/widget/Image"
+              props={{
+                image: profile.image,
+                alt: "avatar",
+                className: "rounded-circle w-100 img-thumbnail d-block",
+                style: profileImageStyle,
+                fallbackUrl:
+                  "https://ipfs.near.social/ipfs/bafkreih4i6kftb34wpdzcuvgafozxz6tk6u4f5kcr2gwvtvxikvwriteci",
+              }}
+            />
+          ) : (
+            <img
+              className="rounded-circle w-100 img-thumbnail d-block"
+              style={profileImageStyle}
+              src={getImageSrc(profile.image)}
+              alt="avatar"
+            />
+          )}
+        </ProfileImageContainer>
+      </HeaderContainer>
+      <Info>
+        <Title>{_address(name, 30) || _address(projectId, 30)}</Title>
+        <SubTitle>
+          {description.length > MAX_DESCRIPTION_LENGTH
+            ? description.slice(0, MAX_DESCRIPTION_LENGTH) + "..."
+            : description}
+        </SubTitle>
+        {!tags.length ? (
+          "No tags"
+        ) : (
+          <Tags>
+            {tags.map((tag, tagIndex) => (
+              <Tag key={tagIndex}>{tag}</Tag>
+            ))}
+          </Tags>
+        )}
+      </Info>
+      <DonationsInfoContainer>
+        <DonationsInfoItem>
+          <Amount>
+            {totalAmountNear
+              ? yoctosToUsdWithFallback(totalAmountNear, true)
+              : "-"}
+          </Amount>
+          <AmountDescriptor>Raised</AmountDescriptor>
+        </DonationsInfoItem>
+      </DonationsInfoContainer>
+    </Card>
+  </div>
 );
