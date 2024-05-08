@@ -120,7 +120,7 @@ const ProjectsComponent = useMemo(() => {
   const shuffledProjects = shuffleArray(filteredProjects || []);
   return (
     <ProjectList>
-      {(shuffledProjects || []).slice(0, 12).map((project) => {
+      {(shuffledProjects || []).slice(0, 18).map((project) => {
         return (
           <Widget
             src={

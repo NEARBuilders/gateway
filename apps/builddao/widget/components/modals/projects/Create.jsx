@@ -101,7 +101,13 @@ useEffect(() => {
     );
     setGitHub(linktree.github ? `https://github.com/${linktree.github}` : null);
     setTelegram(linktree.telegram ? `https://t.me/${linktree.telegram}` : null);
-    setWebsite(linktree.website);
+    setWebsite(
+      linktree.website
+        ? linktree.website.includes("https://")
+          ? linktree.website
+          : `https://${linktree.website}`
+        : null,
+    );
     setAvatar(image);
     setCoverImage(backgroundImage);
     setProjectAccount(poltlockProjectId);

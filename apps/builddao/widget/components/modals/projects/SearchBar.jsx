@@ -137,7 +137,7 @@ return (
       </SearchIcon>
       <SearchBarInput
         value={searchTerm}
-        placeholder={`Search (${numItems}) ${numItems === 1 ? itemName : itemName + "s"}`}
+        placeholder={`Search projects`}
         onChange={(e) => onSearchChange(e.target.value)}
         type="text"
         autocomplete="search"
