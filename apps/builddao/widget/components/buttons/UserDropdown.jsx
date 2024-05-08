@@ -178,13 +178,17 @@ return (
         <Link
           className="dropdown-item"
           type="button"
-          to={href({
-            widgetSrc: "${config_account}/widget/app",
-            params: {
-              page: "profile",
-              accountId: context.accountId,
-            },
-          })}
+          to={
+            !props.fromGateway
+              ? href({
+                  widgetSrc: "${config_account}/widget/app",
+                  params: {
+                    page: "profile",
+                    accountId: context.accountId,
+                  },
+                })
+              : `/profile/${context.accountId}`
+          }
         >
           <User />
           My Profile

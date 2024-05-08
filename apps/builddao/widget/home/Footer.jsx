@@ -116,10 +116,10 @@ const XIcon = () => (
   </svg>
 );
 
-const Footer = ({ noBanner }) => {
+const Footer = (props) => {
   return (
     <Container className="container-xl">
-      {!noBanner && (
+      {!props.noBanner && (
         <Card>
           <div className="d-flex flex-column align-items-center">
             <img src="https://ipfs.near.social/ipfs/bafkreifotevq6g6ralhvutlcssaasa7xbfjjc6mbo5hlnvgpxxgfmwswmq" />
@@ -133,6 +133,7 @@ const Footer = ({ noBanner }) => {
               joinBtnChildren: "Join Now",
               showActivity: true,
               className: "custom-button",
+              fromGateway: props.fromGateway,
             }}
           />
         </Card>

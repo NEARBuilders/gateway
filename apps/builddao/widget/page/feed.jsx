@@ -154,8 +154,10 @@ return (
   <Root>
     <SidebarLayout
       currentPath={"/${config_account}/widget/app?page=feed"}
+      currentPage={"feed"}
       page={props.tab}
       routes={config.router.routes}
+      fromGateway={props.fromGateway}
     >
       <Widget
         src="${config_account}/widget/app.view"

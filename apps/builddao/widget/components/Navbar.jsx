@@ -211,6 +211,7 @@ const MobileContent = styled.div`
 function Navbar(props) {
   const { page, routes } = props;
   const [dropdown, setDropdown] = useState(false);
+  const fromGateway = props.fromGateway ?? false;
 
   const toggleDropdown = () => {
     setDropdown((prev) => !prev);
@@ -221,12 +222,16 @@ function Navbar(props) {
       <MainContent className="container-xl">
         <Left>
           <Link
-            to={href({
-              widgetSrc: "${config_account}/widget/app",
-              params: {
-                page: "home",
-              },
-            })}
+            to={
+              !fromGateway
+                ? href({
+                    widgetSrc: "${config_account}/widget/app",
+                    params: {
+                      page: "home",
+                    },
+                  })
+                : `/`
+            }
             className="d-flex align-items-center"
           >
             <img
@@ -246,12 +251,18 @@ function Navbar(props) {
                   <Link
                     key={`desktop=${k}`}
                     style={{ textDecoration: "none" }}
-                    to={href({
-                      widgetSrc: "${config_account}/widget/app",
-                      params: {
-                        page: k,
-                      },
-                    })}
+                    to={
+                      !fromGateway
+                        ? href({
+                            widgetSrc: "${config_account}/widget/app",
+                            params: {
+                              page: k,
+                            },
+                          })
+                        : k === "home"
+                          ? "/"
+                          : `/${k}`
+                    }
                   >
                     <span key={k} className={page === k ? "active" : null}>
                       {route.init.icon && <i className={route.init.icon}></i>}
@@ -286,13 +297,17 @@ function Navbar(props) {
                 <li>
                   <Link
                     style={{ textDecoration: "none" }}
-                    href={href({
-                      widgetSrc: "${config_account}/widget/app",
-                      params: {
-                        page: "inspect",
-                        widgetPath: routes[page].path,
-                      },
-                    })}
+                    href={
+                      !fromGateway
+                        ? href({
+                            widgetSrc: "${config_account}/widget/app",
+                            params: {
+                              page: "inspect",
+                              widgetPath: routes[page].path,
+                            },
+                          })
+                        : `/inspect/${routes[page].path}`
+                    }
                     type="icon"
                     variant="outline"
                     className="d-flex align-tiems-center gap-2"
@@ -425,13 +440,17 @@ function Navbar(props) {
                 <Button
                   linkClassName="d-flex w-100"
                   className="w-100"
-                  href={href({
-                    widgetSrc: "${config_account}/widget/app",
-                    params: {
-                      page: "inspect",
-                      widgetPath: routes[page].path,
-                    },
-                  })}
+                  href={
+                    !fromGateway
+                      ? href({
+                          widgetSrc: "${config_account}/widget/app",
+                          params: {
+                            page: "inspect",
+                            widgetPath: routes[page].path,
+                          },
+                        })
+                      : `/inspect/${routes[page].path}`
+                  }
                 >
                   <span>View source</span>
                 </Button>
