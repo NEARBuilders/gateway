@@ -11,7 +11,7 @@ const LoginContainer = styled.div`
 
   img {
     width: 100%;
-    max-height: 100vh;
+    min-height: 100vh;
     object-fit: cover;
     object-position: center top;
     position: absolute;
