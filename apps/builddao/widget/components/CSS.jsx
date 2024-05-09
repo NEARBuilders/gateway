@@ -198,6 +198,10 @@ const CSS = styled.div`
     background: #007bff;
     color: #fff;
   }
+
+  .placeholder-glow {
+    background: var(--bg-1, black);
+  }
 `;
 
 return { CSS };

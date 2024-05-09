@@ -9,7 +9,7 @@ const config = {
     "--secondary-color": "white",
     background: "var(--main-color)",
     color: "var(--secondary-color)",
-    height: "100vh",
+    height: "100%",
   },
   layout: {
     src: "${alias_devs}/widget/Layout",
@@ -97,6 +97,14 @@ const config = {
         blockHeight: "final",
         init: {
           name: "Project Page",
+        },
+        hide: true,
+      },
+      notifications: {
+        path: "${config_account}/widget/page.notifications",
+        blockHeight: "final",
+        init: {
+          name: "Notifications",
         },
         hide: true,
       },

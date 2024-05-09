@@ -204,6 +204,25 @@ const MobileContent = styled.div`
   justify-content: space-between;
 `;
 
+const getNotificationCount = () => {
+  const notificationFeedSrc = "mob.near/widget/NotificationFeed";
+
+  const lastBlockHeight = Storage.get("lastBlockHeight", notificationFeedSrc);
+  if (lastBlockHeight === null) {
+    return "";
+  }
+
+  const notifications = Social.index("notify", context.accountId, {
+    order: "asc",
+    from: (lastBlockHeight ?? 0) + 1,
+    // subscribe: true,
+  });
+
+  return notifications.length;
+};
+
+const unreadNotifications = getNotificationCount();
+
 function Navbar(props) {
   const { page, routes } = props;
   const [dropdown, setDropdown] = useState(false);
@@ -259,6 +278,37 @@ function Navbar(props) {
           </NavLinks>
         </Left>
         <Right>
+          {context.accountId && (
+            <Button
+              className="rounded-3 position-relative"
+              type="icon"
+              href={href({
+                widgetSrc: "${config_account}/widget/app",
+                params: {
+                  page: "notifications",
+                },
+              })}
+            >
+              <i className="bi bi-bell"></i>
+              {unreadNotifications > 0 && (
+                <div
+                  className="position-absolute d-flex align-items-center justify-content-center text-white fw-bold"
+                  style={{
+                    top: 0,
+                    background: "red",
+                    borderRadius: "100%",
+                    right: 0,
+                    width: 18,
+                    height: 18,
+                    fontSize: 10,
+                    margin: -4,
+                  }}
+                >
+                  {unreadNotifications}
+                </div>
+              )}
+            </Button>
+          )}
           <div
             style={{
               flex: 1,
@@ -347,14 +397,46 @@ function Navbar(props) {
               alt="BuildDAO"
             />
           </Link>
-          <Button
-            type="icon"
-            variant="outline"
-            className="rounded-2 border-0"
-            onClick={toggleDropdown}
-          >
-            <i style={{ fontSize: 24 }} className="bi bi-list"></i>
-          </Button>
+          <div className="d-flex align-items-center gap-2">
+            {context.accountId && (
+              <Button
+                className="rounded-3 position-relative"
+                type="icon"
+                href={href({
+                  widgetSrc: "${config_account}/widget/app",
+                  params: {
+                    page: "notifications",
+                  },
+                })}
+              >
+                <i className="bi bi-bell"></i>
+                {unreadNotifications > 0 && (
+                  <div
+                    className="position-absolute d-flex align-items-center justify-content-center text-white fw-bold"
+                    style={{
+                      top: 0,
+                      background: "red",
+                      borderRadius: "100%",
+                      right: 0,
+                      width: 18,
+                      height: 18,
+                      fontSize: 10,
+                      margin: -4,
+                    }}
+                  >
+                    {unreadNotifications}
+                  </div>
+                )}
+              </Button>
+            )}
+            <Button
+              type="icon"
+              className="rounded-2 border-0"
+              onClick={toggleDropdown}
+            >
+              <i style={{ fontSize: 24 }} className="bi bi-list"></i>
+            </Button>
+          </div>
         </MobileNavigation>
       </MainContent>
 
