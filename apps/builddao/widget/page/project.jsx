@@ -30,8 +30,8 @@ const profileData = {
     twitter: data.twitter,
     website: data.website,
   },
-  backgroundImage: data.backgroundImage?.image,
-  image: data.profileImage?.image,
+  backgroundImage: data.backgroundImage?.image ?? data.backgroundImage,
+  image: data.profileImage?.image ?? data.profileImage,
 };
 
 const profile = Social.getr(`${data.projectAccountId}/profile`);

@@ -41,6 +41,7 @@ const isNearAddress = (address) => {
 
 const showModal = props.showModal;
 const toggleModal = props.toggleModal;
+const togglePotlockImportModal = props.togglePotlockImportModal ?? (() => {});
 const toggle = props.toggle;
 
 const tabs = [
@@ -82,6 +83,10 @@ const [teamSize, setTeamSize] = useState(teamSize ?? "");
 const [invalidContributorFound, setInvalidContributorFound] = useState(false);
 const [invalidProjectAccount, setInvalidProjectAccount] = useState(false);
 
+function removeWhiteSpace(str) {
+  return str.replace(/\s/g, "");
+}
+
 useEffect(() => {
   if (potlockProjectProfile && !title) {
     const {
@@ -92,26 +97,31 @@ useEffect(() => {
       linktree,
       plTeam,
       plCategories,
+      tags,
     } = potlockProjectProfile;
+    const { twitter, github, telegram, website } = linktree;
     setTitle(name);
     setDescription(description);
     setContributors(JSON.parse(plTeam ?? "[]"));
-    setTwitter(
-      linktree.twitter ? `https://twitter.com/${linktree.twitter}` : null,
-    );
-    setGitHub(linktree.github ? `https://github.com/${linktree.github}` : null);
-    setTelegram(linktree.telegram ? `https://t.me/${linktree.telegram}` : null);
+    setTwitter(linktree.twitter ? `https://twitter.com/${twitter}` : null);
+    setGitHub(linktree.github ? `https://github.com/${github}` : null);
+    setTelegram(linktree.telegram ? `https://t.me/${telegram}` : null);
     setWebsite(
-      linktree.website
-        ? linktree.website.includes("https://")
-          ? linktree.website
-          : `https://${linktree.website}`
+      website
+        ? website.includes("https://")
+          ? website
+          : `https://${website}`
         : null,
     );
     setAvatar(image);
     setCoverImage(backgroundImage);
     setProjectAccount(poltlockProjectId);
-    setTags(JSON.parse(plCategories ?? "[]"));
+    setTags(
+      (plCategories
+        ? JSON.parse(plCategories ?? "[]")
+        : Object.keys(tags ?? {})
+      ).map((i) => removeWhiteSpace(i)),
+    );
   }
 }, [potlockProjectProfile]);
 
@@ -130,7 +140,9 @@ const following = Social.get(`${context.accountId}/graph/follow/*`);
 const followingAccountSuggestion = following && Object.keys(following);
 
 const handleTags = (tags) => {
-  let filtered = tags.map((tag) => (tag.customOption ? tag.label : tag));
+  let filtered = tags.map((tag) =>
+    removeWhiteSpace(tag.customOption ? tag.label : tag),
+  );
   setTags(filtered);
 };
 
@@ -347,7 +359,10 @@ function onCreateProject() {
     });
   } else {
     Social.set(data, {
-      onCommit: () => toggleModal(),
+      onCommit: () => {
+        toggleModal();
+        togglePotlockImportModal();
+      },
     });
   }
 }

@@ -118,6 +118,13 @@ const onSearchChange = (value) => {
   setSearchTerm(value);
 };
 
+const handleKeyDown = (event) => {
+  if (event.key === "Enter") {
+    event.preventDefault();
+    onSearch(searchTerm);
+  }
+};
+
 return (
   <>
     <Row>
@@ -141,6 +148,7 @@ return (
         onChange={(e) => onSearchChange(e.target.value)}
         type="text"
         autocomplete="search"
+        onKeyDown={handleKeyDown}
       />
       <Button variant="primary" onClick={() => onSearch(searchTerm)}>
         Search

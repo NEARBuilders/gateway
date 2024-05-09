@@ -159,6 +159,7 @@ if (showCreateModalProjectId) {
       props={{
         showModal: !!showCreateModalProjectId,
         toggleModal: (v) => setShowCreateModalProjectId(v),
+        togglePotlockImportModal: () => toggleModal(),
         poltlockProjectId: showCreateModalProjectId,
       }}
     />
