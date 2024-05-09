@@ -15,7 +15,7 @@ return (
     noLink={true}
     href={`${googleEventLink}`}
     target="_blank"
-    variant="primary"
+    variant="outline"
   >
     Add to Google Calendar
   </Button>
