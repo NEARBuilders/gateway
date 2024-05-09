@@ -20,7 +20,7 @@ const Container = styled.div`
 
   img {
     width: 100%;
-    min-height: 100vh;
+    max-height: 100vh;
     object-fit: cover;
     object-position: center top;
     position: absolute;
