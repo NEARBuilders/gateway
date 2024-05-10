@@ -86,7 +86,7 @@ const config = {
           ...props,
         },
       },
-      task: {
+      tasks: {
         path: "${config_account}/widget/components.project.page.Task",
         blockHeight: "final",
         init: {
