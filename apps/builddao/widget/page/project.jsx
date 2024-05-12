@@ -30,8 +30,8 @@ const profileData = {
     twitter: data.twitter,
     website: data.website,
   },
-  backgroundImage: data.backgroundImage?.image,
-  image: data.profileImage?.image,
+  backgroundImage: data.backgroundImage?.image ?? data.backgroundImage,
+  image: data.profileImage?.image ?? data.profileImage,
 };
 
 const profile = Social.getr(`${data.projectAccountId}/profile`);
@@ -86,7 +86,7 @@ const config = {
           ...props,
         },
       },
-      task: {
+      tasks: {
         path: "${config_account}/widget/components.project.page.Task",
         blockHeight: "final",
         init: {
