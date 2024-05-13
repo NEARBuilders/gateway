@@ -2,10 +2,6 @@ const { Button } = VM.require("${config_account}/widget/components") || {
   Button: () => <></>,
 };
 
-if (!Button) {
-  return "";
-}
-
 const { href } = VM.require("${config_account}/widget/lib.url") || {
   href: () => {},
 };
@@ -221,6 +217,25 @@ const MobileContent = styled.div`
   justify-content: space-between;
 `;
 
+const getNotificationCount = () => {
+  const notificationFeedSrc = "${alias_mob}/widget/NotificationFeed";
+
+  const lastBlockHeight = Storage.get("lastBlockHeight", notificationFeedSrc);
+  if (lastBlockHeight === null) {
+    return "";
+  }
+
+  const notifications = Social.index("notify", context.accountId, {
+    order: "asc",
+    from: (lastBlockHeight ?? 0) + 1,
+    subscribe: true,
+  });
+
+  return notifications.length;
+};
+
+const unreadNotifications = getNotificationCount();
+
 function Navbar(props) {
   const { page, routes } = props;
   const [dropdown, setDropdown] = useState(false);
@@ -290,69 +305,116 @@ function Navbar(props) {
           </NavLinks>
         </Left>
         <Right>
-          <StyledDropdown className="dropdown ">
-            <div className="d-flex justify-content-end align-items-center gap-3">
-              <button
-                className="dropdown-toggle"
-                type="button"
-                id="dropdownMenu2222"
-                data-bs-toggle="dropdown"
-                aria-expanded="false"
-              >
-                <i style={{ color: "white" }} className="bi bi-three-dots"></i>
-              </button>
-              <ul className="dropdown-menu" aria-labelledby="dropdownMenu2222">
-                <li>
-                  <Link
-                    style={{ textDecoration: "none" }}
-                    href={href({
-                      widgetSrc: "${config_account}/widget/app",
-                      params: {
-                        page: "inspect",
-                        widgetPath: routes[page].path,
-                      },
-                    })}
-                    type="icon"
-                    variant="outline"
-                    className="d-flex align-tiems-center gap-2"
-                  >
-                    <i className="bi bi-code"></i>
-                    <span>View source</span>
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    style={{ textDecoration: "none" }}
-                    href={`/edit/${routes[page].path}`}
-                    type="icon"
-                    variant="outline"
-                    className="d-flex align-items-center gap-2"
-                  >
-                    <i className="bi bi-pencil"></i>
-                    <span>Edit code</span>
-                  </Link>
-                </li>
-              </ul>
-            </div>
-          </StyledDropdown>
-          {context.accountId ? (
-            <Widget
-              src="${config_account}/widget/components.buttons.UserDropdown"
-              loading=""
-              props={props}
-            />
-          ) : (
+          {context.accountId && (
             <Button
-              variant="primary"
-              linkClassName="d-flex"
-              href="${alias_gateway_url}/join"
-              noLink={true}
-              className="w-100"
+              className="rounded-3 position-relative"
+              type="icon"
+              href={href({
+                widgetSrc: "${config_account}/widget/app",
+                params: {
+                  page: "notifications",
+                },
+              })}
             >
-              Sign In
+              <i className="bi bi-bell"></i>
+              {unreadNotifications > 0 && (
+                <div
+                  className="position-absolute d-flex align-items-center justify-content-center text-white fw-bold"
+                  style={{
+                    top: 0,
+                    background: "red",
+                    borderRadius: "100%",
+                    right: 0,
+                    width: 18,
+                    height: 18,
+                    fontSize: 10,
+                    margin: -4,
+                  }}
+                >
+                  {unreadNotifications}
+                </div>
+              )}
             </Button>
           )}
-          <TestBtn />
+          <div
+            style={{
+              flex: 1,
+              display: "flex",
+              justifyContent: "flex-end",
+              alignItems: "center",
+              gap: "0.5rem",
+            }}
+          >
+            <StyledDropdown className="dropdown ">
+              <div className="d-flex justify-content-end align-items-center gap-3">
+                <button
+                  className="dropdown-toggle"
+                  type="button"
+                  id="dropdownMenu2222"
+                  data-bs-toggle="dropdown"
+                  aria-expanded="false"
+                >
+                  <i
+                    style={{ color: "white" }}
+                    className="bi bi-three-dots"
+                  ></i>
+                </button>
+                <ul
+                  className="dropdown-menu"
+                  aria-labelledby="dropdownMenu2222"
+                >
+                  <li>
+                    <Link
+                      style={{ textDecoration: "none" }}
+                      href={href({
+                        widgetSrc: "${config_account}/widget/app",
+                        params: {
+                          page: "inspect",
+                          widgetPath: routes[page].path,
+                        },
+                      })}
+                      type="icon"
+                      variant="outline"
+                      className="d-flex align-tiems-center gap-2"
+                    >
+                      <i className="bi bi-code"></i>
+                      <span>View source</span>
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      style={{ textDecoration: "none" }}
+                      href={`/edit/${routes[page].path}`}
+                      type="icon"
+                      variant="outline"
+                      className="d-flex align-items-center gap-2"
+                    >
+                      <i className="bi bi-pencil"></i>
+                      <span>Edit code</span>
+                    </Link>
+                  </li>
+                </ul>
+              </div>
+            </StyledDropdown>
+            {context.accountId ? (
+              <Widget
+                src="${config_account}/widget/components.buttons.UserDropdown"
+                loading=""
+                props={props}
+              />
+            ) : (
+              <Button
+                variant="primary"
+                linkClassName="d-flex"
+                href="${alias_gateway_url}/join"
+                noLink={true}
+                className="w-100"
+              >
+                Sign In
+              </Button>
+            )}
+            <TestBtn />
+          </div>
         </Right>
         <MobileNavigation>
           <Link
@@ -371,14 +433,46 @@ function Navbar(props) {
               alt="BuildDAO"
             />
           </Link>
-          <Button
-            type="icon"
-            variant="outline"
-            className="rounded-2 border-0"
-            onClick={toggleDropdown}
-          >
-            <i style={{ fontSize: 24 }} className="bi bi-list"></i>
-          </Button>
+          <div className="d-flex align-items-center gap-2">
+            {context.accountId && (
+              <Button
+                className="rounded-3 position-relative"
+                type="icon"
+                href={href({
+                  widgetSrc: "${config_account}/widget/app",
+                  params: {
+                    page: "notifications",
+                  },
+                })}
+              >
+                <i className="bi bi-bell"></i>
+                {unreadNotifications > 0 && (
+                  <div
+                    className="position-absolute d-flex align-items-center justify-content-center text-white fw-bold"
+                    style={{
+                      top: 0,
+                      background: "red",
+                      borderRadius: "100%",
+                      right: 0,
+                      width: 18,
+                      height: 18,
+                      fontSize: 10,
+                      margin: -4,
+                    }}
+                  >
+                    {unreadNotifications}
+                  </div>
+                )}
+              </Button>
+            )}
+            <Button
+              type="icon"
+              className="rounded-2 border-0"
+              onClick={toggleDropdown}
+            >
+              <i style={{ fontSize: 24 }} className="bi bi-list"></i>
+            </Button>
+          </div>
         </MobileNavigation>
       </MainContent>
 
