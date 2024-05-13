@@ -205,7 +205,7 @@ const MobileContent = styled.div`
 `;
 
 const getNotificationCount = () => {
-  const notificationFeedSrc = "mob.near/widget/NotificationFeed";
+  const notificationFeedSrc = "${alias_mob}/widget/NotificationFeed";
 
   const lastBlockHeight = Storage.get("lastBlockHeight", notificationFeedSrc);
   if (lastBlockHeight === null) {

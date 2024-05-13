@@ -82,7 +82,7 @@ const Container = styled.div`
 const Content = styled.div`
   width: 100%;
   height: 100%;
-  background: black;
+  background: var(--bg-1, #000);
 `;
 
 // const Template = config.Template ?? (({children}) => <>{children}</>);

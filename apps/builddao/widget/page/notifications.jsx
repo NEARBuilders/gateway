@@ -45,7 +45,7 @@ const renderItem = (item, i) => {
             <div className="placeholder" style={{ height: "48px" }} />
           </div>
         }
-        src="mob.near/widget/Notification.Item"
+        src="${alias_mob}/widget/Notification.Item"
         key={i}
         props={item}
       />
@@ -56,7 +56,7 @@ const renderItem = (item, i) => {
 return (
   <div className="placeholder-glow container-xl mt-3">
     <Widget
-      src="mob.near/widget/FilteredIndexFeed"
+      src="${alias_mob}/widget/FilteredIndexFeed"
       props={{ index, renderItem }}
     />
   </div>
