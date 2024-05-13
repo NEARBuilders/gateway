@@ -263,16 +263,18 @@ function Navbar(props) {
           </NavLinks>
         </Left>
         <Right>
-          <div
-            style={{
-              flex: 1,
-              display: "flex",
-              justifyContent: "flex-end",
-              alignItems: "center",
-              gap: "0.5rem",
-            }}
-          >
-            <StyledDropdown className="dropdown">
+          <StyledDropdown className="dropdown ">
+            <div className="d-flex justify-content-end align-items-center gap-3">
+              <a
+                target="_blank"
+                className="dropdown-toggle"
+                href="https://test.nearbuilders.org"
+              >
+                <img
+                  src="https://ipfs.near.social/ipfs/bafkreieud33bpqibciatt6uwqju4r3xk7jwy3bunfgiz35oiwyiapbcjbq"
+                  height={20}
+                />
+              </a>
               <button
                 className="dropdown-toggle"
                 type="button"
@@ -314,8 +316,8 @@ function Navbar(props) {
                   </Link>
                 </li>
               </ul>
-            </StyledDropdown>
-          </div>
+            </div>
+          </StyledDropdown>
           {context.accountId ? (
             <Widget
               src="${config_account}/widget/components.buttons.UserDropdown"
