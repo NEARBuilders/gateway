@@ -18,6 +18,19 @@ const NavContainer = styled.div`
 
   background-color: var(--bg, #000);
   border-bottom: 1px solid var(--stroke-color, rgba(255, 255, 255, 0.2));
+
+  .grey-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #23242b;
+    color: #fff;
+    border-radius: 8px;
+    outline: none;
+    border: 0;
+    width: 40px;
+    height: 40px;
+  }
 `;
 
 const MainContent = styled.div`
@@ -231,6 +244,20 @@ function Navbar(props) {
     setDropdown((prev) => !prev);
   };
 
+  const TestBtn = () => {
+    return (
+      <a
+        target="_blank"
+        className="grey-btn"
+        href="https://test.nearbuilders.org"
+      >
+        <img
+          src="https://ipfs.near.social/ipfs/bafkreieud33bpqibciatt6uwqju4r3xk7jwy3bunfgiz35oiwyiapbcjbq"
+          height={20}
+        />
+      </a>
+    );
+  };
   return (
     <NavContainer>
       <MainContent className="container-xl">
@@ -318,67 +345,76 @@ function Navbar(props) {
               gap: "0.5rem",
             }}
           >
-            <StyledDropdown className="dropdown">
-              <button
-                className="dropdown-toggle"
-                type="button"
-                id="dropdownMenu2222"
-                data-bs-toggle="dropdown"
-                aria-expanded="false"
-              >
-                <i style={{ color: "white" }} className="bi bi-three-dots"></i>
-              </button>
-              <ul className="dropdown-menu" aria-labelledby="dropdownMenu2222">
-                <li>
-                  <Link
-                    style={{ textDecoration: "none" }}
-                    href={href({
-                      widgetSrc: "${config_account}/widget/app",
-                      params: {
-                        page: "inspect",
-                        widgetPath: routes[page].path,
-                      },
-                    })}
-                    type="icon"
-                    variant="outline"
-                    className="d-flex align-tiems-center gap-2"
-                  >
-                    <i className="bi bi-code"></i>
-                    <span>View source</span>
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    style={{ textDecoration: "none" }}
-                    href={`/edit/${routes[page].path}`}
-                    type="icon"
-                    variant="outline"
-                    className="d-flex align-items-center gap-2"
-                  >
-                    <i className="bi bi-pencil"></i>
-                    <span>Edit code</span>
-                  </Link>
-                </li>
-              </ul>
+            <StyledDropdown className="dropdown ">
+              <div className="d-flex justify-content-end align-items-center gap-3">
+                <button
+                  className="dropdown-toggle"
+                  type="button"
+                  id="dropdownMenu2222"
+                  data-bs-toggle="dropdown"
+                  aria-expanded="false"
+                >
+                  <i
+                    style={{ color: "white" }}
+                    className="bi bi-three-dots"
+                  ></i>
+                </button>
+                <ul
+                  className="dropdown-menu"
+                  aria-labelledby="dropdownMenu2222"
+                >
+                  <li>
+                    <Link
+                      style={{ textDecoration: "none" }}
+                      href={href({
+                        widgetSrc: "${config_account}/widget/app",
+                        params: {
+                          page: "inspect",
+                          widgetPath: routes[page].path,
+                        },
+                      })}
+                      type="icon"
+                      variant="outline"
+                      className="d-flex align-tiems-center gap-2"
+                    >
+                      <i className="bi bi-code"></i>
+                      <span>View source</span>
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      style={{ textDecoration: "none" }}
+                      href={`/edit/${routes[page].path}`}
+                      type="icon"
+                      variant="outline"
+                      className="d-flex align-items-center gap-2"
+                    >
+                      <i className="bi bi-pencil"></i>
+                      <span>Edit code</span>
+                    </Link>
+                  </li>
+                </ul>
+              </div>
             </StyledDropdown>
+            {context.accountId ? (
+              <Widget
+                src="${config_account}/widget/components.buttons.UserDropdown"
+                loading=""
+                props={props}
+              />
+            ) : (
+              <Button
+                variant="primary"
+                linkClassName="d-flex"
+                href="${alias_gateway_url}/join"
+                noLink={true}
+                className="w-100"
+              >
+                Sign In
+              </Button>
+            )}
+            <TestBtn />
           </div>
-          {context.accountId ? (
-            <Widget
-              src="${config_account}/widget/components.buttons.UserDropdown"
-              loading=""
-              props={props}
-            />
-          ) : (
-            <Button
-              variant="primary"
-              linkClassName="d-flex"
-              href="${alias_gateway_url}/join"
-              noLink={true}
-              className="w-100"
-            >
-              Sign In
-            </Button>
-          )}
         </Right>
         <MobileNavigation>
           <Link
@@ -521,28 +557,31 @@ function Navbar(props) {
                   Edit Code
                 </Button>
               </div>
-              {context.accountId ? (
-                <div className="mx-auto d-flex align-items-stretch ">
-                  <Widget
-                    src="${config_account}/widget/components.buttons.UserDropdown"
-                    loading=""
-                    props={props}
-                  />
-                </div>
-              ) : (
-                <>
-                  <Button
-                    variant="primary"
-                    linkClassName="d-flex"
-                    href="${alias_gateway_url}/join"
-                    noLink={true}
-                    className="w-100"
-                    onClick={() => setDropdown(false)}
-                  >
-                    Sign In
-                  </Button>
-                </>
-              )}
+              <div className="d-flex gap-2">
+                {context.accountId ? (
+                  <div className="mx-auto d-flex align-items-stretch ">
+                    <Widget
+                      src="${config_account}/widget/components.buttons.UserDropdown"
+                      loading=""
+                      props={props}
+                    />
+                  </div>
+                ) : (
+                  <>
+                    <Button
+                      variant="primary"
+                      linkClassName="d-flex"
+                      href="${alias_gateway_url}/join"
+                      noLink={true}
+                      className="w-100"
+                      onClick={() => setDropdown(false)}
+                    >
+                      Sign In
+                    </Button>
+                  </>
+                )}
+                <TestBtn />
+              </div>
             </div>
           </MobileContent>
         </MobileView>

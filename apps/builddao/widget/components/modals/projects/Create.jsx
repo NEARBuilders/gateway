@@ -41,6 +41,7 @@ const isNearAddress = (address) => {
 
 const showModal = props.showModal;
 const toggleModal = props.toggleModal;
+const togglePotlockImportModal = props.togglePotlockImportModal ?? (() => {});
 const toggle = props.toggle;
 
 const tabs = [
@@ -54,6 +55,14 @@ const tabs = [
 ];
 
 const app = props.app ?? "${config_account}";
+
+const poltlockProjectId = props.poltlockProjectId;
+const potlockProjectProfile = null;
+const potlockProjectTags = null;
+
+if (poltlockProjectId) {
+  potlockProjectProfile = Social.getr(`${poltlockProjectId}/profile`);
+}
 
 const [tags, setTags] = useState(props.filters.tags ?? []);
 const [projectAccount, setProjectAccount] = useState(accountId);
@@ -74,6 +83,48 @@ const [teamSize, setTeamSize] = useState(teamSize ?? "");
 const [invalidContributorFound, setInvalidContributorFound] = useState(false);
 const [invalidProjectAccount, setInvalidProjectAccount] = useState(false);
 
+function removeWhiteSpace(str) {
+  return str.replace(/\s/g, "");
+}
+
+useEffect(() => {
+  if (potlockProjectProfile && !title) {
+    const {
+      name,
+      description,
+      image,
+      backgroundImage,
+      linktree,
+      plTeam,
+      plCategories,
+      tags,
+    } = potlockProjectProfile;
+    const { twitter, github, telegram, website } = linktree;
+    setTitle(name);
+    setDescription(description);
+    setContributors(JSON.parse(plTeam ?? "[]"));
+    setTwitter(linktree.twitter ? `https://twitter.com/${twitter}` : null);
+    setGitHub(linktree.github ? `https://github.com/${github}` : null);
+    setTelegram(linktree.telegram ? `https://t.me/${telegram}` : null);
+    setWebsite(
+      website
+        ? website.includes("https://")
+          ? website
+          : `https://${website}`
+        : null,
+    );
+    setAvatar(image);
+    setCoverImage(backgroundImage);
+    setProjectAccount(poltlockProjectId);
+    setTags(
+      (plCategories
+        ? JSON.parse(plCategories ?? "[]")
+        : Object.keys(tags ?? {})
+      ).map((i) => removeWhiteSpace(i)),
+    );
+  }
+}, [potlockProjectProfile]);
+
 const handleCheckboxChange = (event) => {
   const { id } = event.target;
   const newSelectedTabs = new Set(selectedTabs); // Create a copy to avoid mutation
@@ -89,7 +140,9 @@ const following = Social.get(`${context.accountId}/graph/follow/*`);
 const followingAccountSuggestion = following && Object.keys(following);
 
 const handleTags = (tags) => {
-  let filtered = tags.map((tag) => (tag.customOption ? tag.label : tag));
+  let filtered = tags.map((tag) =>
+    removeWhiteSpace(tag.customOption ? tag.label : tag),
+  );
   setTags(filtered);
 };
 
@@ -306,7 +359,10 @@ function onCreateProject() {
     });
   } else {
     Social.set(data, {
-      onCommit: () => toggleModal(),
+      onCommit: () => {
+        toggleModal();
+        togglePotlockImportModal();
+      },
     });
   }
 }
@@ -458,7 +514,16 @@ return (
           <Typeahead
             multiple
             options={
-              props.tagFilters ?? ["Community", "Open Source", "Weekly", "DAO"]
+              props.tagFilters ?? [
+                "Community",
+                "Open Source",
+                "Social Impact",
+                "DAO",
+                "Climate",
+                "Public Good",
+                "Education",
+                "Community",
+              ]
             }
             allowNew
             placeholder="Start Typing"
