@@ -117,6 +117,14 @@ const config = {
         },
         hide: true,
       },
+      notifications: {
+        path: "${config_account}/widget/page.notifications",
+        blockHeight: "final",
+        init: {
+          name: "Notifications",
+        },
+        hide: true,
+      },
     },
   },
 };

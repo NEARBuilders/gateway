@@ -2,10 +2,6 @@ const { Button } = VM.require("${config_account}/widget/components") || {
   Button: () => <></>,
 };
 
-if (!Button) {
-  return "";
-}
-
 const { href } = VM.require("${config_account}/widget/lib.url") || {
   href: () => {},
 };
@@ -22,6 +18,19 @@ const NavContainer = styled.div`
 
   background-color: var(--bg, #000);
   border-bottom: 1px solid var(--stroke-color, rgba(255, 255, 255, 0.2));
+
+  .grey-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #23242b;
+    color: #fff;
+    border-radius: 8px;
+    outline: none;
+    border: 0;
+    width: 40px;
+    height: 40px;
+  }
 `;
 
 const MainContent = styled.div`
@@ -208,6 +217,25 @@ const MobileContent = styled.div`
   justify-content: space-between;
 `;
 
+const getNotificationCount = () => {
+  const notificationFeedSrc = "${alias_mob}/widget/NotificationFeed";
+
+  const lastBlockHeight = Storage.get("lastBlockHeight", notificationFeedSrc);
+  if (lastBlockHeight === null) {
+    return "";
+  }
+
+  const notifications = Social.index("notify", context.accountId, {
+    order: "asc",
+    from: (lastBlockHeight ?? 0) + 1,
+    subscribe: true,
+  });
+
+  return notifications.length;
+};
+
+const unreadNotifications = getNotificationCount();
+
 function Navbar(props) {
   const { page, routes } = props;
   const [dropdown, setDropdown] = useState(false);
@@ -217,6 +245,20 @@ function Navbar(props) {
     setDropdown((prev) => !prev);
   };
 
+  const TestBtn = () => {
+    return (
+      <a
+        target="_blank"
+        className="grey-btn"
+        href="https://test.nearbuilders.org"
+      >
+        <img
+          src="https://ipfs.near.social/ipfs/bafkreieud33bpqibciatt6uwqju4r3xk7jwy3bunfgiz35oiwyiapbcjbq"
+          height={20}
+        />
+      </a>
+    );
+  };
   return (
     <NavContainer>
       <MainContent className="container-xl">
@@ -274,6 +316,41 @@ function Navbar(props) {
           </NavLinks>
         </Left>
         <Right>
+          {context.accountId && (
+            <Button
+              className="rounded-3 position-relative"
+              type="icon"
+              href={
+                !fromGateway
+                  ? href({
+                      widgetSrc: "${config_account}/widget/app",
+                      params: {
+                        page: "notifications",
+                      },
+                    })
+                  : "/notifications"
+              }
+            >
+              <i className="bi bi-bell"></i>
+              {unreadNotifications > 0 && (
+                <div
+                  className="position-absolute d-flex align-items-center justify-content-center text-white fw-bold"
+                  style={{
+                    top: 0,
+                    background: "red",
+                    borderRadius: "100%",
+                    right: 0,
+                    width: 18,
+                    height: 18,
+                    fontSize: 10,
+                    margin: -4,
+                  }}
+                >
+                  {unreadNotifications}
+                </div>
+              )}
+            </Button>
+          )}
           <div
             style={{
               flex: 1,
@@ -330,24 +407,25 @@ function Navbar(props) {
                 </li>
               </ul>
             </StyledDropdown>
+            {context.accountId ? (
+              <Widget
+                src="${config_account}/widget/components.buttons.UserDropdown"
+                loading=""
+                props={props}
+              />
+            ) : (
+              <Button
+                variant="primary"
+                linkClassName="d-flex"
+                href="${alias_gateway_url}/join"
+                noLink={true}
+                className="w-100"
+              >
+                Sign In
+              </Button>
+            )}
+            <TestBtn />
           </div>
-          {context.accountId ? (
-            <Widget
-              src="${config_account}/widget/components.buttons.UserDropdown"
-              loading=""
-              props={props}
-            />
-          ) : (
-            <Button
-              variant="primary"
-              linkClassName="d-flex"
-              href="${alias_gateway_url}/join"
-              noLink={true}
-              className="w-100"
-            >
-              Sign In
-            </Button>
-          )}
         </Right>
         <MobileNavigation>
           <Link
@@ -366,14 +444,46 @@ function Navbar(props) {
               alt="BuildDAO"
             />
           </Link>
-          <Button
-            type="icon"
-            variant="outline"
-            className="rounded-2 border-0"
-            onClick={toggleDropdown}
-          >
-            <i style={{ fontSize: 24 }} className="bi bi-list"></i>
-          </Button>
+          <div className="d-flex align-items-center gap-2">
+            {context.accountId && (
+              <Button
+                className="rounded-3 position-relative"
+                type="icon"
+                href={href({
+                  widgetSrc: "${config_account}/widget/app",
+                  params: {
+                    page: "notifications",
+                  },
+                })}
+              >
+                <i className="bi bi-bell"></i>
+                {unreadNotifications > 0 && (
+                  <div
+                    className="position-absolute d-flex align-items-center justify-content-center text-white fw-bold"
+                    style={{
+                      top: 0,
+                      background: "red",
+                      borderRadius: "100%",
+                      right: 0,
+                      width: 18,
+                      height: 18,
+                      fontSize: 10,
+                      margin: -4,
+                    }}
+                  >
+                    {unreadNotifications}
+                  </div>
+                )}
+              </Button>
+            )}
+            <Button
+              type="icon"
+              className="rounded-2 border-0"
+              onClick={toggleDropdown}
+            >
+              <i style={{ fontSize: 24 }} className="bi bi-list"></i>
+            </Button>
+          </div>
         </MobileNavigation>
       </MainContent>
 
@@ -462,28 +572,31 @@ function Navbar(props) {
                   Edit Code
                 </Button>
               </div>
-              {context.accountId ? (
-                <div className="mx-auto d-flex align-items-stretch ">
-                  <Widget
-                    src="${config_account}/widget/components.buttons.UserDropdown"
-                    loading=""
-                    props={props}
-                  />
-                </div>
-              ) : (
-                <>
-                  <Button
-                    variant="primary"
-                    linkClassName="d-flex"
-                    href="${alias_gateway_url}/join"
-                    noLink={true}
-                    className="w-100"
-                    onClick={() => setDropdown(false)}
-                  >
-                    Sign In
-                  </Button>
-                </>
-              )}
+              <div className="d-flex gap-2">
+                {context.accountId ? (
+                  <div className="mx-auto d-flex align-items-stretch ">
+                    <Widget
+                      src="${config_account}/widget/components.buttons.UserDropdown"
+                      loading=""
+                      props={props}
+                    />
+                  </div>
+                ) : (
+                  <>
+                    <Button
+                      variant="primary"
+                      linkClassName="d-flex"
+                      href="${alias_gateway_url}/join"
+                      noLink={true}
+                      className="w-100"
+                      onClick={() => setDropdown(false)}
+                    >
+                      Sign In
+                    </Button>
+                  </>
+                )}
+                <TestBtn />
+              </div>
             </div>
           </MobileContent>
         </MobileView>

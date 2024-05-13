@@ -82,7 +82,7 @@ const ProjectCard = ({ project, type, fromGateway }) => {
           <Widget
             src="${alias_mob}/widget/Image"
             props={{
-              image: metadata.profileImage.image,
+              image: metadata.profileImage?.image ?? metadata.profileImage,
               alt: metadata.title,
               className: "rounded-circle w-100 h-100",
               style: { objectFit: "cover" },

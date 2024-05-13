@@ -253,6 +253,9 @@ function App() {
             <Route exact path={"/inspect/:widgetSrc*"}>
               <Viewer page={"inspect"} />
             </Route>
+            <Route exact path={"/notifications"}>
+              <Viewer page={"notifications"} />
+            </Route>
             <Route path={"/edit/:widgetSrc*"}>
               <EditorPage {...passProps} />
             </Route>

@@ -120,12 +120,22 @@ const [filters, setFilters] = useState({
 });
 const [showFilterModal, setShowFilterModal] = useState(false);
 const [showCreateModal, setShowCreateModal] = useState(false);
+const [showCreateOptionsModal, setShowCreateOptionsModal] = useState(false);
+const [showImportModal, setShowImportModal] = useState(false);
 
 const toggleFilterModal = () => {
   setShowFilterModal((prev) => !prev);
 };
 const toggleCreateModal = () => {
   setShowCreateModal((prev) => !prev);
+};
+
+const toggleImportModal = () => {
+  setShowImportModal((prev) => !prev);
+};
+
+const toggleCreateOptionsModal = () => {
+  setShowCreateOptionsModal((prev) => !prev);
 };
 
 const filteredProjects = useMemo(() => {
@@ -180,7 +190,7 @@ return (
     data-bs-theme="dark"
   >
     <Widget
-      src="${config_account}/widget/components.modals.FilterProjects"
+      src="${config_account}/widget/components.modals.projects.Filters"
       loading=""
       props={{
         showModal: showFilterModal,
@@ -190,24 +200,48 @@ return (
         tagFilters,
       }}
     />
-
     <Widget
-      src="${config_account}/widget/components.modals.CreateProject"
+      src="${config_account}/widget/components.modals.projects.ImportAndCreate"
+      loading=""
+      props={{
+        showModal: showCreateOptionsModal,
+        toggleModal: toggleCreateOptionsModal,
+        onClickImport: () => {
+          setShowCreateOptionsModal(false);
+          setShowImportModal(true);
+        },
+        onClickCreate: () => {
+          setShowCreateOptionsModal(false);
+          setShowCreateModal(true);
+        },
+      }}
+    />
+    <Widget
+      src="${config_account}/widget/components.modals.projects.PotlockImport"
+      loading=""
+      props={{
+        showModal: showImportModal,
+        toggleModal: toggleImportModal,
+      }}
+    />
+    <Widget
+      src="${config_account}/widget/components.modals.projects.Create"
       loading=""
       props={{
         showModal: showCreateModal,
         toggleModal: toggleCreateModal,
-        filters: filters,
-        setFilters: setFilters,
-        tagFilters,
       }}
     />
+
     <div className="my-3 d-flex align-items-center justify-content-between">
       <h2 style={{ color: "var(--text-color, #fff)", fontSize: "18px" }}>
         Projects
       </h2>
       {context.accountId && (
-        <Button variant="primary" onClick={() => setShowCreateModal(true)}>
+        <Button
+          variant="primary"
+          onClick={() => setShowCreateOptionsModal(true)}
+        >
           Create Project
         </Button>
       )}
