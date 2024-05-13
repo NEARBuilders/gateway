@@ -62,7 +62,7 @@ const Card = styled.div`
 const fallbackUrl =
   "https://ipfs.near.social/ipfs/bafkreibmiy4ozblcgv3fm3gc6q62s55em33vconbavfd2ekkuliznaq3zm";
 
-const ProjectCard = ({ project, type }) => {
+const ProjectCard = ({ project, type, fromGateway }) => {
   const {
     accountId,
     projectAccountId,
@@ -118,14 +118,18 @@ const ProjectCard = ({ project, type }) => {
       </div>
       <div className="w-100">
         <Button
-          href={href({
-            widgetSrc: `${config_account}/widget/app`,
-            params: {
-              page: "project",
-              id: `${accountId}/${type}/${projectID}`,
-              tab: "overview",
-            },
-          })}
+          href={
+            !fromGateway
+              ? href({
+                  widgetSrc: `${config_account}/widget/app`,
+                  params: {
+                    page: "project",
+                    id: `${accountId}/${type}/${projectID}`,
+                    tab: "overview",
+                  },
+                })
+              : `/project/${accountId}/${type}/${projectID}`
+          }
           linkClassName="align-self-stretch bt-w"
           variant="outline"
         >

@@ -108,6 +108,7 @@ const ProjectLayout = ({
   project,
   id,
   tab,
+  fromGateway,
 }) => {
   const { title } = project;
 
@@ -120,12 +121,16 @@ const ProjectLayout = ({
       <div className="my-3 w-100">
         <Link
           style={{ textDecoration: "none" }}
-          to={href({
-            widgetSrc: "${config_account}/widget/app",
-            params: {
-              page: "projects",
-            },
-          })}
+          to={
+            !fromGateway
+              ? href({
+                  widgetSrc: "${config_account}/widget/app",
+                  params: {
+                    page: "projects",
+                  },
+                })
+              : "/projects"
+          }
         >
           <span className="text-white">
             <i className="bi bi-chevron-left"></i> Back to Projects
@@ -184,14 +189,18 @@ const ProjectLayout = ({
             Object.keys(routes).map((it) => (
               <li className="nav-item" role="presentation" key={it}>
                 <Link
-                  to={href({
-                    widgetSrc: `${config_account}/widget/app`,
-                    params: {
-                      page: "project",
-                      id: id,
-                      tab: it,
-                    },
-                  })}
+                  to={
+                    !fromGateway
+                      ? href({
+                          widgetSrc: `${config_account}/widget/app`,
+                          params: {
+                            page: "project",
+                            id: id,
+                            tab: it,
+                          },
+                        })
+                      : `/project/${id}?tab=${it}`
+                  }
                   key={it}
                   style={{ textDecoration: "none" }}
                 >
