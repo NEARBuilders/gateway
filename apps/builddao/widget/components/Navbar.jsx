@@ -215,7 +215,7 @@ const getNotificationCount = () => {
   const notifications = Social.index("notify", context.accountId, {
     order: "asc",
     from: (lastBlockHeight ?? 0) + 1,
-    // subscribe: true,
+    subscribe: true,
   });
 
   return notifications.length;
