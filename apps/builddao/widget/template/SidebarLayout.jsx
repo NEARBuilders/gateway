@@ -39,7 +39,7 @@ const ContentContainer = styled.div`
   grid-column: span 4 / span 4;
 `;
 
-const Sidebar = ({ currentPath, page, routes }) => (
+const Sidebar = ({ currentPath, currentPage, page, routes, fromGateway }) => (
   <>
     {routes &&
       (Object.keys(routes) || []).map((k) => {
@@ -47,11 +47,21 @@ const Sidebar = ({ currentPath, page, routes }) => (
         if (route.hide) {
           return null;
         }
+        let defaultSelection = "";
+        if (!page) {
+          defaultSelection = Object.keys(routes)[0];
+        }
         return (
           <Button
             id={k}
-            variant={page === k ? "primary" : "outline"}
-            href={`${currentPath}&tab=${k}`}
+            variant={
+              (page !== "" && page === k) || defaultSelection === k
+                ? "primary"
+                : "outline"
+            }
+            href={
+              !fromGateway ? `${currentPath}&tab=${k}` : `/${currentPage}/${k}`
+            }
             className={
               "justify-content-start fw-medium align-self-stretch w-100"
             }
@@ -74,11 +84,24 @@ const Sidebar = ({ currentPath, page, routes }) => (
 );
 
 // Define the new component that follows the SidebarLayout pattern
-function SidebarLayout({ currentPath, routes, page, children }) {
+function SidebarLayout({
+  currentPath,
+  currentPage,
+  routes,
+  page,
+  children,
+  fromGateway,
+}) {
   return (
     <Container className="container-xl mt-md-3">
       <SidebarContainer>
-        <Sidebar currentPath={currentPath} page={page} routes={routes} />
+        <Sidebar
+          currentPath={currentPath}
+          currentPage={currentPage}
+          page={page}
+          routes={routes}
+          fromGateway={fromGateway}
+        />
       </SidebarContainer>
       <ContentContainer key={page}>{children}</ContentContainer>
     </Container>

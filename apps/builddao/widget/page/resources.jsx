@@ -53,8 +53,10 @@ return (
   <Root>
     <SidebarLayout
       currentPath={"/${config_account}/widget/app?page=resources"}
+      currentPage="resources"
       page={props.tab}
       routes={config.router.routes}
+      fromGateway={props.fromGateway}
     >
       <Widget
         src="${config_account}/widget/app.view"
