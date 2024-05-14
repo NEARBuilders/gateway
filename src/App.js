@@ -25,7 +25,13 @@ import {
 import React, { useCallback, useEffect, useState } from "react";
 import "react-bootstrap-typeahead/css/Typeahead.bs5.css";
 import "react-bootstrap-typeahead/css/Typeahead.css";
-import { Link, Route, BrowserRouter as Router, Switch } from "react-router-dom";
+import {
+  Link,
+  Redirect,
+  Route,
+  BrowserRouter as Router,
+  Switch,
+} from "react-router-dom";
 import { BosLoaderBanner } from "./components/BosLoaderBanner";
 import { useEthersProviderContext } from "./data/web3";
 import { NetworkId, Widgets } from "./data/widgets";
@@ -200,6 +206,8 @@ function App() {
     currentGateway,
   };
 
+  const index = Widgets.default;
+
   return (
     <div className="App" style={{ height: "100vh" }}>
       <EthersProviderContext.Provider value={ethersProviderContext}>
@@ -217,44 +225,20 @@ function App() {
               <BosLoaderBanner />
               <LogoutPage {...passProps} />
             </Route>
-            <Route exact path={"/library"}>
-              <Viewer page={"library"} />
+            <Route path={"/library"}>
+              <Redirect to={`${index}?page=library`} />
             </Route>
-            <Route exact path={"/propose"}>
-              <Viewer page={"feed"} tab={"proposals"} />
+            <Route path={"/propose"}>
+              <Redirect to={`${index}?page=proposal&tab=proposals`} />
             </Route>
-            <Route exact path={"/projects"}>
-              <Viewer page={"projects"} />
+            <Route path={"/projects"}>
+              <Redirect to={`${index}?page=projects`} />
             </Route>
-            <Route exact path={"/feed"}>
-              <Viewer page={"feed"} />
+            <Route path={"/feed"}>
+              <Redirect to={`${index}?page=feed`} />
             </Route>
-            <Route exact path={"/feed/:feedTab"}>
-              <Viewer page={"feed"} />
-            </Route>
-            <Route exact path={"/resources"}>
-              <Viewer page={"resources"} />
-            </Route>
-            <Route exact path={"/resources/:feedTab"}>
-              <Viewer page={"resources"} />
-            </Route>
-            <Route exact path={"/profile"}>
-              <Viewer page={"profile"} />
-            </Route>
-            <Route exact path={"/profile/:accountId"}>
-              <Viewer page={"profile"} />
-            </Route>
-            <Route exact path={"/project/:projectId*"}>
-              <Viewer page={"project"} />
-            </Route>
-            <Route exact path={"/inspect"}>
-              <Viewer page={"inspect"} />
-            </Route>
-            <Route exact path={"/inspect/:widgetSrc*"}>
-              <Viewer page={"inspect"} />
-            </Route>
-            <Route exact path={"/notifications"}>
-              <Viewer page={"notifications"} />
+            <Route path={"/resources"}>
+              <Redirect to={`${index}?page=resources`} />
             </Route>
             <Route path={"/edit/:widgetSrc*"}>
               <EditorPage {...passProps} />

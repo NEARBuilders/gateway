@@ -128,7 +128,7 @@ const { href: linkHref } = VM.require("${config_account}/widget/lib.url") || {
   href: () => {},
 };
 
-const Component = (props) => {
+const Component = () => {
   if (!context.accountId) {
     return (
       <Button
@@ -148,16 +148,12 @@ const Component = (props) => {
           </Bullet>
           <Link
             style={{ color: "#df9731", fontWeight: 600 }}
-            to={
-              !props.fromGateway
-                ? linkHref({
-                    widgetSrc: "${config_account}/widget/app",
-                    params: {
-                      page: "feed",
-                    },
-                  })
-                : "/feed"
-            }
+            to={linkHref({
+              widgetSrc: "${config_account}/widget/app",
+              params: {
+                page: "feed",
+              },
+            })}
           >
             View Activity{" "}
             <svg
@@ -196,6 +192,6 @@ const Component = (props) => {
 
 return (
   <Container>
-    <Component fromGateway={props.fromGateway} />
+    <Component />
   </Container>
 );

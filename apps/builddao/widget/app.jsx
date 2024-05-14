@@ -23,28 +23,19 @@ const config = {
       // customize your header
       <Widget
         src="${config_account}/widget/components.Navbar"
-        props={{
-          routes: config.router.routes,
-          ...passProps,
-          page: props.page,
-          fromGateway: props.fromGateway,
-        }}
+        props={{ routes: config.router.routes, ...passProps, page: props.page }}
       />
     ),
     Footer: () => <></>, // customize your footer
   },
   router: {
     param: "page",
-    commonInit: {
-      fromGateway: props.fromGateway,
-    },
     routes: {
       home: {
         path: "${config_account}/widget/page.home",
         blockHeight: "final",
         init: {
           name: "Home",
-          ...commonInit,
         },
         default: true,
       },
@@ -53,7 +44,6 @@ const config = {
         blockHeight: "final",
         init: {
           name: "Activity",
-          ...commonInit,
         },
       },
       projects: {
@@ -61,7 +51,6 @@ const config = {
         blockHeight: "final",
         init: {
           name: "Projects",
-          ...commonInit,
         },
         hide: true,
       },
@@ -70,7 +59,6 @@ const config = {
         blockHeight: "final",
         init: {
           name: "Proposals",
-          ...commonInit,
         },
         hide: true,
       },
@@ -79,7 +67,6 @@ const config = {
         blockHeight: "final",
         init: {
           name: "Resources",
-          ...commonInit,
         },
       },
       library: {
@@ -87,7 +74,6 @@ const config = {
         blockHeight: "final",
         init: {
           name: "Library",
-          ...commonInit,
         },
       },
       profile: {
@@ -95,7 +81,6 @@ const config = {
         blockHeight: "final",
         init: {
           name: "Profile",
-          ...commonInit,
         },
         hide: true,
       },
@@ -104,7 +89,6 @@ const config = {
         blockHeight: "final",
         init: {
           name: "Inspect",
-          ...commonInit,
         },
         hide: true,
       },
@@ -113,7 +97,6 @@ const config = {
         blockHeight: "final",
         init: {
           name: "Project Page",
-          ...commonInit,
         },
         hide: true,
       },

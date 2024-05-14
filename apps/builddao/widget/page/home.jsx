@@ -21,9 +21,9 @@ return (
     <Hero {...props} />
     {/* <Goals /> */}
     {/* <Join /> */}
-    <Purposes {...props} />
+    <Purposes />
     {/* <AboutUs /> */}
-    <Governance {...props} />
-    <Footer {...props} />
+    <Governance />
+    <Footer />
   </Root>
 );

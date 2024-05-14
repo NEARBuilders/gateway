@@ -272,11 +272,7 @@ return (
         <p className="fw-bold text-white">No Projects Found</p>
       )}
       {filteredProjects.map((project) => (
-        <ProjectCard
-          fromGateway={props.fromGateway}
-          project={project}
-          type={type}
-        />
+        <ProjectCard project={project} type={type} />
       ))}
     </Container>
   </Wrapper>
