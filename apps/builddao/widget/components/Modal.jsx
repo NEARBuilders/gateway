@@ -18,7 +18,7 @@ const Overlay = styled.div`
   z-index: 1000;
   width: 100vw;
   height: 100vh;
-  background: var(--modal-overlay-color, rgba(11, 12, 20, 0.5));
+  background: var(--modal-overlay-color, rgba(35, 36, 43, 0.7));
 `;
 
 const Content = styled.div`

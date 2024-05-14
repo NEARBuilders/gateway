@@ -1,0 +1,10 @@
+{
+  "account": "new",
+  "aliases": ["../../aliases.mainnet.json"],
+  "overrides": {
+    "testnet": {
+      "account": "builddao.testnet",
+      "aliases": ["../../aliases.testnet.json"]
+    }
+  }
+}

@@ -11,7 +11,6 @@ const Container = styled.div`
   flex-direction: column;
   width: 100%;
   height: 100%;
-  // margin-top: calc(-1 * var(--body-top-padding));
   background-color: var(--bg-1, #000000);
 `;
 
