@@ -41,7 +41,7 @@ const Tag = ({ label }) => {
         viewBox="0 0 17 17"
         fill="none"
       >
-        <g clip-path="url(#clip0_1423_5056)">
+        <g clipPath="url(#clip0_1423_5056)">
           <path
             d="M4.5 14.5L14.5 4.5L12.5 2.5L2.5 12.5L4.5 14.5Z"
             stroke="#ECA227"

@@ -1,10 +1,11 @@
 import { Widget } from "near-social-vm";
 import React, { useEffect, useMemo, useState } from "react";
 import { useLocation, useParams } from "react-router-dom";
+import { Widgets } from "../data/widgets";
 
 const SESSION_STORAGE_REDIRECT_MAP_KEY = "nearSocialVMredirectMap";
 
-function Viewer({ code, page, tab, widgets }) {
+function Viewer({ code, page, tab }) {
   // get path from url, could be socialdb path or relative to "core"
   const { path, feedTab, widgetSrc, projectId } = useParams();
   const location = useLocation(); // get query params from url
@@ -48,13 +49,12 @@ function Viewer({ code, page, tab, widgets }) {
   if (page) {
     return (
       <Widget
-        src={"buildhub.near/widget/app"}
+        src={Widgets.default}
         props={{
           page: page,
           tab: feedTab || tab,
-          widgetPath: widgetSrc ?? "buildhub.near/widget/app",
+          widgetPath: widgetSrc ?? Widgets.default,
           id: projectId,
-          fromGateway: true,
           ...passProps,
         }}
         config={{ redirectMap }}
@@ -63,7 +63,7 @@ function Viewer({ code, page, tab, widgets }) {
   }
 
   const src = useMemo(() => {
-    const defaultSrc = widgets.default; // default widget to load
+    const defaultSrc = Widgets.default; // default widget to load
     const pathSrc = path || defaultSrc; // if no path, load default widget
     return pathSrc;
   }, [path]);
@@ -74,7 +74,6 @@ function Viewer({ code, page, tab, widgets }) {
       code={code} // prioritize code
       props={{
         path: src,
-        fromGateway: true,
         ...passProps,
       }}
       config={{ redirectMap }}

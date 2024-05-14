@@ -133,7 +133,6 @@ const Footer = (props) => {
               joinBtnChildren: "Join Now",
               showActivity: true,
               className: "custom-button",
-              fromGateway: props.fromGateway,
             }}
           />
         </Card>

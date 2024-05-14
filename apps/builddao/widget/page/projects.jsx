@@ -273,7 +273,6 @@ return (
       )}
       {filteredProjects.map((project) => (
         <ProjectCard
-          fromGateway={props.fromGateway}
           project={project}
           type={type}
         />

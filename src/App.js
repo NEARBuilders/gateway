@@ -43,6 +43,62 @@ export const refreshAllowanceObj = {};
 const documentationHref = "https://docs.near.org/bos/overview";
 const currentGateway = "nearbuilders";
 
+function getValue(params, key) {
+  for (const param of params) {
+    const [paramKey, paramValue] = param.split("=");
+    if (paramKey === key) {
+      return paramValue;
+    }
+  }
+  return null;
+}
+
+function transformPath(path) {
+  const parts = path.split("?");
+  const widgetSrc = parts[0];
+  const params = parts[1] ? parts[1].split("&") : [];
+
+  // update the below to use this new params array
+  if (widgetSrc.startsWith("/" + Widgets.default)) {
+    // {account}/widget/app
+
+    // construct the path from the params
+    let page = "";
+    let tab = "";
+
+    for (const param of params) {
+      const [key, value] = param.split("=");
+      if (key === "page") {
+        page = `/${value}`;
+      } else if (key === "tab") {
+        tab = `/${value}`;
+      }
+    }
+
+    switch (page) {
+      case "/home": {
+        return "/";
+      }
+      case "/profile": {
+        const accountId = getValue(params, "accountId");
+        return accountId ? `/profile/${accountId}` : page;
+      }
+      case "/project": {
+        const projectId = getValue(params, "id");
+        path = projectId ? `/project/${projectId}` : page;
+        return (
+          path +
+          (getValue(params, "tab") ? `?tab=${getValue(params, "tab")}` : "")
+        );
+      }
+      default: {
+        return `${page}${tab}`;
+      }
+    }
+  }
+  return path;
+}
+
 function App() {
   const [connected, setConnected] = useState(false);
   const [signedIn, setSignedIn] = useState(false);
@@ -113,7 +169,7 @@ function App() {
               props.to =
                 typeof props.to === "string" &&
                 isValidAttribute("a", "href", props.to)
-                  ? props.to
+                  ? transformPath(props.to)
                   : "about:blank";
             }
             return <Link {...props} />;
@@ -195,7 +251,6 @@ function App() {
     widgetSrc,
     logOut,
     requestSignIn,
-    widgets: Widgets,
     documentationHref,
     currentGateway,
   };

@@ -246,16 +246,12 @@ const Hero = (props) => {
           ) : (
             <>
               <Button
-                href={
-                  !props.fromGateway
-                    ? href({
-                        widgetSrc: "${config_account}/widget/app",
-                        params: {
-                          page: "feed",
-                        },
-                      })
-                    : "/feed"
-                }
+                href={href({
+                  widgetSrc: "${config_account}/widget/app",
+                  params: {
+                    page: "feed",
+                  },
+                })}
                 style={{ background: "#4A21A5", color: "white" }}
               >
                 See Activity
