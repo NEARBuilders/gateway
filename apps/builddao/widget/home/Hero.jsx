@@ -229,14 +229,14 @@ const Hero = (props) => {
         <div className="d-flex align-items-center gap-4">
           {currentGateway && !signedIn ? (
             <>
-              <Link
+              <a
                 href={"${alias_gateway_url}/join?from=trial"}
                 style={{ textDecoration: "none" }}
               >
                 <Button style={{ background: "#4A21A5", color: "white" }}>
                   Create Trial Account
                 </Button>
-              </Link>
+              </a>
               <Phrase>
                 Try out the Builders Gateway with a trial account.
                 <br />
@@ -246,16 +246,12 @@ const Hero = (props) => {
           ) : (
             <>
               <Button
-                href={
-                  !props.fromGateway
-                    ? href({
-                        widgetSrc: "${config_account}/widget/app",
-                        params: {
-                          page: "feed",
-                        },
-                      })
-                    : "/feed"
-                }
+                href={href({
+                  widgetSrc: "${config_account}/widget/app",
+                  params: {
+                    page: "feed",
+                  },
+                })}
                 style={{ background: "#4A21A5", color: "white" }}
               >
                 See Activity

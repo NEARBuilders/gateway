@@ -239,7 +239,6 @@ const unreadNotifications = getNotificationCount();
 function Navbar(props) {
   const { page, routes } = props;
   const [dropdown, setDropdown] = useState(false);
-  const fromGateway = props.fromGateway ?? false;
 
   const toggleDropdown = () => {
     setDropdown((prev) => !prev);
@@ -264,16 +263,12 @@ function Navbar(props) {
       <MainContent className="container-xl">
         <Left>
           <Link
-            to={
-              !fromGateway
-                ? href({
-                    widgetSrc: "${config_account}/widget/app",
-                    params: {
-                      page: "home",
-                    },
-                  })
-                : `/`
-            }
+            to={href({
+              widgetSrc: "${config_account}/widget/app",
+              params: {
+                page: "home",
+              },
+            })}
             className="d-flex align-items-center"
           >
             <img
@@ -293,18 +288,12 @@ function Navbar(props) {
                   <Link
                     key={`desktop=${k}`}
                     style={{ textDecoration: "none" }}
-                    to={
-                      !fromGateway
-                        ? href({
-                            widgetSrc: "${config_account}/widget/app",
-                            params: {
-                              page: k,
-                            },
-                          })
-                        : k === "home"
-                          ? "/"
-                          : `/${k}`
-                    }
+                    to={href({
+                      widgetSrc: "${config_account}/widget/app",
+                      params: {
+                        page: k,
+                      },
+                    })}
                   >
                     <span key={k} className={page === k ? "active" : null}>
                       {route.init.icon && <i className={route.init.icon}></i>}
@@ -320,16 +309,12 @@ function Navbar(props) {
             <Button
               className="rounded-3 position-relative"
               type="icon"
-              href={
-                !fromGateway
-                  ? href({
-                      widgetSrc: "${config_account}/widget/app",
-                      params: {
-                        page: "notifications",
-                      },
-                    })
-                  : "/notifications"
-              }
+              href={href({
+                widgetSrc: "${config_account}/widget/app",
+                params: {
+                  page: "notifications",
+                },
+              })}
             >
               <i className="bi bi-bell"></i>
               {unreadNotifications > 0 && (
@@ -360,52 +345,56 @@ function Navbar(props) {
               gap: "0.5rem",
             }}
           >
-            <StyledDropdown className="dropdown">
-              <button
-                className="dropdown-toggle"
-                type="button"
-                id="dropdownMenu2222"
-                data-bs-toggle="dropdown"
-                aria-expanded="false"
-              >
-                <i style={{ color: "white" }} className="bi bi-three-dots"></i>
-              </button>
-              <ul className="dropdown-menu" aria-labelledby="dropdownMenu2222">
-                <li>
-                  <Link
-                    style={{ textDecoration: "none" }}
-                    href={
-                      !fromGateway
-                        ? href({
-                            widgetSrc: "${config_account}/widget/app",
-                            params: {
-                              page: "inspect",
-                              widgetPath: routes[page].path,
-                            },
-                          })
-                        : `/inspect/${routes[page].path}`
-                    }
-                    type="icon"
-                    variant="outline"
-                    className="d-flex align-tiems-center gap-2"
-                  >
-                    <i className="bi bi-code"></i>
-                    <span>View source</span>
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    style={{ textDecoration: "none" }}
-                    href={`/edit/${routes[page].path}`}
-                    type="icon"
-                    variant="outline"
-                    className="d-flex align-items-center gap-2"
-                  >
-                    <i className="bi bi-pencil"></i>
-                    <span>Edit code</span>
-                  </Link>
-                </li>
-              </ul>
+            <StyledDropdown className="dropdown ">
+              <div className="d-flex justify-content-end align-items-center gap-3">
+                <button
+                  className="dropdown-toggle"
+                  type="button"
+                  id="dropdownMenu2222"
+                  data-bs-toggle="dropdown"
+                  aria-expanded="false"
+                >
+                  <i
+                    style={{ color: "white" }}
+                    className="bi bi-three-dots"
+                  ></i>
+                </button>
+                <ul
+                  className="dropdown-menu"
+                  aria-labelledby="dropdownMenu2222"
+                >
+                  <li>
+                    <Link
+                      style={{ textDecoration: "none" }}
+                      href={href({
+                        widgetSrc: "${config_account}/widget/app",
+                        params: {
+                          page: "inspect",
+                          widgetPath: routes[page].path,
+                        },
+                      })}
+                      type="icon"
+                      variant="outline"
+                      className="d-flex align-tiems-center gap-2"
+                    >
+                      <i className="bi bi-code"></i>
+                      <span>View source</span>
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      style={{ textDecoration: "none" }}
+                      href={`/edit/${routes[page].path}`}
+                      type="icon"
+                      variant="outline"
+                      className="d-flex align-items-center gap-2"
+                    >
+                      <i className="bi bi-pencil"></i>
+                      <span>Edit code</span>
+                    </Link>
+                  </li>
+                </ul>
+              </div>
             </StyledDropdown>
             {context.accountId ? (
               <Widget
@@ -550,17 +539,13 @@ function Navbar(props) {
                 <Button
                   linkClassName="d-flex w-100"
                   className="w-100"
-                  href={
-                    !fromGateway
-                      ? href({
-                          widgetSrc: "${config_account}/widget/app",
-                          params: {
-                            page: "inspect",
-                            widgetPath: routes[page].path,
-                          },
-                        })
-                      : `/inspect/${routes[page].path}`
-                  }
+                  href={href({
+                    widgetSrc: "${config_account}/widget/app",
+                    params: {
+                      page: "inspect",
+                      widgetPath: routes[page].path,
+                    },
+                  })}
                 >
                   <span>View source</span>
                 </Button>
