@@ -25,13 +25,7 @@ import {
 import React, { useCallback, useEffect, useState } from "react";
 import "react-bootstrap-typeahead/css/Typeahead.bs5.css";
 import "react-bootstrap-typeahead/css/Typeahead.css";
-import {
-  Link,
-  Redirect,
-  Route,
-  BrowserRouter as Router,
-  Switch,
-} from "react-router-dom";
+import { Link, Route, BrowserRouter as Router, Switch } from "react-router-dom";
 import { BosLoaderBanner } from "./components/BosLoaderBanner";
 import { useEthersProviderContext } from "./data/web3";
 import { NetworkId, Widgets } from "./data/widgets";
@@ -48,6 +42,62 @@ import LogoutPage from "./pages/LogoutPage";
 export const refreshAllowanceObj = {};
 const documentationHref = "https://docs.near.org/bos/overview";
 const currentGateway = "nearbuilders";
+
+function getValue(params, key) {
+  for (const param of params) {
+    const [paramKey, paramValue] = param.split("=");
+    if (paramKey === key) {
+      return paramValue;
+    }
+  }
+  return null;
+}
+
+function transformPath(path) {
+  const parts = path.split("?");
+  const widgetSrc = parts[0];
+  const params = parts[1] ? parts[1].split("&") : [];
+
+  // update the below to use this new params array
+  if (widgetSrc.startsWith("/" + Widgets.default)) {
+    // {account}/widget/app
+
+    // construct the path from the params
+    let page = "";
+    let tab = "";
+
+    for (const param of params) {
+      const [key, value] = param.split("=");
+      if (key === "page") {
+        page = `/${value}`;
+      } else if (key === "tab") {
+        tab = `/${value}`;
+      }
+    }
+
+    switch (page) {
+      case "/home": {
+        return "/";
+      }
+      case "/profile": {
+        const accountId = getValue(params, "accountId");
+        return accountId ? `/profile/${accountId}` : page;
+      }
+      case "/project": {
+        const projectId = getValue(params, "id");
+        path = projectId ? `/project/${projectId}` : page;
+        return (
+          path +
+          (getValue(params, "tab") ? `?tab=${getValue(params, "tab")}` : "")
+        );
+      }
+      default: {
+        return `${page}${tab}`;
+      }
+    }
+  }
+  return path;
+}
 
 function App() {
   const [connected, setConnected] = useState(false);
@@ -119,7 +169,7 @@ function App() {
               props.to =
                 typeof props.to === "string" &&
                 isValidAttribute("a", "href", props.to)
-                  ? props.to
+                  ? transformPath(props.to)
                   : "about:blank";
             }
             return <Link {...props} />;
@@ -201,12 +251,9 @@ function App() {
     widgetSrc,
     logOut,
     requestSignIn,
-    widgets: Widgets,
     documentationHref,
     currentGateway,
   };
-
-  const index = Widgets.default;
 
   return (
     <div className="App" style={{ height: "100vh" }}>
@@ -225,20 +272,44 @@ function App() {
               <BosLoaderBanner />
               <LogoutPage {...passProps} />
             </Route>
-            <Route path={"/library"}>
-              <Redirect to={`${index}?page=library`} />
+            <Route exact path={"/library"}>
+              <Viewer page={"library"} />
             </Route>
-            <Route path={"/propose"}>
-              <Redirect to={`${index}?page=proposal&tab=proposals`} />
+            <Route exact path={"/propose"}>
+              <Viewer page={"feed"} tab={"proposals"} />
             </Route>
-            <Route path={"/projects"}>
-              <Redirect to={`${index}?page=projects`} />
+            <Route exact path={"/projects"}>
+              <Viewer page={"projects"} />
             </Route>
-            <Route path={"/feed"}>
-              <Redirect to={`${index}?page=feed`} />
+            <Route exact path={"/feed"}>
+              <Viewer page={"feed"} />
             </Route>
-            <Route path={"/resources"}>
-              <Redirect to={`${index}?page=resources`} />
+            <Route exact path={"/feed/:feedTab"}>
+              <Viewer page={"feed"} />
+            </Route>
+            <Route exact path={"/resources"}>
+              <Viewer page={"resources"} />
+            </Route>
+            <Route exact path={"/resources/:feedTab"}>
+              <Viewer page={"resources"} />
+            </Route>
+            <Route exact path={"/profile"}>
+              <Viewer page={"profile"} />
+            </Route>
+            <Route exact path={"/profile/:accountId"}>
+              <Viewer page={"profile"} />
+            </Route>
+            <Route exact path={"/project/:projectId*"}>
+              <Viewer page={"project"} />
+            </Route>
+            <Route exact path={"/inspect"}>
+              <Viewer page={"inspect"} />
+            </Route>
+            <Route exact path={"/inspect/:widgetSrc*"}>
+              <Viewer page={"inspect"} />
+            </Route>
+            <Route exact path={"/notifications"}>
+              <Viewer page={"notifications"} />
             </Route>
             <Route path={"/edit/:widgetSrc*"}>
               <EditorPage {...passProps} />

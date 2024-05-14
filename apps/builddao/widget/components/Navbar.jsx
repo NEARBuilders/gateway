@@ -345,7 +345,7 @@ function Navbar(props) {
               gap: "0.5rem",
             }}
           >
-            <StyledDropdown className="dropdown ">
+            <StyledDropdown className="dropdown">
               <div className="d-flex justify-content-end align-items-center gap-3">
                 <button
                   className="dropdown-toggle"

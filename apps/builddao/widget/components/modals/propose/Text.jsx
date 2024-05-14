@@ -183,7 +183,6 @@ return (
         proposalType: "Add Member",
       }}
     />
-    {/* {console.log(notificationsData)} */}
     <div className="w-100 d-flex">
       <Button
         className="ms-auto"

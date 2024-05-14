@@ -47,10 +47,18 @@ const Sidebar = ({ currentPath, page, routes }) => (
         if (route.hide) {
           return null;
         }
+        let defaultSelection = "";
+        if (!page) {
+          defaultSelection = Object.keys(routes)[0];
+        }
         return (
           <Button
             id={k}
-            variant={page === k ? "primary" : "outline"}
+            variant={
+              (page !== "" && page === k) || defaultSelection === k
+                ? "primary"
+                : "outline"
+            }
             href={`${currentPath}&tab=${k}`}
             className={
               "justify-content-start fw-medium align-self-stretch w-100"
