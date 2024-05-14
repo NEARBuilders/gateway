@@ -116,10 +116,10 @@ const XIcon = () => (
   </svg>
 );
 
-const Footer = (props) => {
+const Footer = ({ noBanner }) => {
   return (
     <Container className="container-xl">
-      {!props.noBanner && (
+      {!noBanner && (
         <Card>
           <div className="d-flex flex-column align-items-center">
             <img src="https://ipfs.near.social/ipfs/bafkreifotevq6g6ralhvutlcssaasa7xbfjjc6mbo5hlnvgpxxgfmwswmq" />

@@ -128,7 +128,7 @@ const { href: linkHref } = VM.require("${config_account}/widget/lib.url") || {
   href: () => {},
 };
 
-const Component = (props) => {
+const Component = () => {
   if (!context.accountId) {
     return (
       <Button

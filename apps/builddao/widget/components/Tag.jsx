@@ -41,7 +41,7 @@ const Tag = ({ label }) => {
         viewBox="0 0 17 17"
         fill="none"
       >
-        <g clipPath="url(#clip0_1423_5056)">
+        <g clip-path="url(#clip0_1423_5056)">
           <path
             d="M4.5 14.5L14.5 4.5L12.5 2.5L2.5 12.5L4.5 14.5Z"
             stroke="#ECA227"
@@ -68,14 +68,14 @@ const Tag = ({ label }) => {
           />
         </g>
         <defs>
-          <clipPath id="clip0_1423_5056">
+          <clip-path id="clip0_1423_5056">
             <rect
               width="16"
               height="16"
               fill="white"
               transform="translate(0.5 0.5)"
             />
-          </clipPath>
+          </clip-path>
         </defs>
       </svg>
     </Container>

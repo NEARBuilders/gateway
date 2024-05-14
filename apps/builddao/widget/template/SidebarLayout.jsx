@@ -86,11 +86,7 @@ function SidebarLayout({ currentPath, routes, page, children }) {
   return (
     <Container className="container-xl mt-md-3">
       <SidebarContainer>
-        <Sidebar
-          currentPath={currentPath}
-          page={page}
-          routes={routes}
-        />
+        <Sidebar currentPath={currentPath} page={page} routes={routes} />
       </SidebarContainer>
       <ContentContainer key={page}>{children}</ContentContainer>
     </Container>
