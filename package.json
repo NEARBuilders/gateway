@@ -1,6 +1,6 @@
 {
-  "name": "frontend",
-  "version": "0.18.1",
+  "name": "builddao",
+  "version": "1.0.0",
   "homepage": "/",
   "private": true,
   "dependencies": {
