@@ -55,9 +55,9 @@ const MapIcon = () => (
       />
     </g>
     <defs>
-      <clip-path id="clip0_777_6945">
+      <clipPath id="clip0_777_6945">
         <rect width="16" height="16" fill="white" />
-      </clip-path>
+      </clipPath>
     </defs>
   </svg>
 );

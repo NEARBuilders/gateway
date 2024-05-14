@@ -68,14 +68,14 @@ const Tag = ({ label }) => {
           />
         </g>
         <defs>
-          <clip-path id="clip0_1423_5056">
+          <clipPath id="clip0_1423_5056">
             <rect
               width="16"
               height="16"
               fill="white"
               transform="translate(0.5 0.5)"
             />
-          </clip-path>
+          </clipPath>
         </defs>
       </svg>
     </Container>

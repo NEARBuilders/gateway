@@ -346,47 +346,55 @@ function Navbar(props) {
             }}
           >
             <StyledDropdown className="dropdown">
-              <button
-                className="dropdown-toggle"
-                type="button"
-                id="dropdownMenu2222"
-                data-bs-toggle="dropdown"
-                aria-expanded="false"
-              >
-                <i style={{ color: "white" }} className="bi bi-three-dots"></i>
-              </button>
-              <ul className="dropdown-menu" aria-labelledby="dropdownMenu2222">
-                <li>
-                  <Link
-                    style={{ textDecoration: "none" }}
-                    href={href({
-                      widgetSrc: "${config_account}/widget/app",
-                      params: {
-                        page: "inspect",
-                        widgetPath: routes[page].path,
-                      },
-                    })}
-                    type="icon"
-                    variant="outline"
-                    className="d-flex align-tiems-center gap-2"
-                  >
-                    <i className="bi bi-code"></i>
-                    <span>View source</span>
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    style={{ textDecoration: "none" }}
-                    href={`/edit/${routes[page].path}`}
-                    type="icon"
-                    variant="outline"
-                    className="d-flex align-items-center gap-2"
-                  >
-                    <i className="bi bi-pencil"></i>
-                    <span>Edit code</span>
-                  </Link>
-                </li>
-              </ul>
+              <div className="d-flex justify-content-end align-items-center gap-3">
+                <button
+                  className="dropdown-toggle"
+                  type="button"
+                  id="dropdownMenu2222"
+                  data-bs-toggle="dropdown"
+                  aria-expanded="false"
+                >
+                  <i
+                    style={{ color: "white" }}
+                    className="bi bi-three-dots"
+                  ></i>
+                </button>
+                <ul
+                  className="dropdown-menu"
+                  aria-labelledby="dropdownMenu2222"
+                >
+                  <li>
+                    <Link
+                      style={{ textDecoration: "none" }}
+                      href={href({
+                        widgetSrc: "${config_account}/widget/app",
+                        params: {
+                          page: "inspect",
+                          widgetPath: routes[page].path,
+                        },
+                      })}
+                      type="icon"
+                      variant="outline"
+                      className="d-flex align-tiems-center gap-2"
+                    >
+                      <i className="bi bi-code"></i>
+                      <span>View source</span>
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      style={{ textDecoration: "none" }}
+                      href={`/edit/${routes[page].path}`}
+                      type="icon"
+                      variant="outline"
+                      className="d-flex align-items-center gap-2"
+                    >
+                      <i className="bi bi-pencil"></i>
+                      <span>Edit code</span>
+                    </Link>
+                  </li>
+                </ul>
+              </div>
             </StyledDropdown>
             {context.accountId ? (
               <Widget

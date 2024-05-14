@@ -23,11 +23,7 @@ const config = {
       // customize your header
       <Widget
         src="${config_account}/widget/components.Navbar"
-        props={{
-          routes: config.router.routes,
-          ...passProps,
-          page: props.page,
-        }}
+        props={{ routes: config.router.routes, ...passProps, page: props.page }}
       />
     ),
     Footer: () => <></>, // customize your footer
