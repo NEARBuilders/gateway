@@ -42,6 +42,10 @@ const [projects, approvedProjects] = useMemo(() => {
   return [allRegistrations, approvedProjects];
 }, allRegistrations);
 
+if (!approvedProjects) {
+  return <></>;
+}
+
 const [filteredProjects, setFilteredProjects] = useState(approvedProjects);
 
 const searchByWords = (projects, searchTerm) => {
