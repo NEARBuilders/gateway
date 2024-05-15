@@ -166,6 +166,8 @@ if (showCreateModalProjectId) {
   );
 }
 
+console.log({ filteredProjects, allRegistrations, projects, approvedProjects });
+
 return (
   <Modal
     open={showModal}
