@@ -42,11 +42,13 @@ const [projects, approvedProjects] = useMemo(() => {
   return [allRegistrations, approvedProjects];
 }, allRegistrations);
 
-if (!approvedProjects) {
-  return <></>;
-}
+const [filteredProjects, setFilteredProjects] = useState([]);
 
-const [filteredProjects, setFilteredProjects] = useState(approvedProjects);
+useEffect(() => {
+  if (!filteredProjects.length) {
+    setFilteredProjects(approvedProjects);
+  }
+}, [approvedProjects]);
 
 const searchByWords = (projects, searchTerm) => {
   searchTerm = searchTerm.toLowerCase().trim();
