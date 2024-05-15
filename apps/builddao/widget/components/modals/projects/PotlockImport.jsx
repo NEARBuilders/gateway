@@ -42,7 +42,13 @@ const [projects, approvedProjects] = useMemo(() => {
   return [allRegistrations, approvedProjects];
 }, allRegistrations);
 
-const [filteredProjects, setFilteredProjects] = useState(approvedProjects);
+const [filteredProjects, setFilteredProjects] = useState([]);
+
+useEffect(() => {
+  if (!filteredProjects.length) {
+    setFilteredProjects(approvedProjects);
+  }
+}, [approvedProjects]);
 
 const searchByWords = (projects, searchTerm) => {
   searchTerm = searchTerm.toLowerCase().trim();
@@ -165,6 +171,8 @@ if (showCreateModalProjectId) {
     />
   );
 }
+
+console.log({ filteredProjects, allRegistrations, projects, approvedProjects });
 
 return (
   <Modal
