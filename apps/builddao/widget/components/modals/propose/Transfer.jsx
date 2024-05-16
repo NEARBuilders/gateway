@@ -1,10 +1,10 @@
 const { Button } = VM.require("${config_account}/widget/components") || {
   Button: () => <></>,
 };
-const { InfoPopup } = VM.require(
-  "${config_account}/widget/components.modals.InfoAlert",
+const { ProposalVisibilityInfoModal } = VM.require(
+  "${config_account}/widget/components.modals.propose.ProposalVisibilityInfoModal",
 ) || {
-  InfoPopup: () => <></>,
+  ProposalVisibilityInfoModal: () => <></>,
 };
 const DaoSDK = VM.require("sdks.near/widget/SDKs.Sputnik.DaoSDK") || (() => {});
 
@@ -13,7 +13,7 @@ const [token, setToken] = useState("");
 const [amount, setAmount] = useState(0);
 const [description, setDescription] = useState("");
 const [validatedAddresss, setValidatedAddress] = useState(true);
-const [infoPopup, setInfoPopup] = useState(false);
+const [isInfoModalActive, setInfoModalActive] = useState(false);
 const [copied, setCopied] = useState(false);
 const url =
   "https://www.nearbuilders.org/buildhub.near/widget/app?page=feed&tab=proposals";
@@ -332,15 +332,15 @@ return (
           const amountInYocto = Big(amount)
             .mul(Big(10).pow(ftMetadata.decimals))
             .toFixed();
-          setInfoPopup(true);
+          setInfoModalActive(true);
         }}
       >
         Create
       </Button>
     </div>
-    <InfoPopup
-      open={infoPopup}
-      setInfoPopup={setInfoPopup}
+    <ProposalVisibilityInfoModal
+      open={isInfoModalActive}
+      setInfoModalActive={setInfoModalActive}
       copied={copied}
       onCopyButtonClick={handleCopy}
     />

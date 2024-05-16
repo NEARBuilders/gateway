@@ -1,10 +1,10 @@
 const { Button } = VM.require("${config_account}/widget/components") || {
   Button: () => <></>,
 };
-const { InfoPopup } = VM.require(
-  "${config_account}/widget/components.modals.InfoAlert",
+const { ProposalVisibilityInfoModal } = VM.require(
+  "${config_account}/widget/components.modals.propose.ProposalVisibilityInfoModal",
 ) || {
-  InfoPopup: () => <></>,
+  ProposalVisibilityInfoModal: () => <></>,
 };
 const DaoSDK = VM.require("sdks.near/widget/SDKs.Sputnik.DaoSDK") || (() => {});
 
@@ -17,7 +17,7 @@ const [validatedAddresss, setValidatedAddress] = useState(true);
 const [text, setText] = useState("");
 const [editorKey, setEditorKey] = useState(0);
 const [notificationsData, setNotificationData] = useState(null);
-const [infoPopup, setInfoPopup] = useState(false);
+const [isInfoModalActive, setInfoModalActive] = useState(false);
 const [copied, setCopied] = useState(false);
 const url =
   "https://www.nearbuilders.org/buildhub.near/widget/app?page=feed&tab=proposals";
@@ -315,14 +315,14 @@ return (
         className="ms-auto"
         variant="primary"
         onClick={() => {
-          setInfoPopup(true);
+          setInfoModalActive(true);
         }}
       >
         Create
       </Button>
-      <InfoPopup
-        open={infoPopup}
-        setInfoPopup={setInfoPopup}
+      <ProposalVisibilityInfoModal
+        open={isInfoModalActive}
+        setInfoModalActive={setInfoModalActive}
         copied={copied}
         onCopyButtonClick={handleCopy}
       />
