@@ -1,7 +1,11 @@
 const { Button } = VM.require("${config_account}/widget/components") || {
   Button: () => <></>,
 };
-
+const { InfoPopup } = VM.require(
+  "${config_account}/widget/components.modals.InfoAlert",
+) || {
+  InfoPopup: () => <></>,
+};
 const DaoSDK = VM.require("sdks.near/widget/SDKs.Sputnik.DaoSDK") || (() => {});
 
 const [contract, setContract] = useState("");
@@ -13,6 +17,10 @@ const [validatedAddresss, setValidatedAddress] = useState(true);
 const [text, setText] = useState("");
 const [editorKey, setEditorKey] = useState(0);
 const [notificationsData, setNotificationData] = useState(null);
+const [infoPopup, setInfoPopup] = useState(false);
+const [copied, setCopied] = useState(false);
+const url =
+  "https://www.nearbuilders.org/buildhub.near/widget/app?page=feed&tab=proposals";
 
 const bootstrapTheme = props.bootstrapTheme;
 
@@ -169,6 +177,41 @@ const TextareaWrapper = styled.div`
   }
 `;
 
+useEffect(() => {
+  let timeoutId;
+
+  if (copied) {
+    sdk.createFunctionCallProposal({
+      description: text,
+      receiverId: contract,
+      methodName: method,
+      args: args,
+      proposalDeposit: deposit,
+      proposalGas: gas,
+      gas: 180000000000000,
+      deposit: 200000000000000,
+      additionalCalls: notificationsData,
+    });
+
+    timeoutId = setTimeout(() => {
+      setCopied(false);
+    }, 2000);
+  }
+
+  return () => clearTimeout(timeoutId);
+}, [copied]);
+
+const handleCopy = () => {
+  clipboard
+    .writeText(url)
+    .then(() => {
+      setCopied(true);
+    })
+    .catch((error) => {
+      console.error("Failed to copy:", error);
+    });
+};
+
 return (
   <div className="d-flex flex-column">
     <div className="form-group mb-3">
@@ -272,21 +315,17 @@ return (
         className="ms-auto"
         variant="primary"
         onClick={() => {
-          sdk.createFunctionCallProposal({
-            description: text,
-            receiverId: contract,
-            methodName: method,
-            args: args,
-            proposalDeposit: deposit,
-            proposalGas: gas,
-            gas: 180000000000000,
-            deposit: 200000000000000,
-            additionalCalls: notificationsData,
-          });
+          setInfoPopup(true);
         }}
       >
         Create
       </Button>
+      <InfoPopup
+        open={infoPopup}
+        setInfoPopup={setInfoPopup}
+        copied={copied}
+        onCopyButtonClick={handleCopy}
+      />
     </div>
   </div>
 );

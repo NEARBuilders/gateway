@@ -1,6 +1,11 @@
 const { Button } = VM.require("${config_account}/widget/components") || {
   Button: () => <></>,
 };
+const { InfoPopup } = VM.require(
+  "${config_account}/widget/components.modals.InfoAlert",
+) || {
+  InfoPopup: () => <></>,
+};
 const DaoSDK = VM.require("sdks.near/widget/SDKs.Sputnik.DaoSDK") || (() => {});
 if (!DaoSDK) {
   return <></>;
@@ -8,6 +13,11 @@ if (!DaoSDK) {
 
 const [text, setText] = useState("");
 const [editorKey, setEditorKey] = useState(0);
+const [infoPopup, setInfoPopup] = useState(false);
+const [copied, setCopied] = useState(false);
+const url =
+  "https://www.nearbuilders.org/buildhub.near/widget/app?page=feed&tab=proposals";
+
 useEffect(() => {
   if (!props.item) {
     return;
@@ -16,10 +26,10 @@ useEffect(() => {
   setText(`[EMBED](${path}@${blockHeight})`);
   setEditorKey((editorKey) => editorKey + 1);
 }, [props.item]);
+
 const memoizedKey = useMemo((editorKey) => editorKey, [editorKey]);
 const selectedDAO = props.selectedDAO;
 const [notificationsData, setNotificationData] = useState(null);
-
 const sdk = DaoSDK(selectedDAO);
 if (!sdk) {
   return <></>;
@@ -43,9 +53,9 @@ const MarkdownEditor = `
   .editor-container {
     background: #4f5055;
   }
-  
+
   .drop-wrap {
-    
+
     border-radius: 0.5rem !important;
   }
 
@@ -72,7 +82,7 @@ const MarkdownEditor = `
     border-top: 0 !important;
     border-bottom: 0 !important;
     border-radius: 8px 8px 0 0;
-  
+
     i {
       color: #cdd0d5;
     }
@@ -154,6 +164,36 @@ const TextareaWrapper = styled.div`
   }
 `;
 
+useEffect(() => {
+  let timeoutId;
+
+  if (copied) {
+    sdk.createPollProposal({
+      description: text,
+      gas: 180000000000000,
+      deposit: 200000000000000,
+      additionalCalls: notificationsData,
+    });
+
+    timeoutId = setTimeout(() => {
+      setCopied(false);
+    }, 2000);
+  }
+
+  return () => clearTimeout(timeoutId);
+}, [copied]);
+
+const handleCopy = () => {
+  clipboard
+    .writeText(url)
+    .then(() => {
+      setCopied(true);
+    })
+    .catch((error) => {
+      console.error("Failed to copy:", error);
+    });
+};
+
 return (
   <div className="d-flex flex-column ">
     <label>Proposal Description</label>
@@ -183,22 +223,24 @@ return (
         proposalType: "Add Member",
       }}
     />
+
     {/* {console.log(notificationsData)} */}
     <div className="w-100 d-flex">
       <Button
         className="ms-auto"
         variant="primary"
         onClick={() => {
-          sdk.createPollProposal({
-            description: text,
-            gas: 180000000000000,
-            deposit: 200000000000000,
-            additionalCalls: notificationsData,
-          });
+          setInfoPopup(true);
         }}
       >
         Create
       </Button>
     </div>
+    <InfoPopup
+      open={infoPopup}
+      setInfoPopup={setInfoPopup}
+      copied={copied}
+      onCopyButtonClick={handleCopy}
+    />
   </div>
 );

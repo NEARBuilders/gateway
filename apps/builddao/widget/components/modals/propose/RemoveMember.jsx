@@ -1,10 +1,19 @@
 const { Button } = VM.require("${config_account}/widget/components") || {
   Button: () => <></>,
 };
+const { InfoPopup } = VM.require(
+  "${config_account}/widget/components.modals.InfoAlert",
+) || {
+  InfoPopup: () => <></>,
+};
 const DaoSDK =
   VM.require("sdks.near/widget/SDKs.Sputnik.DaoSDK") || (() => <></>);
 const [accountId, setAccountId] = useState("");
 const [role, setRole] = useState("");
+const [infoPopup, setInfoPopup] = useState(false);
+const [copied, setCopied] = useState(false);
+const url =
+  "https://www.nearbuilders.org/buildhub.near/widget/app?page=feed&tab=proposals";
 const roles = props.roles;
 const selectedDAO = props.selectedDAO;
 
@@ -167,6 +176,38 @@ const TextareaWrapper = styled.div`
   }
 `;
 
+useEffect(() => {
+  let timeoutId;
+
+  if (copied) {
+    sdk.createRemoveMemberProposal({
+      description: text,
+      memberId: accountId,
+      roleId: role,
+      gas: 180000000000000,
+      deposit: 200000000000000,
+      additionalCalls: notificationsData,
+    });
+
+    timeoutId = setTimeout(() => {
+      setCopied(false);
+    }, 2000);
+  }
+
+  return () => clearTimeout(timeoutId);
+}, [copied]);
+
+const handleCopy = () => {
+  clipboard
+    .writeText(url)
+    .then(() => {
+      setCopied(true);
+    })
+    .catch((error) => {
+      console.error("Failed to copy:", error);
+    });
+};
+
 return (
   <div className="d-flex flex-column">
     <div className="form-group mb-3">
@@ -245,18 +286,17 @@ return (
         variant="primary"
         disabled={!accountId || !role || !validatedAddresss}
         onClick={() => {
-          sdk.createRemoveMemberProposal({
-            description: text,
-            memberId: accountId,
-            roleId: role,
-            gas: 180000000000000,
-            deposit: 200000000000000,
-            additionalCalls: notificationsData,
-          });
+          setInfoPopup(true);
         }}
       >
         Create
       </Button>
     </div>
+    <InfoPopup
+      open={infoPopup}
+      setInfoPopup={setInfoPopup}
+      copied={copied}
+      onCopyButtonClick={handleCopy}
+    />
   </div>
 );
