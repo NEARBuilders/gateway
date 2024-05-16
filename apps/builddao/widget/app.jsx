@@ -32,7 +32,7 @@ const config = {
     param: "page",
     routes: {
       home: {
-        path: "${config_account}/widget/page.home",
+        path: "new/widget/home.Home",
         blockHeight: "final",
         init: {
           name: "Home",
