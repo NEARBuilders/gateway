@@ -5,14 +5,26 @@ on:
     branches: [main]
 
 jobs:
-  deploy-mainnet:
+  deploy-builddao-mainnet:
     uses: nearbuilders/bos-workspace/.github/workflows/deploy.yml@main
     with:
       deploy-env: "mainnet"
       bw-legacy: false
       app-name: "builddao"
-      deploy-account-address: ${{ vars.BOS_SIGNER_ACCOUNT_ID }}
-      signer-account-address: ${{ vars.BOS_SIGNER_ACCOUNT_ID }}
-      signer-public-key: ${{ vars.BOS_SIGNER_PUBLIC_KEY }}
+      deploy-account-address: ${{ vars.BOS_BUILDHUB_SIGNER_ACCOUNT_ID }}
+      signer-account-address: ${{ vars.BOS_BUILDHUB_SIGNER_ACCOUNT_ID }}
+      signer-public-key: ${{ vars.BOS_BUILDHUB_SIGNER_PUBLIC_KEY }}
     secrets:
-      SIGNER_PRIVATE_KEY: ${{ secrets.BOS_SIGNER_PRIVATE_KEY }}
+      SIGNER_PRIVATE_KEY: ${{ secrets.BOS_BUILDHUB_SIGNER_PRIVATE_KEY }}
+
+  deploy-buildhub-mainnet:
+    uses: nearbuilders/bos-workspace/.github/workflows/deploy.yml@main
+    with:
+      deploy-env: "mainnet"
+      bw-legacy: false
+      app-name: "buildhub"
+      deploy-account-address: ${{ vars.BOS_BUILDDAO_SIGNER_ACCOUNT_ID }}
+      signer-account-address: ${{ vars.BOS_BUILDDAO_SIGNER_ACCOUNT_ID }}
+      signer-public-key: ${{ vars.BOS_BUILDDAO_SIGNER_PUBLIC_KEY }}
+    secrets:
+      SIGNER_PRIVATE_KEY: ${{ secrets.BOS_BUILDDAO_SIGNER_PRIVATE_KEY }}
