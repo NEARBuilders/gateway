@@ -10,7 +10,9 @@ const { Cards } = VM.require("${config_account}/widget/home.Cards") || {
   Cards: () => <></>,
 };
 
-const { BuildSomething } = VM.require("${config_account}/widget/home.BuildSomething") || {
+const { BuildSomething } = VM.require(
+  "${config_account}/widget/home.BuildSomething",
+) || {
   BuildSomething: () => <></>,
 };
 
