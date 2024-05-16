@@ -32,7 +32,7 @@ const config = {
     param: "page",
     routes: {
       home: {
-        path: "new/widget/home.Home",
+        path: "buildhub.testnet/widget/home.Home", // UPDATE TO CONFIG ACCOUNT LATER
         blockHeight: "final",
         init: {
           name: "Home",
