@@ -5,7 +5,7 @@ on:
     branches: [develop]
 
 jobs:
-  deploy-staging:
+  deploy-builddao-testnet:
     uses: nearbuilders/bos-workspace/.github/workflows/deploy.yml@main
     with:
       build-env: "testnet"
@@ -16,4 +16,17 @@ jobs:
       signer-account-address: builddao.testnet
       signer-public-key: ed25519:6ycWXZES2zEGPurZqP35AUQx92aAzuS7r9ea1GcSQQiT
     secrets:
-      SIGNER_PRIVATE_KEY: ${{ secrets.BOS_TESTNET_SIGNER_PRIVATE_KEY }}
+      SIGNER_PRIVATE_KEY: ${{ secrets.BOS_BUILDDAO_TESTNET_SIGNER_PRIVATE_KEY }}
+
+  deploy-buildhub-testnet:
+    uses: nearbuilders/bos-workspace/.github/workflows/deploy.yml@main
+    with:
+      build-env: "testnet"
+      deploy-env: "testnet"
+      bw-legacy: false
+      app-name: "buildhub"
+      deploy-account-address: buildhub.testnet
+      signer-account-address: buildhub.testnet
+      signer-public-key: ed25519:7ycWXYZT2zEGPurZqP35AUQx92aBzuS7r9ea1GcSQQiU
+    secrets:
+      SIGNER_PRIVATE_KEY: ${{ secrets.BOS_BUILDHUB_TESTNET_SIGNER_PRIVATE_KEY }}
