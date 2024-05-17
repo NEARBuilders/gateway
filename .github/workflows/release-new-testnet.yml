@@ -16,6 +16,6 @@ jobs:
       app-name: "new"
       deploy-account-address: "builddao.testnet"
       signer-account-address: "builddao.testnet"
-      signer-public-key: "ed25519:7ycWXYZT2zEGPurZqP35AUQx92aBzuS7r9ea1GcSQQiU"
+      signer-public-key: "ed25519:6ycWXZES2zEGPurZqP35AUQx92aAzuS7r9ea1GcSQQiT"
     secrets:
       SIGNER_PRIVATE_KEY: ${{ secrets.BOS_BUILDDAO_TESTNET_SIGNER_PRIVATE_KEY }}
