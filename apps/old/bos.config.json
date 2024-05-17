@@ -3,7 +3,7 @@
   "aliases": ["../../aliases.mainnet.json"],
   "overrides": {
     "testnet": {
-      "account": "builddao.testnet",
+      "account": "buildhub.testnet",
       "aliases": ["../../aliases.testnet.json"]
     }
   }
