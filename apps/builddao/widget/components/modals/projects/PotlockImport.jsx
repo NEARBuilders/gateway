@@ -172,7 +172,7 @@ if (showCreateModalProjectId) {
   );
 }
 
-console.log({ filteredProjects, allRegistrations, projects, approvedProjects });
+// console.log({ filteredProjects, allRegistrations, projects, approvedProjects });
 
 return (
   <Modal
