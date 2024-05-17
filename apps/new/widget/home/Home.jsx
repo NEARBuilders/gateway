@@ -1,24 +1,26 @@
-const { Hero } = VM.require("new/widget/home.Hero") || {
+const { Hero } = VM.require("${config_account}/widget/home.Hero") || {
   Hero: () => <></>,
 };
 
-const { Build } = VM.require("new/widget/home.Build") || {
+const { Build } = VM.require("${config_account}/widget/home.Build") || {
   Build: () => <></>,
 };
 
-const { Cards } = VM.require("new/widget/home.Cards") || {
+const { Cards } = VM.require("${config_account}/widget/home.Cards") || {
   Cards: () => <></>,
 };
 
-const { BuildSomething } = VM.require("new/widget/home.BuildSomething") || {
+const { BuildSomething } = VM.require(
+  "${config_account}/widget/home.BuildSomething",
+) || {
   BuildSomething: () => <></>,
 };
 
-const { CTA } = VM.require("new/widget/home.CTA") || {
+const { CTA } = VM.require("${config_account}/widget/home.CTA") || {
   CTA: () => <></>,
 };
 
-const { Footer } = VM.require("new/widget/home.Footer") || {
+const { Footer } = VM.require("${config_account}/widget/home.Footer") || {
   Footer: () => <></>,
 };
 
