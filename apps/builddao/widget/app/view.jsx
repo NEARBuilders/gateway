@@ -32,8 +32,6 @@ if (!config) {
   }
 }
 
-// console.log("config", config);
-
 if (!config) {
   return (
     <p>

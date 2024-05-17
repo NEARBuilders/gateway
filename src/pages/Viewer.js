@@ -50,45 +50,8 @@ function Viewer({ code, widgets }) {
     fetchRedirectMap();
   }, []);
 
-  const routes = {
-    home: {
-      path: "buildhub.near/widget/page.home",
-      blockHeight: "final",
-      init: {
-        name: "Home",
-      },
-    },
-    feed: {
-      path: "buildhub.near/widget/page.feed",
-      blockHeight: "final",
-      init: {
-        name: "Activity",
-      },
-    },
-    resources: {
-      path: "buildhub.near/widget/page.resources",
-      blockHeight: "final",
-      init: {
-        name: "Resources",
-      },
-    },
-    library: {
-      path: "buildhub.near/widget/page.library",
-      blockHeight: "final",
-      init: {
-        name: "Library",
-      },
-    },
-  };
-
   return (
     <div className="bg-white">
-      {src !== "buildhub.near/widget/app" && (
-        <Widget
-          src="buildhub.near/widget/components.Navbar"
-          props={{ routes }}
-        />
-      )}
       <Widget
         src={!code && src}
         code={code} // prioritize code
