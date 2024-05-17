@@ -1,7 +1,91 @@
-const { Modal, Button } = VM.require("${config_account}/widget/components") || {
-  Modal: () => <></>,
+const { Button } = VM.require("${config_account}/widget/components") || {
   Button: () => <></>,
 };
+const { VisibilityModal } = VM.require(
+  "${config_account}/widget/components.modals.VisibilityModal",
+) || {
+  VisibilityModal: () => <></>,
+};
+
+const ModalContainer = styled.div`
+  width: 480px;
+  height: 314px;
+  gap: 0;
+  border-radius: 20px;
+  background-color: #23242b;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+`;
+const ModalHeading = styled.div`
+  font-family: "Poppins", sans-serif;
+  font-size: 20px;
+  font-weight: 500;
+  text-align: center;
+  letter-spacing: 0.01em;
+  margin-top: 10px;
+`;
+
+const ButtonContainer = styled.div`
+  display: flex;
+  justify-content: center;
+`;
+
+const StyledButton = styled.div`
+  padding: 8px 16px;
+  border-radius: 10px;
+  margin-left: 8px;
+  cursor: pointer;
+  font-weight: 500;
+  font-family: inherit;
+  color: ${(props) => (props.variant === "copy" ? "#000000" : "#FFFFFF97")};
+  background-color: ${(props) =>
+    props.variant === "copy" ? "#FFAF51" : "#505050"};
+  transition: background-color 0.3s;
+  &:hover {
+    background-color: ${(props) =>
+      props.variant === "copy" ? "#FFC57F" : "#626262"};
+  }
+`;
+
+const CloseModalButton = styled.div`
+  position: absolute;
+  top: 10px;
+  right: 20px;
+  cursor: pointer;
+`;
+
+const TimerContainer = styled.div`
+  margin-top: 20px; /* Adjust margin as needed */
+  width: 48px;
+  height: 48px;
+  background-color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 100px;
+`;
+
+const Timer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 44px;
+  height: 44px;
+`;
+const Content = styled.div`
+  font-family: "Poppins", sans-serif;
+  font-size: 16px;
+  font-weight: 200;
+  text-align: center;
+  margin-top: 20px;
+  max-width: 400px;
+  margin: 0;
+  padding: 0 20px;
+`;
 
 const ProposalVisibilityInfoModal = ({
   open,
@@ -10,35 +94,44 @@ const ProposalVisibilityInfoModal = ({
   copied,
 }) => {
   return (
-    <Modal open={open} onOpenChange={setInfoModalActive} hideCloseBtn={true}>
-      <div>
-        <p
-          style={{
-            color: "white",
-            textAlign: "center",
-            marginLeft: "-10px",
-            marginBottom: "20px",
-          }}
-        >
-          <h5>
-            After approval, the proposal will appear in the Proposals feed.
-            Please copy the link of the feed beforehand.
-          </h5>
-        </p>
-        <div style={{ textAlign: "center", marginTop: "10px" }}>
-          <Button variant="outline" onClick={onCopyButtonClick}>
-            Copy
-          </Button>
+    <VisibilityModal open={open} onOpenChange={setInfoModalActive}>
+      <ModalContainer onClick={() => setInfoModalActive(false)}>
+        <CloseModalButton>
+          <img src="https://ipfs.near.social/ipfs/bafkreicu7e7n6nrt3thi5zayhxf6ffttibekawpuygh4oakumw77hhk46q" />
+        </CloseModalButton>
 
-          <Button variant="outline" onClick={() => setInfoModalActive(false)}>
+        <TimerContainer>
+          <Timer>
+            <img
+              src="https://ipfs.near.social/ipfs/bafkreibqiezrrdjzrcjxqc2grfn62dcgalhl46d4yg63pb7t73nvx3tvj4"
+              style={{ width: 20, height: 24 }}
+            />
+          </Timer>
+        </TimerContainer>
+
+        <ModalHeading>
+          Awaiting Approval
+          <Content>
+            <p>
+              Once the transaction is approved, it will appear in the 'Proposals
+              Feed'. Kindly save the feed link beforehand.
+            </p>
+          </Content>
+        </ModalHeading>
+
+        <ButtonContainer>
+          <StyledButton variant="copy" onClick={onCopyButtonClick}>
+            Copy
+          </StyledButton>
+          <StyledButton
+            variant="cancel"
+            onClick={() => setInfoModalActive(false)}
+          >
             Cancel
-          </Button>
-        </div>
-        <div style={{ textAlign: "center", marginTop: "10px" }}>
-          {copied && <span style={{ color: "green" }}>Copied!!</span>}
-        </div>
-      </div>
-    </Modal>
+          </StyledButton>
+        </ButtonContainer>
+      </ModalContainer>
+    </VisibilityModal>
   );
 };
 return { ProposalVisibilityInfoModal };

@@ -20,7 +20,7 @@ const [notificationsData, setNotificationData] = useState(null);
 const [isInfoModalActive, setInfoModalActive] = useState(false);
 const [copied, setCopied] = useState(false);
 const url =
-  "https://www.nearbuilders.org/buildhub.near/widget/app?page=feed&tab=proposals";
+  "${alias_gateway_url}/${config_account}/widget/app?page=feed&tab=proposals";
 
 const bootstrapTheme = props.bootstrapTheme;
 
