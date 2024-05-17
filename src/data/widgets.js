@@ -8,11 +8,11 @@ export const NetworkId =
   window.location.hostname in TestnetDomains ? "testnet" : "mainnet";
 
 const TestnetWidgets = {
-  default: "builddao.testnet/widget/app",
-  login: "builddao.testnet/widget/login",
-  logout: "builddao.testnet/widget/logout",
-  trialAccountBanner: "builddao.testnet/widget/TrialAccountBanner",
-  onboardingFlow: "builddao.testnet/widget/OnboardingFlow",
+  default: "buildhub.testnet/widget/app",
+  login: "buildhub.testnet/widget/login",
+  logout: "buildhub.testnet/widget/logout",
+  trialAccountBanner: "buildhub.testnet/widget/TrialAccountBanner",
+  onboardingFlow: "buildhub.testnet/widget/OnboardingFlow",
 
   image: "eugenethedream/widget/Image",
   viewSource: "eugenethedream/widget/WidgetSource",
