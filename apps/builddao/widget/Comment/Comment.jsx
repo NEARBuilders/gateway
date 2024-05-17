@@ -102,12 +102,12 @@ const StyledPost = styled.div`
 `;
 
 const Wrapper = styled.div`
-  /* margin: 0 -12px; */
+  margin: 0 -12px;
   line-height: normal;
 
   .post {
     position: relative;
-    /* padding: 12px; */
+    padding: 12px;
     padding-bottom: 4px;
     display: flex;
     h1,

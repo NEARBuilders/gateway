@@ -82,6 +82,7 @@ const Wrapper = styled.div`
 
   .post {
     position: relative;
+    padding: 12px;
     padding-bottom: 4px;
     display: flex;
     h1,
