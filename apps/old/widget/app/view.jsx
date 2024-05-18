@@ -88,7 +88,7 @@ const Content = styled.div`
 // const Template = config.Template ?? (({children}) => <>{children}</>);
 return (
   <CSS style={config.theme}>
-    <Container>
+    <Container className="container-xl">
       <Layout
         {...(config.layout?.props ?? { variant: "standard" })}
         blocks={config.blocks}

@@ -202,6 +202,9 @@ const CSS = styled.div`
   .placeholder-glow {
     background: var(--bg-1, black);
   }
+  .container-xl {
+    padding-inline: 0px !important;
+  }
 `;
 
 return { CSS };

@@ -9,7 +9,12 @@ const config = {
     "--secondary-color": "white",
     background: "var(--main-color)",
     color: "var(--secondary-color)",
-    height: "100vh",
+    height: "100%",
+    width: "100%",
+    position: "fixed",
+    overflowY: "scroll",
+    inset: "var(--body-top-padding) 0px 0px",
+    left: 0,
   },
   layout: {
     src: "${alias_devs}/widget/Layout",
