@@ -1,10 +1,8 @@
 const { Button } = VM.require("${config_account}/widget/components") || {
   Button: () => <></>,
 };
-const { VisibilityModal } = VM.require(
-  "${config_account}/widget/components.modals.VisibilityModal",
-) || {
-  VisibilityModal: () => <></>,
+const { Modal } = VM.require("${config_account}/widget/components.Modal") || {
+  Modal: () => <></>,
 };
 
 const ModalContainer = styled.div`
@@ -12,7 +10,7 @@ const ModalContainer = styled.div`
   height: 314px;
   gap: 0;
   border-radius: 20px;
-  background-color: #23242b;
+  background-color: #000000;
   color: #fff;
   display: flex;
   flex-direction: column;
@@ -51,15 +49,9 @@ const StyledButton = styled.div`
   }
 `;
 
-const CloseModalButton = styled.div`
-  position: absolute;
-  top: 10px;
-  right: 20px;
-  cursor: pointer;
-`;
-
 const TimerContainer = styled.div`
-  margin-top: 20px; /* Adjust margin as needed */
+  margin-top: -60px;
+  margin-left: 200px; /* Adjust margin as needed */
   width: 48px;
   height: 48px;
   background-color: #fff;
@@ -81,57 +73,61 @@ const Content = styled.div`
   font-size: 16px;
   font-weight: 200;
   text-align: center;
-  margin-top: 20px;
-  max-width: 400px;
+  margin-top: 50px;
+  max-width: 450px;
   margin: 0;
   padding: 0 20px;
 `;
 
 const ProposalVisibilityInfoModal = ({
   open,
+  url,
+  setCopied,
   setInfoModalActive,
-  onCopyButtonClick,
   copied,
 }) => {
+  const handleCopy = () => {
+    clipboard
+      .writeText(url)
+      .then(() => {
+        setCopied(true);
+      })
+      .catch((error) => {
+        console.error("Failed to copy:", error);
+      });
+  };
+
   return (
-    <VisibilityModal open={open} onOpenChange={setInfoModalActive}>
-      <ModalContainer onClick={() => setInfoModalActive(false)}>
-        <CloseModalButton>
-          <img src="https://ipfs.near.social/ipfs/bafkreicu7e7n6nrt3thi5zayhxf6ffttibekawpuygh4oakumw77hhk46q" />
-        </CloseModalButton>
+    <Modal open={open} onOpenChange={setInfoModalActive}>
+      <TimerContainer>
+        <Timer>
+          <img
+            src="https://ipfs.near.social/ipfs/bafkreibqiezrrdjzrcjxqc2grfn62dcgalhl46d4yg63pb7t73nvx3tvj4"
+            style={{ width: 20, height: 24 }}
+          />
+        </Timer>
+      </TimerContainer>
 
-        <TimerContainer>
-          <Timer>
-            <img
-              src="https://ipfs.near.social/ipfs/bafkreibqiezrrdjzrcjxqc2grfn62dcgalhl46d4yg63pb7t73nvx3tvj4"
-              style={{ width: 20, height: 24 }}
-            />
-          </Timer>
-        </TimerContainer>
+      <ModalHeading>Awaiting Approval</ModalHeading>
+      <Content>
+        <p>
+          Once the transaction is approved, it will appear in the 'Proposals
+          Feed'. Kindly save the feed link beforehand.
+        </p>
+      </Content>
 
-        <ModalHeading>
-          Awaiting Approval
-          <Content>
-            <p>
-              Once the transaction is approved, it will appear in the 'Proposals
-              Feed'. Kindly save the feed link beforehand.
-            </p>
-          </Content>
-        </ModalHeading>
-
-        <ButtonContainer>
-          <StyledButton variant="copy" onClick={onCopyButtonClick}>
-            Copy
-          </StyledButton>
-          <StyledButton
-            variant="cancel"
-            onClick={() => setInfoModalActive(false)}
-          >
-            Cancel
-          </StyledButton>
-        </ButtonContainer>
-      </ModalContainer>
-    </VisibilityModal>
+      <ButtonContainer>
+        <StyledButton variant="copy" onClick={handleCopy}>
+          Copy
+        </StyledButton>
+        <StyledButton
+          variant="cancel"
+          onClick={() => setInfoModalActive(false)}
+        >
+          Cancel
+        </StyledButton>
+      </ButtonContainer>
+    </Modal>
   );
 };
 return { ProposalVisibilityInfoModal };

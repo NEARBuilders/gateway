@@ -229,17 +229,6 @@ useEffect(() => {
   return () => clearTimeout(timeoutId);
 }, [copied]);
 
-const handleCopy = () => {
-  clipboard
-    .writeText(url)
-    .then(() => {
-      setCopied(true);
-    })
-    .catch((error) => {
-      console.error("Failed to copy:", error);
-    });
-};
-
 return (
   <div className="d-flex flex-column">
     <div className="form-group mb-3">
@@ -342,7 +331,8 @@ return (
       open={isInfoModalActive}
       setInfoModalActive={setInfoModalActive}
       copied={copied}
-      onCopyButtonClick={handleCopy}
+      setCopied={setCopied}
+      url={url}
     />
   </div>
 );
