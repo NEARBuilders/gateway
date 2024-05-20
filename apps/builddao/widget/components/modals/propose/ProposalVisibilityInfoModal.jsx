@@ -78,10 +78,10 @@ const Content = styled.div`
   margin: 0;
   padding: 0 20px;
 `;
-
+const url =
+  "${alias_gateway_url}/${config_account}/widget/app?page=feed&tab=proposals";
 const ProposalVisibilityInfoModal = ({
   open,
-  url,
   setCopied,
   setInfoModalActive,
   copied,

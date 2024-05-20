@@ -15,8 +15,6 @@ const [description, setDescription] = useState("");
 const [validatedAddresss, setValidatedAddress] = useState(true);
 const [isInfoModalActive, setInfoModalActive] = useState(false);
 const [copied, setCopied] = useState(false);
-const url =
-  "${alias_gateway_url}/${config_account}/widget/app?page=feed&tab=proposals";
 
 const bootstrapTheme = props.bootstrapTheme;
 
