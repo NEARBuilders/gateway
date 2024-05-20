@@ -16,7 +16,6 @@ const [editorKey, setEditorKey] = useState(0);
 const [isInfoModalActive, setInfoModalActive] = useState(false);
 const [copied, setCopied] = useState(false);
 
-
 useEffect(() => {
   if (!props.item) {
     return;
@@ -163,24 +162,14 @@ const TextareaWrapper = styled.div`
   }
 `;
 
-useEffect(() => {
-  let timeoutId;
-
-  if (copied) {
-    sdk.createPollProposal({
-      description: text,
-      gas: 180000000000000,
-      deposit: 200000000000000,
-      additionalCalls: notificationsData,
-    });
-
-    timeoutId = setTimeout(() => {
-      setCopied(false);
-    }, 2000);
-  }
-
-  return () => clearTimeout(timeoutId);
-}, [copied]);
+const sdkCall = () => {
+  sdk.createPollProposal({
+    description: text,
+    gas: 180000000000000,
+    deposit: 200000000000000,
+    additionalCalls: notificationsData,
+  });
+};
 
 return (
   <div className="d-flex flex-column ">
@@ -229,7 +218,7 @@ return (
       setInfoModalActive={setInfoModalActive}
       copied={copied}
       setCopied={setCopied}
-      url={url}
+      sdkCall={sdkCall}
     />
   </div>
 );

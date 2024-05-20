@@ -20,7 +20,6 @@ const [notificationsData, setNotificationData] = useState(null);
 const [isInfoModalActive, setInfoModalActive] = useState(false);
 const [copied, setCopied] = useState(false);
 
-
 const bootstrapTheme = props.bootstrapTheme;
 
 useEffect(() => {
@@ -176,29 +175,19 @@ const TextareaWrapper = styled.div`
   }
 `;
 
-useEffect(() => {
-  let timeoutId;
-
-  if (copied) {
-    sdk.createFunctionCallProposal({
-      description: text,
-      receiverId: contract,
-      methodName: method,
-      args: args,
-      proposalDeposit: deposit,
-      proposalGas: gas,
-      gas: 180000000000000,
-      deposit: 200000000000000,
-      additionalCalls: notificationsData,
-    });
-
-    timeoutId = setTimeout(() => {
-      setCopied(false);
-    }, 2000);
-  }
-
-  return () => clearTimeout(timeoutId);
-}, [copied]);
+const sdkCall = () => {
+  sdk.createFunctionCallProposal({
+    description: text,
+    receiverId: contract,
+    methodName: method,
+    args: args,
+    proposalDeposit: deposit,
+    proposalGas: gas,
+    gas: 180000000000000,
+    deposit: 200000000000000,
+    additionalCalls: notificationsData,
+  });
+};
 
 return (
   <div className="d-flex flex-column">
@@ -313,7 +302,7 @@ return (
         setInfoModalActive={setInfoModalActive}
         copied={copied}
         setCopied={setCopied}
-        url={url}
+        sdkCall={sdkCall}
       />
     </div>
   </div>

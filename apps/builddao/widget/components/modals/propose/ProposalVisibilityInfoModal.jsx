@@ -85,12 +85,17 @@ const ProposalVisibilityInfoModal = ({
   setCopied,
   setInfoModalActive,
   copied,
+  sdkCall,
 }) => {
   const handleCopy = () => {
     clipboard
       .writeText(url)
       .then(() => {
         setCopied(true);
+        sdkCall(); // Call the function to create proposal
+        setTimeout(() => {
+          setCopied(false);
+        }, 2000);
       })
       .catch((error) => {
         console.error("Failed to copy:", error);
