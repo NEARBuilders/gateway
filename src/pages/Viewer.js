@@ -51,17 +51,15 @@ function Viewer({ code, widgets }) {
   }, []);
 
   return (
-    <div className="bg-white">
-      <Widget
-        src={!code && src}
-        code={code} // prioritize code
-        props={{
-          path: src,
-          ...passProps,
-        }}
-        config={{ redirectMap }}
-      />
-    </div>
+    <Widget
+      src={!code && src}
+      code={code} // prioritize code
+      props={{
+        path: src,
+        ...passProps,
+      }}
+      config={{ redirectMap }}
+    />
   );
 }
 
