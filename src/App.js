@@ -66,8 +66,16 @@ function App() {
   const account = useAccount();
 
   const accountId = account.accountId;
+  const injectedConfig = window?.InjectedConfig;
 
   useEffect(() => {
+    const features = {};
+    if (injectedConfig?.skipConfirmations) {
+      features.commitModalBypass = {
+        bypassAll: true,
+      };
+      features.bypassTransactionConfirmation = true;
+    }
     initNear &&
       initNear({
         networkId: NetworkId,
@@ -131,6 +139,7 @@ function App() {
         config: {
           defaultFinality: undefined,
         },
+        features,
       });
   }, [initNear]);
 
