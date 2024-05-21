@@ -306,7 +306,7 @@ const Hero = () => {
       <HeadingSection>
         <div className="row gap-3 flex-wrap">
           <Heading className="col-6">Let's Build</Heading>
-          <Widget src="${config_account}/widget/home.hero.Vertical" />
+          <Widget src="${config_account}/widget/home.hero.vertical" />
         </div>
         <Subheading>
           Designed to support builders in a multi-chain ecosystem.

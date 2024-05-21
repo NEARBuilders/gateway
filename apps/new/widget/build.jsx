@@ -17,7 +17,7 @@ const config = {
         src="${config_account}/widget/components.sidebar"
         props={{
           routes: config.router.routes,
-          currentRoute: "/builddao.near/widget/build",
+          currentRoute: "/builddao.near/widget/Index?page=build",
           ...props,
         }}
       />
@@ -47,18 +47,18 @@ const config = {
         init: {
           name: "All Projects",
         },
+        default: true,
         hide: true,
       },
       activity: {
-        path: "${config_account}/widget/Index",
+        path: "${config_account}/widget/dummy",
         blockHeight: "final",
         init: {
           name: "See Activity",
         },
-        default: true,
       },
       requestFeedback: {
-        path: "${config_account}/widget/Index",
+        path: "${config_account}/widget/dummy",
         blockHeight: "final",
         init: {
           name: "Request Feedback",
@@ -66,7 +66,7 @@ const config = {
         },
       },
       fundingProgram: {
-        path: "${config_account}/widget/Index",
+        path: "${config_account}/widget/dummy",
         blockHeight: "final",
         init: {
           name: "Funding Program",
@@ -74,7 +74,7 @@ const config = {
         },
       },
       guide: {
-        path: "${config_account}/widget/Index",
+        path: "${config_account}/widget/dummy",
         blockHeight: "final",
         init: {
           name: "Guide",
@@ -82,7 +82,7 @@ const config = {
         },
       },
       learn: {
-        path: "${config_account}/widget/Index",
+        path: "${config_account}/widget/dummy",
         blockHeight: "final",
         label: "LEARN",
         init: {
@@ -91,7 +91,7 @@ const config = {
         },
       },
       read: {
-        path: "${config_account}/widget/Index",
+        path: "${config_account}/widget/dummy",
         blockHeight: "final",
         init: {
           name: "Read",
@@ -99,7 +99,7 @@ const config = {
         },
       },
       watch: {
-        path: "${config_account}/widget/Index",
+        path: "${config_account}/widget/dummy",
         blockHeight: "final",
         init: {
           name: "Watch",
@@ -107,7 +107,7 @@ const config = {
         },
       },
       tools: {
-        path: "${config_account}/widget/Index",
+        path: "${config_account}/widget/dummy",
         blockHeight: "final",
         init: {
           name: "Tools",
@@ -115,7 +115,7 @@ const config = {
         },
       },
       components: {
-        path: "${config_account}/widget/Index",
+        path: "${config_account}/widget/dummy",
         blockHeight: "final",
         init: {
           name: "Components",
@@ -127,5 +127,7 @@ const config = {
 };
 
 return (
-  <Widget src="${alias_old}/widget/app.view" props={{ config, ...props }} />
+  <div className="mt-3 container-xl">
+    <Widget src="${alias_old}/widget/app.view" props={{ config, ...props }} />
+  </div>
 );

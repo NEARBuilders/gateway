@@ -4,8 +4,8 @@ const { Button } = VM.require("${alias_old}/widget/components") || {
 
 const routes = props.routes;
 const currentRoute = props.currentRoute;
-const tab = props.tab;
 const routeKeys = Object.keys(routes);
+const tab = props.tab ?? "allProjects";
 
 const Sidebar = styled.div`
   border-radius: 16px;
@@ -76,7 +76,7 @@ return (
                 >
                   {Object.keys(routeObj.routes).map((subRoute) => (
                     <Button
-                      href={`${currentRoute}?tab=${subRoute}`}
+                      href={`${currentRoute}&tab=${subRoute}`}
                       style={{
                         backgroundColor:
                           tab === subRoute ? "#2f2008" : "transparent",
@@ -95,7 +95,7 @@ return (
             !routeObj.hide && (
               <Button
                 variant={tab === route ? "primary" : "outline"}
-                href={`${currentRoute}?tab=${route}`}
+                href={`${currentRoute}&tab=${route}`}
                 className="flex-grow-1 justify-content-start"
                 linkClassName="d-flex w-100"
               >
