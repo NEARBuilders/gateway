@@ -18,7 +18,6 @@ const [text, setText] = useState("");
 const [editorKey, setEditorKey] = useState(0);
 const [notificationsData, setNotificationData] = useState(null);
 const [isInfoModalActive, setInfoModalActive] = useState(false);
-const [copied, setCopied] = useState(false);
 
 const bootstrapTheme = props.bootstrapTheme;
 
@@ -300,8 +299,6 @@ return (
       <ProposalVisibilityInfoModal
         open={isInfoModalActive}
         setInfoModalActive={setInfoModalActive}
-        copied={copied}
-        setCopied={setCopied}
         sdkCall={sdkCall}
       />
     </div>

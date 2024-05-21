@@ -80,22 +80,12 @@ const Content = styled.div`
 `;
 const url =
   "${alias_gateway_url}/${config_account}/widget/app?page=feed&tab=proposals";
-const ProposalVisibilityInfoModal = ({
-  open,
-  setCopied,
-  setInfoModalActive,
-  copied,
-  sdkCall,
-}) => {
+const ProposalVisibilityInfoModal = ({ open, setInfoModalActive, sdkCall }) => {
   const handleCopy = () => {
     clipboard
       .writeText(url)
       .then(() => {
-        setCopied(true);
-        sdkCall(); // Call the function to create proposal
-        setTimeout(() => {
-          setCopied(false);
-        }, 2000);
+        sdkCall();
       })
       .catch((error) => {
         console.error("Failed to copy:", error);

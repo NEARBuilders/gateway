@@ -11,7 +11,6 @@ const DaoSDK =
 const [accountId, setAccountId] = useState("");
 const [role, setRole] = useState("");
 const [isInfoModalActive, setInfoModalActive] = useState(false);
-const [copied, setCopied] = useState(false);
 
 const roles = props.roles;
 const selectedDAO = props.selectedDAO;
@@ -273,8 +272,6 @@ return (
     <ProposalVisibilityInfoModal
       open={isInfoModalActive}
       setInfoModalActive={setInfoModalActive}
-      copied={copied}
-      setCopied={setCopied}
       sdkCall={sdkCall}
     />
   </div>

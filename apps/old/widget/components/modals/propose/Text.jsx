@@ -14,7 +14,6 @@ if (!DaoSDK) {
 const [text, setText] = useState("");
 const [editorKey, setEditorKey] = useState(0);
 const [isInfoModalActive, setInfoModalActive] = useState(false);
-const [copied, setCopied] = useState(false);
 
 useEffect(() => {
   if (!props.item) {
@@ -216,8 +215,6 @@ return (
     <ProposalVisibilityInfoModal
       open={isInfoModalActive}
       setInfoModalActive={setInfoModalActive}
-      copied={copied}
-      setCopied={setCopied}
       sdkCall={sdkCall}
     />
   </div>
