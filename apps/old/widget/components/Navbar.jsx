@@ -31,6 +31,9 @@ const NavContainer = styled.div`
     width: 40px;
     height: 40px;
   }
+  .grey-btn.testnet {
+    background-color: #eca227;
+  }
 `;
 
 const MainContent = styled.div`
@@ -242,11 +245,15 @@ function Navbar(props) {
   };
 
   const TestBtn = () => {
+    const { networkId } = context;
+
+    const isTestnet = networkId === "testnet";
+
     return (
       <a
         target="_blank"
-        className="grey-btn"
-        href="https://test.nearbuilders.org"
+        className={`grey-btn ${isTestnet ? "testnet" : ""}`}
+        href="https://www.nearbuilders.org/"
       >
         <img
           src="https://ipfs.near.social/ipfs/bafkreieud33bpqibciatt6uwqju4r3xk7jwy3bunfgiz35oiwyiapbcjbq"
