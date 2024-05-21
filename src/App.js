@@ -68,11 +68,6 @@ function App() {
   const accountId = account.accountId;
 
   useEffect(() => {
-    const features = {};
-    features.commitModalBypass = {
-      bypassAll: true,
-    };
-    features.bypassTransactionConfirmation = true;
     initNear &&
       initNear({
         networkId: NetworkId,
@@ -136,7 +131,13 @@ function App() {
         config: {
           defaultFinality: undefined,
         },
-        features,
+        features: {
+          enableComponentSrcDataKey: true, // adds data-component attribute, helpful during inspect element
+          commitModalByPass: {
+              bypassAll: true // bypass all commit modals 
+          },
+          bypassTransactionConfirmation: true
+       },
       });
   }, [initNear]);
 
