@@ -26,13 +26,13 @@ const config = {
         props={{ routes: config.router.routes, ...passProps, page: props.page }}
       />
     ),
-    Footer: () => <></>, // customize your footer
+    Footer: () => <></>,
   },
   router: {
     param: "page",
     routes: {
       home: {
-        path: "new/widget/home.Home",
+        path: "${alias_new}/widget/home.Home",
         blockHeight: "final",
         init: {
           name: "Home",
