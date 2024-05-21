@@ -1,7 +1,11 @@
 const { Button } = VM.require("${config_account}/widget/components") || {
   Button: () => <></>,
 };
-
+const { ProposalVisibilityInfoModal } = VM.require(
+  "${config_account}/widget/components.modals.propose.ProposalVisibilityInfoModal",
+) || {
+  ProposalVisibilityInfoModal: () => <></>,
+};
 const DaoSDK = VM.require("sdks.near/widget/SDKs.Sputnik.DaoSDK") || (() => {});
 
 const [contract, setContract] = useState("");
@@ -13,6 +17,7 @@ const [validatedAddresss, setValidatedAddress] = useState(true);
 const [text, setText] = useState("");
 const [editorKey, setEditorKey] = useState(0);
 const [notificationsData, setNotificationData] = useState(null);
+const [isInfoModalActive, setInfoModalActive] = useState(false);
 
 const bootstrapTheme = props.bootstrapTheme;
 
@@ -169,6 +174,20 @@ const TextareaWrapper = styled.div`
   }
 `;
 
+const sdkCall = () => {
+  sdk.createFunctionCallProposal({
+    description: text,
+    receiverId: contract,
+    methodName: method,
+    args: args,
+    proposalDeposit: deposit,
+    proposalGas: gas,
+    gas: 180000000000000,
+    deposit: 200000000000000,
+    additionalCalls: notificationsData,
+  });
+};
+
 return (
   <div className="d-flex flex-column">
     <div className="form-group mb-3">
@@ -272,21 +291,16 @@ return (
         className="ms-auto"
         variant="primary"
         onClick={() => {
-          sdk.createFunctionCallProposal({
-            description: text,
-            receiverId: contract,
-            methodName: method,
-            args: args,
-            proposalDeposit: deposit,
-            proposalGas: gas,
-            gas: 180000000000000,
-            deposit: 200000000000000,
-            additionalCalls: notificationsData,
-          });
+          setInfoModalActive(true);
         }}
       >
         Create
       </Button>
+      <ProposalVisibilityInfoModal
+        open={isInfoModalActive}
+        setInfoModalActive={setInfoModalActive}
+        sdkCall={sdkCall}
+      />
     </div>
   </div>
 );
