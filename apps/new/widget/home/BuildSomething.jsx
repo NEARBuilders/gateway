@@ -633,7 +633,7 @@ const BuildSomething = () => {
                 icon={CanvasSVG}
                 heading="Event App"
                 text="Create any events app with an easy to use tool built on NEAR's Blockchain Operating System."
-                href="https://www.nearbuilders.org/${alias_old}/widget/app?page=feed&tab=events"
+                href="${alias_gateway_url}/${alias_old}/widget/app?page=feed&tab=events"
               />
               <GridBlocks
                 icon={CanvasSVG}

@@ -306,7 +306,7 @@ const Hero = () => {
       <HeadingSection>
         <div className="row gap-3 flex-wrap">
           <Heading className="col-6">Let's Build</Heading>
-          <Widget src="${config_account}/widget/home.hero.vertical" />
+          <Widget src="${config_account}/widget/home.hero.Vertical" />
         </div>
         <Subheading>
           Designed to support builders in a multi-chain ecosystem.
@@ -332,7 +332,7 @@ const Hero = () => {
                 width: "max-content",
                 zIndex: 2,
               }}
-              href="https://www.nearbuilders.org/${alias_old}/widget/app?page=library"
+              href="${alias_gateway_url}/${alias_old}/widget/app?page=library"
             >
               See Library
             </Button>
