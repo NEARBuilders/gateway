@@ -26,7 +26,7 @@ const Header = styled.div`
 
   p {
     color: #e8e8e8;
-    font-family: Poppins;
+    font-family: Poppins, sans-serif;
     font-size: 18px;
     max-width: 490px;
     margin: 0;

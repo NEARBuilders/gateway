@@ -58,10 +58,7 @@ return (
                 data-bs-toggle="collapse"
                 data-bs-target={`#${route}`}
               >
-                <i
-                  style={{ width: 16, height: 16 }}
-                  className={routeObj.init.icon}
-                ></i>
+                <i style={{ width: 16 }} className={routeObj.init.icon}></i>
                 {routeObj.init.name}
                 <i className="bi bi-chevron-down ms-auto"></i>
               </Button>
@@ -99,10 +96,7 @@ return (
                 className="flex-grow-1 justify-content-start"
                 linkClassName="d-flex w-100"
               >
-                <i
-                  style={{ width: 16, height: 16 }}
-                  className={routeObj.init.icon}
-                ></i>
+                <i style={{ width: 16 }} className={routeObj.init.icon}></i>
                 {routeObj.init.name}
               </Button>
             )
