@@ -27,12 +27,28 @@ const NavContainer = styled.div`
     color: #fff;
     border-radius: 8px;
     outline: none;
-    border: 0;
+    border: 0px;
     width: 40px;
     height: 40px;
+    text-decoration: none;
   }
-  .grey-btn.testnet {
-    background-color: #eca227;
+  .test-btn-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .test-btn-text {
+    font-family: "Poppins";
+    display: flex;
+    font-size: 8px;
+    width: 16px;
+    height: 16px;
+    line-height: 11.2px;
+    letter-spacing: -0.01em;
+    font-weight: 700;
+    justify-content: center;
+    align-items: center;
   }
 `;
 
@@ -246,22 +262,28 @@ function Navbar(props) {
 
   const TestBtn = () => {
     const { networkId } = context;
-
     const isTestnet = networkId === "testnet";
-    return (
-      <a
-        target="_blank"
-        className={`grey-btn ${isTestnet ? "testnet" : ""}`}
-        href={
-          isTestnet
-            ? "https://www.nearbuilders.org/"
-            : "https://test.nearbuilders.org/"
+
+    const config = isTestnet
+      ? {
+          href: "https://www.nearbuilders.org/",
+          imgSrc:
+            "https://ipfs.near.social/ipfs/bafkreicymekzxfo5csgpkuwmes3l2ow4wmn5oxuqdfrfhpfrtzeibi7clq",
+          text: "TEST",
         }
-      >
-        <img
-          src="https://ipfs.near.social/ipfs/bafkreieud33bpqibciatt6uwqju4r3xk7jwy3bunfgiz35oiwyiapbcjbq"
-          height={20}
-        />
+      : {
+          href: "https://test.nearbuilders.org/",
+          imgSrc:
+            "https://ipfs.near.social/ipfs/bafkreih2sbm2fc5y7dgalzl2yf7bx254j3ymxh32lpxs5wrwpzxf6abpqu",
+          text: "MAIN",
+        };
+
+    return (
+      <a target="_blank" className="grey-btn" href={config.href}>
+        <div className="test-btn-content">
+          <img src={config.imgSrc} height={20} width={20} alt="network icon" />
+          <div className="test-btn-text">{config.text}</div>
+        </div>
       </a>
     );
   };
