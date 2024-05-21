@@ -1,4 +1,4 @@
-const { Button } = VM.require("buildhub.near/widget/components") || {
+const { Button } = VM.require("${alias_old}/widget/components") || {
   Button: () => <></>,
 };
 
@@ -633,7 +633,7 @@ const BuildSomething = () => {
                 icon={CanvasSVG}
                 heading="Event App"
                 text="Create any events app with an easy to use tool built on NEAR's Blockchain Operating System."
-                href="https://www.nearbuilders.org/buildhub.near/widget/app?page=feed&tab=events"
+                href="${alias_gateway_url}/${alias_old}/widget/app?page=feed&tab=events"
               />
               <GridBlocks
                 icon={CanvasSVG}
