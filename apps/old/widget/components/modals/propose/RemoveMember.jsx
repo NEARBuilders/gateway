@@ -1,10 +1,17 @@
 const { Button } = VM.require("${config_account}/widget/components") || {
   Button: () => <></>,
 };
+const { ProposalVisibilityInfoModal } = VM.require(
+  "${config_account}/widget/components.modals.propose.ProposalVisibilityInfoModal",
+) || {
+  ProposalVisibilityInfoModal: () => <></>,
+};
 const DaoSDK =
   VM.require("sdks.near/widget/SDKs.Sputnik.DaoSDK") || (() => <></>);
 const [accountId, setAccountId] = useState("");
 const [role, setRole] = useState("");
+const [isInfoModalActive, setInfoModalActive] = useState(false);
+
 const roles = props.roles;
 const selectedDAO = props.selectedDAO;
 
@@ -167,6 +174,17 @@ const TextareaWrapper = styled.div`
   }
 `;
 
+const sdkCall = () => {
+  sdk.createRemoveMemberProposal({
+    description: text,
+    memberId: accountId,
+    roleId: role,
+    gas: 180000000000000,
+    deposit: 200000000000000,
+    additionalCalls: notificationsData,
+  });
+};
+
 return (
   <div className="d-flex flex-column">
     <div className="form-group mb-3">
@@ -245,18 +263,16 @@ return (
         variant="primary"
         disabled={!accountId || !role || !validatedAddresss}
         onClick={() => {
-          sdk.createRemoveMemberProposal({
-            description: text,
-            memberId: accountId,
-            roleId: role,
-            gas: 180000000000000,
-            deposit: 200000000000000,
-            additionalCalls: notificationsData,
-          });
+          setInfoModalActive(true);
         }}
       >
         Create
       </Button>
     </div>
+    <ProposalVisibilityInfoModal
+      open={isInfoModalActive}
+      setInfoModalActive={setInfoModalActive}
+      sdkCall={sdkCall}
+    />
   </div>
 );
