@@ -14,7 +14,7 @@ const config = {
     param: "page",
     routes: {
       home: {
-        path: "${config_account}/widget/home.Home",
+        path: "${config_account}/widget/page.home",
         blockHeight: "final",
         init: {
           name: "Home",
