@@ -24,12 +24,13 @@ const NavContainer = styled.div`
     align-items: center;
     justify-content: center;
     background-color: #23242b;
-    color: #fff;
+    color: #9ba1a6;
     border-radius: 8px;
     outline: none;
-    border: 0;
-    width: 40px;
+    border: 0px;
+    width: 90px;
     height: 40px;
+    text-decoration: none;
   }
 `;
 
@@ -242,19 +243,66 @@ function Navbar(props) {
   };
 
   const TestBtn = () => {
+    const { networkId } = context;
+
+    const isTestnet = networkId === "testnet";
+
+    const config = {
+      mainnet: {
+        href: isTestnet ? "https://www.nearbuilders.org/" : "#",
+        label: "Mainnet",
+        icon: "bi bi-wifi",
+        disabled: !isTestnet,
+      },
+      testnet: {
+        href: isTestnet ? "#" : "https://test.nearbuilders.org/",
+        label: "Testnet",
+        icon: "bi bi-cloud",
+        disabled: isTestnet,
+      },
+    };
+
     return (
-      <a
-        target="_blank"
-        className="grey-btn"
-        href="https://test.nearbuilders.org"
-      >
-        <img
-          src="https://ipfs.near.social/ipfs/bafkreieud33bpqibciatt6uwqju4r3xk7jwy3bunfgiz35oiwyiapbcjbq"
-          height={20}
-        />
-      </a>
+      <StyledDropdown className="dropdown">
+        <div className="d-flex justify-content-end align-items-center gap-3">
+          <button
+            className="grey-btn"
+            type="button"
+            id="networksDropdown"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
+          >
+            Network
+          </button>
+          <ul
+            className="dropdown-menu"
+            aria-labelledby="networksDropdown"
+            style={{ minWidth: "fit-content" }}
+          >
+            {Object.entries(config).map(([key, value]) => (
+              <li key={key}>
+                <Link
+                  style={{
+                    textDecoration: "none",
+                    color: value.disabled ? "green" : "#9ba1a6",
+                  }}
+                  to={value.href}
+                  className="dropdown-item d-flex align-items-center gap-2"
+                >
+                  <i
+                    className={value.icon}
+                    style={{ color: value.disabled ? "green" : "#9ba1a6" }}
+                  />
+                  <span>{value.label}</span>
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </StyledDropdown>
     );
   };
+
   return (
     <NavContainer>
       <MainContent className="container-xl">
