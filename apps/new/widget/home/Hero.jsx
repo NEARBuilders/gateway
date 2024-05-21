@@ -1,4 +1,4 @@
-const { Button } = VM.require("buildhub.near/widget/components") || {
+const { Button } = VM.require("${alias_old}/widget/components") || {
   Button: () => <></>,
 };
 
@@ -332,7 +332,7 @@ const Hero = () => {
                 width: "max-content",
                 zIndex: 2,
               }}
-              href="https://www.nearbuilders.org/buildhub.near/widget/app?page=library"
+              href="https://www.nearbuilders.org/${alias_old}/widget/app?page=library"
             >
               See Library
             </Button>

@@ -7,7 +7,7 @@ const config = {
     },
   },
   blocks: {
-    Header: () => <></>,
+    Header: () => <Widget src="${alias_old}/widget/components.Navbar" />,
     Footer: () => <></>,
   },
   router: {
@@ -26,5 +26,5 @@ const config = {
 };
 
 return (
-  <Widget src="buildhub.near/widget/app.view" props={{ config, ...props }} />
+  <Widget src="${alias_old}/widget/app.view" props={{ config, ...props }} />
 );
