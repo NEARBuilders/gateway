@@ -134,10 +134,10 @@ function App() {
         features: {
           enableComponentSrcDataKey: true, // adds data-component attribute, helpful during inspect element
           commitModalByPass: {
-              bypassAll: true // bypass all commit modals 
+            bypassAll: true, // bypass all commit modals
           },
-          bypassTransactionConfirmation: true
-       },
+          bypassTransactionConfirmation: true,
+        },
       });
   }, [initNear]);
 
