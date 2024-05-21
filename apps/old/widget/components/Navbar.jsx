@@ -248,12 +248,15 @@ function Navbar(props) {
     const { networkId } = context;
 
     const isTestnet = networkId === "testnet";
-
     return (
       <a
         target="_blank"
         className={`grey-btn ${isTestnet ? "testnet" : ""}`}
-        href="https://www.nearbuilders.org/"
+        href={
+          isTestnet
+            ? "https://www.nearbuilders.org/"
+            : "https://test.nearbuilders.org/"
+        }
       >
         <img
           src="https://ipfs.near.social/ipfs/bafkreieud33bpqibciatt6uwqju4r3xk7jwy3bunfgiz35oiwyiapbcjbq"
@@ -262,6 +265,7 @@ function Navbar(props) {
       </a>
     );
   };
+
   return (
     <NavContainer>
       <MainContent className="container-xl">
