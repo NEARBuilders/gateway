@@ -62,7 +62,7 @@ const Left = styled.div`
 const Right = styled.div`
   display: flex;
   align-items: center;
-  gap: 16px;
+  gap: 8px;
 
   @media screen and (max-width: 768px) {
     display: none;
@@ -218,13 +218,10 @@ const MobileContent = styled.div`
 `;
 
 const getNotificationCount = () => {
-  const notificationFeedSrc = "${alias_mob}/widget/NotificationFeed";
-
-  const lastBlockHeight = Storage.get("lastBlockHeight", notificationFeedSrc);
+  const lastBlockHeight = Storage.get("lastBlockHeight");
   if (lastBlockHeight === null) {
     return "";
   }
-
   const notifications = Social.index("notify", context.accountId, {
     order: "asc",
     from: (lastBlockHeight ?? 0) + 1,

@@ -3,5 +3,7 @@
   "mob": "mob.near",
   "near": "near",
   "socialdb": "social.near",
-  "gateway_url": "https://nearbuilders.org"
+  "gateway_url": "https://nearbuilders.org",
+  "new": "builddao.near",
+  "old": "buildhub.near"
 }
