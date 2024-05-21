@@ -1,3 +1,7 @@
+const { Footer } = VM.require("${config_account}/widget/components.Footer") || {
+  Footer: () => <></>,
+};
+
 const config = {
   theme: {},
   layout: {
@@ -8,7 +12,7 @@ const config = {
   },
   blocks: {
     Header: () => <Widget src="${alias_old}/widget/components.Navbar" />,
-    Footer: () => <></>,
+    Footer: () => <Footer />,
   },
   router: {
     param: "page",

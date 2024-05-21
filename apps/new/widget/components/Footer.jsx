@@ -5,11 +5,10 @@ const Logo =
   "https://ipfs.near.social/ipfs/bafkreihsuyli6i2wphsutag6xcxnyhyrn7wtkklvqebx4szgpz3ieqacxu";
 
 const Container = styled.div`
-  /* position: absolute; */
   display: flex;
-  padding: 72px 48px;
+  padding: 48px;
+  padding-bottom: 2rem;
   flex-direction: column;
-  /* align-items: center; */
 
   background: black;
 `;
@@ -151,7 +150,6 @@ const Credits = styled.div`
   padding-top: 32px;
   align-items: center;
   justify-content: center;
-  padding-bottom: 16.4px;
   p {
     color: var(--4D4D4D, #4d4d4d);
     font-family: Poppins;
@@ -298,7 +296,7 @@ const Footer = () => {
         </Menu>
       </Links>
       <Credits>
-        <p>© 2024 BuildDAO. All rights reserved.</p>
+        <p>© {new Date().getFullYear} BuildDAO. All rights reserved.</p>
       </Credits>
     </Container>
   );
