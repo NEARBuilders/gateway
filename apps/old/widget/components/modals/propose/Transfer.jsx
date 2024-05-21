@@ -1,6 +1,11 @@
 const { Button } = VM.require("${config_account}/widget/components") || {
   Button: () => <></>,
 };
+const { ProposalVisibilityInfoModal } = VM.require(
+  "${config_account}/widget/components.modals.propose.ProposalVisibilityInfoModal",
+) || {
+  ProposalVisibilityInfoModal: () => <></>,
+};
 const DaoSDK = VM.require("sdks.near/widget/SDKs.Sputnik.DaoSDK") || (() => {});
 
 const [recipient, setRecipient] = useState("");
@@ -8,6 +13,8 @@ const [token, setToken] = useState("");
 const [amount, setAmount] = useState(0);
 const [description, setDescription] = useState("");
 const [validatedAddresss, setValidatedAddress] = useState(true);
+const [isInfoModalActive, setInfoModalActive] = useState(false);
+const [copied, setCopied] = useState(false);
 
 const bootstrapTheme = props.bootstrapTheme;
 
@@ -196,6 +203,20 @@ const TextareaWrapper = styled.div`
   }
 `;
 
+const sdkCall = () => {
+  sdk.createTransferProposal({
+    description: text,
+    tokenId: token === NearTokenId ? "" : token,
+    receiverId: recipient,
+    amount: amountInYocto,
+    gas,
+    deposit,
+    gas: 180000000000000,
+    deposit: 200000000000000,
+    additionalCalls: notificationsData,
+  });
+};
+
 return (
   <div className="d-flex flex-column">
     <div className="form-group mb-3">
@@ -288,21 +309,18 @@ return (
           const amountInYocto = Big(amount)
             .mul(Big(10).pow(ftMetadata.decimals))
             .toFixed();
-          sdk.createTransferProposal({
-            description: text,
-            tokenId: token === NearTokenId ? "" : token,
-            receiverId: recipient,
-            amount: amountInYocto,
-            gas,
-            deposit,
-            gas: 180000000000000,
-            deposit: 200000000000000,
-            additionalCalls: notificationsData,
-          });
+          setInfoModalActive(true);
         }}
       >
         Create
       </Button>
     </div>
+    <ProposalVisibilityInfoModal
+      open={isInfoModalActive}
+      setInfoModalActive={setInfoModalActive}
+      copied={copied}
+      setCopied={setCopied}
+      sdkCall={sdkCall}
+    />
   </div>
 );
