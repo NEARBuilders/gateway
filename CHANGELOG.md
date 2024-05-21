@@ -1,5 +1,19 @@
 # Change Log
 
+## Version v1.x.x - 2024-MM-DD
+
+### Features
+
+- Enabled commit modal bypass. #260
+
+### Bug Fixes
+
+- 
+
+### Refactor and chores
+
+- 
+
 ## Version v1.0.0 - 2024-05-14
 
 ### Features
