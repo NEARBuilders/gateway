@@ -1,8 +1,8 @@
-const { CSS } = VM.require("${config_account}/widget/components.CSS") || {
+const { CSS } = VM.require("${config_account}/widget/components.css") || {
   CSS: () => <></>,
 };
 
-const { Footer } = VM.require("${config_account}/widget/components.Footer") || {
+const { Footer } = VM.require("${config_account}/widget/components.footer") || {
   Footer: () => <></>,
 };
 
