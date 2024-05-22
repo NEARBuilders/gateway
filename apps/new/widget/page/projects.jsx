@@ -7,6 +7,11 @@ const { ProjectCard } = VM.require(
 ) || {
   ProjectCard: () => <></>,
 };
+const { ProjectList } = VM.require(
+  "${config_account}/widget/components.project.list",
+) || {
+  ProjectList: () => <></>,
+};
 
 const app = props.app || "${alias_old}";
 const type = props.type || "project";
@@ -227,6 +232,8 @@ const Subheading = styled.h3`
   margin: 0;
 `;
 
+const view = Storage.get("projectsView") ?? "grid";
+
 return (
   <Wrapper
     className="container-xl mx-auto d-flex flex-column gap-5"
@@ -314,22 +321,53 @@ return (
             onChange={(e) => setFilters({ ...filters, title: e.target.value })}
           />
         </div>
-        <Button
-          className="d-flex align-items-center gap-2"
-          variant="outline"
-          onClick={() => setShowFilterModal(true)}
-        >
-          Filter <i className="bi bi-sliders"></i>
-        </Button>
+        <div className="d-flex align-items-center gap-3">
+          <Button
+            className="d-flex align-items-center gap-2"
+            variant="outline"
+            onClick={() => setShowFilterModal(true)}
+          >
+            Filter <i className="bi bi-sliders"></i>
+          </Button>
+          <div className="d-flex align-items-center gap-2">
+            <Button
+              type="icon"
+              className="rounded-2"
+              variant={view === "grid" ? "primary" : null}
+              onClick={() => Storage.set("projectsView", "grid")}
+            >
+              <i className="bi bi-grid"></i>
+            </Button>
+            <Button
+              type="icon"
+              className="rounded-2"
+              variant={view === "list" ? "primary" : null}
+              onClick={() => Storage.set("projectsView", "list")}
+            >
+              <i className="bi bi-list-ul"></i>
+            </Button>
+          </div>
+        </div>
       </div>
     </div>
-    <Container>
-      {filteredProjects.length === 0 && (
-        <p className="fw-bold text-white">No Projects Found</p>
-      )}
-      {filteredProjects.map((project) => (
-        <ProjectCard project={project} type={type} />
-      ))}
-    </Container>
+    {view === "grid" ? (
+      <Container>
+        {filteredProjects.length === 0 && (
+          <p className="fw-bold text-white">No Projects Found</p>
+        )}
+        {filteredProjects.map((project) => (
+          <ProjectCard project={project} type={type} />
+        ))}
+      </Container>
+    ) : (
+      <div className="d-flex flex-column gap-3">
+        {filteredProjects.length === 0 && (
+          <p className="fw-bold text-white">No Projects Found</p>
+        )}
+        {filteredProjects.map((project) => (
+          <ProjectList project={project} type={type} />
+        ))}
+      </div>
+    )}
   </Wrapper>
 );
