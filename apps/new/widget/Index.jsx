@@ -42,6 +42,9 @@ const config = {
 
 return (
   <CSS>
-    <Widget src="${alias_old}/widget/app.view" props={{ config, ...props }} />
+    <Widget
+      src="${config_account}/widget/app.view"
+      props={{ config, ...props }}
+    />
   </CSS>
 );
