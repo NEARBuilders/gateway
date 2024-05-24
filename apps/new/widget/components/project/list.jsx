@@ -3,7 +3,7 @@ const { Avatar, Button } = VM.require("${alias_old}/widget/components") || {
   Button: () => <></>,
 };
 
-const { href } = VM.require("${alias_old}/widget/lib.url") || {
+const { href } = VM.require("${alias_devs}/widget/lib.url") || {
   href: () => {},
 };
 
@@ -13,7 +13,7 @@ const { ProfileImages } = VM.require(
   ProfileImages: () => <></>,
 };
 
-const Card = styled.div`
+const ListCard = styled.div`
   border-radius: 16px;
   background: var(--bg-2, #23242b);
 
@@ -95,7 +95,7 @@ const Tag = styled.div`
   }
 `;
 
-const ProjectList = ({ project, type }) => {
+const ProjectList = ({ data, type }) => {
   const {
     accountId,
     projectAccountId,
@@ -103,7 +103,7 @@ const ProjectList = ({ project, type }) => {
     collaborators,
     metadata,
     projectID,
-  } = project;
+  } = data;
 
   const profile = Social.getr(`${projectAccountId}/profile`);
 
@@ -119,7 +119,7 @@ const ProjectList = ({ project, type }) => {
       })}
       style={{ textDecoration: "none", display: "flex", flexGrow: "1" }}
     >
-      <Card>
+      <ListCard>
         <div className="d-flex justify-content-start p-4 flex-grow-1 gap-3">
           <div className="d-flex align-items-center">
             <div
@@ -183,7 +183,7 @@ const ProjectList = ({ project, type }) => {
             </Button>
           </div>
         </div>
-      </Card>
+      </ListCard>
     </Link>
   );
 };

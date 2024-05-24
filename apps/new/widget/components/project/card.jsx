@@ -3,7 +3,7 @@ const { Avatar, Button } = VM.require("${alias_old}/widget/components") || {
   Button: () => <></>,
 };
 
-const { href } = VM.require("${alias_old}/widget/lib.url") || {
+const { href } = VM.require("${alias_devs}/widget/lib.url") || {
   href: () => {},
 };
 
@@ -13,7 +13,7 @@ const { ProfileImages } = VM.require(
   ProfileImages: () => <></>,
 };
 
-const Card = styled.div`
+const GridCard = styled.div`
   border-radius: 16px;
   background: var(--bg-2, #23242b);
 
@@ -94,7 +94,7 @@ const Tag = styled.div`
   }
 `;
 
-const ProjectCard = ({ project, type }) => {
+const ProjectCard = ({ data, variant }) => {
   const {
     accountId,
     description,
@@ -103,7 +103,7 @@ const ProjectCard = ({ project, type }) => {
     collaborators,
     metadata,
     projectID,
-  } = project;
+  } = data;
 
   const profile = Social.getr(`${projectAccountId}/profile`);
 
@@ -119,7 +119,7 @@ const ProjectCard = ({ project, type }) => {
       })}
       style={{ textDecoration: "none", display: "flex", flexGrow: "1" }}
     >
-      <Card>
+      <GridCard>
         <Widget
           src="${alias_mob}/widget/Image"
           loading=""
@@ -203,7 +203,7 @@ const ProjectCard = ({ project, type }) => {
             </div>
           </div>
         </div>
-      </Card>
+      </GridCard>
     </Link>
   );
 };

@@ -1,4 +1,4 @@
-const { CSS } = VM.require("${config_account}/widget/components.css") || {
+const { CSS } = VM.require("${config_account}/widget/css") || {
   CSS: () => <></>,
 };
 
@@ -22,18 +22,18 @@ const config = {
     param: "page",
     routes: {
       home: {
-        path: "${config_account}/widget/page.home",
+        path: "${config_account}/widget/page.home.index",
         blockHeight: "final",
         init: {
           name: "Home",
         },
         default: true,
       },
-      build: {
-        path: "${config_account}/widget/build",
+      projects: {
+        path: "${config_account}/widget/page.projects.index",
         blockHeight: "final",
         init: {
-          name: "Build",
+          name: "Projects",
         },
       },
     },
@@ -43,7 +43,7 @@ const config = {
 return (
   <CSS>
     <Widget
-      src="${config_account}/widget/app.view"
+      src="${alias_old}/widget/app.view"
       props={{ config, ...props }}
     />
   </CSS>
