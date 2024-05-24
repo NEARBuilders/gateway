@@ -231,7 +231,8 @@ const Subheading = styled.h3`
   margin: 0;
 `;
 
-const view = Storage.get("projectsView") ?? "grid";
+const view = Storage.get("${config_account}:projects-view") ?? "grid";
+const setView = (v) => Storage.set("${config_account}:projects-view", v);
 
 return (
   <Wrapper
@@ -333,7 +334,7 @@ return (
               type="icon"
               className="rounded-2"
               variant={view === "grid" ? "primary" : null}
-              onClick={() => Storage.set("projectsView", "grid")}
+              onClick={() => setView("grid")}
             >
               <i className="bi bi-grid"></i>
             </Button>
@@ -341,7 +342,7 @@ return (
               type="icon"
               className="rounded-2"
               variant={view === "list" ? "primary" : null}
-              onClick={() => Storage.set("projectsView", "list")}
+              onClick={() => setView("list")}
             >
               <i className="bi bi-list-ul"></i>
             </Button>

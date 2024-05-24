@@ -4,7 +4,7 @@ const { Button } = VM.require("${alias_old}/widget/components") || {
 
 const { BuilderHat } = VM.require("${alias_new}/widget/icons") || {
   BuilderHat: () => <></>,
-}
+};
 
 const HeroContainer = styled.div`
   display: flex;
