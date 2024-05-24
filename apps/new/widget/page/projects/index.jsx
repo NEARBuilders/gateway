@@ -25,6 +25,7 @@ const config = {
     param: "tab",
     routes: {
       projects: {
+        label: "BUILD",
         init: {
           name: "Projects",
           icon: "bi bi-gear",
