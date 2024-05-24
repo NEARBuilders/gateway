@@ -1,4 +1,6 @@
 const CSS = styled.div`
+  min-height: 100vh;
+
   @font-face {
     font-family: "Poppins";
     font-weight: 100;

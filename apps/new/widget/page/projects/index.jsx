@@ -1,8 +1,5 @@
 const config = {
-  theme: {
-    "--color": "white",
-    color: "var(--color)",
-  },
+  theme: {},
   layout: {
     src: "${alias_devs}/widget/Layout",
     props: {
@@ -17,7 +14,7 @@ const config = {
         src="${config_account}/widget/components.sidebar"
         props={{
           routes: config.router.routes,
-          currentRoute: "/builddao.near/widget/Index?page=build",
+          currentRoute: "/${config_account}/widget/Index?page=projects",
           ...props,
         }}
       />
@@ -42,7 +39,7 @@ const config = {
         },
       },
       allProjects: {
-        path: "${config_account}/widget/page.projects",
+        path: "${config_account}/widget/page.projects.List",
         blockHeight: "final",
         init: {
           name: "All Projects",

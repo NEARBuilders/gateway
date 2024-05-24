@@ -19,22 +19,21 @@ const type = props.type || "project";
 const flattenObject = (obj) => {
   let paths = [];
 
-  try {
-    Object.keys(obj).forEach((key) => {
-      const projects = Object.keys(obj?.[key]?.[app]?.[type] ?? {});
-      projects.map((path) => {
-        if (!path || !path.includes("_")) {
-          return;
-        }
-        const convertedStr = path.replace(/_/g, "/");
-        paths.push(convertedStr);
-      });
+  Object.keys(obj).forEach((key) => {
+    const projects = Object.keys(obj?.[key]?.[app]?.[type] ?? {});
+    (projects || []).map((path) => {
+      if (!path || !path.includes("_")) {
+        return;
+      }
+      const convertedStr = path.replace(/_/g, "/");
+      paths.push(convertedStr);
     });
-  } catch (e) {}
+  });
   return paths;
 };
 
-const fetchProjects = () => {
+/** This may be moved to a separate, common SDK */
+const fetchThings = () => {
   const keys = Social.keys(`*/${app}/${type}/*`, "final", {
     order: "desc",
     subscribe: true,
@@ -61,7 +60,7 @@ const fetchProjects = () => {
   return projects;
 };
 
-const data = fetchProjects();
+const data = fetchThings({ app: "${alias_old}", type: "project" });
 
 if (!data) {
   return "Loading...";
@@ -70,7 +69,7 @@ if (!data) {
 const processData = useCallback(
   (data) => {
     const accounts = Object.entries(data ?? {});
-    const allProjects = accounts
+    const allProjects = (accounts || [])
       .map((account) => {
         const accountId = account[0];
         return Object.entries(account?.[1]?.[type] ?? {}).map((kv) => {
@@ -194,7 +193,7 @@ const filteredProjects = useMemo(() => {
 }, [filters, projects]);
 
 const tagFilters = useMemo(() => {
-  let tags = projects.map((project) => project.tags).flat();
+  let tags = (projects || []).map((project) => project.tags).flat();
   tags = [...new Set(tags)];
   return tags;
 }, [projects]);
@@ -232,7 +231,8 @@ const Subheading = styled.h3`
   margin: 0;
 `;
 
-const view = Storage.get("projectsView") ?? "grid";
+const view = Storage.get("${config_account}:projects-view") ?? "grid";
+const setView = (v) => Storage.set("${config_account}:projects-view", v);
 
 return (
   <Wrapper
@@ -334,7 +334,7 @@ return (
               type="icon"
               className="rounded-2"
               variant={view === "grid" ? "primary" : null}
-              onClick={() => Storage.set("projectsView", "grid")}
+              onClick={() => setView("grid")}
             >
               <i className="bi bi-grid"></i>
             </Button>
@@ -342,7 +342,7 @@ return (
               type="icon"
               className="rounded-2"
               variant={view === "list" ? "primary" : null}
-              onClick={() => Storage.set("projectsView", "list")}
+              onClick={() => setView("list")}
             >
               <i className="bi bi-list-ul"></i>
             </Button>
@@ -350,24 +350,24 @@ return (
         </div>
       </div>
     </div>
-    {view === "grid" ? (
-      <Container>
-        {filteredProjects.length === 0 && (
-          <p className="fw-bold text-white">No Projects Found</p>
+    {filteredProjects && filteredProjects.length > 0 ? (
+      <>
+        {view === "grid" ? (
+          <Container>
+            {filteredProjects.map((project) => (
+              <ProjectCard data={project} type={type} />
+            ))}
+          </Container>
+        ) : (
+          <div className="d-flex flex-column gap-3">
+            {filteredProjects.map((project) => (
+              <ProjectList data={project} type={type} />
+            ))}
+          </div>
         )}
-        {filteredProjects.map((project) => (
-          <ProjectCard project={project} type={type} />
-        ))}
-      </Container>
+      </>
     ) : (
-      <div className="d-flex flex-column gap-3">
-        {filteredProjects.length === 0 && (
-          <p className="fw-bold text-white">No Projects Found</p>
-        )}
-        {filteredProjects.map((project) => (
-          <ProjectList project={project} type={type} />
-        ))}
-      </div>
+      <p className="fw-bold text-white">No Projects Found</p>
     )}
   </Wrapper>
 );
