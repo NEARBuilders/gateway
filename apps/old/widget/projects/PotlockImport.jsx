@@ -1,5 +1,4 @@
-const { Modal, Button } = VM.require("${config_account}/widget/components") || {
-  Modal: () => <></>,
+const { Button } = VM.require("${config_account}/widget/components") || {
   Button: () => <></>,
 };
 const { getTagsFromSocialProfileData, getTeamMembersFromSocialProfileData } =
@@ -8,9 +7,6 @@ const { getTagsFromSocialProfileData, getTeamMembersFromSocialProfileData } =
     getTeamMembersFromSocialProfileData: () => [],
   };
 
-const showModal = props.showModal;
-const toggleModal = props.toggleModal;
-const toggle = props.toggle;
 const bootstrapTheme = props.bootstrapTheme || "dark";
 
 let ListsSDK =
@@ -50,7 +46,7 @@ useEffect(() => {
   }
 }, [approvedProjects]);
 
-const searchByWords = (projects, searchTerm) => {
+const searchByWords = (searchTerm) => {
   searchTerm = searchTerm.toLowerCase().trim();
   let results = [];
   projects.forEach((project) => {
@@ -78,13 +74,12 @@ const searchByWords = (projects, searchTerm) => {
       }
     }
   });
-
   setFilteredProjects(results);
 };
 
 const ProjectList = styled.div`
   display: grid;
-  gap: 31px;
+  gap: 2rem;
   padding-bottom: 3rem;
   // For mobile devices (1 column)
   @media screen and (max-width: 739px) {
@@ -100,23 +95,31 @@ const ProjectList = styled.div`
   @media screen and (min-width: 1024px) {
     grid-template-columns: repeat(3, 1fr);
   }
+
+  @media screen and (min-width: 1440px) {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  @media screen and (min-width: 1900px) {
+    grid-template-columns: repeat(5, 1fr);
+  }
 `;
 
 const Search = useMemo(() => {
   return (
     <Widget
-      src={"${config_account}/widget/components.modals.projects.SearchBar"}
+      src={"${config_account}/widget/projects.SearchBar"}
       props={{
         title: sort,
         numItems: filteredProjects.length,
         itemName: "project",
         onSearch: (value) => {
-          searchByWords(projects, value);
+          searchByWords(value);
         },
       }}
     />
   );
-}, []);
+}, [projects]);
 
 function shuffleArray(array) {
   return array.sort(() => Math.random() - 0.5);
@@ -126,12 +129,10 @@ const ProjectsComponent = useMemo(() => {
   const shuffledProjects = shuffleArray(filteredProjects || []);
   return (
     <ProjectList>
-      {(shuffledProjects || []).slice(0, 18).map((project) => {
+      {(shuffledProjects || []).slice(0, 20).map((project) => {
         return (
           <Widget
-            src={
-              "${config_account}/widget/components.modals.projects.PotlockProjectCard"
-            }
+            src={"${config_account}/widget/projects.PotlockProjectCard"}
             loading={
               <div
                 style={{
@@ -160,12 +161,9 @@ const ProjectsComponent = useMemo(() => {
 if (showCreateModalProjectId) {
   return (
     <Widget
-      src="${config_account}/widget/components.modals.projects.Create"
+      src="${config_account}/widget/projects.Editor"
       loading=""
       props={{
-        showModal: !!showCreateModalProjectId,
-        toggleModal: (v) => setShowCreateModalProjectId(v),
-        togglePotlockImportModal: () => toggleModal(),
         poltlockProjectId: showCreateModalProjectId,
       }}
     />
@@ -173,15 +171,8 @@ if (showCreateModalProjectId) {
 }
 
 return (
-  <Modal
-    open={showModal}
-    title={"Import from Potlock"}
-    onOpenChange={toggleModal}
-    toggle={toggle}
-  >
-    <div className="d-flex flex-column gap-4">
-      {Search}
-      {ProjectsComponent}
-    </div>
-  </Modal>
+  <div className="d-flex flex-column gap-4 p-4">
+    {Search}
+    {ProjectsComponent}
+  </div>
 );
