@@ -297,9 +297,8 @@ const Build = () => {
         <GettingStarted>
           <p>Getting Started</p>
           <Button
+            className="rounded-2 gap-2"
             style={{
-              gap: "8px",
-              borderRadius: "10px",
               minWidth: "fit-content",
             }}
           >
@@ -310,9 +309,8 @@ const Build = () => {
         <LearnMore>
           <p>Learn More</p>
           <Button
+            className="rounded-2 gap-2"
             style={{
-              gap: "8px",
-              borderRadius: "10px",
               minWidth: "fit-content",
             }}
           >
