@@ -271,7 +271,7 @@ const Hero = () => {
       <HeadingSection>
         <div className="row gap-3 flex-wrap">
           <Heading className="col-6">Let's Build</Heading>
-          <Widget src="${config_account}/widget/Page.Home.Hero.Vertical" />
+          <Widget src="${config_account}/widget/page.home.hero.Vertical" />
         </div>
         <Subheading>
           Designed to support builders in a multi-chain ecosystem.
@@ -325,7 +325,7 @@ const Hero = () => {
           </div>
           <div className="d-flex flex-column gap-2 rounded-4 overflow-hidden opacity-50">
             <Widget
-              src="${config_account}/widget/Page.Home.Hero.ScrollingText"
+              src="${config_account}/widget/page.home.hero.ScrollingText"
               props={{
                 direction: "normal",
                 words: [
@@ -337,14 +337,14 @@ const Hero = () => {
               }}
             />
             <Widget
-              src="${config_account}/widget/Page.Home.Hero.ScrollingText"
+              src="${config_account}/widget/page.home.hero.ScrollingText"
               props={{
                 direction: "reverse",
                 words: ["UI/UX Designers", "Roles", "Developers", "Support"],
               }}
             />
             <Widget
-              src="${config_account}/widget/Page.Home.Hero.ScrollingText"
+              src="${config_account}/widget/page.home.hero.ScrollingText"
               props={{
                 direction: "normal",
                 words: [

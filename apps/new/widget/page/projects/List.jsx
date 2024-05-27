@@ -3,12 +3,12 @@ const { Button } = VM.require("${alias_old}/widget/components") || {
 };
 
 const { ProjectCard } = VM.require(
-  "${config_account}/widget/Components.Project.Card",
+  "${config_account}/widget/components.project.Card",
 ) || {
   ProjectCard: () => <></>,
 };
 const { ListCard } = VM.require(
-  "${config_account}/widget/Components.Project.ListCard",
+  "${config_account}/widget/components.project.ListCard",
 ) || {
   ListCard: () => <></>,
 };

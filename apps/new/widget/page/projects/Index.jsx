@@ -11,7 +11,7 @@ const config = {
     Header: () => <></>,
     Sidebar: () => (
       <Widget
-        src="${config_account}/widget/Components.Sidebar"
+        src="${config_account}/widget/components.Sidebar"
         props={{
           routes: config.router.routes,
           currentRoute: "/${config_account}/widget/Index?page=projects",
@@ -39,7 +39,7 @@ const config = {
         },
       },
       allProjects: {
-        path: "${config_account}/widget/Page.Projects.List",
+        path: "${config_account}/widget/page.projects.List",
         blockHeight: "final",
         init: {
           name: "All Projects",
