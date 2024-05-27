@@ -3,14 +3,14 @@ const { Button } = VM.require("${alias_old}/widget/components") || {
 };
 
 const { ProjectCard } = VM.require(
-  "${config_account}/widget/components.project.card",
+  "${config_account}/widget/Components.Project.Card",
 ) || {
   ProjectCard: () => <></>,
 };
-const { ProjectList } = VM.require(
-  "${config_account}/widget/components.project.list",
+const { ListCard } = VM.require(
+  "${config_account}/widget/Components.Project.ListCard",
 ) || {
-  ProjectList: () => <></>,
+  ListCard: () => <></>,
 };
 
 const app = props.app || "${alias_old}";
@@ -361,7 +361,7 @@ return (
         ) : (
           <div className="d-flex flex-column gap-3">
             {filteredProjects.map((project) => (
-              <ProjectList data={project} type={type} />
+              <ListCard data={project} type={type} />
             ))}
           </div>
         )}

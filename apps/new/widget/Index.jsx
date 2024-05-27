@@ -1,8 +1,8 @@
-const { CSS } = VM.require("${config_account}/widget/css") || {
+const { CSS } = VM.require("${config_account}/widget/CSS") || {
   CSS: () => <></>,
 };
 
-const { Footer } = VM.require("${config_account}/widget/components.footer") || {
+const { Footer } = VM.require("${config_account}/widget/Components.Footer") || {
   Footer: () => <></>,
 };
 
@@ -22,7 +22,7 @@ const config = {
     param: "page",
     routes: {
       home: {
-        path: "${config_account}/widget/page.home.index",
+        path: "${config_account}/widget/Page.Home.Index",
         blockHeight: "final",
         init: {
           name: "Home",
@@ -30,7 +30,7 @@ const config = {
         default: true,
       },
       projects: {
-        path: "${config_account}/widget/page.projects.index",
+        path: "${config_account}/widget/Page.Projects.Index",
         blockHeight: "final",
         init: {
           name: "Projects",

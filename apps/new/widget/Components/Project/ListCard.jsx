@@ -13,7 +13,7 @@ const { ProfileImages } = VM.require(
   ProfileImages: () => <></>,
 };
 
-const ListCard = styled.div`
+const Card = styled.div`
   border-radius: 16px;
   background: var(--bg-2, #23242b);
 
@@ -95,7 +95,7 @@ const Tag = styled.div`
   }
 `;
 
-const ProjectList = ({ data, type }) => {
+const ListCard = ({ data, type }) => {
   const {
     accountId,
     projectAccountId,
@@ -119,7 +119,7 @@ const ProjectList = ({ data, type }) => {
       })}
       style={{ textDecoration: "none", display: "flex", flexGrow: "1" }}
     >
-      <ListCard>
+      <Card>
         <div className="d-flex justify-content-start p-4 flex-grow-1 gap-3">
           <div className="d-flex align-items-center">
             <div
@@ -183,9 +183,9 @@ const ProjectList = ({ data, type }) => {
             </Button>
           </div>
         </div>
-      </ListCard>
+      </Card>
     </Link>
   );
 };
 
-return { ProjectList };
+return { ListCard };

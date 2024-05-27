@@ -11,7 +11,7 @@ const config = {
     Header: () => <></>,
     Sidebar: () => (
       <Widget
-        src="${config_account}/widget/components.sidebar"
+        src="${config_account}/widget/Components.Sidebar"
         props={{
           routes: config.router.routes,
           currentRoute: "/${config_account}/widget/Index?page=projects",
@@ -39,7 +39,7 @@ const config = {
         },
       },
       allProjects: {
-        path: "${config_account}/widget/page.projects.List",
+        path: "${config_account}/widget/Page.Projects.List",
         blockHeight: "final",
         init: {
           name: "All Projects",
@@ -48,14 +48,14 @@ const config = {
         hide: true,
       },
       activity: {
-        path: "${config_account}/widget/dummy",
+        path: "${config_account}/widget/Dummy",
         blockHeight: "final",
         init: {
           name: "See Activity",
         },
       },
       requestFeedback: {
-        path: "${config_account}/widget/dummy",
+        path: "${config_account}/widget/Dummy",
         blockHeight: "final",
         init: {
           name: "Request Feedback",
@@ -63,7 +63,7 @@ const config = {
         },
       },
       fundingProgram: {
-        path: "${config_account}/widget/dummy",
+        path: "${config_account}/widget/Dummy",
         blockHeight: "final",
         init: {
           name: "Funding Program",
@@ -71,7 +71,7 @@ const config = {
         },
       },
       guide: {
-        path: "${config_account}/widget/dummy",
+        path: "${config_account}/widget/Dummy",
         blockHeight: "final",
         init: {
           name: "Guide",
@@ -79,7 +79,7 @@ const config = {
         },
       },
       learn: {
-        path: "${config_account}/widget/dummy",
+        path: "${config_account}/widget/Dummy",
         blockHeight: "final",
         label: "LEARN",
         init: {
@@ -88,7 +88,7 @@ const config = {
         },
       },
       read: {
-        path: "${config_account}/widget/dummy",
+        path: "${config_account}/widget/Dummy",
         blockHeight: "final",
         init: {
           name: "Read",
@@ -96,7 +96,7 @@ const config = {
         },
       },
       watch: {
-        path: "${config_account}/widget/dummy",
+        path: "${config_account}/widget/Dummy",
         blockHeight: "final",
         init: {
           name: "Watch",
@@ -104,7 +104,7 @@ const config = {
         },
       },
       tools: {
-        path: "${config_account}/widget/dummy",
+        path: "${config_account}/widget/Dummy",
         blockHeight: "final",
         init: {
           name: "Tools",
@@ -112,7 +112,7 @@ const config = {
         },
       },
       components: {
-        path: "${config_account}/widget/dummy",
+        path: "${config_account}/widget/Dummy",
         blockHeight: "final",
         init: {
           name: "Components",

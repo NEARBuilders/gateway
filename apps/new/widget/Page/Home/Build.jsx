@@ -139,8 +139,8 @@ const Cards = styled.div`
   gap: 34px;
 
   @media screen and (max-width: 500px) {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 16px;
+    display: flex;
+    flex-direction: column;
   }
 `;
 
@@ -294,13 +294,13 @@ const Build = () => {
           </Text>
           <BosVector src={bosImage} />
         </BosContainer>
-        {/* <DesktopContainer> */}
         <GettingStarted>
           <p>Getting Started</p>
           <Button
             style={{
               gap: "8px",
               borderRadius: "10px",
+              minWidth: "fit-content",
             }}
           >
             <GettingStartedSVG />
@@ -313,39 +313,13 @@ const Build = () => {
             style={{
               gap: "8px",
               borderRadius: "10px",
+              minWidth: "fit-content",
             }}
           >
             <WorkspaceDocsSVG />
             Workspace Docs
           </Button>
         </LearnMore>
-        {/* </DesktopContainer> */}
-        {/* <MobileContainer>
-          <GettingStarted>
-            <p>Getting Started</p>
-            <Button
-              style={{
-                gap: "8px",
-                borderRadius: "10px",
-              }}
-            >
-              <GettingStartedSVG />
-              Quickstart Guide
-            </Button>
-          </GettingStarted>
-          <LearnMore>
-            <p>Learn More</p>
-            <Button
-              style={{
-                gap: "8px",
-                borderRadius: "10px",
-              }}
-            >
-              <WorkspaceDocsSVG />
-              Workspace Docs
-            </Button>
-          </LearnMore>
-        </MobileContainer> */}
       </Cards>
     </Container>
   );
