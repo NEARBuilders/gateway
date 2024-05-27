@@ -1,3 +1,7 @@
+const { CSS } = VM.require("${config_account}/widget/CSS") || {
+  CSS: () => <></>,
+};
+
 const { Footer } = VM.require("${config_account}/widget/components.Footer") || {
   Footer: () => <></>,
 };
@@ -18,17 +22,26 @@ const config = {
     param: "page",
     routes: {
       home: {
-        path: "${config_account}/widget/page.home",
+        path: "${config_account}/widget/page.home.Index",
         blockHeight: "final",
         init: {
           name: "Home",
         },
         default: true,
       },
+      projects: {
+        path: "${config_account}/widget/page.projects.Index",
+        blockHeight: "final",
+        init: {
+          name: "Projects",
+        },
+      },
     },
   },
 };
 
 return (
-  <Widget src="${alias_old}/widget/app.view" props={{ config, ...props }} />
+  <CSS>
+    <Widget src="${alias_old}/widget/app.view" props={{ config, ...props }} />
+  </CSS>
 );
