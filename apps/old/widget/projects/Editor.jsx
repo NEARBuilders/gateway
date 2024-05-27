@@ -1,10 +1,11 @@
 const accountId = context.accountId;
-const { Button, InputField, TextEditor } = VM.require(
+const { Button, InputField, TextEditor, Modal } = VM.require(
   "${config_account}/widget/components",
 ) || {
   Button: () => <></>,
   InputField: () => <></>,
   TextEditor: () => <></>,
+  Modal: () => <></>,
 };
 const { normalize } = VM.require("${alias_devs}/widget/lib.stringUtils") || {
   normalize: () => {},
@@ -324,6 +325,48 @@ const Container = styled.div`
     cursor: pointer;
   }
 `;
+
+function onSuccessModalToggle(v) {
+  setShowSuccessModal(v);
+}
+
+const ModalContainer = styled.div`
+  .pb-4 {
+    padding-bottom: 0px !important;
+    margin-bottom:-20px !important;
+  }
+`;
+const SuccessModal = () => {
+  return (
+    <ModalContainer>
+      <Modal
+        open={showSuccessModal}
+        onOpenChange={onSuccessModalToggle}
+        toggle={onSuccessModalToggle}
+      >
+        <div className="d-flex flex-column gap-2 align-items-center">
+          <img
+            src="https://ipfs.near.social/ipfs/bafkreidhpcgdofhhvyybz3d4xmoheovksulnatfsdyfljpphwvm74kl43e"
+            width={50}
+          />
+          <div className="h5">Created successful!</div>
+          <div>
+            Your project has been created successfully and is now ready to be
+            built and shared.
+          </div>
+          <div className="text-center mt-2">
+            <Button
+              variant="primary"
+              href="/${config_account}/widget/app?page=projects"
+            >
+              View Project Page
+            </Button>
+          </div>
+        </div>
+      </Modal>
+    </ModalContainer>
+  );
+};
 
 function onCreateProject() {
   const projectID = normalize(isEditScreen ? oldTitle : title, "-");
@@ -715,6 +758,7 @@ return (
         Easily create, share, and track all projects within our vibrant builder
         community.
       </p>
+      <SuccessModal />
       {currentScreen === 1 ? <FirstScreen /> : <SecondScreen />}
     </div>
   </Container>
