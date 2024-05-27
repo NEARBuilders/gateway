@@ -76,7 +76,12 @@ function MarkdownView(props) {
 
   return (
     <MarkdownContainer>
-      <Markdown text={content.body} />
+      {/* <Markdown text={content.body} /> */}
+      <Markdown
+        text={
+          "![image](https://github.com/NEARBuilders/bos-workspace-docs/blob/develop/md/verify_bosworkspace_version.png?raw=true)"
+        }
+      />
     </MarkdownContainer>
   );
 }

@@ -80,6 +80,42 @@ const config = {
           name: "Guide",
           icon: "bi bi-journal-text",
         },
+        routes: {
+          gettingStarted: {
+            init: { name: "Getting Started" },
+          },
+          migrationGuide: {
+            init: { name: "MG" },
+          },
+          Installation: {
+            init: { name: "INS" },
+          },
+          Setup: {
+            init: { name: "Setup" },
+          },
+        },
+      },
+      gettingStarted: {
+        path: "${alias_old}/widget/Resources",
+        blockHeight: "final",
+        init: {
+          name: "Getting Started",
+          mdPath:
+            "https://raw.githubusercontent.com/NEARBuilders/bos-workspace-docs/develop/md/getting_started/index.md",
+        },
+        hide: true,
+      },
+      migrationGuide: {
+        init: { name: "MG" },
+        hide: true,
+      },
+      Installation: {
+        init: { name: "INS" },
+        hide: true,
+      },
+      Setup: {
+        init: { name: "Setup" },
+        hide: true,
       },
       learn: {
         path: "${config_account}/widget/dummy",
