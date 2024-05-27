@@ -62,6 +62,7 @@ const potlockProjectTags = null;
 const editProjectId = props.id ?? null;
 const isEditScreen = !!editProjectId;
 let editProjectData = null;
+
 if (editProjectId) {
   editProjectData = getProjectMeta(editProjectId);
 }
@@ -333,9 +334,10 @@ function onSuccessModalToggle(v) {
 const ModalContainer = styled.div`
   .pb-4 {
     padding-bottom: 0px !important;
-    margin-bottom:-20px !important;
+    margin-bottom: -20px !important;
   }
 `;
+
 const SuccessModal = () => {
   return (
     <ModalContainer>
@@ -349,10 +351,12 @@ const SuccessModal = () => {
             src="https://ipfs.near.social/ipfs/bafkreidhpcgdofhhvyybz3d4xmoheovksulnatfsdyfljpphwvm74kl43e"
             width={50}
           />
-          <div className="h5">Created successful!</div>
+          <div className="h5">
+            {isEditScreen ? "Edited" : "Created"} successful!
+          </div>
           <div>
-            Your project has been created successfully and is now ready to be
-            built and shared.
+            Your project has been {isEditScreen ? "edited" : "created"}{" "}
+            successfully and is now ready to be built and shared.
           </div>
           <div className="text-center mt-2">
             <Button
