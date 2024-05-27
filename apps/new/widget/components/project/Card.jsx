@@ -102,6 +102,7 @@ const ProjectCard = ({ data, variant }) => {
     tags,
     collaborators,
     metadata,
+    type,
     projectID,
   } = data;
 

@@ -231,8 +231,9 @@ const Subheading = styled.h3`
   margin: 0;
 `;
 
-const view = Storage.get("${config_account}:projects-view") ?? "grid";
-const [stateView, setStateView] = useState(view);
+const [view, setStateView] = useState(
+  Storage.get("${config_account}:projects-view") ?? "grid",
+);
 const setView = (v) => {
   setStateView(v);
   Storage.set("${config_account}:projects-view", v);
@@ -356,7 +357,7 @@ return (
     </div>
     {filteredProjects && filteredProjects.length > 0 ? (
       <>
-        {stateView === "grid" ? (
+        {view === "grid" ? (
           <Container>
             {filteredProjects.map((project) => (
               <ProjectCard data={project} type={type} />
