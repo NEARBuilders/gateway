@@ -29,6 +29,7 @@ const config = {
         blockHeight: "final",
         label: "BOS-WORKSPACE DOCS",
         init: {
+          feedName: "Resources",
           name: "Guide",
           icon: "bi bi-journal-text",
           mdPath:
