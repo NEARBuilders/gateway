@@ -281,12 +281,12 @@ function Navbar(props) {
           >
             {Object.entries(config).map(([key, value]) => (
               <li key={key}>
-                <Link
+                <a
                   style={{
                     textDecoration: "none",
                     color: value.disabled ? "green" : "#9ba1a6",
                   }}
-                  to={value.href}
+                  href={value.href}
                   className="dropdown-item d-flex align-items-center gap-2"
                 >
                   <i
@@ -294,7 +294,7 @@ function Navbar(props) {
                     style={{ color: value.disabled ? "green" : "#9ba1a6" }}
                   />
                   <span>{value.label}</span>
-                </Link>
+                </a>
               </li>
             ))}
           </ul>
