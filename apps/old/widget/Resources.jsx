@@ -9,7 +9,9 @@ const { Post } = VM.require("${config_account}/widget/components") || {
 const { MarkdownView } = VM.require("${config_account}/widget/md-view") || {
   MarkdownView: () => <></>,
 };
-
+const { Layout } = VM.require("${alias_devs}/widget/Layout") || {
+  Layout: () => <></>,
+};
 const mdPath = props.mdPath;
 const postAccountId = props.postAccountId;
 
@@ -24,15 +26,17 @@ if (mdPath && !postAccountId) {
 
 if (!mdPath && postAccountId) {
   return (
-    <div>
-      <Header>{props.feedName}</Header>
+    <Layout variant="standard" blocks={blocks}>
+      <div>
+        <Header>{props.feedName}</Header>
 
-      <Post
-        accountId={postAccountId}
-        blockHeight={props.postBlockHeight}
-        noBorder={true}
-      />
-    </div>
+        <Post
+          accountId={postAccountId}
+          blockHeight={props.postBlockHeight}
+          noBorder={true}
+        />
+      </div>
+    </Layout>
   );
 }
 
