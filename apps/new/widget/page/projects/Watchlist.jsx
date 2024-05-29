@@ -1,3 +1,11 @@
+if (!context.accountId) {
+  return (
+    <h2 className="text-white">
+      "Please log in in order to see involved projects!"
+    </h2>
+  );
+}
+
 const { Button } = VM.require("${alias_old}/widget/components") || {
   Button: () => <></>,
 };
@@ -22,8 +30,12 @@ const { fetchProjects } = VM.require(
 if (!fetchProjects) {
   return "";
 }
-
-const projects = fetchProjects() || [];
+const starredProjects =
+  Social.get(`${context.accountId}/project/starred`) || [];
+const projects =
+  fetchProjects().filter((project) =>
+    starredProjects.includes(project.projectID),
+  ) || [];
 
 if (!projects) {
   return "";
@@ -151,16 +163,6 @@ const Heading = styled.div`
   }
 `;
 
-const Subheading = styled.h3`
-  color: #fff;
-  font-family: Poppins, sans-serif;
-  font-size: 24px;
-  font-weight: 500;
-  line-height: 130%; /* 31.2px */
-  letter-spacing: -0.48px;
-  margin: 0;
-`;
-
 const [view, setStateView] = useState(
   Storage.get("${config_account}:projects-view") ?? "grid",
 );
@@ -185,103 +187,51 @@ return (
         tagFilters,
       }}
     />
-    <Widget
-      src="${alias_old}/widget/components.modals.projects.ImportAndCreate"
-      loading=""
-      props={{
-        showModal: showCreateOptionsModal,
-        toggleModal: toggleCreateOptionsModal,
-        onClickImport: () => {
-          setShowCreateOptionsModal(false);
-          setShowImportModal(true);
-        },
-        onClickCreate: () => {
-          setShowCreateOptionsModal(false);
-          setShowCreateModal(true);
-        },
-      }}
-    />
-    <Widget
-      src="${alias_old}/widget/components.modals.projects.PotlockImport"
-      loading=""
-      props={{
-        showModal: showImportModal,
-        toggleModal: toggleImportModal,
-      }}
-    />
-    <Widget
-      src="${alias_old}/widget/components.modals.projects.Create"
-      loading=""
-      props={{
-        showModal: showCreateModal,
-        toggleModal: toggleCreateModal,
-      }}
-    />
-
     <Heading>
-      <div className="d-flex align-items-center justify-content-between">
-        <h2>Projects</h2>
-        <div className="d-flex align-items-center gap-2">
-          {context.accountId && (
-            <Button
-              variant="primary"
-              onClick={() => setShowCreateOptionsModal(true)}
-            >
-              Create Project
-            </Button>
-          )}
-          <Button>Open Roles</Button>
-        </div>
-      </div>
-      <p>
-        Easily create, share, and track all projects within our vibrant builder
-        community.
-      </p>
+      <h2>Watchlist</h2>
+      <p>Keep track of projects on your watch list.</p>
     </Heading>
-    <div className="d-flex flex-column gap-3">
-      <Subheading>Discover Projects</Subheading>
-      <div className="form-group d-flex gap-4 align-items-center justify-content-between">
-        <div className="input-group">
-          <div
-            className="input-group-text border-0"
-            style={{ backgroundColor: "#23242b", color: "#B0B0B0" }}
-          >
-            <i className="bi bi-search"></i>
-          </div>
-          <input
-            className="form-control border-0"
-            style={{ backgroundColor: "#23242b" }}
-            placeholder="Search by project ID or name"
-            value={filters.title}
-            onChange={(e) => setFilters({ ...filters, title: e.target.value })}
-          />
+    <div className="form-group d-flex gap-4 align-items-center justify-content-between">
+      <div className="input-group">
+        <div
+          className="input-group-text border-0"
+          style={{ backgroundColor: "#23242b", color: "#B0B0B0" }}
+        >
+          <i className="bi bi-search"></i>
         </div>
-        <div className="d-flex align-items-center gap-3">
+        <input
+          className="form-control border-0"
+          style={{ backgroundColor: "#23242b" }}
+          placeholder="Search by project ID or name"
+          value={filters.title}
+          onChange={(e) => setFilters({ ...filters, title: e.target.value })}
+        />
+      </div>
+      <div className="d-flex align-items-center gap-3">
+        <Button
+          className="d-flex align-items-center gap-2"
+          variant="outline"
+          onClick={() => setShowFilterModal(true)}
+        >
+          Filter <i className="bi bi-sliders"></i>
+        </Button>
+        <div className="d-flex align-items-center gap-2">
           <Button
-            className="d-flex align-items-center gap-2"
-            variant="outline"
-            onClick={() => setShowFilterModal(true)}
+            type="icon"
+            className="rounded-2"
+            variant={view === "grid" ? "primary" : null}
+            onClick={() => setView("grid")}
           >
-            Filter <i className="bi bi-sliders"></i>
+            <i className="bi bi-grid"></i>
           </Button>
-          <div className="d-flex align-items-center gap-2">
-            <Button
-              type="icon"
-              className="rounded-2"
-              variant={view === "grid" ? "primary" : null}
-              onClick={() => setView("grid")}
-            >
-              <i className="bi bi-grid"></i>
-            </Button>
-            <Button
-              type="icon"
-              className="rounded-2"
-              variant={view === "list" ? "primary" : null}
-              onClick={() => setView("list")}
-            >
-              <i className="bi bi-list-ul"></i>
-            </Button>
-          </div>
+          <Button
+            type="icon"
+            className="rounded-2"
+            variant={view === "list" ? "primary" : null}
+            onClick={() => setView("list")}
+          >
+            <i className="bi bi-list-ul"></i>
+          </Button>
         </div>
       </div>
     </div>

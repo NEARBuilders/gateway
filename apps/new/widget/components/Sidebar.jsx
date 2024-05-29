@@ -13,10 +13,12 @@ const Sidebar = styled.div`
   background: #000;
   display: flex;
   min-width: 259px;
+  min-height: 100vh;
   padding: 24px;
   flex-direction: column;
   align-items: flex-start;
   gap: 12px;
+  margin-right: 48px;
 
   button {
     padding: 10px 12px;
