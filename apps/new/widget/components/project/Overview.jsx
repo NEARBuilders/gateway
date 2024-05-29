@@ -85,7 +85,7 @@ return (
         <p className="heading">Team Size</p>
         <p className="description d-flex align-items-center gap-2">
           <i className="bi bi-person"></i>
-          {teamSize}
+          {teamSize || "unspecified"}
         </p>
       </div>
     </div>
