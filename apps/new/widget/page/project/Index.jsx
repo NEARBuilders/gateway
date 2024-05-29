@@ -32,12 +32,19 @@ const config = {
       myProjects: {
         init: {
           name: "My Projects",
+          icon: "bi bi-star",
         },
       },
       myToolkits: {
         init: {
           name: "My Toolkits",
           icon: "bi bi-database",
+        },
+      },
+      projectsInvolved: {
+        init: {
+          name: "Projects Involved",
+          icon: "bi bi-clipboard",
         },
       },
       project: {
