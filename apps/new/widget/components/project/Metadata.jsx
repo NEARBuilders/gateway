@@ -82,7 +82,7 @@ const Metadata = ({ profile, title, projectAccountId }) => {
               className: "w-100",
               style: { objectFit: "cover", left: 0, top: 0 },
               fallbackUrl:
-                "https://ipfs.near.social/ipfs/bafkreibmiy4ozblcgv3fm3gc6q62s55em33vconbavfd2ekkuliznaq3zm",
+                "https://ipfs.near.social/ipfs/bafkreifn654yar6dv4ztyijkag3lgh274iqfajgjhvnny6gv22pkkhxllm",
             }}
           />
         )}
@@ -109,7 +109,7 @@ const Metadata = ({ profile, title, projectAccountId }) => {
           <div className="links">
             <span>Links</span>
             <Widget
-              src="${config_account}/widget/components.profile.Linktree"
+              src="${alias_old}/widget/components.profile.Linktree"
               loading=""
               props={{
                 profile,
