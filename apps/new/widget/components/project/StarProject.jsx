@@ -4,36 +4,38 @@ const { Button } = VM.require("${alias_old}/widget/components") || {
 
 const { item } = props;
 
+// Get the list of starred projects for the current user
 const starredProjects =
   Social.get(`${context.accountId}/project/starred`) || [];
+const parsedStarredProjects = JSON.parse(starredProjects);
+
+// Check if the current item is starred
+const isStarred = parsedStarredProjects.includes(item.id);
+
+// Prepare data for updating the starred projects
+const updatedStarredProjects = isStarred
+  ? parsedStarredProjects.filter((project) => project !== item.id)
+  : [...parsedStarredProjects, item.id];
 
 const data = {
   project: {
-    starred: JSON.parse(starredProjects).includes(item.id)
-      ? JSON.parse(starredProjects).filter((project) => project != item.id)
-      : [...JSON.parse(starredProjects), item.id],
+    starred: updatedStarredProjects,
   },
+};
+
+const handleButtonClick = (event) => {
+  event.stopPropagation();
+  event.preventDefault();
+  Social.set(data);
 };
 
 return (
   <Button
     type="icon"
-    variant={
-      JSON.parse(starredProjects).includes(item.id) ? "primary" : "outline"
-    }
+    variant={isStarred ? "primary" : "outline"}
     className="rounded-2"
-    onClick={(event) => {
-      event.stopPropagation();
-      event.preventDefault();
-      Social.set(data);
-    }}
+    onClick={handleButtonClick}
   >
-    <i
-      className={
-        JSON.parse(starredProjects).includes(item.id)
-          ? "bi bi-star-fill"
-          : "bi bi-star"
-      }
-    ></i>
+    <i className={isStarred ? "bi bi-star-fill" : "bi bi-star"}></i>
   </Button>
 );
