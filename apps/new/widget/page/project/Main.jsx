@@ -64,7 +64,7 @@ const config = {
     param: "tab",
     routes: {
       overview: {
-        path: "${config_account}/widget/components.project.pages.Overview",
+        path: "${config_account}/widget/page.project.tabs.Overview",
         blockHeight: "final",
         init: {
           ...props,
@@ -72,35 +72,35 @@ const config = {
         default: "true",
       },
       activity: {
-        path: "${config_account}/widget/components.project.pages.Activity",
+        path: "${config_account}/widget/page.project.tabs.Discussion",
         blockHeight: "final",
         init: {
           ...props,
         },
       },
       discussion: {
-        path: "${config_account}/widget/components.project.pages.Discussion",
+        path: "${config_account}/widget/page.project.tabs.Discussion",
         blockHeight: "final",
         init: {
           ...props,
         },
       },
       tasks: {
-        path: "${config_account}/widget/components.project.pages.Task",
+        path: "${config_account}/widget/page.project.tabs.Task",
         blockHeight: "final",
         init: {
           ...props,
         },
       },
       code: {
-        path: "${config_account}/widget/components.project.pages.Code",
+        path: "${config_account}/widget/page.project.tabs.Code",
         blockHeight: "final",
         init: {
           ...props,
         },
       },
       roadmap: {
-        path: "${config_account}/widget/components.project.pages.Roadmap",
+        path: "${config_account}/widget/page.project.tabs.Roadmap",
         blockHeight: "final",
         init: {
           ...props,
