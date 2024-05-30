@@ -159,18 +159,16 @@ const ProjectCard = ({ data, variant }) => {
                 }}
               />
             </div>
-            <Button
-              type="icon"
-              className="rounded-3 z-3"
-              variant="outline"
-              onClick={(e) => {
-                e.stopPropagation();
-                e.preventDefault();
-                console.log("clicked");
+            <Widget
+              src="${config_account}/widget/components.project.StarProject"
+              loading=""
+              props={{
+                item: {
+                  type: "social",
+                  path: `${accountId}/project/${projectID}`,
+                },
               }}
-            >
-              <i className="bi bi-star"></i>
-            </Button>
+            />
           </div>
           <div className="info w-100">
             <h4>
