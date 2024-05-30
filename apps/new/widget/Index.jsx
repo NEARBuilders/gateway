@@ -15,7 +15,15 @@ const config = {
     },
   },
   blocks: {
-    Header: () => <Widget src="${alias_old}/widget/components.Navbar" />,
+    Header: () => (
+      <Widget
+        src="${config_account}/widget/components.Navbar"
+        props={{
+          routes: config.router.routes,
+          ...props,
+        }}
+      />
+    ),
     Footer: () => <Footer />,
   },
   router: {
@@ -28,6 +36,13 @@ const config = {
           name: "Home",
         },
         default: true,
+      },
+      activity: {
+        path: "${alias_old}/widget/page.feed",
+        blockHeight: "final",
+        init: {
+          name: "Activity",
+        },
       },
       projects: {
         path: "${config_account}/widget/page.projects.Index",
