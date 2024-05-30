@@ -49,6 +49,8 @@ const MainContent = styled.div`
 const Left = styled.div`
   display: flex;
   align-items: center;
+  justify-content: space-between;
+  flex: 1;
   gap: 50px;
 
   @media screen and (max-width: 960px) {
@@ -104,6 +106,7 @@ const MobileNavigation = styled.div`
 const NavLinks = styled.div`
   display: flex;
   align-items: center;
+  justify-content: flex-end;
   gap: 36px;
 
   span {
@@ -236,6 +239,7 @@ const unreadNotifications = getNotificationCount();
 
 function Navbar(props) {
   const { page, routes } = props;
+  page = page ?? "home";
   const [dropdown, setDropdown] = useState(false);
 
   const toggleDropdown = () => {
@@ -319,7 +323,7 @@ function Navbar(props) {
             <img
               className="object-fit-cover"
               style={{ height: 46 }}
-              src="https://ipfs.near.social/ipfs/bafkreiglw3t6b3dx2axk7x4ftzk6pwwe6ziiyexlszlkhenxist6osrlbe"
+              src="https://ipfs.near.social/ipfs/bafkreiavh7rnvf4zzb5rjohul7xwrlgz4y6ysdtmdsvpjeqpjtmuvgal7a"
             />
           </Link>
           <NavLinks>
