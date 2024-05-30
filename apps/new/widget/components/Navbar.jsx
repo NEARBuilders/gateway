@@ -49,8 +49,6 @@ const MainContent = styled.div`
 const Left = styled.div`
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  flex: 1;
   gap: 50px;
 
   @media screen and (max-width: 960px) {
