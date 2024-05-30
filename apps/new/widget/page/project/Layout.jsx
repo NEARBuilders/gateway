@@ -18,9 +18,10 @@ const Layout = ({
 }) => {
   const { title } = project;
 
-  //   if (!projectAccountId) {
-  //     return <p className="fw-bold text-white">No Account ID</p>;
-  //   }
+  if (!projectAccountId) {
+    return <p className="fw-bold text-white">No Account ID</p>;
+  }
+
   const Nav = styled.div`
     .nav-pills {
       background: var(--bg-1, #0b0c14);

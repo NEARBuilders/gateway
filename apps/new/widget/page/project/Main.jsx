@@ -1,9 +1,9 @@
 const { id } = props;
 
 const data = JSON.parse(Social.get(id, "final") ?? {});
-// if (!id || !data) {
-//   return "Loading...";
-// }
+if (!id || !data) {
+  return "Loading...";
+}
 
 const profileData = {
   name: data.title,
@@ -64,7 +64,7 @@ const config = {
     param: "tab",
     routes: {
       overview: {
-        path: "${config_account}/widget/components.project.page.Overview",
+        path: "${config_account}/widget/components.project.pages.Overview",
         blockHeight: "final",
         init: {
           ...props,
@@ -72,35 +72,35 @@ const config = {
         default: "true",
       },
       activity: {
-        path: "${config_account}/widget/components.project.page.Activity",
+        path: "${config_account}/widget/components.project.pages.Activity",
         blockHeight: "final",
         init: {
           ...props,
         },
       },
       discussion: {
-        path: "${config_account}/widget/components.project.page.Discussion",
+        path: "${config_account}/widget/components.project.pages.Discussion",
         blockHeight: "final",
         init: {
           ...props,
         },
       },
       tasks: {
-        path: "${config_account}/widget/components.project.page.Task",
+        path: "${config_account}/widget/components.project.pages.Task",
         blockHeight: "final",
         init: {
           ...props,
         },
       },
       code: {
-        path: "${config_account}/widget/components.project.page.Code",
+        path: "${config_account}/widget/components.project.pages.Code",
         blockHeight: "final",
         init: {
           ...props,
         },
       },
       roadmap: {
-        path: "${config_account}/widget/components.project.page.Roadmap",
+        path: "${config_account}/widget/components.project.pages.Roadmap",
         blockHeight: "final",
         init: {
           ...props,
@@ -109,6 +109,15 @@ const config = {
     },
   },
 };
+
+// remove unselected tabs
+if (Array.isArray(data?.tabs)) {
+  Object.keys(config.router.routes).forEach((key) => {
+    if (!data.tabs.includes(key)) {
+      delete config.router.routes[key];
+    }
+  });
+}
 
 return (
   <div className="mt-3 container-xl">
