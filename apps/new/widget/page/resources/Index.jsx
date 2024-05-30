@@ -44,7 +44,6 @@ const config = {
           name: "Getting Started",
           icon: "bi bi-journal-text",
         },
-        default: true,
         routes: {
           gettingStarted: {
             init: {

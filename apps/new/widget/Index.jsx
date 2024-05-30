@@ -15,7 +15,15 @@ const config = {
     },
   },
   blocks: {
-    Header: () => <Widget src="${alias_old}/widget/components.Navbar" />,
+    Header: () => (
+      <Widget
+        src="${config_account}/widget/components.Navbar"
+        props={{
+          routes: config.router.routes,
+          ...props,
+        }}
+      />
+    ),
     Footer: () => <Footer />,
   },
   router: {
