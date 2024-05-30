@@ -1,5 +1,5 @@
 const { Metadata } = VM.require(
-  "${config_account}/widget/components.project.Metadata",
+  "${config_account}/widget/page.project.Metadata",
 ) || {
   Metadata: () => <></>,
 };
