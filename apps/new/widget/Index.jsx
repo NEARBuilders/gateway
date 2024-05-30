@@ -36,6 +36,14 @@ const config = {
           name: "Projects",
         },
       },
+      project: {
+        path: "${config_account}/widget/page.project.Index",
+        blockHeight: "final",
+        init: {
+          name: "Project",
+        },
+        hide: true,
+      },
       resources: {
         path: "${config_account}/widget/page.resources.Index",
         blockHeight: "final",

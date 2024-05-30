@@ -111,7 +111,7 @@ const ProjectCard = ({ data, variant }) => {
   return (
     <Link
       href={href({
-        widgetSrc: `${alias_old}/widget/app`,
+        widgetSrc: `${config_account}/widget/Index`,
         params: {
           page: "project",
           id: `${accountId}/${type}/${projectID}`,
