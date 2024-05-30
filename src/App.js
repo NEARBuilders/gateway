@@ -185,6 +185,7 @@ function App() {
     if (!near) {
       return;
     }
+
     setSignedIn(!!accountId);
     setSignedAccountId(accountId);
     setConnected(true);

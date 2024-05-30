@@ -1,8 +1,8 @@
-const { Button } = VM.require("${config_account}/widget/components") || {
+const { Button } = VM.require("${alias_old}/widget/components") || {
   Button: () => <></>,
 };
 
-const { href } = VM.require("${config_account}/widget/lib.url") || {
+const { href } = VM.require("${alias_old}/widget/lib.url") || {
   href: () => {},
 };
 
@@ -104,6 +104,7 @@ const MobileNavigation = styled.div`
 const NavLinks = styled.div`
   display: flex;
   align-items: center;
+  justify-content: flex-end;
   gap: 36px;
 
   span {
@@ -236,6 +237,7 @@ const unreadNotifications = getNotificationCount();
 
 function Navbar(props) {
   const { page, routes } = props;
+  page = page ?? "home";
   const [dropdown, setDropdown] = useState(false);
 
   const toggleDropdown = () => {
@@ -309,7 +311,7 @@ function Navbar(props) {
         <Left>
           <Link
             to={href({
-              widgetSrc: "${config_account}/widget/app",
+              widgetSrc: "${config_account}/widget/Index",
               params: {
                 page: "home",
               },
@@ -319,7 +321,7 @@ function Navbar(props) {
             <img
               className="object-fit-cover"
               style={{ height: 46 }}
-              src="https://ipfs.near.social/ipfs/bafkreiglw3t6b3dx2axk7x4ftzk6pwwe6ziiyexlszlkhenxist6osrlbe"
+              src="https://ipfs.near.social/ipfs/bafkreiavh7rnvf4zzb5rjohul7xwrlgz4y6ysdtmdsvpjeqpjtmuvgal7a"
             />
           </Link>
           <NavLinks>
@@ -334,7 +336,7 @@ function Navbar(props) {
                     key={`desktop=${k}`}
                     style={{ textDecoration: "none" }}
                     to={href({
-                      widgetSrc: "${config_account}/widget/app",
+                      widgetSrc: "${config_account}/widget/Index",
                       params: {
                         page: k,
                       },
@@ -355,7 +357,7 @@ function Navbar(props) {
               className="rounded-3 position-relative"
               type="icon"
               href={href({
-                widgetSrc: "${config_account}/widget/app",
+                widgetSrc: "${config_account}/widget/Index",
                 params: {
                   page: "notifications",
                 },
@@ -412,7 +414,7 @@ function Navbar(props) {
                     <Link
                       style={{ textDecoration: "none" }}
                       href={href({
-                        widgetSrc: "${config_account}/widget/app",
+                        widgetSrc: "${config_account}/widget/Index",
                         params: {
                           page: "inspect",
                           widgetPath: routes[page].path,
@@ -443,7 +445,7 @@ function Navbar(props) {
             </StyledDropdown>
             {context.accountId ? (
               <Widget
-                src="${config_account}/widget/components.buttons.UserDropdown"
+                src="${alias_old}/widget/components.buttons.UserDropdown"
                 loading=""
                 props={props}
               />
@@ -464,7 +466,7 @@ function Navbar(props) {
         <MobileNavigation>
           <Link
             to={href({
-              widgetSrc: "${config_account}/widget/app",
+              widgetSrc: "${config_account}/widget/Index",
               params: {
                 page: "home",
               },
@@ -473,7 +475,7 @@ function Navbar(props) {
             <img
               className="object-fit-cover"
               onClick={() => setDropdown(false)}
-              src="https://ipfs.near.social/ipfs/bafkreifotevq6g6ralhvutlcssaasa7xbfjjc6mbo5hlnvgpxxgfmwswmq"
+              src="https://ipfs.near.social/ipfs/bafkreiavh7rnvf4zzb5rjohul7xwrlgz4y6ysdtmdsvpjeqpjtmuvgal7a"
               style={{ height: 40 }}
               alt="BuildDAO"
             />
@@ -484,7 +486,7 @@ function Navbar(props) {
                 className="rounded-3 position-relative"
                 type="icon"
                 href={href({
-                  widgetSrc: "${config_account}/widget/app",
+                  widgetSrc: "${config_account}/widget/Index",
                   params: {
                     page: "notifications",
                   },
@@ -526,7 +528,7 @@ function Navbar(props) {
           <MobileNavigation>
             <Link
               to={href({
-                widgetSrc: "${config_account}/widget/app",
+                widgetSrc: "${config_account}/widget/Index",
                 params: {
                   page: "home",
                 },
@@ -534,7 +536,7 @@ function Navbar(props) {
             >
               <img
                 onClick={() => setDropdown(false)}
-                src="https://ipfs.near.social/ipfs/bafkreifotevq6g6ralhvutlcssaasa7xbfjjc6mbo5hlnvgpxxgfmwswmq"
+                src="https://ipfs.near.social/ipfs/bafkreiavh7rnvf4zzb5rjohul7xwrlgz4y6ysdtmdsvpjeqpjtmuvgal7a"
                 style={{ height: 40 }}
                 alt="BuildDAO"
               />
@@ -561,7 +563,7 @@ function Navbar(props) {
                       key={`mobile=${k}`}
                       style={{ textDecoration: "none" }}
                       to={href({
-                        widgetSrc: "${config_account}/widget/app",
+                        widgetSrc: "${config_account}/widget/Index",
                         params: {
                           page: k,
                         },
@@ -585,7 +587,7 @@ function Navbar(props) {
                   linkClassName="d-flex w-100"
                   className="w-100"
                   href={href({
-                    widgetSrc: "${config_account}/widget/app",
+                    widgetSrc: "${config_account}/widget/Index",
                     params: {
                       page: "inspect",
                       widgetPath: routes[page].path,
@@ -606,7 +608,7 @@ function Navbar(props) {
                 {context.accountId ? (
                   <div className="mx-auto d-flex align-items-stretch ">
                     <Widget
-                      src="${config_account}/widget/components.buttons.UserDropdown"
+                      src="${alias_old}/widget/components.buttons.UserDropdown"
                       loading=""
                       props={props}
                     />
