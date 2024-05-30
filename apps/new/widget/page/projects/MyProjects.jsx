@@ -22,7 +22,7 @@ const { ListCard } = VM.require(
 };
 
 const { fetchProjects } = VM.require(
-  "${config_account}/widget/lib.Projects",
+  "${config_account}/widget/lib.projects",
 ) || {
   fetchProjects: () => {},
 };
