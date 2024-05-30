@@ -475,7 +475,7 @@ function Navbar(props) {
             <img
               className="object-fit-cover"
               onClick={() => setDropdown(false)}
-              src="https://ipfs.near.social/ipfs/bafkreifotevq6g6ralhvutlcssaasa7xbfjjc6mbo5hlnvgpxxgfmwswmq"
+              src="https://ipfs.near.social/ipfs/bafkreiavh7rnvf4zzb5rjohul7xwrlgz4y6ysdtmdsvpjeqpjtmuvgal7a"
               style={{ height: 40 }}
               alt="BuildDAO"
             />
@@ -536,7 +536,7 @@ function Navbar(props) {
             >
               <img
                 onClick={() => setDropdown(false)}
-                src="https://ipfs.near.social/ipfs/bafkreifotevq6g6ralhvutlcssaasa7xbfjjc6mbo5hlnvgpxxgfmwswmq"
+                src="https://ipfs.near.social/ipfs/bafkreiavh7rnvf4zzb5rjohul7xwrlgz4y6ysdtmdsvpjeqpjtmuvgal7a"
                 style={{ height: 40 }}
                 alt="BuildDAO"
               />
@@ -608,7 +608,7 @@ function Navbar(props) {
                 {context.accountId ? (
                   <div className="mx-auto d-flex align-items-stretch ">
                     <Widget
-                      src="${config_account}/widget/components.buttons.UserDropdown"
+                      src="${alias_old}/widget/components.buttons.UserDropdown"
                       loading=""
                       props={props}
                     />

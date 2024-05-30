@@ -37,6 +37,13 @@ const config = {
         },
         default: true,
       },
+      activity: {
+        path: "${alias_old}/widget/page.feed",
+        blockHeight: "final",
+        init: {
+          name: "Activity",
+        },
+      },
       projects: {
         path: "${config_account}/widget/page.projects.Index",
         blockHeight: "final",
