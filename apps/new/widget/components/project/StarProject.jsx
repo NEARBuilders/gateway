@@ -2,40 +2,116 @@ const { Button } = VM.require("${alias_old}/widget/components") || {
   Button: () => <></>,
 };
 
-const { item } = props;
+const item = props.item;
 
-// Get the list of starred projects for the current user
-const starredProjects =
-  Social.get(`${context.accountId}/project/starred`) || [];
-const parsedStarredProjects = JSON.parse(starredProjects);
+if (!item) {
+  return "";
+}
 
-// Check if the current item is starred
-const isStarred = parsedStarredProjects.includes(item.id);
+useEffect(() => {
+  State.update({ hasStar: null });
+}, [item]);
 
-// Prepare data for updating the starred projects
-const updatedStarredProjects = isStarred
-  ? parsedStarredProjects.filter((project) => project !== item.id)
-  : [...parsedStarredProjects, item.id];
+const stars = Social.index("starredProjects", item);
+const dataLoading = stars === null;
 
-const data = {
-  project: {
-    starred: updatedStarredProjects,
-  },
-};
+const starsByUsers = {};
 
-const handleButtonClick = (event) => {
+(stars || []).forEach((star) => {
+  if (star.value.type === "star") {
+    starsByUsers[star.accountId] = star;
+  } else if (star.value.type === "unstar") {
+    delete starsByUsers[star.accountId];
+  }
+});
+
+if (state.hasStar === true) {
+  starsByUsers[context.accountId] = {
+    accountId: context.accountId,
+  };
+} else if (state.hasStar === false) {
+  delete starsByUsers[context.accountId];
+}
+
+const accountsWithStars = Object.keys(starsByUsers);
+const hasStar = context.accountId && !!starsByUsers[context.accountId];
+
+const starClick = (event) => {
   event.stopPropagation();
   event.preventDefault();
-  Social.set(data);
+  if (state.loading || dataLoading || !context.accountId) {
+    return;
+  }
+  State.update({
+    loading: true,
+  });
+  const type = hasStar ? "unstar" : "star";
+  const data = {
+    index: {
+      starredProjects: JSON.stringify({
+        key: item,
+        value: {
+          type,
+        },
+      }),
+    },
+  };
+
+  if (item.type === "social" && typeof item.path === "string") {
+    const keys = item.path.split("/");
+    if (keys.length > 0) {
+      data.graph = {
+        starredProjects: {},
+      };
+      let root = data.graph.starredProjects;
+      keys.slice(0, -1).forEach((key) => {
+        root = root[key] = {};
+      });
+      root[keys[keys.length - 1]] = hasStar ? null : "";
+    }
+  }
+
+  if (!hasStar && props.notifyAccountId) {
+    data.index.notify = JSON.stringify({
+      key: props.notifyAccountId,
+      value: {
+        type,
+        item,
+      },
+    });
+  }
+  Social.set(data, {
+    onCommit: () => State.update({ loading: false, hasStar: !hasStar }),
+    onCancel: () => State.update({ loading: false }),
+  });
 };
 
-return (
-  <Button
-    type="icon"
-    variant={isStarred ? "primary" : "outline"}
-    className="rounded-2"
-    onClick={handleButtonClick}
+const title = hasStar
+  ? props.titleUnstar ?? "Unstar"
+  : props.titleStar ?? "Star";
+
+const inner = (
+  <div className="d-inline-flex align-items-center">
+    <Button
+      disabled={state.loading || dataLoading || !context.accountId}
+      title={!props.tooltip ? title : undefined}
+      onClick={starClick}
+      className={"rounded-2"}
+      variant={hasStar ? "primary" : "outline"}
+      type={"icon"}
+    >
+      <i className={`bi ${hasStar ? "bi-star-fill" : "bi-star"}`}></i>
+    </Button>
+  </div>
+);
+
+return props.tooltip ? (
+  <OverlayTrigger
+    placement={props.overlayPlacement ?? "auto"}
+    overlay={<Tooltip>{title}</Tooltip>}
   >
-    <i className={isStarred ? "bi bi-star-fill" : "bi bi-star"}></i>
-  </Button>
+    {inner}
+  </OverlayTrigger>
+) : (
+  inner
 );

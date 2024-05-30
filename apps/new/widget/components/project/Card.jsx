@@ -164,7 +164,8 @@ const ProjectCard = ({ data, variant }) => {
               loading=""
               props={{
                 item: {
-                  id: projectID,
+                  type: "social",
+                  path: `${accountId}/project/${projectID}`,
                 },
               }}
             />
