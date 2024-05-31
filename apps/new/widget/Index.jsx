@@ -66,6 +66,14 @@ const config = {
           name: "Resources",
         },
       },
+      notifications: {
+        path: "${alias_old}/widget/page.notifications",
+        blockHeight: "final",
+        init: {
+          name: "Notifications",
+        },
+        hide: true,
+      },
     },
   },
 };
