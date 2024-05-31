@@ -1,3 +1,11 @@
+if (!context.accountId) {
+  return (
+    <h2 className="text-white">
+      "Please log in in order to see involved projects!"
+    </h2>
+  );
+}
+
 const { Button } = VM.require("${alias_old}/widget/components") || {
   Button: () => <></>,
 };
@@ -24,6 +32,9 @@ if (!fetchProjects) {
 }
 
 const projects = fetchProjects() || [];
+projects = projects.filter(
+  (project) => project.accountId === context.accountId,
+);
 
 if (!projects) {
   return "";
@@ -220,7 +231,7 @@ return (
 
     <Heading>
       <div className="d-flex align-items-center justify-content-between">
-        <h2>Projects</h2>
+        <h2>My Projects</h2>
         <div className="d-flex align-items-center gap-2">
           {context.accountId && (
             <Button
@@ -233,13 +244,10 @@ return (
           <Button>Open Roles</Button>
         </div>
       </div>
-      <p>
-        Easily create, share, and track all projects within our vibrant builder
-        community.
-      </p>
+      <p>Projects created by you or which you own.</p>
     </Heading>
     <div className="d-flex flex-column gap-3">
-      <Subheading>Discover Projects</Subheading>
+      <Subheading>Find your projects</Subheading>
       <div className="form-group d-flex gap-4 align-items-center justify-content-between">
         <div className="input-group">
           <div

@@ -1,3 +1,8 @@
+const { Layout } = VM.require(
+  "${config_account}/widget/page.project.Layout",
+) || {
+  Layout: () => <></>,
+};
 const config = {
   theme: {},
   layout: {
@@ -24,38 +29,29 @@ const config = {
   router: {
     param: "tab",
     routes: {
-      allProjects: {
-        path: "${config_account}/widget/page.projects.List",
-        blockHeight: "final",
-        init: {
-          name: "All Projects",
-          icon: "bi bi-text-left",
-        },
-        default: true,
-      },
       myProjects: {
-        path: "${config_account}/widget/page.projects.MyProjects",
-        blockHeight: "final",
         init: {
           name: "My Projects",
           icon: "bi bi-star",
         },
       },
-      watchList: {
-        path: "${config_account}/widget/page.projects.Watchlist",
-        blockHeight: "final",
+      myToolkits: {
         init: {
-          name: "Watchlist",
-          icon: "bi bi-eye",
+          name: "My Toolkits",
+          icon: "bi bi-database",
         },
       },
-      involvedProjects: {
-        path: "${config_account}/widget/page.projects.Involved",
-        blockHeight: "final",
+      projectsInvolved: {
         init: {
           name: "Projects Involved",
-          icon: "bi bi-journal-text",
+          icon: "bi bi-clipboard",
         },
+      },
+      project: {
+        path: "${config_account}/widget/page.project.Main",
+        blockHeight: "final",
+        default: true,
+        hide: true,
       },
     },
   },

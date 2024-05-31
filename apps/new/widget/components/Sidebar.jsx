@@ -5,7 +5,23 @@ const { Button } = VM.require("${alias_old}/widget/components") || {
 const routes = props.routes;
 const currentRoute = props.currentRoute;
 const routeKeys = Object.keys(routes);
-const tab = props.tab ?? "allProjects";
+
+function findDefaultRoute(routesObject) {
+  const routeKey =
+    routesObject &&
+    Object.keys(routesObject).find((key) => {
+      const route = routesObject[key];
+      return route.default === true;
+    });
+
+  if (routeKey) {
+    return routeKey;
+  } else {
+    return null;
+  }
+}
+
+const tab = props.tab ?? findDefaultRoute(routes);
 
 const Sidebar = styled.div`
   border-radius: 16px;
@@ -13,10 +29,12 @@ const Sidebar = styled.div`
   background: #000;
   display: flex;
   min-width: 259px;
+  min-height: 100vh;
   padding: 24px;
   flex-direction: column;
   align-items: flex-start;
   gap: 12px;
+  margin-right: 48px;
 
   button {
     padding: 10px 12px;
