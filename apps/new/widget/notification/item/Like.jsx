@@ -12,14 +12,14 @@ const { content, popup } =
         content: (
           <Link
             className="fw-bold text-muted"
-            href={`/builddao.near/widget/Index?page=post&accountId=${context.accountId}&blockHeight=${value.item.blockHeight}`}
+            href={`/${config_account}/widget/Index?page=post&accountId=${context.accountId}&blockHeight=${value.item.blockHeight}`}
           >
             post
           </Link>
         ),
         popup: (
           <Widget
-            src="mob.near/widget/MainPage.N.Post"
+            src="${alias_mob}/widget/MainPage.N.Post"
             props={{
               accountId: context.accountId,
               blockHeight: value.item.blockHeight,
@@ -33,14 +33,14 @@ const { content, popup } =
           content: (
             <Link
               className="fw-bold text-muted"
-              href={`/builddao.near/widget/Index?page=comment&accountId=${context.accountId}&blockHeight=${value.item.blockHeight}`}
+              href={`/${config_account}/widget/Index?page=comment&accountId=${context.accountId}&blockHeight=${value.item.blockHeight}`}
             >
               comment
             </Link>
           ),
           popup: (
             <Widget
-              src="mob.near/widget/MainPage.N.Comment.Full"
+              src="${alias_mob}/widget/MainPage.N.Comment.Full"
               props={{
                 accountId: context.accountId,
                 blockHeight: value.item.blockHeight,
@@ -53,7 +53,7 @@ const { content, popup } =
             content: (
               <Link
                 className="fw-bold text-muted"
-                href={`/mob.near/widget/Insta.Post.Page?accountId=${context.accountId}&blockHeight=${value.item.blockHeight}`}
+                href={`/${alias_mob}/widget/Insta.Post.Page?accountId=${context.accountId}&blockHeight=${value.item.blockHeight}`}
               >
                 insta
               </Link>
@@ -64,14 +64,14 @@ const { content, popup } =
 return (
   <Widget
     loading={props.loading}
-    src="mob.near/widget/Notification.Item.LR"
+    src="${alias_mob}/widget/Notification.Item.LR"
     props={{
       L: (
         <>
           liked your
           <Widget
             loading={content}
-            src="mob.near/widget/N.Common.OverlayTrigger"
+            src="${alias_mob}/widget/N.Common.OverlayTrigger"
             props={{
               overlayStyle,
               popup,
@@ -84,21 +84,21 @@ return (
         value.item.path === `${context.accountId}/post/main` ? (
           <Link
             className="btn btn-outline-dark rounded-5"
-            href={`/builddao.near/widget/Index?page=post&accountId=${context.accountId}&blockHeight=${value.item.blockHeight}`}
+            href={`/${config_account}/widget/Index?page=post&accountId=${context.accountId}&blockHeight=${value.item.blockHeight}`}
           >
             View post
           </Link>
         ) : value.item.path === `${context.accountId}/post/comment` ? (
           <Link
             className="btn btn-outline-dark rounded-5"
-            href={`/builddao.near/widget/Index?page=comment&accountId=${context.accountId}&blockHeight=${value.item.blockHeight}`}
+            href={`/${config_account}/widget/Index?page=comment&accountId=${context.accountId}&blockHeight=${value.item.blockHeight}`}
           >
             View comment
           </Link>
         ) : value.item.path === `${context.accountId}/post/insta` ? (
           <Link
             className="btn btn-outline-dark rounded-5"
-            href={`/mob.near/widget/Insta.Post.Page?accountId=${context.accountId}&blockHeight=${value.item.blockHeight}`}
+            href={`/${alias_mob}/widget/Insta.Post.Page?accountId=${context.accountId}&blockHeight=${value.item.blockHeight}`}
           >
             View insta
           </Link>

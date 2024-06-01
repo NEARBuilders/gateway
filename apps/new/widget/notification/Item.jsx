@@ -4,21 +4,21 @@ const loading = <div className="placeholder" style={{ height: "48px" }} />;
 
 const widgetSrc =
   value.type === "follow" || value.type === "unfollow"
-    ? "mob.near/widget/Notification.Item.Follow"
+    ? "${alias_mob}/widget/Notification.Item.Follow"
     : value.type === "poke"
-      ? "mob.near/widget/Notification.Item.Poke"
+      ? "${alias_mob}/widget/Notification.Item.Poke"
       : value.type === "like"
         ? "${config_account}/widget/notification.item.Like"
         : value.type === "comment"
           ? "${config_account}/widget/notification.item.Comment"
           : value.type && value.type?.startsWith("devgovgigs/")
-            ? "mob.near/widget/Notification.Item.DevGov"
+            ? "${alias_mob}/widget/Notification.Item.DevGov"
             : value.type === "mention"
               ? "${config_account}/widget/notification.item.Mention"
               : value.type === "repost"
                 ? "${config_account}/widget/notification.item.Repost"
                 : value.type === "star"
-                  ? "mob.near/widget/Notification.Item.Star"
+                  ? "${alias_mob}/widget/Notification.Item.Star"
                   : value.type === "chess-game"
                     ? "chess-game.near/widget/Notification.Item.ChessGame@98857466"
                     : null;

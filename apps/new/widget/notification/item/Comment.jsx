@@ -13,14 +13,14 @@ const { content, popup } =
         content: (
           <Link
             className="fw-bold text-muted"
-            href={`/builddao.near/widget/Index?page=post&accountId=${context.accountId}&blockHeight=${value.item.blockHeight}`}
+            href={`/${config_account}/widget/Index?page=post&accountId=${context.accountId}&blockHeight=${value.item.blockHeight}`}
           >
             post
           </Link>
         ),
         popup: (
           <Widget
-            src="mob.near/widget/MainPage.N.Post"
+            src="${alias_mob}/widget/MainPage.N.Post"
             props={{
               accountId: context.accountId,
               blockHeight: value.item.blockHeight,
@@ -34,7 +34,7 @@ const { content, popup } =
 const commentContent = (
   <Link
     className="fw-bold text-muted"
-    href={`/builddao.near/widget/Index?page=comment&accountId=${accountId}&blockHeight=${blockHeight}`}
+    href={`/${config_account}/widget/Index?page=comment&accountId=${accountId}&blockHeight=${blockHeight}`}
   >
     replied
   </Link>
@@ -42,7 +42,7 @@ const commentContent = (
 
 const commentPopup = (
   <Widget
-    src="mob.near/widget/MainPage.N.Comment.Full"
+    src="${alias_mob}/widget/MainPage.N.Comment.Full"
     props={{
       accountId,
       blockHeight,
@@ -53,13 +53,13 @@ const commentPopup = (
 return (
   <Widget
     loading={props.loading}
-    src="mob.near/widget/Notification.Item.LR"
+    src="${alias_mob}/widget/Notification.Item.LR"
     props={{
       L: (
         <>
           <Widget
             loading={commentContent}
-            src="mob.near/widget/N.Common.OverlayTrigger"
+            src="${alias_mob}/widget/N.Common.OverlayTrigger"
             props={{
               overlayStyle,
               popup: commentPopup,
@@ -69,7 +69,7 @@ return (
           to your
           <Widget
             loading={content}
-            src="mob.near/widget/N.Common.OverlayTrigger"
+            src="${alias_mob}/widget/N.Common.OverlayTrigger"
             props={{
               overlayStyle,
               popup,
@@ -82,7 +82,7 @@ return (
         <>
           <Link
             className="btn btn-outline-dark rounded-5"
-            href={`/builddao.near/widget/Index?page=comment&accountId=${accountId}&blockHeight=${blockHeight}`}
+            href={`/${config_account}/widget/Index?page=comment&accountId=${accountId}&blockHeight=${blockHeight}`}
           >
             View comment
           </Link>

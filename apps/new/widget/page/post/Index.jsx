@@ -18,7 +18,7 @@ const Container = styled.div`
 `;
 
 return content?.subneddit ? (
-  <Widget src="mob.near/widget/Neddit.Post.Page" props={props} />
+  <Widget src="${alias_mob}/widget/Neddit.Post.Page" props={props} />
 ) : (
   <Container>
     <Post

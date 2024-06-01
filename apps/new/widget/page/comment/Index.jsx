@@ -6,7 +6,7 @@ const content = JSON.parse(
 );
 
 return content?.rootItem ? (
-  <Widget src="mob.near/widget/Neddit.Comment.Page" props={props} />
+  <Widget src="${alias_mob}/widget/Neddit.Comment.Page" props={props} />
 ) : (
   <Widget
     src="${config_account}/widget/components.comment.Post"

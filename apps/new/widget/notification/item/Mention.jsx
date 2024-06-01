@@ -13,14 +13,14 @@ const { content, popup } =
         content: (
           <Link
             className="fw-bold text-muted"
-            href={`/builddao.near/widget/Index?page=post&accountId=${accountId}&blockHeight=${blockHeight}`}
+            href={`/${config_account}/widget/Index?page=post&accountId=${accountId}&blockHeight=${blockHeight}`}
           >
             post
           </Link>
         ),
         popup: (
           <Widget
-            src="mob.near/widget/MainPage.N.Post"
+            src="${alias_mob}/widget/MainPage.N.Post"
             props={{
               accountId,
               blockHeight,
@@ -34,14 +34,14 @@ const { content, popup } =
           content: (
             <Link
               className="fw-bold text-muted"
-              href={`/builddao.near/widget/Index?page=comment&accountId=${accountId}&blockHeight=${blockHeight}`}
+              href={`/${config_account}/widget/Index?page=comment&accountId=${accountId}&blockHeight=${blockHeight}`}
             >
               comment
             </Link>
           ),
           popup: (
             <Widget
-              src="mob.near/widget/MainPage.N.Comment.Full"
+              src="${alias_mob}/widget/MainPage.N.Comment.Full"
               props={{
                 accountId,
                 blockHeight,
@@ -54,14 +54,14 @@ const { content, popup } =
 return (
   <Widget
     loading={props.loading}
-    src="mob.near/widget/Notification.Item.LR"
+    src="${alias_mob}/widget/Notification.Item.LR"
     props={{
       L: (
         <>
           mentioned you in their
           <Widget
             loading={content}
-            src="mob.near/widget/N.Common.OverlayTrigger"
+            src="${alias_mob}/widget/N.Common.OverlayTrigger"
             props={{
               overlayStyle,
               popup,
@@ -74,14 +74,14 @@ return (
         value.item.path === `${accountId}/post/main` ? (
           <Link
             className="btn btn-outline-dark rounded-5"
-            href={`/builddao.near/widget/Index?page=post&accountId=${accountId}&blockHeight=${blockHeight}`}
+            href={`/${config_account}/widget/Index?page=post&accountId=${accountId}&blockHeight=${blockHeight}`}
           >
             View post
           </Link>
         ) : value.item.path === `${accountId}/post/comment` ? (
           <Link
             className="btn btn-outline-dark rounded-5"
-            href={`/builddao.near/widget/Index?page=comment&accountId=${accountId}&blockHeight=${blockHeight}`}
+            href={`/${config_account}/widget/Index?page=comment&accountId=${accountId}&blockHeight=${blockHeight}`}
           >
             View comment
           </Link>
