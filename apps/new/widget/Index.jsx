@@ -66,6 +66,30 @@ const config = {
           name: "Resources",
         },
       },
+      notifications: {
+        path: "${config_account}/widget/page.notifications.Index",
+        blockHeight: "final",
+        init: {
+          name: "Notifications",
+        },
+        hide: true,
+      },
+      post: {
+        path: "${config_account}/widget/page.post.Index",
+        blockHeight: "final",
+        init: {
+          name: "Post",
+        },
+        hide: true,
+      },
+      comment: {
+        path: "${config_account}/widget/page.comment.Index",
+        blockHeight: "final",
+        init: {
+          name: "Comment",
+        },
+        hide: true,
+      },
     },
   },
 };

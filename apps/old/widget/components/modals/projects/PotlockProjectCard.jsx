@@ -369,7 +369,7 @@ return (
         <BackgroundImageContainer>
           {profile.backgroundImage?.nft ? (
             <Widget
-              src="mob.near/widget/Image"
+              src="${alias_mob}/widget/Image"
               props={{
                 image: profile.backgroundImage,
                 alt: "background",
@@ -391,7 +391,7 @@ return (
         <ProfileImageContainer class="profile-picture d-inline-block">
           {profile.image?.nft ? (
             <Widget
-              src="mob.near/widget/Image"
+              src="${alias_mob}/widget/Image"
               props={{
                 image: profile.image,
                 alt: "avatar",
