@@ -29,7 +29,6 @@ const config = {
         blockHeight: "final",
         label: "BOS-WORKSPACE DOCS",
         init: {
-          feedName: "Resources",
           name: "Guide",
           icon: "bi bi-journal-text",
           mdPath:
@@ -37,6 +36,17 @@ const config = {
         },
         default: true,
       },
+      VM: {
+        path: "${alias_old}/widget/Resources",
+        blockHeight: "final",
+        init: {
+          name: "Working with VM",
+          icon: "bi bi-journal-text",
+          mdPath:
+            "https://raw.githubusercontent.com/saadiqbal-dev/bos-workspace-docs/main/md/deploying_widgets/VM.md",
+        },
+      },
+
       starter: {
         path: "${alias_old}/widget/Resources",
         blockHeight: "final",
@@ -107,9 +117,8 @@ const config = {
           feedName: "Getting Started",
           name: "Getting Started",
           mdPath:
-            "https://raw.githubusercontent.com/NEARBuilders/bos-workspace-docs/main/md/getting_started/index.md",
+            "https://raw.githubusercontent.com/saadiqbal-dev/bos-workspace-docs/main/md/getting_started/index.md",
         },
-
         hide: true,
       },
       usageHeading: {
@@ -170,6 +179,39 @@ const config = {
             "https://raw.githubusercontent.com/NEARBuilders/bos-workspace-docs/main/md/usage/index.md",
         },
         hide: true,
+      },
+      deploying_widgets: {
+        path: "${alias_old}/widget/Resources",
+        blockHeight: "final",
+        label: "Deploying Widgets",
+        init: {
+          name: "Deploying Widgets",
+          icon: "bi bi-database-fill-up ",
+          mdPath:
+            "https://raw.githubusercontent.com/saadiqbal-dev/bos-workspace-docs/main/md/deploying_widgets/deploying_widgets.md",
+        },
+      },
+      deploying_web4: {
+        path: "${alias_old}/widget/Resources",
+        blockHeight: "final",
+
+        init: {
+          name: "Web 4.0 Deployment",
+          icon: "bi bi-4-square-fill",
+          mdPath:
+            "https://raw.githubusercontent.com/saadiqbal-dev/bos-workspace-docs/main/md/deploying_widgets/deploying_web4.md",
+        },
+      },
+      adding_new_resouces: {
+        path: "${alias_old}/widget/Resources",
+        blockHeight: "final",
+        label: "Update Resources",
+        init: {
+          name: "Adding New Resources",
+          icon: "bi bi-journal-text",
+          mdPath:
+            "https://raw.githubusercontent.com/saadiqbal-dev/bos-workspace-docs/main/md/deploying_widgets/adding_new_resources.md",
+        },
       },
     },
   },
