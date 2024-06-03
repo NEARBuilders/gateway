@@ -197,6 +197,7 @@ const handleTags = (tags) => {
   setTags(filtered);
 };
 
+// Commenting roles code (to be added in v1)
 // const handleRoles = (roles) => {
 //   let filtered = roles.map((role) =>
 //     removeWhiteSpace(role.customOption ? role.label : role),

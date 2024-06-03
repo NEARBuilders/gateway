@@ -71,7 +71,7 @@ const fetchProjects = (props) => {
   if (!data) {
     return "Loading...";
   }
-  
+
   return processData(data, type);
 };
 
