@@ -95,7 +95,7 @@ const Tag = styled.div`
   }
 `;
 
-const ListCard = ({ data, type }) => {
+const ListCard = ({ data, showEditProjectAction }) => {
   const {
     accountId,
     projectAccountId,
@@ -110,10 +110,10 @@ const ListCard = ({ data, type }) => {
   return (
     <Link
       href={href({
-        widgetSrc: `${alias_old}/widget/app`,
+        widgetSrc: `${config_account}/widget/Index`,
         params: {
           page: "project",
-          id: `${accountId}/${type}/${projectID}`,
+          id: `${accountId}/project/${projectID}`,
           tab: "overview",
         },
       })}
@@ -156,10 +156,11 @@ const ListCard = ({ data, type }) => {
           </div>
           <div className="d-flex align-items-center gap-3">
             <div className="d-flex align-items-center flex-wrap gap-2">
-              <Tag>
-                <i className="bi bi-globe"></i>{" "}
-                {profile.location ?? "Somewhere"}
-              </Tag>
+              {profile.location && (
+                <Tag>
+                  <i className="bi bi-globe"></i> {profile.location}
+                </Tag>
+              )}
               {tags.map((tag) => (
                 <Tag>
                   <span className="fw-bold">{tag}</span>
@@ -169,16 +170,37 @@ const ListCard = ({ data, type }) => {
             <div>
               <ProfileImages accountIds={collaborators} />
             </div>
-            <Widget
-              src="${config_account}/widget/components.project.StarProject"
-              loading=""
-              props={{
-                item: {
-                  type: "social",
-                  path: `${accountId}/project/${projectID}`,
-                },
-              }}
-            />
+            <div className="d-flex gap-2 align-items-center">
+              {showEditProjectAction && (
+                <Button
+                  href={href({
+                    widgetSrc: `${config_account}/widget/Index`,
+                    params: {
+                      page: "projects",
+                      tab: "editor",
+                      id: `${accountId}/project/${projectID}`,
+                    },
+                  })}
+                  type="icon"
+                  style={{
+                    borderRadius: "30%",
+                  }}
+                  variant="primary"
+                >
+                  <i class="bi bi-pencil-fill"></i>
+                </Button>
+              )}
+              <Widget
+                src="${config_account}/widget/components.project.StarProject"
+                loading=""
+                props={{
+                  item: {
+                    type: "social",
+                    path: `${accountId}/project/${projectID}`,
+                  },
+                }}
+              />
+            </div>
           </div>
         </div>
       </Card>

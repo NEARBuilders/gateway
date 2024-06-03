@@ -16,7 +16,7 @@ const { ProfileImages } = VM.require(
 const GridCard = styled.div`
   border-radius: 16px;
   background: var(--bg-2, #23242b);
-
+  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -94,7 +94,7 @@ const Tag = styled.div`
   }
 `;
 
-const ProjectCard = ({ data, variant }) => {
+const ProjectCard = ({ data, showEditProjectAction }) => {
   const {
     accountId,
     description,
@@ -102,7 +102,6 @@ const ProjectCard = ({ data, variant }) => {
     tags,
     collaborators,
     metadata,
-    type,
     projectID,
   } = data;
 
@@ -114,7 +113,7 @@ const ProjectCard = ({ data, variant }) => {
         widgetSrc: `${config_account}/widget/Index`,
         params: {
           page: "project",
-          id: `${accountId}/${type}/${projectID}`,
+          id: `${accountId}/project/${projectID}`,
           tab: "overview",
         },
       })}
@@ -159,16 +158,37 @@ const ProjectCard = ({ data, variant }) => {
                 }}
               />
             </div>
-            <Widget
-              src="${config_account}/widget/components.project.StarProject"
-              loading=""
-              props={{
-                item: {
-                  type: "social",
-                  path: `${accountId}/project/${projectID}`,
-                },
-              }}
-            />
+            <div className="d-flex gap-2 align-items-center">
+              {showEditProjectAction && (
+                <Button
+                  href={href({
+                    widgetSrc: `${config_account}/widget/Index`,
+                    params: {
+                      page: "projects",
+                      tab: "editor",
+                      id: `${accountId}/project/${projectID}`,
+                    },
+                  })}
+                  type="icon"
+                  style={{
+                    borderRadius: "30%",
+                  }}
+                  variant="primary"
+                >
+                  <i class="bi bi-pencil-fill"></i>
+                </Button>
+              )}
+              <Widget
+                src="${config_account}/widget/components.project.StarProject"
+                loading=""
+                props={{
+                  item: {
+                    type: "social",
+                    path: `${accountId}/project/${projectID}`,
+                  },
+                }}
+              />
+            </div>
           </div>
           <div className="info w-100">
             <h4>
@@ -187,10 +207,12 @@ const ProjectCard = ({ data, variant }) => {
           </div>
           <div className="d-flex justify-content-between align-items-center mt-auto">
             <div className="d-flex align-items-center flex-wrap gap-2">
-              <Tag>
-                <i className="bi bi-globe"></i>{" "}
-                {profile.location ?? "Somewhere"}
-              </Tag>
+              {profile.location && (
+                <Tag>
+                  <i className="bi bi-globe"></i>
+                  {profile.location}
+                </Tag>
+              )}
               {tags.map((tag) => (
                 <Tag>
                   <span className="fw-bold">{tag}</span>

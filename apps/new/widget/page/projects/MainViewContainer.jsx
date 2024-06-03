@@ -19,6 +19,7 @@ const description = props.description;
 const subheading = props.subheading;
 const showCreateProject = props.showCreateProject;
 const showOpenRoles = props.showOpenRoles;
+const showEditProjectAction = props.showEditProjectAction;
 
 const Container = styled.div`
   display: grid;
@@ -253,13 +254,19 @@ return (
         {view === "grid" ? (
           <Container>
             {filteredProjects.map((project) => (
-              <ProjectCard data={project} type={type} />
+              <ProjectCard
+                data={project}
+                showEditProjectAction={showEditProjectAction}
+              />
             ))}
           </Container>
         ) : (
           <div className="d-flex flex-column gap-3">
             {filteredProjects.map((project) => (
-              <ListCard data={project} type={type} />
+              <ListCard
+                data={project}
+                showEditProjectAction={showEditProjectAction}
+              />
             ))}
           </div>
         )}

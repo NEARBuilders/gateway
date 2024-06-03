@@ -39,6 +39,7 @@ return (
       projects: projects,
       showOpenRoles: true,
       showCreateProject: true,
+      showEditProjectAction: true,
     }}
   />
 );

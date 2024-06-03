@@ -12,7 +12,7 @@ const { normalize } = VM.require("${alias_devs}/widget/lib.stringUtils") || {
 };
 
 const { getProjectMeta } = VM.require(
-  "${alias_old}/widget/lib.project-data",
+  "${config_account}/widget/lib.projects",
 ) || {
   getProjectMeta: () => {},
 };
@@ -81,6 +81,7 @@ const [title, setTitle] = useState("");
 const [description, setDescription] = useState("");
 const [location, setLocation] = useState("");
 const [contributorsWithRoles, setContributorsWithRoles] = useState([]);
+const [contributors, setContributors] = useState([]);
 const [twitter, setTwitter] = useState("");
 const [gitHub, setGitHub] = useState("");
 const [telegram, setTelegram] = useState("");
@@ -96,7 +97,7 @@ const [invalidProjectAccount, setInvalidProjectAccount] = useState(false);
 const [showSuccessModal, setShowSuccessModal] = useState(false);
 const [roles, setRoles] = useState([]);
 const [currentScreen, setCurrentScreen] = useState(1);
-const [oldTitle, setOldTitle] = useState(null); // for edit changes
+const [projectIdForSocialDB, setProjectId] = useState(null); // for edit changes
 
 function removeWhiteSpace(str) {
   return str.replace(/\s/g, "");
@@ -107,7 +108,7 @@ useEffect(() => {
     const {
       name,
       description,
-      image,
+      profileImage,
       backgroundImage,
       linktree,
       plTeam,
@@ -122,6 +123,7 @@ useEffect(() => {
         return { role: "", accountId: i };
       }),
     );
+    setContributors(JSON.parse(plTeam ?? "[]"));
     setTwitter(linktree.twitter ? `https://twitter.com/${twitter}` : null);
     setGitHub(linktree.github ? `https://github.com/${github}` : null);
     setTelegram(linktree.telegram ? `https://t.me/${telegram}` : null);
@@ -132,7 +134,7 @@ useEffect(() => {
           : `https://${website}`
         : null,
     );
-    setAvatar(image);
+    setAvatar(profileImage);
     setCoverImage(backgroundImage);
     setProjectAccount(poltlockProjectId);
     setTags(
@@ -153,15 +155,18 @@ useEffect(() => {
       backgroundImage,
       linktree,
       contributorsWithRoles,
+      contributors,
       projectAccountId,
       tags,
       tabs,
     } = editProjectData;
+
     const { twitter, github, telegram, website } = linktree;
     setTitle(title);
-    setOldTitle(title);
+    setProjectId(editProjectId.split("project/")[1]);
     setDescription(description);
-    setContributorsWithRoles(JSON.parse(contributorsWithRoles ?? "[]"));
+    setContributorsWithRoles(contributorsWithRoles ?? []);
+    setContributors(contributors ?? []);
     setTwitter(twitter);
     setGitHub(github);
     setTelegram(telegram);
@@ -192,31 +197,46 @@ const handleTags = (tags) => {
   setTags(filtered);
 };
 
-const handleRoles = (roles) => {
-  let filtered = roles.map((role) =>
-    removeWhiteSpace(role.customOption ? role.label : role),
-  );
-  setRoles(filtered);
-};
+// const handleRoles = (roles) => {
+//   let filtered = roles.map((role) =>
+//     removeWhiteSpace(role.customOption ? role.label : role),
+//   );
+//   setRoles(filtered);
+// };
 
-const handleContributorChange = ({ index, role, accountId }) => {
-  const updatedData = [...contributorsWithRoles];
-  updatedData[index].role = role;
-  updatedData[index].accountId = accountId;
-  setContributorsWithRoles(updatedData);
-};
+// const handleContributorChange = ({ index, role, accountId }) => {
+//   const updatedData = [...contributorsWithRoles];
+//   updatedData[index].role = role;
+//   updatedData[index].accountId = accountId;
+//   setContributorsWithRoles(updatedData);
+// };
 
-const handleAddContributor = () => {
-  setContributorsWithRoles([
-    ...contributorsWithRoles,
-    { accountId: "", role: "" },
-  ]);
-};
+// const handleAddContributor = () => {
+//   setContributorsWithRoles([
+//     ...contributorsWithRoles,
+//     { accountId: "", role: "" },
+//   ]);
+// };
 
-const handleDeleteContributor = ({ index }) => {
-  const updatedData = [...contributorsWithRoles];
-  updatedData.splice(index, 1);
-  setContributorsWithRoles(updatedData);
+// const handleDeleteContributor = ({ index }) => {
+//   const updatedData = [...contributorsWithRoles];
+//   updatedData.splice(index, 1);
+//   setContributorsWithRoles(updatedData);
+// };
+
+const handleContributors = (contributors) => {
+  let filtered = contributors.map((contributor) => {
+    if (contributor.customOption) {
+      return contributor.label;
+    } else {
+      return contributor;
+    }
+  });
+  const invalidAddress = filtered.find((address) => !isNearAddress(address));
+  invalidAddress
+    ? setInvalidContributorFound(true)
+    : setInvalidContributorFound(false);
+  setContributors(filtered);
 };
 
 function isValidUrl(url) {
@@ -365,9 +385,15 @@ const SuccessModal = () => {
           <div className="text-center mt-2">
             <Button
               variant="primary"
-              href="/${config_account}/widget/app?page=projects"
+              href={href({
+                widgetSrc: `${alias_new}/widget/Index`,
+                params: {
+                  page: "projects",
+                  tab: "myProjects",
+                },
+              })}
             >
-              View Project Page
+              View My Projects Page
             </Button>
           </div>
         </div>
@@ -377,24 +403,24 @@ const SuccessModal = () => {
 };
 
 function onCreateProject() {
-  const projectID = normalize(isEditScreen ? oldTitle : title, "-");
+  const projectID = isEditScreen ? projectIdForSocialDB : normalize(title, "-");
   const project = {
-    name: title,
-    description: description,
-    image: avatar,
+    title,
+    description,
+    profileImage: avatar,
     backgroundImage: coverImage,
-    tags: tags && tags.reduce((obj, item) => ({ ...obj, [item]: "" }), {}),
+    tags,
     linktree: {
       twitter: twitter,
       github: gitHub,
       telegram: telegram,
       website: website,
     },
-    contributorsWithRoles,
+    contributors,
     tabs: Array.from(selectedTabs),
     projectAccountId: projectAccount,
     teamSize,
-    roles: roles && roles.reduce((obj, item) => ({ ...obj, [item]: "" }), {}),
+    location,
   };
 
   const data = {
@@ -406,8 +432,7 @@ function onCreateProject() {
           description: description,
           image: avatar,
           backgroundImage: coverImage,
-          tags:
-            tags && tags.reduce((obj, item) => ({ ...obj, [item]: "" }), {}),
+          tags: tags,
           linktree: {
             twitter: twitter,
             github: gitHub,
@@ -467,11 +492,40 @@ function onCreateProject() {
   }
 }
 
+const following = Social.get(`${context.accountId}/graph/follow/*`);
+const followingAccountSuggestion = following && Object.keys(following);
+
 const SecondScreen = () => {
   return (
     <>
       <div className="d-flex flex-column gap-4">
-        <div className="form-group mb-3">
+        <div className="d-flex flex-column gap-1">
+          <div className="form-group">
+            <label className="mb-1">Contributors</label>
+            <Typeahead
+              multiple
+              options={
+                followingAccountSuggestion ?? [
+                  "frank.near",
+                  "ellie.near",
+                  "jane.near",
+                ]
+              }
+              allowNew
+              placeholder="frank.near, ellie.near"
+              selected={contributors}
+              onChange={(e) => handleContributors(e)}
+            />
+            {invalidContributorFound && (
+              <p className="err">
+                The address you just entered are invalid, please enter valid
+                near addresses
+              </p>
+            )}
+          </div>
+        </div>
+        {/* Commenting roles code (to be added in v1) */}
+        {/* <div className="form-group mb-3">
           <label className="pb-2">Create Roles</label>
           <Typeahead
             multiple
@@ -544,7 +598,7 @@ const SecondScreen = () => {
               );
             })}
           </div>
-        </div>
+        </div> */}
         <div className="form-group mb-3">
           <label className="pb-2">Avatar</label>
           <Widget
