@@ -146,7 +146,6 @@ const StatusValues = {
   COMPLETED: "completed",
 };
 
-const listItem = { title: "", isCompleted: false };
 const task = {
   title: "",
   description: "",
