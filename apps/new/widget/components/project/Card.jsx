@@ -170,9 +170,7 @@ const ProjectCard = ({ data, showEditProjectAction }) => {
                     },
                   })}
                   type="icon"
-                  style={{
-                    borderRadius: "30%",
-                  }}
+                  className={"rounded-3"}
                   variant="primary"
                 >
                   <i class="bi bi-pencil-fill"></i>
