@@ -163,6 +163,9 @@ const CSS = styled.div`
     src: url("https://rsms.me/inter/font-files/InterVariable-Italic.woff2?v=4.0")
       format("woff2");
   }
+
+  /* Fix compose */
+  --bg-2: #23242b;
 `;
 
 return { CSS };

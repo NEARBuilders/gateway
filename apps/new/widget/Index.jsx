@@ -38,7 +38,7 @@ const config = {
         default: true,
       },
       activity: {
-        path: "${alias_old}/widget/page.feed",
+        path: "${config_account}/widget/page.activity.Index",
         blockHeight: "final",
         init: {
           name: "Activity",
