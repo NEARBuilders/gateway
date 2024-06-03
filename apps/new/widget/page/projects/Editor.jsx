@@ -1,6 +1,6 @@
 const accountId = context.accountId;
 const { Button, InputField, TextEditor, Modal } = VM.require(
-  "${config_account}/widget/components",
+  "${alias_old}/widget/components",
 ) || {
   Button: () => <></>,
   InputField: () => <></>,
@@ -12,9 +12,13 @@ const { normalize } = VM.require("${alias_devs}/widget/lib.stringUtils") || {
 };
 
 const { getProjectMeta } = VM.require(
-  "${config_account}/widget/lib.project-data",
+  "${alias_old}/widget/lib.project-data",
 ) || {
   getProjectMeta: () => {},
+};
+
+const { href } = VM.require("${alias_old}/widget/lib.url") || {
+  href: () => {},
 };
 
 const isNearAddress = (address) => {
@@ -544,7 +548,7 @@ const SecondScreen = () => {
         <div className="form-group mb-3">
           <label className="pb-2">Avatar</label>
           <Widget
-            src="${config_account}/widget/components.ImageUploader"
+            src="${alias_old}/widget/components.ImageUploader"
             props={{
               image: avatar,
               onChange: (image) => setAvatar({ image }),
@@ -554,7 +558,7 @@ const SecondScreen = () => {
         <div className="form-group mb-3">
           <label className="pb-2">Cover Image</label>
           <Widget
-            src="${config_account}/widget/components.ImageUploader"
+            src="${alias_old}/widget/components.ImageUploader"
             props={{
               image: coverImage,
               onChange: (image) => setCoverImage({ image }),
@@ -731,7 +735,15 @@ const FirstScreen = () => {
         </div>
 
         <div className="d-flex align-items-center justify-content-end gap-2 mt-3">
-          <Button variant="outline" onClick={() => {}}>
+          <Button
+            variant="outline"
+            href={href({
+              widgetSrc: `${alias_new}/widget/Index`,
+              params: {
+                page: "projects",
+              },
+            })}
+          >
             Cancel
           </Button>
 

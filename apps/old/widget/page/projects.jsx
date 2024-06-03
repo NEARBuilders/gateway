@@ -181,7 +181,7 @@ return (
     data-bs-theme="dark"
   >
     <Widget
-      src="${config_account}/widget/projects.FiltersModal"
+      src="${alias_new}/widget/page.projects.FiltersModal"
       loading=""
       props={{
         showModal: showFilterModal,
@@ -192,7 +192,7 @@ return (
       }}
     />
     <Widget
-      src="${config_account}/widget/projects.ImportAndCreateModal"
+      src="${alias_new}/widget/page.projects.ImportAndCreateModal"
       loading=""
       props={{
         showModal: showCreateOptionsModal,

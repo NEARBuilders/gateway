@@ -1,4 +1,4 @@
-const { Button } = VM.require("${config_account}/widget/components") || {
+const { Button } = VM.require("${alias_old}/widget/components") || {
   Button: () => <></>,
 };
 const { getTagsFromSocialProfileData, getTeamMembersFromSocialProfileData } =
@@ -108,7 +108,7 @@ const ProjectList = styled.div`
 const Search = useMemo(() => {
   return (
     <Widget
-      src={"${config_account}/widget/projects.SearchBar"}
+      src={"${alias_new}/widget/page.projects.SearchBar"}
       props={{
         title: sort,
         numItems: filteredProjects.length,
@@ -132,7 +132,7 @@ const ProjectsComponent = useMemo(() => {
       {(shuffledProjects || []).slice(0, 20).map((project) => {
         return (
           <Widget
-            src={"${config_account}/widget/projects.PotlockProjectCard"}
+            src={"${alias_new}/widget/page.projects.PotlockProjectCard"}
             loading={
               <div
                 style={{
@@ -161,7 +161,7 @@ const ProjectsComponent = useMemo(() => {
 if (showCreateModalProjectId) {
   return (
     <Widget
-      src="${config_account}/widget/projects.Editor"
+      src="${alias_new}/widget/page.projects.Editor"
       loading=""
       props={{
         poltlockProjectId: showCreateModalProjectId,

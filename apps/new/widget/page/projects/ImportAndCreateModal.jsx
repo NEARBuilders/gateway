@@ -1,9 +1,9 @@
-const { Modal, Button } = VM.require("${config_account}/widget/components") || {
+const { Modal, Button } = VM.require("${alias_old}/widget/components") || {
   Modal: () => <></>,
   Button: () => <></>,
 };
 
-const { href } = VM.require("${config_account}/widget/lib.url") || {
+const { href } = VM.require("${alias_old}/widget/lib.url") || {
   href: () => {},
 };
 
@@ -12,9 +12,17 @@ const toggleModal = props.toggleModal;
 const toggle = props.toggle;
 const bootstrapTheme = props.bootstrapTheme || "dark";
 
-const Item = ({ title, description, src, href }) => {
+const Item = ({ title, description, src, tab }) => {
   return (
-    <Link to={href}>
+    <Link
+      href={href({
+        widgetSrc: `${alias_new}/widget/Index`,
+        params: {
+          page: "projects",
+          tab: tab,
+        },
+      })}
+    >
       <div className="d-flex gap-2 pointer-cursor">
         <img src={src} height={40} width={40} />
         <div className="d-flex flex-column">
@@ -53,14 +61,14 @@ return (
         title="Create my own project"
         description="Create your own completely new project, customize it your way!"
         src="https://ipfs.near.social/ipfs/bafkreidbfu7uxtr4is7wxileg3mrbajve6cgkfmrqemc6pxsr6nnczz7ly"
-        href="projects.Editor"
+        tab="editor"
       />
 
       <Item
         title="Import from Potlock"
         description="Import your projects from the Potlock platform."
         src="https://ipfs.near.social/ipfs/bafkreifk42ibqsg5sfky5tlhkfty6rkup5leqite5koenhesnuwq55kufi"
-        href="projects.PotlockImport"
+        tab="potlockImport"
       />
 
       <div className="my-1 d-flex justify-content-center">

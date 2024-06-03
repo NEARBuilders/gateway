@@ -57,6 +57,22 @@ const config = {
           icon: "bi bi-journal-text",
         },
       },
+      editor: {
+        path: "${config_account}/widget/page.projects.Editor",
+        blockHeight: "final",
+        init: {
+          name: "Create Project",
+        },
+        hide: true,
+      },
+      potlockImport: {
+        path: "${config_account}/widget/page.projects.PotlockImport",
+        blockHeight: "final",
+        init: {
+          name: "Import Project",
+        },
+        hide: true,
+      },
     },
   },
 };
