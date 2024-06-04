@@ -151,7 +151,7 @@ useEffect(() => {
     const {
       title,
       description,
-      image,
+      profileImage,
       backgroundImage,
       linktree,
       contributorsWithRoles,
@@ -159,10 +159,13 @@ useEffect(() => {
       projectAccountId,
       tags,
       tabs,
+      location,
+      teamSize,
     } = editProjectData;
-
     const { twitter, github, telegram, website } = linktree;
     setTitle(title);
+    setLocation(location);
+    setTeamSize(teamSize);
     setProjectId(editProjectId.split("project/")[1]);
     setDescription(description);
     setContributorsWithRoles(contributorsWithRoles ?? []);
@@ -171,8 +174,8 @@ useEffect(() => {
     setGitHub(github);
     setTelegram(telegram);
     setWebsite(website);
-    setAvatar(image);
-    setCoverImage(backgroundImage);
+    setAvatar(profileImage?.image ?? profileImage);
+    setCoverImage(backgroundImage?.image ?? backgroundImage);
     setProjectAccount(projectAccountId);
     setTags(tags);
     setSelectedTabs(new Set(tabs));
