@@ -1,6 +1,11 @@
 const { id } = props;
+const { getProjectMeta } = VM.require(
+  "${config_account}/widget/lib.projects",
+) || {
+  getProjectMeta: () => {},
+};
 
-const data = JSON.parse(Social.get(id, "final") ?? {});
+const data = getProjectMeta(id);
 if (!id || !data) {
   return "Loading...";
 }
@@ -8,12 +13,7 @@ if (!id || !data) {
 const profileData = {
   name: data.title,
   description: data.description,
-  linktree: {
-    github: data.github,
-    telegram: data.telegram,
-    twitter: data.twitter,
-    website: data.website,
-  },
+  linktree: data.linktree,
   backgroundImage: data.backgroundImage?.image ?? data.backgroundImage,
   image: data.profileImage?.image ?? data.profileImage,
 };
