@@ -105,7 +105,7 @@ const ProjectCard = ({ data, showEditProjectAction }) => {
     projectID,
     profileImage,
     backgroundImage,
-    location
+    location,
   } = data;
 
   return (

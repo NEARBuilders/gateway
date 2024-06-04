@@ -104,7 +104,7 @@ const ListCard = ({ data, showEditProjectAction }) => {
     metadata,
     projectID,
     profileImage,
-    location
+    location,
   } = data;
 
   return (

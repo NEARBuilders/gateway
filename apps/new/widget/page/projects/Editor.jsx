@@ -160,12 +160,12 @@ useEffect(() => {
       tags,
       tabs,
       location,
-      teamSize
+      teamSize,
     } = editProjectData;
     const { twitter, github, telegram, website } = linktree;
     setTitle(title);
     setLocation(location);
-    setTeamSize(teamSize)
+    setTeamSize(teamSize);
     setProjectId(editProjectId.split("project/")[1]);
     setDescription(description);
     setContributorsWithRoles(contributorsWithRoles ?? []);
