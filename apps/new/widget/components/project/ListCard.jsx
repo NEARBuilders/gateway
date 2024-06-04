@@ -103,9 +103,9 @@ const ListCard = ({ data, showEditProjectAction }) => {
     collaborators,
     metadata,
     projectID,
+    profileImage,
+    location
   } = data;
-
-  const profile = Social.getr(`${projectAccountId}/profile`);
 
   return (
     <Link
@@ -130,8 +130,8 @@ const ListCard = ({ data, showEditProjectAction }) => {
                 src="${alias_mob}/widget/Image"
                 loading=""
                 props={{
-                  image: metadata.profileImage?.image ?? metadata.profileImage,
-                  alt: metadata.title,
+                  image: profileImage?.image ?? profileImage,
+                  alt: title,
                   className: "rounded-circle w-100 h-100",
                   style: { objectFit: "cover" },
                   thumbnail: "thumbnail",
@@ -156,9 +156,9 @@ const ListCard = ({ data, showEditProjectAction }) => {
           </div>
           <div className="d-flex align-items-center gap-3">
             <div className="d-flex align-items-center flex-wrap gap-2">
-              {profile.location && (
+              {location && (
                 <Tag>
-                  <i className="bi bi-globe"></i> {profile.location}
+                  <i className="bi bi-globe"></i> {location}
                 </Tag>
               )}
               {tags.map((tag) => (
