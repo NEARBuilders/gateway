@@ -24,19 +24,18 @@ const updateTaskDetail = (data) => {
 };
 
 const updateTaskListItem = (index, updatedItem) => {
-    const updatedList = [...taskDetail.list];
-    updatedList[index] = updatedItem;
-    updateTaskDetail({ list: updatedList });
-  };
-
+  const updatedList = [...taskDetail.list];
+  updatedList[index] = updatedItem;
+  updateTaskDetail({ list: updatedList });
+};
 
 const deleteTaskListItem = (index) => {
-    const updatedList = [
-      ...taskDetail.list.slice(0, index),
-      ...taskDetail.list.slice(index + 1),
-    ];
-    updateTaskDetail({ list: updatedList });
-  };
+  const updatedList = [
+    ...taskDetail.list.slice(0, index),
+    ...taskDetail.list.slice(index + 1),
+  ];
+  updateTaskDetail({ list: updatedList });
+};
 
 return (
   <div className="d-flex flex-column gap-4">
