@@ -5055,7 +5055,7 @@ bos-cli@^0.3.13:
     console.table "^0.10.0"
     detect-libc "^2.0.0"
 
-bos-workspace@^1.0.0-alpha:
+bos-workspace@^1.0.0-alpha.20:
   version "1.0.0-alpha.23"
   resolved "https://registry.npmjs.org/bos-workspace/-/bos-workspace-1.0.0-alpha.23.tgz#cad6353aaaf64103058961076060e1123ae23007"
   integrity sha512-xMigXKxwMQGFPnCCvFgfu1g4QyAw0cy+epPuJxGz/P9V7/FzTqj7RyMMG4MlnxutC34xqyGlqfSU99Pg0vLHQw==
