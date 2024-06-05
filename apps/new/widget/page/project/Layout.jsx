@@ -19,7 +19,7 @@ const Layout = ({ projectAccountId, profile, children, project, tab }) => {
         <Link
           style={{ textDecoration: "none" }}
           to={href({
-            widgetSrc: "${config_account}/widget/Index",
+            widgetSrc: "${config_index}",
             params: {
               page: "projects",
             },

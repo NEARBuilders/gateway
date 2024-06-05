@@ -107,13 +107,18 @@ const ListCard = ({ data, showEditProjectAction }) => {
     location,
   } = data;
 
+  const item = {
+    type: "social",
+    path: `${accountId}/project/${projectID}`,
+  };
+
   return (
     <Link
       href={href({
-        widgetSrc: `${config_account}/widget/Index`,
+        widgetSrc: `${config_index}`,
         params: {
           page: "project",
-          id: `${accountId}/project/${projectID}`,
+          id: item.path,
           tab: "overview",
         },
       })}
@@ -174,11 +179,11 @@ const ListCard = ({ data, showEditProjectAction }) => {
               {showEditProjectAction && (
                 <Button
                   href={href({
-                    widgetSrc: `${config_account}/widget/Index`,
+                    widgetSrc: `${config_index}`,
                     params: {
                       page: "projects",
                       tab: "editor",
-                      id: `${accountId}/project/${projectID}`,
+                      id: item.path,
                     },
                   })}
                   type="icon"
@@ -192,10 +197,8 @@ const ListCard = ({ data, showEditProjectAction }) => {
                 src="${config_account}/widget/components.project.StarProject"
                 loading=""
                 props={{
-                  item: {
-                    type: "social",
-                    path: `${accountId}/project/${projectID}`,
-                  },
+                  item: item,
+                  notifyAccountId: accountId,
                 }}
               />
             </div>

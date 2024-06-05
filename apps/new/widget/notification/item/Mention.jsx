@@ -13,7 +13,7 @@ const { content, popup } =
         content: (
           <Link
             className="fw-bold text-muted"
-            href={`/${config_account}/widget/Index?page=post&accountId=${accountId}&blockHeight=${blockHeight}`}
+            href={`/${config_index}?page=post&accountId=${accountId}&blockHeight=${blockHeight}`}
           >
             post
           </Link>
@@ -34,7 +34,7 @@ const { content, popup } =
           content: (
             <Link
               className="fw-bold text-muted"
-              href={`/${config_account}/widget/Index?page=comment&accountId=${accountId}&blockHeight=${blockHeight}`}
+              href={`/${config_index}?page=comment&accountId=${accountId}&blockHeight=${blockHeight}`}
             >
               comment
             </Link>
@@ -74,14 +74,14 @@ return (
         value.item.path === `${accountId}/post/main` ? (
           <Link
             className="btn btn-outline-dark rounded-5"
-            href={`/${config_account}/widget/Index?page=post&accountId=${accountId}&blockHeight=${blockHeight}`}
+            href={`/${config_index}?page=post&accountId=${accountId}&blockHeight=${blockHeight}`}
           >
             View post
           </Link>
         ) : value.item.path === `${accountId}/post/comment` ? (
           <Link
             className="btn btn-outline-dark rounded-5"
-            href={`/${config_account}/widget/Index?page=comment&accountId=${accountId}&blockHeight=${blockHeight}`}
+            href={`/${config_index}?page=comment&accountId=${accountId}&blockHeight=${blockHeight}`}
           >
             View comment
           </Link>
