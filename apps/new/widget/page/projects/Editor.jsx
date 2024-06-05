@@ -58,7 +58,7 @@ const tabs = [
   // { id: "code", label: "Code", checked: false },
   // { id: "roadmap", label: "Roadmap", checked: false },
   // Feed tabs
-  { id: "allFeed", label: "All Feed", checked: true },
+  { id: "activity", label: "Activity", checked: true },
   { id: "updatesFeed", label: "Updates Feed", checked: true },
   { id: "feedbackFeed", label: "Feedback Feed", checked: true },
 ];

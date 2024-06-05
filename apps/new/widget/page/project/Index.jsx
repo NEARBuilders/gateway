@@ -1,8 +1,9 @@
 const { id } = props;
-const { getProjectMeta } = VM.require(
+const { getProjectMeta, getProjectIdFromPath } = VM.require(
   "${config_account}/widget/lib.projects",
 ) || {
   getProjectMeta: () => {},
+  getProjectIdFromPath: () => {},
 };
 
 const data = getProjectMeta(id);
@@ -16,7 +17,7 @@ const { Layout } = VM.require(
   Layout: () => <></>,
 };
 
-const projectId = props.id.split("/")[2] ?? null;
+const projectId = getProjectIdFromPath(id);
 
 const config = {
   theme: {},
@@ -91,13 +92,13 @@ const config = {
           icon: "bi bi-map",
         },
       },
-      allFeed: {
-        label: "Activity",
+      activity: {
         path: "${alias_old}/widget/Feed",
         blockHeight: "final",
+        label: "Activity",
         init: {
           feedName: `${projectId}`,
-          name: "All",
+          name: "Activity",
           icon: "bi bi-list",
           requiredHashtags: ["build", projectId],
         },
