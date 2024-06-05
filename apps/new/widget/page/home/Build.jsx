@@ -59,7 +59,7 @@ const Container = styled.div`
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   align-items: center;
-  gap: 1rem;
+  gap: 4rem;
   @media screen and (max-width: 768px) {
     grid-template-columns: 1fr; /* Stack in a single column */
   }
@@ -272,20 +272,6 @@ const LearnMore = styled.div`
 const Build = () => {
   return (
     <Container>
-      <BuildContainer>
-        <h2>
-          Build in <span>one space</span>
-        </h2>
-        <p>
-          We provide support systems for open-source contributors to help each
-          other, learn together, and solve real problems.
-          <br />
-          <br />
-          To support this, we've build a dev environment with a versatile set of
-          tools for interacting with the blockchain OS, enabling greater
-          composability across front end and back end frameworks.
-        </p>
-      </BuildContainer>
       <Cards>
         <BosContainer>
           <Text>
@@ -319,6 +305,20 @@ const Build = () => {
           </Button>
         </LearnMore>
       </Cards>
+      <BuildContainer>
+        <h2>
+          Build <span>together</span>
+        </h2>
+        <p>
+          We provide support systems for open-source contributors to help each
+          other, learn together, and solve real problems.
+          <br />
+          <br />
+          To support this, we've build a dev environment with a versatile set of
+          tools for interacting with the blockchain OS, enabling greater
+          composability across front end and back end frameworks.
+        </p>
+      </BuildContainer>
     </Container>
   );
 };
