@@ -12,7 +12,7 @@ useEffect(() => {
   State.update({ hasStar: null });
 }, [item]);
 
-const stars = Social.index("starredProjects", item);
+const stars = Social.index("star", item);
 const dataLoading = stars === null;
 
 const starsByUsers = {};
@@ -48,7 +48,7 @@ const starClick = (event) => {
   const type = hasStar ? "unstar" : "star";
   const data = {
     index: {
-      starredProjects: JSON.stringify({
+      star: JSON.stringify({
         key: item,
         value: {
           type,
@@ -61,9 +61,9 @@ const starClick = (event) => {
     const keys = item.path.split("/");
     if (keys.length > 0) {
       data.graph = {
-        starredProjects: {},
+        star: {},
       };
-      let root = data.graph.starredProjects;
+      let root = data.graph.star;
       keys.slice(0, -1).forEach((key) => {
         root = root[key] = {};
       });

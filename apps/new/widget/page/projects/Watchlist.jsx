@@ -20,7 +20,7 @@ if (!fetchProjects) {
   return "";
 }
 const stars = Social.getr(
-  `${context.accountId}/graph/starredProjects`,
+  `${context.accountId}/graph/star/*/project`,
   "final",
   {
     withBlockHeight: true,
