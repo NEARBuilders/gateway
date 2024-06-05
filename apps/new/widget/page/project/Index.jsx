@@ -97,7 +97,7 @@ const config = {
         blockHeight: "final",
         label: "Activity",
         init: {
-          feedName: `${projectId}`,
+          feedName: `${data.title}`,
           name: "Activity",
           icon: "bi bi-list",
           requiredHashtags: ["build", projectId],
@@ -107,7 +107,7 @@ const config = {
         path: "${alias_old}/widget/Feed",
         blockHeight: "final",
         init: {
-          feedName: `${projectId} Updates`,
+          feedName: `${data.title} Updates`,
           name: "Updates",
           icon: "bi bi-bell",
           requiredHashtags: ["build", projectId, "updates"],
@@ -117,7 +117,7 @@ const config = {
         path: "${alias_old}/widget/Feed",
         blockHeight: "final",
         init: {
-          feedName: `${projectId} Feedback`,
+          feedName: `${data.title} Feedback`,
           name: "Feedback",
           icon: "bi bi-chat-left-text",
           requiredHashtags: ["build", projectId, "feedback"],
