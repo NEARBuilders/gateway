@@ -36,9 +36,15 @@ const Sidebar = styled.div`
   gap: 12px;
   margin-right: 1rem;
 
+  @media screen and (max-width: 768px) {
+    /* flex-direction: row;
+    min-height: none; */
+  }
+
   button {
     padding: 10px 12px;
     gap: 12px;
+    flex-shrink: 0;
 
     i {
       -webkit-text-stroke: 0.25px;

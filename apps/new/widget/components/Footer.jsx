@@ -243,37 +243,6 @@ const Footer = () => {
                 />
               </svg>
             </Button>
-            <Button
-              type="icon"
-              style={{
-                borderRadius: "30%",
-              }}
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="18"
-                height="21"
-                viewBox="0 0 18 21"
-                fill="none"
-              >
-                <g clip-path="url(#clip0_55_28543)">
-                  <path
-                    d="M7.55465 14.0081H10.4313V20.54H7.55465V14.0081ZM0.904755 7.31298H5.79948L2.31981 3.97704L4.24523 1.98636L7.5625 5.41559V0.540039H10.439V5.41559L13.7562 1.99417L15.6801 3.97704L12.2021 7.30518H17.0952V10.0579H12.1741L15.6756 13.4793L13.7562 15.4234L9.00073 10.6178L4.24523 15.4234L2.31981 13.4872L5.82262 10.0657H0.904755V7.31298Z"
-                    fill="#43E660"
-                  />
-                </g>
-                <defs>
-                  <clipPath id="clip0_55_28543">
-                    <rect
-                      width="16.1905"
-                      height="20"
-                      fill="white"
-                      transform="translate(0.904755 0.540039)"
-                    />
-                  </clipPath>
-                </defs>
-              </svg>
-            </Button>
           </SocialIcons>
         </LeftMenu>
         <Menu className="d-flex gap-5">
