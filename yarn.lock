@@ -5055,10 +5055,10 @@ bos-cli@^0.3.13:
     console.table "^0.10.0"
     detect-libc "^2.0.0"
 
-bos-workspace@^1.0.0-alpha.21:
-  version "1.0.0-alpha.22"
-  resolved "https://registry.npmjs.org/bos-workspace/-/bos-workspace-1.0.0-alpha.22.tgz#6e770483a172b407dba70bda06f3649f9cb88801"
-  integrity sha512-v27XMst/sqa1oGXHYTvX94X9XPB7cFZ6y8bI5I3NvCVxc1Hdaunj3dbBu6DQArh+PaHVcWoq6CZfeMhsgYjWdQ==
+bos-workspace@^1.0.0-alpha:
+  version "1.0.0-alpha.23"
+  resolved "https://registry.npmjs.org/bos-workspace/-/bos-workspace-1.0.0-alpha.23.tgz#cad6353aaaf64103058961076060e1123ae23007"
+  integrity sha512-xMigXKxwMQGFPnCCvFgfu1g4QyAw0cy+epPuJxGz/P9V7/FzTqj7RyMMG4MlnxutC34xqyGlqfSU99Pg0vLHQw==
   dependencies:
     "@near-js/providers" "^0.2.1"
     "@near-js/types" "^0.2.0"
