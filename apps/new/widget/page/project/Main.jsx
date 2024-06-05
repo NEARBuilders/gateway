@@ -41,9 +41,7 @@ const config = {
           profile={profileData}
           projectAccountId={data.projectAccountId}
           page={page}
-          routes={config.router.routes}
           project={project}
-          id={id}
           {...props}
         ></Layout>
       </>

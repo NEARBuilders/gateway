@@ -166,6 +166,16 @@ const CSS = styled.div`
 
   /* Fix compose */
   --bg-2: #23242b;
+
+  /* Typeahead Fix */
+  .rbt-token-removeable {
+    background: #007bff;
+    color: #fff;
+  }
+
+  .placeholder-glow {
+    background: var(--bg-1, black);
+  }
 `;
 
 return { CSS };

@@ -51,12 +51,16 @@ const isNearAddress = (address) => {
 
 const tabs = [
   { id: "overview", label: "Overview", disabled: true, checked: true },
-  { id: "activity", label: "Activity", checked: true },
+  // { id: "activity", label: "Activity", checked: true },
   { id: "tasks", label: "Tasks", checked: true },
   // Uncomment after the support is added
   // { id: "discussion", label: "Discussion", checked: false },
   // { id: "code", label: "Code", checked: false },
   // { id: "roadmap", label: "Roadmap", checked: false },
+  // Feed tabs
+  { id: "allFeed", label: "All Feed", checked: true },
+  { id: "updatesFeed", label: "Updates Feed", checked: true },
+  { id: "feedbackFeed", label: "Feedback Feed", checked: true },
 ];
 
 const app = props.app ?? "${config_account}";
@@ -502,7 +506,7 @@ const followingAccountSuggestion = following && Object.keys(following);
 const SecondScreen = () => {
   return (
     <>
-      <div className="d-flex flex-column gap-4">
+      <div className="d-flex flex-column gap-4" data-bs-theme="dark">
         <div className="d-flex flex-column gap-1">
           <div className="form-group">
             <label className="mb-1">Contributors</label>
@@ -733,7 +737,14 @@ const FirstScreen = () => {
             <select
               value={teamSize}
               onChange={(e) => setTeamSize(e.target.value)}
-              className="form-select"
+              className="form-select rounded-2"
+              style={{
+                padding: "12px",
+                fontSize: "16px",
+                lineHeight: "170%",
+                border: "1px solid rgba(255, 255, 255, 0.2)",
+                marginTop: "-1px",
+              }}
             >
               <option selected disabled value="">
                 Select Team Size
