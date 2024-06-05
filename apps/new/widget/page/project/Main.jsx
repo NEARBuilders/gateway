@@ -53,7 +53,7 @@ const config = {
         src="${config_account}/widget/components.Sidebar"
         props={{
           routes: config.router.routes,
-          currentRoute: "/${config_account}/widget/Index?page=project",
+          currentRoute: "/${config_index}?page=project",
           ...props,
         }}
       />

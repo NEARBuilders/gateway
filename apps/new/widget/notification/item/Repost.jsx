@@ -13,7 +13,7 @@ const { content, popup } =
         content: (
           <Link
             className="fw-bold text-muted"
-            href={`/${config_account}/widget/Index?page=post&accountId=${context.accountId}&blockHeight=${value.item.blockHeight}`}
+            href={`/${config_index}?page=post&accountId=${context.accountId}&blockHeight=${value.item.blockHeight}`}
           >
             post
           </Link>
@@ -54,7 +54,7 @@ return (
         value.item.path === `${context.accountId}/post/main` ? (
           <Link
             className="btn btn-outline-dark rounded-5"
-            href={`/${config_account}/widget/Index?page=post&accountId=${context.accountId}&blockHeight=${value.item.blockHeight}`}
+            href={`/${config_index}?page=post&accountId=${context.accountId}&blockHeight=${value.item.blockHeight}`}
           >
             View post
           </Link>
