@@ -115,7 +115,7 @@ const ListCard = ({ data, showEditProjectAction }) => {
   return (
     <Link
       href={href({
-        widgetSrc: `${config_account}/widget/Index`,
+        widgetSrc: `${config_index}`,
         params: {
           page: "project",
           id: item.path,
@@ -179,7 +179,7 @@ const ListCard = ({ data, showEditProjectAction }) => {
               {showEditProjectAction && (
                 <Button
                   href={href({
-                    widgetSrc: `${config_account}/widget/Index`,
+                    widgetSrc: `${config_index}`,
                     params: {
                       page: "projects",
                       tab: "editor",

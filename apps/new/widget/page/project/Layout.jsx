@@ -48,7 +48,7 @@ const Layout = ({
         <Link
           style={{ textDecoration: "none" }}
           to={href({
-            widgetSrc: "${config_account}/widget/Index",
+            widgetSrc: "${config_index}",
             params: {
               page: "projects",
             },
@@ -71,7 +71,7 @@ const Layout = ({
               <li className="nav-item" role="presentation" key={it}>
                 <Link
                   to={href({
-                    widgetSrc: `${config_account}/widget/Index`,
+                    widgetSrc: `${config_index}`,
                     params: {
                       page: "project",
                       id: id,

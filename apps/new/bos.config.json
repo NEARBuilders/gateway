@@ -1,10 +1,12 @@
 {
   "account": "builddao.near",
   "aliases": ["../../aliases.mainnet.json"],
+  "index": "builddao.near/widget/Index",
   "overrides": {
     "testnet": {
       "account": "builddao.testnet",
-      "aliases": ["../../aliases.testnet.json"]
+      "aliases": ["../../aliases.testnet.json"],
+      "index": "builddao.testnet/widget/Index"
     }
   }
 }
