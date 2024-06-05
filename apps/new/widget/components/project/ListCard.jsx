@@ -110,7 +110,7 @@ const ListCard = ({ data, showEditProjectAction }) => {
   const item = {
     type: "social",
     path: `${accountId}/project/${projectID}`,
-  }
+  };
 
   return (
     <Link
