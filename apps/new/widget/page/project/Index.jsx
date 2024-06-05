@@ -3,6 +3,9 @@ const { Layout } = VM.require(
 ) || {
   Layout: () => <></>,
 };
+
+const projectId = props.id.split("/")[2] ?? null;
+
 const config = {
   theme: {},
   layout: {
@@ -19,7 +22,7 @@ const config = {
         src="${config_account}/widget/components.Sidebar"
         props={{
           routes: config.router.routes,
-          currentRoute: "/${config_account}/widget/Index?page=projects",
+          currentRoute: `/${config_account}/widget/Index?page=project&id=${props.id}`,
           ...props,
         }}
       />
@@ -29,29 +32,45 @@ const config = {
   router: {
     param: "tab",
     routes: {
-      myProjects: {
-        init: {
-          name: "My Projects",
-          icon: "bi bi-star",
-        },
-      },
-      myToolkits: {
-        init: {
-          name: "My Toolkits",
-          icon: "bi bi-database",
-        },
-      },
-      projectsInvolved: {
-        init: {
-          name: "Projects Involved",
-          icon: "bi bi-clipboard",
-        },
-      },
       project: {
         path: "${config_account}/widget/page.project.Main",
         blockHeight: "final",
         default: true,
-        hide: true,
+        init: {
+          name: "Project",
+          icon: "bi bi-list-task",
+        },
+      },
+      allFeed: {
+        label: "Activity",
+        path: "${alias_old}/widget/Feed",
+        blockHeight: "final",
+        init: {
+          feedName: `${projectId}`,
+          name: "All",
+          icon: "bi bi-list",
+          requiredHashtags: ["build", projectId],
+        },
+      },
+      updatesFeed: {
+        path: "${alias_old}/widget/Feed",
+        blockHeight: "final",
+        init: {
+          feedName: `${projectId} Updates`,
+          name: "Updates",
+          icon: "bi bi-bell",
+          requiredHashtags: ["build", projectId, "updates"],
+        },
+      },
+      feedbackFeed: {
+        path: "${alias_old}/widget/Feed",
+        blockHeight: "final",
+        init: {
+          feedName: `${projectId} Feedback`,
+          name: "Feedback",
+          icon: "bi bi-chat-left-text",
+          requiredHashtags: ["build", projectId, "feedback"],
+        },
       },
     },
   },
