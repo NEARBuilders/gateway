@@ -89,7 +89,9 @@ const filteredProjects = useMemo(() => {
   let filtered = projects;
   if (filters.title !== "") {
     filtered = filtered.filter((project) =>
-      project.title.toLowerCase().includes(filters.title ?? "".toLowerCase()),
+      project.title
+        .toLowerCase()
+        .includes(filters.title.toLowerCase() ?? "".toLowerCase()),
     );
   }
 
