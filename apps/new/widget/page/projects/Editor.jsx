@@ -503,12 +503,6 @@ function onCreateProject() {
 const following = Social.get(`${context.accountId}/graph/follow/*`);
 const followingAccountSuggestion = following && Object.keys(following);
 
-const StyledTypeahead = styled.div`
-  .rbt-input-multi {
-    padding: 12px !important;
-  }
-`;
-
 const SecondScreen = () => {
   return (
     <>
@@ -516,22 +510,13 @@ const SecondScreen = () => {
         <div className="d-flex flex-column gap-1">
           <div className="form-group">
             <label className="mb-1">Contributors</label>
-            <StyledTypeahead>
-              <Typeahead
-                multiple
-                options={
-                  followingAccountSuggestion ?? [
-                    "frank.near",
-                    "ellie.near",
-                    "jane.near",
-                  ]
-                }
-                allowNew
-                placeholder="frank.near, ellie.near"
-                selected={contributors}
-                onChange={(e) => handleContributors(e)}
-              />
-            </StyledTypeahead>
+            <Typeahead
+              multiple
+              options={[accountId]}
+              allowNew
+              selected={contributors}
+              onChange={(e) => handleContributors(e)}
+            />
             {invalidContributorFound && (
               <p className="err">
                 The address you just entered are invalid, please enter valid
@@ -658,27 +643,25 @@ const SecondScreen = () => {
         </div>
         <div className="form-group">
           <label className="mb-1">Tags</label>
-          <StyledTypeahead>
-            <Typeahead
-              multiple
-              options={
-                props.tagFilters ?? [
-                  "Community",
-                  "Open Source",
-                  "Social Impact",
-                  "DAO",
-                  "Climate",
-                  "Public Good",
-                  "Education",
-                  "Community",
-                ]
-              }
-              allowNew
-              placeholder="Start Typing"
-              selected={tags}
-              onChange={(e) => handleTags(e)}
-            />
-          </StyledTypeahead>
+          <Typeahead
+            multiple
+            options={
+              props.tagFilters ?? [
+                "Community",
+                "Open Source",
+                "Social Impact",
+                "DAO",
+                "Climate",
+                "Public Good",
+                "Education",
+                "Community",
+              ]
+            }
+            allowNew
+            placeholder="Start Typing"
+            selected={tags}
+            onChange={(e) => handleTags(e)}
+          />
         </div>
         <div className="d-flex align-items-center justify-content-end gap-2 mt-3">
           <Button variant="outline" onClick={() => setCurrentScreen(1)}>
@@ -782,6 +765,7 @@ const FirstScreen = () => {
               key={"twitter"}
               label={"Twitter"}
               placeholder={"handle"}
+              error={twitter && !isValidUrl(`https://twitter.com/${twitter}`)}
               prefix={"https://twitter.com/"}
               value={twitter}
               onChange={(e) => setTwitter(e.target.value)}
@@ -794,6 +778,7 @@ const FirstScreen = () => {
               label={"GitHub"}
               placeholder={"handle"}
               prefix={"https://github.com/"}
+              error={gitHub && !isValidUrl(`https://github.com/${gitHub}`)}
               value={gitHub}
               onChange={(e) => setGitHub(e.target.value)}
               maxWidth="none"
@@ -805,6 +790,7 @@ const FirstScreen = () => {
               label={"Telegram"}
               placeholder={"handle"}
               prefix={"https://t.me/"}
+              error={telegram && !isValidUrl(`https://t.me/${telegram}`)}
               value={telegram}
               onChange={(e) => setTelegram(e.target.value)}
               maxWidth="none"
