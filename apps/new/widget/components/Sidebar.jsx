@@ -34,7 +34,7 @@ const Sidebar = styled.div`
   flex-direction: column;
   align-items: flex-start;
   gap: 12px;
-  margin-right: 48px;
+  margin-right: 1rem;
 
   button {
     padding: 10px 12px;

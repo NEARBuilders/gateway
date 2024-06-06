@@ -1,8 +1,24 @@
+const { id } = props;
+const { getProjectMeta, getProjectIdFromPath } = VM.require(
+  "${config_account}/widget/lib.projects",
+) || {
+  getProjectMeta: () => {},
+  getProjectIdFromPath: () => {},
+};
+
+const data = getProjectMeta(id);
+if (!id || !data) {
+  return "Loading...";
+}
+
 const { Layout } = VM.require(
   "${config_account}/widget/page.project.Layout",
 ) || {
   Layout: () => <></>,
 };
+
+const projectId = getProjectIdFromPath(id);
+
 const config = {
   theme: {},
   layout: {
@@ -19,7 +35,7 @@ const config = {
         src="${config_account}/widget/components.Sidebar"
         props={{
           routes: config.router.routes,
-          currentRoute: "/${config_account}/widget/Index?page=projects",
+          currentRoute: `/${config_index}?page=project&id=${props.id}`,
           ...props,
         }}
       />
@@ -29,33 +45,96 @@ const config = {
   router: {
     param: "tab",
     routes: {
-      myProjects: {
-        init: {
-          name: "My Projects",
-          icon: "bi bi-star",
-        },
-      },
-      myToolkits: {
-        init: {
-          name: "My Toolkits",
-          icon: "bi bi-database",
-        },
-      },
-      projectsInvolved: {
-        init: {
-          name: "Projects Involved",
-          icon: "bi bi-clipboard",
-        },
-      },
-      project: {
+      overview: {
+        label: "Project",
         path: "${config_account}/widget/page.project.Main",
         blockHeight: "final",
-        default: true,
-        hide: true,
+        init: {
+          tab: "overview",
+          name: "Overview",
+          icon: "bi bi-house",
+        },
+        default: "true",
+      },
+      tasks: {
+        path: "${config_account}/widget/page.project.Main",
+        blockHeight: "final",
+        init: {
+          tab: "tasks",
+          name: "Tasks",
+          icon: "bi bi-check-square",
+        },
+      },
+      discussion: {
+        path: "${config_account}/widget/page.project.Main",
+        blockHeight: "final",
+        init: {
+          tab: "discussion",
+          name: "Discussion",
+          icon: "bi bi-chat-dots",
+        },
+      },
+      code: {
+        path: "${config_account}/widget/page.project.Main",
+        blockHeight: "final",
+        init: {
+          tab: "code",
+          name: "Code",
+          icon: "bi bi-code-slash",
+        },
+      },
+      roadmap: {
+        path: "${config_account}/widget/page.project.Main",
+        blockHeight: "final",
+        init: {
+          tab: "roadmap",
+          name: "Roadmap",
+          icon: "bi bi-map",
+        },
+      },
+      activity: {
+        path: "${alias_old}/widget/Feed",
+        blockHeight: "final",
+        label: "Activity",
+        init: {
+          feedName: `${data.title}`,
+          name: "Activity",
+          icon: "bi bi-list",
+          requiredHashtags: ["build", projectId],
+        },
+      },
+      updatesFeed: {
+        path: "${alias_old}/widget/Feed",
+        blockHeight: "final",
+        init: {
+          feedName: `${data.title} Updates`,
+          name: "Updates",
+          icon: "bi bi-bell",
+          requiredHashtags: ["build", projectId, "updates"],
+        },
+      },
+      feedbackFeed: {
+        path: "${alias_old}/widget/Feed",
+        blockHeight: "final",
+        init: {
+          feedName: `${data.title} Feedback`,
+          name: "Feedback",
+          icon: "bi bi-chat-left-text",
+          requiredHashtags: ["build", projectId, "feedback"],
+        },
       },
     },
   },
 };
+
+// remove unselected tabs
+if (Array.isArray(data?.tabs)) {
+  Object.keys(config.router.routes).forEach((key) => {
+    if (!data.tabs.includes(key.toLowerCase())) {
+      delete config.router.routes[key];
+    }
+  });
+}
 
 return (
   <div className="mt-3 container-xl">

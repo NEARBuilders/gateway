@@ -95,7 +95,7 @@ const Tag = styled.div`
   }
 `;
 
-const ListCard = ({ data, type }) => {
+const ListCard = ({ data, showEditProjectAction }) => {
   const {
     accountId,
     projectAccountId,
@@ -103,17 +103,22 @@ const ListCard = ({ data, type }) => {
     collaborators,
     metadata,
     projectID,
+    profileImage,
+    location,
   } = data;
 
-  const profile = Social.getr(`${projectAccountId}/profile`);
+  const item = {
+    type: "social",
+    path: `${accountId}/project/${projectID}`,
+  };
 
   return (
     <Link
       href={href({
-        widgetSrc: `${alias_old}/widget/app`,
+        widgetSrc: `${config_index}`,
         params: {
           page: "project",
-          id: `${accountId}/${type}/${projectID}`,
+          id: item.path,
           tab: "overview",
         },
       })}
@@ -130,8 +135,8 @@ const ListCard = ({ data, type }) => {
                 src="${alias_mob}/widget/Image"
                 loading=""
                 props={{
-                  image: metadata.profileImage?.image ?? metadata.profileImage,
-                  alt: metadata.title,
+                  image: profileImage?.image ?? profileImage,
+                  alt: title,
                   className: "rounded-circle w-100 h-100",
                   style: { objectFit: "cover" },
                   thumbnail: "thumbnail",
@@ -156,10 +161,11 @@ const ListCard = ({ data, type }) => {
           </div>
           <div className="d-flex align-items-center gap-3">
             <div className="d-flex align-items-center flex-wrap gap-2">
-              <Tag>
-                <i className="bi bi-globe"></i>{" "}
-                {profile.location ?? "Somewhere"}
-              </Tag>
+              {location && (
+                <Tag>
+                  <i className="bi bi-globe"></i> {location}
+                </Tag>
+              )}
               {tags.map((tag) => (
                 <Tag>
                   <span className="fw-bold">{tag}</span>
@@ -169,16 +175,33 @@ const ListCard = ({ data, type }) => {
             <div>
               <ProfileImages accountIds={collaborators} />
             </div>
-            <Widget
-              src="${config_account}/widget/components.project.StarProject"
-              loading=""
-              props={{
-                item: {
-                  type: "social",
-                  path: `${accountId}/project/${projectID}`,
-                },
-              }}
-            />
+            <div className="d-flex gap-2 align-items-center">
+              {showEditProjectAction && (
+                <Button
+                  href={href({
+                    widgetSrc: `${config_index}`,
+                    params: {
+                      page: "projects",
+                      tab: "editor",
+                      id: item.path,
+                    },
+                  })}
+                  type="icon"
+                  className={"rounded-3"}
+                  variant="primary"
+                >
+                  <i class="bi bi-pencil-fill"></i>
+                </Button>
+              )}
+              <Widget
+                src="${config_account}/widget/components.project.StarProject"
+                loading=""
+                props={{
+                  item: item,
+                  notifyAccountId: accountId,
+                }}
+              />
+            </div>
           </div>
         </div>
       </Card>

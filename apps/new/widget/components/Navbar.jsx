@@ -311,7 +311,7 @@ function Navbar(props) {
         <Left>
           <Link
             to={href({
-              widgetSrc: "${config_account}/widget/Index",
+              widgetSrc: "${config_index}",
               params: {
                 page: "home",
               },
@@ -336,7 +336,7 @@ function Navbar(props) {
                     key={`desktop=${k}`}
                     style={{ textDecoration: "none" }}
                     to={href({
-                      widgetSrc: "${config_account}/widget/Index",
+                      widgetSrc: "${config_index}",
                       params: {
                         page: k,
                       },
@@ -357,7 +357,7 @@ function Navbar(props) {
               className="rounded-3 position-relative"
               type="icon"
               href={href({
-                widgetSrc: "${config_account}/widget/Index",
+                widgetSrc: "${config_index}",
                 params: {
                   page: "notifications",
                 },
@@ -414,7 +414,7 @@ function Navbar(props) {
                     <Link
                       style={{ textDecoration: "none" }}
                       href={href({
-                        widgetSrc: "${config_account}/widget/Index",
+                        widgetSrc: "${config_index}",
                         params: {
                           page: "inspect",
                           widgetPath: routes[page].path,
@@ -466,7 +466,7 @@ function Navbar(props) {
         <MobileNavigation>
           <Link
             to={href({
-              widgetSrc: "${config_account}/widget/Index",
+              widgetSrc: "${config_index}",
               params: {
                 page: "home",
               },
@@ -486,7 +486,7 @@ function Navbar(props) {
                 className="rounded-3 position-relative"
                 type="icon"
                 href={href({
-                  widgetSrc: "${config_account}/widget/Index",
+                  widgetSrc: "${config_index}",
                   params: {
                     page: "notifications",
                   },
@@ -528,7 +528,7 @@ function Navbar(props) {
           <MobileNavigation>
             <Link
               to={href({
-                widgetSrc: "${config_account}/widget/Index",
+                widgetSrc: "${config_index}",
                 params: {
                   page: "home",
                 },
@@ -563,7 +563,7 @@ function Navbar(props) {
                       key={`mobile=${k}`}
                       style={{ textDecoration: "none" }}
                       to={href({
-                        widgetSrc: "${config_account}/widget/Index",
+                        widgetSrc: "${config_index}",
                         params: {
                           page: k,
                         },
@@ -587,7 +587,7 @@ function Navbar(props) {
                   linkClassName="d-flex w-100"
                   className="w-100"
                   href={href({
-                    widgetSrc: "${config_account}/widget/Index",
+                    widgetSrc: "${config_index}",
                     params: {
                       page: "inspect",
                       widgetPath: routes[page].path,

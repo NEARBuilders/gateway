@@ -119,19 +119,10 @@ const [filters, setFilters] = useState({
   title: "",
 });
 const [showFilterModal, setShowFilterModal] = useState(false);
-const [showCreateModal, setShowCreateModal] = useState(false);
 const [showCreateOptionsModal, setShowCreateOptionsModal] = useState(false);
-const [showImportModal, setShowImportModal] = useState(false);
 
 const toggleFilterModal = () => {
   setShowFilterModal((prev) => !prev);
-};
-const toggleCreateModal = () => {
-  setShowCreateModal((prev) => !prev);
-};
-
-const toggleImportModal = () => {
-  setShowImportModal((prev) => !prev);
 };
 
 const toggleCreateOptionsModal = () => {
@@ -190,7 +181,7 @@ return (
     data-bs-theme="dark"
   >
     <Widget
-      src="${config_account}/widget/components.modals.projects.Filters"
+      src="${alias_new}/widget/page.projects.FiltersModal"
       loading=""
       props={{
         showModal: showFilterModal,
@@ -201,38 +192,13 @@ return (
       }}
     />
     <Widget
-      src="${config_account}/widget/components.modals.projects.ImportAndCreate"
+      src="${alias_new}/widget/page.projects.ImportAndCreateModal"
       loading=""
       props={{
         showModal: showCreateOptionsModal,
         toggleModal: toggleCreateOptionsModal,
-        onClickImport: () => {
-          setShowCreateOptionsModal(false);
-          setShowImportModal(true);
-        },
-        onClickCreate: () => {
-          setShowCreateOptionsModal(false);
-          setShowCreateModal(true);
-        },
       }}
     />
-    <Widget
-      src="${config_account}/widget/components.modals.projects.PotlockImport"
-      loading=""
-      props={{
-        showModal: showImportModal,
-        toggleModal: toggleImportModal,
-      }}
-    />
-    <Widget
-      src="${config_account}/widget/components.modals.projects.Create"
-      loading=""
-      props={{
-        showModal: showCreateModal,
-        toggleModal: toggleCreateModal,
-      }}
-    />
-
     <div className="my-3 d-flex align-items-center justify-content-between">
       <h2 style={{ color: "var(--text-color, #fff)", fontSize: "18px" }}>
         Projects

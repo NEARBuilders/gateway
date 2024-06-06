@@ -3,6 +3,23 @@
   "version": "1.0.0",
   "homepage": "/",
   "private": true,
+  "scripts": {
+    "fmt": "prettier --write '**/*.{js,jsx,ts,tsx,json}'",
+    "fmt:check": "prettier --check '**/*.{js,jsx,ts,tsx,json}'",
+    "bw": "bos-workspace",
+    "webpack": "webpack",
+    "dev": "yarn bw ws dev",
+    "dev:mainnet": "yarn bw ws dev -n mainnet",
+    "dev:testnet": "yarn bw ws dev -n testnet",
+    "dev:gateway": "yarn run serve -- --env mode=development",
+    "prod": "yarn webpack -- --env mode=production",
+    "prod:analyze": "yarn prod -- --env presets=analyze",
+    "build": "yarn prod",
+    "start": "yarn dev:gateway",
+    "serve": "webpack serve",
+    "test": "npx playwright test",
+    "lint": "eslint src --ext js,jsx --report-unused-disable-directives --max-warnings 0"
+  },
   "dependencies": {
     "@keypom/selector": "1.2.3",
     "@monaco-editor/react": "^4.4.6",
@@ -63,24 +80,6 @@
     "styled-components": "^5.3.6",
     "vm-browserify": "^1.1.2",
     "zustand": "^4.4.6"
-  },
-  "scripts": {
-    "init": "git submodule update --init --recursive && yarn install",
-    "fmt": "prettier --write '**/*.{js,jsx,ts,tsx,json}'",
-    "fmt:check": "prettier --check '**/*.{js,jsx,ts,tsx,json}'",
-    "bw": "bos-workspace",
-    "serve": "webpack serve",
-    "webpack": "webpack",
-    "dev": "yarn bw ws dev",
-    "dev:mainnet": "yarn bw ws dev -n mainnet",
-    "dev:testnet": "yarn bw ws dev -n testnet",
-    "dev:gateway": "yarn run serve -- --env mode=development",
-    "prod": "yarn webpack -- --env mode=production",
-    "prod:analyze": "yarn prod -- --env presets=analyze",
-    "build": "yarn prod",
-    "start": "yarn dev",
-    "test": "npx playwright test",
-    "lint": "eslint src --ext js,jsx --report-unused-disable-directives --max-warnings 0"
   },
   "eslintConfig": {
     "extends": [

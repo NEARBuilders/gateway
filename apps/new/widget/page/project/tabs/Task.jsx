@@ -130,6 +130,12 @@ const Wrapper = styled.div`
   .flex-1 {
     flex: 1;
   }
+
+  .warning-tag {
+    color: #eca227;
+    background-color: rgba(236, 162, 39, 0.1);
+    font-size: 12px;
+  }
 `;
 
 const projectID = normalize(project?.title, "-");
@@ -140,7 +146,6 @@ const StatusValues = {
   COMPLETED: "completed",
 };
 
-const listItem = { title: "", isCompleted: false };
 const task = {
   title: "",
   description: "",
@@ -166,9 +171,7 @@ const [showDeleteConfirmationModalIndex, setDeleteConfirmationIndex] =
 const [showViewTaskModal, setViewTaskModal] = useState(false);
 const [currentEditTaskId, setCurrentTaskId] = useState(null); // if user change title we need the same earlier key to update the data
 
-const isAllowedToEdit = (project.contributors ?? []).includes(
-  context.accountId,
-);
+const isAllowedToAdd = (project.contributors ?? []).includes(context.accountId);
 
 const flattenObject = (obj) => {
   let paths = [];
@@ -195,11 +198,14 @@ const processData = useCallback(
     const accounts = Object.entries(data ?? {});
     const allTasks = accounts
       .map((account) => {
+        // allow only creator to edit tasks
+        const isAllowedToEdit = account[0] === context.accountId;
         return Object.entries(account?.[1]?.[type] ?? {}).map((kv) => {
           const metadata = JSON.parse(kv[1]);
           return {
             ...metadata,
-            oldTitle: kv[0],
+            taskId: kv[0],
+            isAllowedToEdit,
           };
         });
       })
@@ -270,34 +276,16 @@ useEffect(() => {
   }
 }, [tasks]);
 
-const updateTaskDetail = (data) => {
-  setTaskDetail((prevState) => ({
-    ...prevState,
-    ...data,
-  }));
-};
-
-const updateTaskListItem = (index, updatedItem) => {
-  const updatedList = [...taskDetail.list];
-  updatedList[index] = updatedItem;
-  updateTaskDetail({ list: updatedList });
-};
-
-const deleteTaskListItem = (index) => {
-  const updatedList = [
-    ...taskDetail.list.slice(0, index),
-    ...taskDetail.list.slice(index + 1),
-  ];
-  updateTaskDetail({ list: updatedList });
-};
-
-const onAddTask = () => {
-  const taskId = normalize(taskDetail.title, "-");
-  const data = {
+const onAddTask = (data) => {
+  const taskData = { ...data };
+  delete taskData.isAllowedToEdit;
+  delete taskData.taskId;
+  const taskId = normalize(taskData.title, "-");
+  const socialData = {
     [type]: {
       [taskId]: {
-        "": JSON.stringify(taskDetail),
-        metadata: taskDetail,
+        "": JSON.stringify(taskData),
+        metadata: taskData,
       },
     },
     [app]: {
@@ -310,14 +298,16 @@ const onAddTask = () => {
       },
     },
   };
-  Social.set(data, {
+  Social.set(socialData, {
     onCommit: () => setShowAddTaskModal(false),
   });
 };
 
 const onEditTask = useCallback(
   (data) => {
-    const newData = data ?? taskDetail;
+    const newData = { ...data };
+    delete newData.isAllowedToEdit;
+    delete newData.taskId;
     const taskId = currentEditTaskId;
     const updatedData = {
       [type]: {
@@ -386,7 +376,7 @@ const DropdownMenu = ({ columnTitle, item, index, changeStatusOptions }) => {
         onClick={() => {
           handleDropdownToggle(columnTitle, index);
           setTaskDetail(item);
-          setCurrentTaskId(normalize(item.oldTitle));
+          setCurrentTaskId(normalize(item.taskId));
         }}
       >
         <i class="bi bi-three-dots h5 pointer"></i>
@@ -476,7 +466,7 @@ const DeleteConfirmationModal = () => {
 
 const today = new Date().toISOString().split("T")[0];
 
-const AddTaskModal = () => {
+const AddTaskModal = useMemo(() => {
   return (
     <Modal
       open={showAddTaskModal}
@@ -485,162 +475,22 @@ const AddTaskModal = () => {
         setShowAddTaskModal(!showAddTaskModal);
         setTaskDetail(null);
       }}
+      disableOutsideClick={true}
     >
-      <div className="d-flex flex-column gap-4">
-        <div>
-          <label class="mb-1">Title</label>
-          <input
-            placeholder="Enter task title"
-            type="text"
-            value={taskDetail?.title ?? ""}
-            onChange={(e) => updateTaskDetail({ title: e.target.value })}
-          />
-        </div>
-        <div>
-          <label class="mb-1">Description</label>
-          <input
-            placeholder="Enter description"
-            type="text"
-            value={taskDetail?.description ?? ""}
-            onChange={(e) => updateTaskDetail({ description: e.target.value })}
-          />
-        </div>
-        <div className="form-group">
-          <label class="mb-1">Priority</label>
-          <select
-            name="proposal-type"
-            id="proposal-type"
-            data-bs-theme={"dark"}
-            class="form-select"
-            onChange={(e) => updateTaskDetail({ priority: e.target.value })}
-            value={taskDetail.priority}
-          >
-            <option selected value="">
-              Select
-            </option>
-            <option value="P0">P0</option>
-            <option value="P1">P1</option>
-            <option value="P2">P2</option>
-            <option value="P3">P3</option>
-          </select>
-        </div>
-        <div className="form-group">
-          <label class="mb-1">Assignee/s</label>
-          <Typeahead
-            multiple
-            options={project.contributors}
-            allowNew
-            placeholder="Add task assignee"
-            selected={taskDetail?.assignees ?? []}
-            onChange={(e) => {
-              const data = e.map((i) => (i.label ? i.label : i));
-              updateTaskDetail({ assignees: data });
-            }}
-          />
-        </div>
-        <div className="form-group">
-          <label class="mb-1">Labels</label>
-          <Typeahead
-            multiple
-            options={project.tags}
-            allowNew
-            placeholder="Add labels"
-            selected={taskDetail?.tags ?? []}
-            onChange={(e) => {
-              const data = e.map((i) => (i.label ? i.label : i));
-              updateTaskDetail({ tags: data });
-            }}
-          />
-        </div>
-        <div className="d-flex gap-2">
-          <div className="form-group flex-1">
-            <label>Start Date</label>
-            <input
-              placeholder="Enter start date"
-              min={today}
-              type="date"
-              value={taskDetail?.startDate ?? ""}
-              onChange={(e) => updateTaskDetail({ startDate: e.target.value })}
-            />
-          </div>
-
-          <div className="form-group flex-1">
-            <label>End Date</label>
-            <input
-              placeholder="Enter end date"
-              type="date"
-              min={today}
-              value={taskDetail?.endDate ?? ""}
-              onChange={(e) => updateTaskDetail({ endDate: e.target.value })}
-            />
-          </div>
-        </div>
-        <div>
-          <div className="d-flex justify-content-between mb-1 align-items-center">
-            <label>Task List</label>
-            <div
-              onClick={() =>
-                updateTaskDetail({
-                  list: [...(taskDetail.list ?? []), { ...listItem }],
-                })
-              }
-            >
-              <i class="bi bi-plus-circle h5 pointer"></i>
-            </div>
-          </div>
-          <div className="d-flex flex-column gap-2">
-            {Array.isArray(taskDetail.list) &&
-              taskDetail.list?.map((item, index) => (
-                <div>
-                  <div className="d-flex gap-2 justify-content-between align-items-center">
-                    <input
-                      type="checkbox"
-                      className="form-check-input"
-                      disabled={!isAllowedToEdit}
-                      checked={item.isCompleted}
-                      onChange={(e) =>
-                        updateTaskListItem(index, {
-                          title: item.title,
-                          isCompleted: e.target.checked,
-                        })
-                      }
-                    />
-                    <input
-                      type="text"
-                      value={item.title}
-                      placeholder="Task Detail"
-                      onChange={(e) =>
-                        updateTaskListItem(index, {
-                          title: e.target.value,
-                          isCompleted: false,
-                        })
-                      }
-                    />
-                    <div onClick={() => deleteTaskListItem(index)}>
-                      <i class="bi bi-trash3 h6 red pointer"></i>
-                    </div>
-                  </div>
-                </div>
-              ))}
-          </div>
-        </div>
-        <div className="d-flex justify-content-end gap-3 align-items-center mt-3">
-          {!isEditTask && (
-            <Button variant="outline" onClick={() => setTaskDetail(null)}>
-              Clear Inputs
-            </Button>
-          )}
-          <Button
-            variant="primary"
-            onClick={isEditTask ? () => onEditTask() : onAddTask}
-          >
-            {isEditTask ? "Save" : "Add Task"}
-          </Button>
-        </div>
-      </div>
+      <Widget
+        src="${config_account}/widget/page.project.TaskEditor"
+        props={{
+          showAddTaskModal: showAddTaskModal,
+          task: taskDetail,
+          onEditTask: onEditTask,
+          onAddTask: onAddTask,
+          setShowAddTaskModal: setShowAddTaskModal,
+          project: project,
+        }}
+      />
     </Modal>
   );
-};
+}, [showAddTaskModal, taskDetail]);
 
 function formatDate(date) {
   return date;
@@ -655,6 +505,7 @@ const ViewTaskModal = () => {
         setViewTaskModal(!showViewTaskModal);
         setTaskDetail(null);
       }}
+      disableOutsideClick={true}
     >
       <div className="d-flex flex-column gap-4">
         <div>
@@ -746,7 +597,7 @@ const Column = ({ title, addTask, columnTasks, changeStatusOptions }) => {
     <div className="d-flex flex-column gap-1 col-md-4">
       <div className="border p-3 rounded-2 d-flex justify-content-between align-items-center h6">
         {title}
-        {isAllowedToEdit && (
+        {isAllowedToAdd && (
           <div onClick={addTask}>
             <i class="bi bi-plus-lg pointer"></i>
           </div>
@@ -766,9 +617,15 @@ const Column = ({ title, addTask, columnTasks, changeStatusOptions }) => {
               <div className="h6 bold">{item.title}</div>
               <div className="h6">Author: {item.author}</div>
               <div className="h6">Priority: {item.priority}</div>
+              {title === "In Progress" &&
+                (!item.startDate || !item.endDate) && (
+                  <div className="warning-tag p-1 px-2 rounded-2">
+                    It is necessary to define start/end dates.
+                  </div>
+                )}
               {/* <div className="h6">Last edited: </div> */}
             </div>
-            {isAllowedToEdit && (
+            {item.isAllowedToEdit && (
               <DropdownMenu
                 columnTitle={title}
                 item={item}
@@ -820,7 +677,7 @@ const columns = [
 return (
   <ThemeContainer>
     <Wrapper>
-      <AddTaskModal />
+      {AddTaskModal}
       <ViewTaskModal />
       <DeleteConfirmationModal />
       <div className="container">

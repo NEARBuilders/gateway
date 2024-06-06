@@ -21,15 +21,23 @@ const MarkdownContainer = styled.div`
 
   pre {
     margin: 1rem 0;
+
     padding: 1rem;
-    background: var(--bg-2, #23242b);
+    background: var(--bg-2, rgb(45, 45, 45));
     border-radius: 1rem;
   }
 
+  pre div {
+    border-radius: 1rem;
+    scrollbar-color: #eca227 #000;
+    scrollbar-width: thin;
+  }
+
   code {
-    background: var(--bg-2, #23242b);
+    background: var(--bg-2, rgb(45, 45, 45));
     color: var(--text-color, #fff) !important;
     font-family: monospace !important;
+    border-radius: 1rem !important;
   }
 
   h1 {

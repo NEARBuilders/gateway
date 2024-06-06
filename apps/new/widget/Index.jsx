@@ -38,7 +38,7 @@ const config = {
         default: true,
       },
       activity: {
-        path: "${alias_old}/widget/page.feed",
+        path: "${config_account}/widget/page.activity.Index",
         blockHeight: "final",
         init: {
           name: "Activity",
@@ -65,6 +65,30 @@ const config = {
         init: {
           name: "Resources",
         },
+      },
+      notifications: {
+        path: "${config_account}/widget/page.notifications.Index",
+        blockHeight: "final",
+        init: {
+          name: "Notifications",
+        },
+        hide: true,
+      },
+      post: {
+        path: "${config_account}/widget/page.post.Index",
+        blockHeight: "final",
+        init: {
+          name: "Post",
+        },
+        hide: true,
+      },
+      comment: {
+        path: "${config_account}/widget/page.comment.Index",
+        blockHeight: "final",
+        init: {
+          name: "Comment",
+        },
+        hide: true,
       },
     },
   },

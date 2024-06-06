@@ -14,7 +14,7 @@ const config = {
         src="${config_account}/widget/components.Sidebar"
         props={{
           routes: config.router.routes,
-          currentRoute: "/${config_account}/widget/Index?page=projects",
+          currentRoute: "/${config_index}?page=projects",
           ...props,
         }}
       />
@@ -56,6 +56,22 @@ const config = {
           name: "Projects Involved",
           icon: "bi bi-journal-text",
         },
+      },
+      editor: {
+        path: "${config_account}/widget/page.projects.Editor",
+        blockHeight: "final",
+        init: {
+          name: "Create Project",
+        },
+        hide: true,
+      },
+      potlockImport: {
+        path: "${config_account}/widget/page.projects.PotlockImport",
+        blockHeight: "final",
+        init: {
+          name: "Import Project",
+        },
+        hide: true,
       },
     },
   },

@@ -63,7 +63,7 @@ const processData = (data, type) => {
 };
 
 const fetchProjects = (props) => {
-  const app = props.app || "${alias_old}";
+  const app = props.app || "${alias_new}";
   const type = props.type || "project";
 
   const data = fetchThings(props, app, type);
@@ -75,6 +75,32 @@ const fetchProjects = (props) => {
   return processData(data, type);
 };
 
+const getProjectMeta = (id) => {
+  if (!id) {
+    throw new Error("Invalid project ID");
+  }
+
+  const data = Social.get(id, "final");
+
+  if (!data) {
+    console.log("Failed to fetch project data");
+  }
+
+  try {
+    const pj = JSON.parse(data);
+    return pj;
+  } catch (error) {
+    console.error("Error parsing project data:", error);
+    return null;
+  }
+};
+
+const getProjectIdFromPath = (id) => {
+  return id.split("/")[2] ?? null;
+};
+
 return {
   fetchProjects,
+  getProjectMeta,
+  getProjectIdFromPath,
 };

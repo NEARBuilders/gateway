@@ -16,7 +16,7 @@ const { ProfileImages } = VM.require(
 const GridCard = styled.div`
   border-radius: 16px;
   background: var(--bg-2, #23242b);
-
+  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -94,7 +94,7 @@ const Tag = styled.div`
   }
 `;
 
-const ProjectCard = ({ data, variant }) => {
+const ProjectCard = ({ data, showEditProjectAction }) => {
   const {
     accountId,
     description,
@@ -102,19 +102,24 @@ const ProjectCard = ({ data, variant }) => {
     tags,
     collaborators,
     metadata,
-    type,
     projectID,
+    profileImage,
+    backgroundImage,
+    location,
   } = data;
 
-  const profile = Social.getr(`${projectAccountId}/profile`);
+  const item = {
+    type: "social",
+    path: `${accountId}/project/${projectID}`,
+  };
 
   return (
     <Link
       href={href({
-        widgetSrc: `${config_account}/widget/Index`,
+        widgetSrc: `${config_index}`,
         params: {
           page: "project",
-          id: `${accountId}/${type}/${projectID}`,
+          id: item.path,
           tab: "overview",
         },
       })}
@@ -125,8 +130,8 @@ const ProjectCard = ({ data, variant }) => {
           src="${alias_mob}/widget/Image"
           loading=""
           props={{
-            image: profile.backgroundImage,
-            alt: profile?.name,
+            image: backgroundImage.image ?? backgroundImage,
+            alt: title,
             className: "w-100",
             style: {
               objectFit: "cover",
@@ -150,8 +155,8 @@ const ProjectCard = ({ data, variant }) => {
                 src="${alias_mob}/widget/Image"
                 loading=""
                 props={{
-                  image: metadata.profileImage?.image ?? metadata.profileImage,
-                  alt: metadata.title,
+                  image: profileImage?.image ?? profileImage,
+                  alt: title,
                   className: "rounded-circle w-100 h-100",
                   style: { objectFit: "cover" },
                   thumbnail: "thumbnail",
@@ -159,16 +164,33 @@ const ProjectCard = ({ data, variant }) => {
                 }}
               />
             </div>
-            <Widget
-              src="${config_account}/widget/components.project.StarProject"
-              loading=""
-              props={{
-                item: {
-                  type: "social",
-                  path: `${accountId}/project/${projectID}`,
-                },
-              }}
-            />
+            <div className="d-flex gap-2 align-items-center">
+              {showEditProjectAction && (
+                <Button
+                  href={href({
+                    widgetSrc: `${config_index}`,
+                    params: {
+                      page: "projects",
+                      tab: "editor",
+                      id: item.path,
+                    },
+                  })}
+                  type="icon"
+                  className={"rounded-3"}
+                  variant="primary"
+                >
+                  <i class="bi bi-pencil-fill"></i>
+                </Button>
+              )}
+              <Widget
+                src="${config_account}/widget/components.project.StarProject"
+                loading=""
+                props={{
+                  item: item,
+                  notifyAccountId: accountId,
+                }}
+              />
+            </div>
           </div>
           <div className="info w-100">
             <h4>
@@ -187,10 +209,12 @@ const ProjectCard = ({ data, variant }) => {
           </div>
           <div className="d-flex justify-content-between align-items-center mt-auto">
             <div className="d-flex align-items-center flex-wrap gap-2">
-              <Tag>
-                <i className="bi bi-globe"></i>{" "}
-                {profile.location ?? "Somewhere"}
-              </Tag>
+              {location && (
+                <Tag>
+                  <i className="bi bi-globe"></i>
+                  {location}
+                </Tag>
+              )}
               {tags.map((tag) => (
                 <Tag>
                   <span className="fw-bold">{tag}</span>
