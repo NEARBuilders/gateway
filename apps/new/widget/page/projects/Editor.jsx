@@ -690,7 +690,11 @@ const FirstScreen = () => {
       <div className="d-flex flex-column gap-4">
         <InputField
           key={"Project-AccountId"}
-          label={"Project Account Address"}
+          label={
+            <>
+              Project Account Address<span className="text-danger">*</span>
+            </>
+          }
           placeholder={"Enter Project Account Address"}
           value={projectAccount}
           error={invalidProjectAccount}
@@ -704,14 +708,20 @@ const FirstScreen = () => {
         )}
         <InputField
           key={"Project-Title"}
-          label={"Project Title"}
+          label={
+            <>
+              Project Title<span className="text-danger">*</span>
+            </>
+          }
           placeholder={"Enter Project Title"}
           value={title}
           onChange={(e) => setTitle(e.target.value)}
           maxWidth="none"
         />
         <div className="form-group">
-          <label className="mb-1">Description</label>
+          <label className="mb-1">
+            Description<span className="text-danger">*</span>
+          </label>
           <TextEditor
             value={description}
             onChange={(e) => setDescription(e)}
@@ -836,7 +846,7 @@ const FirstScreen = () => {
 };
 
 return (
-  <Container>
+  <Container data-bs-theme="dark">
     <div className="p-4">
       <div className="h4">Create Project</div>
       <p>
