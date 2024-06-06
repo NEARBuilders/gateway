@@ -44,6 +44,27 @@ const Input = styled.input`
   }
 `;
 
+const PrefixContainer = styled.div`
+  display: flex;
+  align-items: center;
+  padding: 12px;
+  background: var(--bg-2, #23242b);
+  border: 1px solid var(--stroke-color, rgba(255, 255, 255, 0.2));
+  border-radius: 8px 0 0 8px;
+  color: var(--font-muted-color, #cdd0d5);
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 170%;
+  max-width: fit-content;
+`;
+
+const InputWrapper = styled.div`
+  display: flex;
+  width: 100%;
+  align-items: center;
+  border-radius: 8px;
+`;
+
 function InputField({
   type,
   label,
@@ -51,6 +72,7 @@ function InputField({
   placeholder,
   value,
   onChange,
+  prefix,
   error,
   maxWidth,
 }) {
@@ -60,15 +82,21 @@ function InputField({
       style={{ maxWidth: maxWidth ?? "390px" }}
     >
       {label && <Label>{label}</Label>}
-      <Input
-        key={`input-field-${key}`}
-        value={value}
-        className={error ? "invalid" : ""}
-        onChange={onChange}
-        placeholder={placeholder}
-        type={type ?? "text"}
-        style={{ maxWidth: maxWidth ?? "390px" }}
-      />
+      <InputWrapper style={{ maxWidth: maxWidth ?? "390px" }}>
+        {prefix && <PrefixContainer>{prefix}</PrefixContainer>}
+        <Input
+          key={`input-field-${key}`}
+          value={value}
+          className={error ? "invalid" : ""}
+          onChange={onChange}
+          placeholder={placeholder}
+          type={type ?? "text"}
+          style={{
+            maxWidth: maxWidth ?? "390px",
+            borderRadius: prefix ? "0 8px 8px 0" : "",
+          }}
+        />
+      </InputWrapper>
     </InputContainer>
   );
 }

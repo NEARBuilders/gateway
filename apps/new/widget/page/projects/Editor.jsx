@@ -442,9 +442,9 @@ function onCreateProject() {
           backgroundImage: coverImage,
           tags: tags,
           linktree: {
-            twitter: twitter,
-            github: gitHub,
-            telegram: telegram,
+            twitter: twitter && `https://twitter.com/${twitter}`,
+            github: gitHub && `https://github.com/${gitHub}`,
+            telegram: telegram && `https://t.me/${telegram}`,
             website: website,
           },
         },
@@ -771,8 +771,8 @@ const FirstScreen = () => {
             <InputField
               key={"twitter"}
               label={"Twitter"}
-              error={twitter && !isValidUrl(twitter)}
-              placeholder={"https://twitter.com/handle"}
+              placeholder={"handle"}
+              prefix={"https://twitter.com/"}
               value={twitter}
               onChange={(e) => setTwitter(e.target.value)}
               maxWidth="none"
@@ -782,8 +782,8 @@ const FirstScreen = () => {
             <InputField
               key={"github"}
               label={"GitHub"}
-              error={gitHub && !isValidUrl(gitHub)}
-              placeholder={"https://github.com/handle"}
+              placeholder={"handle"}
+              prefix={"https://github.com/"}
               value={gitHub}
               onChange={(e) => setGitHub(e.target.value)}
               maxWidth="none"
@@ -793,8 +793,8 @@ const FirstScreen = () => {
             <InputField
               key={"telegram"}
               label={"Telegram"}
-              error={telegram && !isValidUrl(telegram)}
-              placeholder={"https://t.me/handle"}
+              placeholder={"handle"}
+              prefix={"https://t.me/"}
               value={telegram}
               onChange={(e) => setTelegram(e.target.value)}
               maxWidth="none"
