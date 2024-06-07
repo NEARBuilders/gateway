@@ -610,7 +610,7 @@ const SecondScreen = () => {
         <div className="form-group mb-3">
           <label className="pb-2">Avatar</label>
           <Widget
-            src="${alias_old}/widget/components.ImageUploader"
+            src="${alias_old}/widget/components.UploadField"
             props={{
               image: avatar,
               onChange: (image) => setAvatar({ image }),
@@ -620,7 +620,7 @@ const SecondScreen = () => {
         <div className="form-group mb-3">
           <label className="pb-2">Cover Image</label>
           <Widget
-            src="${alias_old}/widget/components.ImageUploader"
+            src="${alias_old}/widget/components.UploadField"
             props={{
               image: coverImage,
               onChange: (image) => setCoverImage({ image }),
