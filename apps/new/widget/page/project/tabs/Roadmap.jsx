@@ -3,7 +3,7 @@ const { Button } = VM.require("${alias_old}/widget/components") || {
 };
 
 const { getProjectMeta } = VM.require(
-  "${alias_old}/widget/lib.project-data",
+  "${alias_new}/widget/lib.projects",
 ) || {
   getProjectMeta: () => {},
 };

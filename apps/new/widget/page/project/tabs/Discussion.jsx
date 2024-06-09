@@ -5,7 +5,7 @@ const { Post } = VM.require("${alias_old}/widget/components") || {
   Post: () => <></>,
 };
 const { getProjectMeta } = VM.require(
-  "${alias_old}/widget/lib.project-data",
+  "${alias_new}/widget/lib.projects",
 ) || {
   getProjectMeta: () => {},
 };

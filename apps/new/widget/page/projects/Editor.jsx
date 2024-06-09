@@ -104,7 +104,19 @@ const [currentScreen, setCurrentScreen] = useState(1);
 const [projectIdForSocialDB, setProjectId] = useState(null); // for edit changes
 
 function removeWhiteSpace(str) {
-  return str.replace(/\s/g, "");
+  return str.replace(/\s/g, "-").toLowerCase();
+}
+
+function convertArrayToObject(array) {
+  const obj = {};
+  array.forEach((value, index) => {
+    obj[value] = "";
+  });
+  return obj;
+}
+
+function convertObjectToArray(obj) {
+  return Object.keys(obj);
 }
 
 useEffect(() => {
@@ -181,7 +193,7 @@ useEffect(() => {
     setAvatar(profileImage?.image ?? profileImage);
     setCoverImage(backgroundImage?.image ?? backgroundImage);
     setProjectAccount(projectAccountId);
-    setTags(tags);
+    setTags(Array.isArray(tags) ? tags.map((i) => removeWhiteSpace(i)) : convertObjectToArray(tags ?? {}));
     setSelectedTabs(new Set(tabs));
   }
 }, [editProjectData]);
@@ -417,7 +429,7 @@ function onCreateProject() {
     description,
     profileImage: avatar,
     backgroundImage: coverImage,
-    tags,
+    tags: convertArrayToObject(tags),
     linktree: {
       twitter: twitter,
       github: gitHub,
@@ -440,7 +452,7 @@ function onCreateProject() {
           description: description,
           image: avatar,
           backgroundImage: coverImage,
-          tags: tags,
+          tags: convertArrayToObject(tags),
           linktree: {
             twitter: twitter,
             github: gitHub,

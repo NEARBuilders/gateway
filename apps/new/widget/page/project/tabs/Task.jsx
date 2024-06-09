@@ -11,7 +11,7 @@ const { normalize } = VM.require("${alias_devs}/widget/lib.stringUtils") || {
 };
 
 const { getProjectMeta } = VM.require(
-  "${alias_old}/widget/lib.project-data",
+  "${alias_new}/widget/lib.projects",
 ) || {
   getProjectMeta: () => {},
 };
