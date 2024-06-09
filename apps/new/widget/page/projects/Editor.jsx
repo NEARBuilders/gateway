@@ -85,7 +85,7 @@ const [title, setTitle] = useState("");
 const [description, setDescription] = useState("");
 const [location, setLocation] = useState("");
 const [contributorsWithRoles, setContributorsWithRoles] = useState([]);
-const [contributors, setContributors] = useState([]);
+const [contributors, setContributors] = useState([context.accountId]);
 const [twitter, setTwitter] = useState("");
 const [gitHub, setGitHub] = useState("");
 const [telegram, setTelegram] = useState("");
@@ -102,6 +102,7 @@ const [showSuccessModal, setShowSuccessModal] = useState(false);
 const [roles, setRoles] = useState([]);
 const [currentScreen, setCurrentScreen] = useState(1);
 const [projectIdForSocialDB, setProjectId] = useState(null); // for edit changes
+const [contributorSearchTerm,setContributorSearch] = useState('')
 
 function removeWhiteSpace(str) {
   return str.replace(/\s/g, "-").toLowerCase();
@@ -516,8 +517,45 @@ function onCreateProject() {
   }
 }
 
-const following = Social.get(`${context.accountId}/graph/follow/*`);
-const followingAccountSuggestion = following && Object.keys(following);
+function getSuggestiveAccounts() {
+  let suugestiveAccounts = [];
+  const profilesData = Social.get("*/profile/name", "final") || {};
+  const followingData = Social.get(
+    `${context.accountId}/graph/follow/**`,
+    "final",
+  );
+  if (!profilesData) return <></>;
+  const profiles = Object.entries(profilesData);
+  const term = (contributorSearchTerm || "").replace(/\W/g, "").toLowerCase();
+  const limit = 10;
+  for (let i = 0; i < profiles.length; i++) {
+    let score = 0;
+    const accountId = profiles[i][0];
+    const accountIdSearch = profiles[i][0].replace(/\W/g, "").toLowerCase();
+    const nameSearch = (profiles[i][1]?.profile?.name || "")
+      .replace(/\W/g, "")
+      .toLowerCase();
+    const accountIdSearchIndex = accountIdSearch.indexOf(term);
+    const nameSearchIndex = nameSearch.indexOf(term);
+
+    if (accountIdSearchIndex > -1 || nameSearchIndex > -1) {
+      score += 10;
+
+      if (accountIdSearchIndex === 0) {
+        score += 10;
+      }
+      if (nameSearchIndex === 0) {
+        score += 10;
+      }
+      if (followingData[accountId] === "") {
+        score += 30;
+      }
+
+      suugestiveAccounts.push(accountId);
+    }
+  }
+  return suugestiveAccounts.slice(0, limit);
+}
 
 const SecondScreen = () => {
   return (
@@ -529,15 +567,12 @@ const SecondScreen = () => {
             <Typeahead
               multiple
               options={
-                followingAccountSuggestion ?? [
-                  "frank.near",
-                  "ellie.near",
-                  "jane.near",
-                ]
+                getSuggestiveAccounts() 
               }
               allowNew
-              placeholder="frank.near, ellie.near"
+              placeholder="efiz.near, james.near"
               selected={contributors}
+              onInputChange={(e) => setContributorSearch(e)}
               onChange={(e) => handleContributors(e)}
             />
             {invalidContributorFound && (
