@@ -193,7 +193,11 @@ useEffect(() => {
     setAvatar(profileImage?.image ?? profileImage);
     setCoverImage(backgroundImage?.image ?? backgroundImage);
     setProjectAccount(projectAccountId);
-    setTags(Array.isArray(tags) ? tags.map((i) => removeWhiteSpace(i)) : convertObjectToArray(tags ?? {}));
+    setTags(
+      Array.isArray(tags)
+        ? tags.map((i) => removeWhiteSpace(i))
+        : convertObjectToArray(tags ?? {}),
+    );
     setSelectedTabs(new Set(tabs));
   }
 }, [editProjectData]);

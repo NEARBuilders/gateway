@@ -10,9 +10,7 @@ const { normalize } = VM.require("${alias_devs}/widget/lib.stringUtils") || {
   normalize: () => {},
 };
 
-const { getProjectMeta } = VM.require(
-  "${alias_new}/widget/lib.projects",
-) || {
+const { getProjectMeta } = VM.require("${alias_new}/widget/lib.projects") || {
   getProjectMeta: () => {},
 };
 
