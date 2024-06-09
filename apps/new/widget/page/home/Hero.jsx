@@ -317,7 +317,9 @@ const Hero = () => {
         </Card> */}
         <Card style={{ overflow: "hidden", background: "transparent" }}>
           <div className="p-3 d-flex align-items-center gap-2 mb-3 justify-content-center">
-            <span className="title">Explore</span>
+            <span className="title" onMo>
+              Explore
+            </span>
             <div style={{ height: 1, flexGrow: 1, background: "#4D4D4D" }} />
             <span className="title">Contribute</span>
             <div style={{ height: 1, flexGrow: 1, background: "#4D4D4D" }} />
