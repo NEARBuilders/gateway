@@ -135,6 +135,12 @@ const Heading = styled.div`
   flex-direction: column;
   gap: 1rem;
 
+  @media screen and (max-width: 500px) {
+    h2 {
+      font-size: 32px !important;
+    }
+  }
+
   h2 {
     color: var(--FFFFFF, #fff);
     font-family: Poppins, sans-serif;
