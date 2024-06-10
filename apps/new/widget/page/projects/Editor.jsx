@@ -442,9 +442,9 @@ function onCreateProject() {
           backgroundImage: coverImage,
           tags: tags,
           linktree: {
-            twitter: twitter,
-            github: gitHub,
-            telegram: telegram,
+            twitter: twitter && `https://twitter.com/${twitter}`,
+            github: gitHub && `https://github.com/${gitHub}`,
+            telegram: telegram && `https://t.me/${telegram}`,
             website: website,
           },
         },
@@ -512,15 +512,8 @@ const SecondScreen = () => {
             <label className="mb-1">Contributors</label>
             <Typeahead
               multiple
-              options={
-                followingAccountSuggestion ?? [
-                  "frank.near",
-                  "ellie.near",
-                  "jane.near",
-                ]
-              }
+              options={[accountId]}
               allowNew
-              placeholder="frank.near, ellie.near"
               selected={contributors}
               onChange={(e) => handleContributors(e)}
             />
@@ -690,7 +683,11 @@ const FirstScreen = () => {
       <div className="d-flex flex-column gap-4">
         <InputField
           key={"Project-AccountId"}
-          label={"Project Account Address"}
+          label={
+            <>
+              Project Account Address<span className="text-danger">*</span>
+            </>
+          }
           placeholder={"Enter Project Account Address"}
           value={projectAccount}
           error={invalidProjectAccount}
@@ -704,14 +701,20 @@ const FirstScreen = () => {
         )}
         <InputField
           key={"Project-Title"}
-          label={"Project Title"}
+          label={
+            <>
+              Project Title<span className="text-danger">*</span>
+            </>
+          }
           placeholder={"Enter Project Title"}
           value={title}
           onChange={(e) => setTitle(e.target.value)}
           maxWidth="none"
         />
         <div className="form-group">
-          <label className="mb-1">Description</label>
+          <label className="mb-1">
+            Description<span className="text-danger">*</span>
+          </label>
           <TextEditor
             value={description}
             onChange={(e) => setDescription(e)}
@@ -761,8 +764,9 @@ const FirstScreen = () => {
             <InputField
               key={"twitter"}
               label={"Twitter"}
-              error={twitter && !isValidUrl(twitter)}
-              placeholder={"https://twitter.com/handle"}
+              placeholder={"handle"}
+              error={twitter && !isValidUrl(`https://twitter.com/${twitter}`)}
+              prefix={"https://twitter.com/"}
               value={twitter}
               onChange={(e) => setTwitter(e.target.value)}
               maxWidth="none"
@@ -772,8 +776,9 @@ const FirstScreen = () => {
             <InputField
               key={"github"}
               label={"GitHub"}
-              error={gitHub && !isValidUrl(gitHub)}
-              placeholder={"https://github.com/handle"}
+              placeholder={"handle"}
+              prefix={"https://github.com/"}
+              error={gitHub && !isValidUrl(`https://github.com/${gitHub}`)}
               value={gitHub}
               onChange={(e) => setGitHub(e.target.value)}
               maxWidth="none"
@@ -783,8 +788,9 @@ const FirstScreen = () => {
             <InputField
               key={"telegram"}
               label={"Telegram"}
-              error={telegram && !isValidUrl(telegram)}
-              placeholder={"https://t.me/handle"}
+              placeholder={"handle"}
+              prefix={"https://t.me/"}
+              error={telegram && !isValidUrl(`https://t.me/${telegram}`)}
               value={telegram}
               onChange={(e) => setTelegram(e.target.value)}
               maxWidth="none"
@@ -836,7 +842,7 @@ const FirstScreen = () => {
 };
 
 return (
-  <Container>
+  <Container data-bs-theme="dark">
     <div className="p-4">
       <div className="h4">Create Project</div>
       <p>
