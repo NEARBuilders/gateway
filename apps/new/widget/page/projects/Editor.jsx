@@ -112,7 +112,7 @@ useEffect(() => {
     const {
       name,
       description,
-      profileImage,
+      image,
       backgroundImage,
       linktree,
       plTeam,
@@ -138,7 +138,7 @@ useEffect(() => {
           : `https://${website}`
         : null,
     );
-    setAvatar(profileImage);
+    setAvatar(image);
     setCoverImage(backgroundImage);
     setProjectAccount(poltlockProjectId);
     setTags(

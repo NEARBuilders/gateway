@@ -1,45 +1,23 @@
-const image = props.image;
-const onChange = props.onChange;
-
-State.init({
-  origImage: image,
-  img: { cid: image.ipfs_cid },
-});
-
-if (JSON.stringify(image) !== JSON.stringify(state.image)) {
-  State.update({
-    image,
-  });
-}
-
-let localImage = {};
-
-if (state.origImage.ipfs_cid) {
-  localImage.ipfs_cid = null;
-}
-localImage.ipfs_cid = state.img.cid;
-if (onChange && JSON.stringify(image) !== JSON.stringify(localImage)) {
-  onChange(localImage);
-}
-const debounce = (func, wait) => {
-  const pause = wait || 350;
-  let timeout;
-
-  return (args) => {
-    const later = () => {
-      clearTimeout(timeout);
-      func(args);
-    };
-
-    clearTimeout(timeout);
-    timeout = setTimeout(later, pause);
-  };
+const [img, setImg] = useState("");
+const [msg, setMsg] = useState("Upload");
+const uploadFile = (files) => {
+  setMsg("Uploading...");
+  asyncFetch("https://ipfs.near.social/add", {
+    method: "POST",
+    headers: { Accept: "application/json" },
+    body: files[0],
+  })
+    .catch((e) => {
+      console.error(e);
+      setMsg("Failed to upload");
+    })
+    .then((res) => {
+      setImg(res.body.cid);
+      props.setImage({
+        ipfs_cid: res.body.cid,
+      });
+    });
 };
-const onImageChange = debounce((e) => {
-  State.update({
-    [e.target.id]: e.target.value,
-  });
-});
 
 const UploadContainer = styled.div`
   display: flex;
@@ -108,6 +86,17 @@ const Button = styled.div`
     }
   }
 `;
+const ButtonContainer = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 16px;
+`;
+
+const UploadedImage = styled.img`
+  height: 40px;
+  width: 40px;
+  border-radius: 16px;
+`;
 
 return (
   <UploadContainer background={background}>
@@ -116,8 +105,32 @@ return (
       <p>Choose a file or drag & drop it here.</p>
       <p className="secondary">JPEG, PNG, PDF, and MP4 formats, up to 50 MB.</p>
     </div>
-    <Button>
-      <IpfsImageUpload image={state.img} />
-    </Button>
+    <ButtonContainer>
+      <Button>
+        <Files
+          multiple={false}
+          accepts={["image/*"]}
+          clickable
+          className="btn btn-outline-primary"
+          onChange={(f) => uploadFile(f)}
+        >
+          {img ? "Replace" : "Upload File"}
+        </Files>
+      </Button>
+      {img ? (
+        <UploadedImage
+          src={`https://ipfs.near.social/ipfs/${img}`}
+          alt="Image Preview"
+        />
+      ) : props.image ? (
+        <Widget
+          src="${alias_mob}/widget/Image"
+          loading=""
+          props={{ image: props.image, style: { height: 40, width: 40 } }}
+        />
+      ) : (
+        ""
+      )}
+    </ButtonContainer>
   </UploadContainer>
 );
