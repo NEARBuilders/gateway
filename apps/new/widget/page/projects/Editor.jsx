@@ -102,7 +102,7 @@ const [showSuccessModal, setShowSuccessModal] = useState(false);
 const [roles, setRoles] = useState([]);
 const [currentScreen, setCurrentScreen] = useState(1);
 const [projectIdForSocialDB, setProjectId] = useState(null); // for edit changes
-const [contributorSearchTerm,setContributorSearch] = useState('')
+const [contributorSearchTerm, setContributorSearch] = useState("");
 
 function removeWhiteSpace(str) {
   return str.replace(/\s/g, "-").toLowerCase();
@@ -566,9 +566,7 @@ const SecondScreen = () => {
             <label className="mb-1">Contributors</label>
             <Typeahead
               multiple
-              options={
-                getSuggestiveAccounts() 
-              }
+              options={getSuggestiveAccounts()}
               allowNew
               placeholder="efiz.near, james.near"
               selected={contributors}
