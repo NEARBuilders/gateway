@@ -23,6 +23,7 @@ const GridCard = styled.div`
   gap: 24px;
   color: var(--text-color, #fff);
 
+  border: 0.5px solid rgba(255, 255, 255, 0.2);
   .info {
     display: flex;
     align-items: flex-start;

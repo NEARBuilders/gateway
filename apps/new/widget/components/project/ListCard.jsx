@@ -16,7 +16,7 @@ const { ProfileImages } = VM.require(
 const Card = styled.div`
   border-radius: 16px;
   background: var(--bg-2, #23242b);
-
+  border: 0.5px solid rgba(255, 255, 255, 0.2);
   display: flex;
   align-items: flex-start;
   flex-grow: 1;
