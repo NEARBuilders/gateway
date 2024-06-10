@@ -173,6 +173,10 @@ const CSS = styled.div`
     color: #fff;
   }
 
+  .rbt-input-multi {
+    padding: 12px !important;
+  }
+
   .placeholder-glow {
     background: var(--bg-1, black);
   }
