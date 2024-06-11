@@ -82,6 +82,7 @@ const Subheading = styled.h2`
 
   @media screen and (max-width: 500px) {
     font-size: 14px;
+    font-weight: normal;
   }
 `;
 
