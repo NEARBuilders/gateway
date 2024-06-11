@@ -88,8 +88,8 @@ const Subheading = styled.h2`
 
 const CardSection = styled.div`
   padding: 0 54px 94px 54px;
-  display: flex;
-  /* grid-template-columns: repeat(3, minmax(0, 1fr)); */
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 12px;
   flex-direction: column;
 
@@ -266,6 +266,10 @@ const HeroCard = styled.div`
   }
 `;
 
+const ExploreContainer = styled.div`
+  height: 100vh;
+`;
+
 const Hero = () => {
   return (
     <HeroContainer>
@@ -283,39 +287,17 @@ const Hero = () => {
         </div>
       </HeadingSection>
       <CardSection>
-        {/* <Card>
+        <Card>
           <div className="card-content d-flex flex-column gap-2">
-            <p className="subheading">What do we build?</p>
-            <h3 className="heading">Supporting useful integrations</h3>
+            <h3 className="heading">Explore</h3>
             <p className="subheading">
-              We build versatile applications, including Canvas, Profiles,
-              Video, Events, Tasks, and more, support and practical examples.
+              Learn with our Social Graph of Build Commons.
             </p>
-            <Button
-              variant="primary"
-              className="mt-3"
-              style={{
-                width: "max-content",
-                zIndex: 2,
-              }}
-              href="${alias_gateway_url}/${alias_old}/widget/app?page=library"
-            >
-              See Library
-            </Button>
+            <ExploreContainer>
+              <Widget src="${config_account}/widget/page.home.hero.SocialGraph" />
+            </ExploreContainer>
           </div>
-
-          <img
-            className="library-img"
-            src="https://ipfs.near.social/ipfs/bafkreiaswjxjtiwthuzyvhn3l2llxat5hlb72sytgeipmifdllhmbigos4"
-            style={{
-              objectFit: "cover",
-              width: "100%",
-              marginTop: -104,
-              borderRadius: "0 0 24px 24px",
-              zIndex: 0,
-            }}
-          />
-        </Card> */}
+        </Card>
         <Card style={{ overflow: "hidden", background: "transparent" }}>
           <div className="p-3 d-flex align-items-center gap-2 mb-3 justify-content-center">
             <span className="title" onMo>
@@ -359,7 +341,7 @@ const Hero = () => {
               }}
             />
           </div>
-          {/* <div className="d-flex gap-2 mt-5">
+          <div className="d-flex gap-2 mt-5">
             <img
               src="https://ipfs.near.social/ipfs/bafkreihgdagkoa2z5wkl5z34oegifo2spqnowq42hyehqib6ibw7hfrx6q"
               style={{ width: "50%", objectFit: "cover" }}
@@ -371,9 +353,9 @@ const Hero = () => {
               <p className="title m-0">Builders</p>
               <p className="content m-0">+70</p>
             </HeroCard>
-          </div> */}
+          </div>
         </Card>
-        {/* <Card>
+        <Card>
           <div className="card-content d-flex flex-column gap-2">
             <img
               src="https://ipfs.near.social/ipfs/bafkreige23waoznoljipikqdmtcuupniatrxftyy5lglua63nacjpgw5se"
@@ -403,7 +385,7 @@ const Hero = () => {
               borderRadius: "0 0 24px 24px",
             }}
           />
-        </Card> */}
+        </Card>
       </CardSection>
     </HeroContainer>
   );
