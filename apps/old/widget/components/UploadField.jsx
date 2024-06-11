@@ -1,5 +1,22 @@
-const { Button } = VM.require("${config_account}/widget/components.Button") || {
-  Button: () => <></>,
+const [img, setImg] = useState("");
+const [msg, setMsg] = useState("Upload");
+const uploadFile = (files) => {
+  setMsg("Uploading...");
+  asyncFetch("https://ipfs.near.social/add", {
+    method: "POST",
+    headers: { Accept: "application/json" },
+    body: files[0],
+  })
+    .catch((e) => {
+      console.error(e);
+      setMsg("Failed to upload");
+    })
+    .then((res) => {
+      setImg(res.body.cid);
+      props.setImage({
+        ipfs_cid: res.body.cid,
+      });
+    });
 };
 
 const UploadContainer = styled.div`
@@ -45,25 +62,75 @@ const UploadContainer = styled.div`
     font-size: 2rem;
   }
 `;
+const Button = styled.div`
+  .btn {
+    all: unset;
+    display: inline-flex;
+    padding: 10px 20px;
+    justify-content: center;
+    align-items: center;
+    gap: 4px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: normal;
+    font-family: "Poppins", sans-serif;
+    transition: all 300ms;
+    background: var(--button-outline-bg, transparent);
+    color: var(--button-outline-color, #fff);
+    color: ${props.theme === "light" ? "black" : ""};
+    border: 1px solid var(--stroke-color, rgba(255, 255, 255, 0.2));
+    &:hover:not(:disabled) {
+      background: var(--button-outline-hover-bg, rgba(255, 255, 255, 0.2));
+      cursor: pointer;
+    }
+  }
+`;
+const ButtonContainer = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 16px;
+`;
 
-function UploadField({ background }) {
-  return (
-    <UploadContainer background={background}>
-      <i class="bi bi-cloud-upload"></i>
-      <div className="d-flex flex-column gap-2">
-        <p>Choose a file or drag & drop it here.</p>
-        <p className="secondary">
-          JPEG, PNG, PDF, and MP4 formats, up to 50 MB.
-        </p>
-      </div>
-      <Button
-        variant="outline"
-        style={{ background: background && "var(--bg-2,#23242B)" }}
-      >
-        Browse Files
+const UploadedImage = styled.img`
+  height: 40px;
+  width: 40px;
+  border-radius: 16px;
+`;
+
+return (
+  <UploadContainer background={background}>
+    <i class="bi bi-cloud-upload"></i>
+    <div className="d-flex flex-column gap-2">
+      <p>Choose a file or drag & drop it here.</p>
+      <p className="secondary">JPEG, PNG, PDF, and MP4 formats, up to 50 MB.</p>
+    </div>
+    <ButtonContainer>
+      <Button>
+        <Files
+          multiple={false}
+          accepts={["image/*"]}
+          clickable
+          className="btn btn-outline-primary"
+          onChange={(f) => uploadFile(f)}
+        >
+          {img ? "Replace" : "Upload File"}
+        </Files>
       </Button>
-    </UploadContainer>
-  );
-}
-
-return { UploadField };
+      {img ? (
+        <UploadedImage
+          src={`https://ipfs.near.social/ipfs/${img}`}
+          alt="Image Preview"
+        />
+      ) : props.image ? (
+        <Widget
+          src="${alias_mob}/widget/Image"
+          loading=""
+          props={{ image: props.image, style: { height: 40, width: 40 } }}
+        />
+      ) : (
+        ""
+      )}
+    </ButtonContainer>
+  </UploadContainer>
+);

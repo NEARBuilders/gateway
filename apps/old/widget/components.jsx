@@ -7,9 +7,6 @@ const { Step } = VM.require("${config_account}/widget/components.Step");
 const { InputField } = VM.require(
   "${config_account}/widget/components.InputField",
 );
-const { UploadField } = VM.require(
-  "${config_account}/widget/components.UploadField",
-);
 const { TextBox } = VM.require("${config_account}/widget/components.TextBox");
 const { TextEditor } = VM.require(
   "${config_account}/widget/components.TextEditor",
@@ -71,7 +68,6 @@ return {
   Step,
   Hashtag,
   InputField,
-  UploadField,
   TextBox,
   TextEditor,
   Checkbox,

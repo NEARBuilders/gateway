@@ -125,7 +125,7 @@ useEffect(() => {
     const {
       name,
       description,
-      profileImage,
+      image,
       backgroundImage,
       linktree,
       plTeam,
@@ -151,7 +151,7 @@ useEffect(() => {
           : `https://${website}`
         : null,
     );
-    setAvatar(profileImage);
+    setAvatar(image);
     setCoverImage(backgroundImage);
     setProjectAccount(poltlockProjectId);
     setTags(
@@ -658,7 +658,7 @@ const SecondScreen = () => {
         <div className="form-group mb-3">
           <label className="pb-2">Avatar</label>
           <Widget
-            src="${alias_old}/widget/components.ImageUploader"
+            src="${alias_old}/widget/components.UploadField"
             props={{
               image: avatar,
               onChange: (image) => setAvatar({ image }),
@@ -668,7 +668,7 @@ const SecondScreen = () => {
         <div className="form-group mb-3">
           <label className="pb-2">Cover Image</label>
           <Widget
-            src="${alias_old}/widget/components.ImageUploader"
+            src="${alias_old}/widget/components.UploadField"
             props={{
               image: coverImage,
               onChange: (image) => setCoverImage({ image }),
