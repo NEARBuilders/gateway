@@ -61,10 +61,9 @@ const starredProjectIds = starredProjects.map(
   (project) => project.split("/")[2],
 );
 
-const projects =
-  fetchProjects().filter((project) =>
-    starredProjectIds.includes(project.projectID),
-  );
+const projects = fetchProjects().filter((project) =>
+  starredProjectIds.includes(project.projectID),
+);
 
 return (
   <Widget
