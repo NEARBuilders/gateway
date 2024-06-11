@@ -32,7 +32,7 @@ const Sidebar = styled.div`
   flex-direction: column;
   align-items: flex-start;
   gap: 12px;
-  margin-right: 1rem;
+
   flex-shrink: 0;
 
   @media screen and (max-width: 768px) {
@@ -73,6 +73,7 @@ const RouteLabel = styled.p`
 const Container = styled.div`
   border-radius: 16px;
   border: 1px solid #23242b;
+  margin-right: 1rem;
   @media screen and (max-width: 768px) {
     display: flex;
     overflow: scroll;
@@ -110,7 +111,6 @@ const Content = styled.div`
   flex-direction: column;
   align-items: flex-start;
   gap: 12px;
-  margin-right: 1rem;
   flex-shrink: 0;
 `;
 
@@ -192,6 +192,9 @@ return (
         data-bs-toggle="offcanvas"
         data-bs-target="#offcanvasExample"
         aria-controls="offcanvasExample"
+        style={{
+          width: "70vw",
+        }}
       >
         Menu
         <svg
