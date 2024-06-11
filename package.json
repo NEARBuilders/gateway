@@ -20,6 +20,9 @@
     "test": "npx playwright test",
     "lint": "eslint src --ext js,jsx --report-unused-disable-directives --max-warnings 0"
   },
+  "simple-git-hooks": {
+    "pre-commit": "npm run fmt"
+  },
   "dependencies": {
     "@keypom/selector": "1.2.3",
     "@monaco-editor/react": "^4.4.6",
@@ -131,6 +134,7 @@
     "raw-loader": "^4.0.2",
     "sass": "^1.66.1",
     "sass-loader": "^13.1.0",
+    "simple-git-hooks": "^2.11.1",
     "stream-browserify": "^3.0.0",
     "stream-http": "^3.2.0",
     "style-loader": "^3.2.1",
