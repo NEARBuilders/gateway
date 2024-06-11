@@ -199,7 +199,10 @@ return (
               Create Project
             </Button>
           )}
-          {showOpenRoles && <Button>Open Roles</Button>}
+          {/*
+            Commenting out until roles feature is included
+           {showOpenRoles && <Button>Open Roles</Button>}
+           */}
         </div>
       </div>
       <p>{description}</p>

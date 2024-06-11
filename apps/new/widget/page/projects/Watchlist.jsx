@@ -13,12 +13,9 @@ if (!context.accountId) {
 const { fetchProjects } = VM.require(
   "${config_account}/widget/lib.projects",
 ) || {
-  fetchProjects: () => {},
+  fetchProjects: () => [],
 };
 
-if (!fetchProjects) {
-  return "";
-}
 const stars = Social.getr(
   `${context.accountId}/graph/star/*/project`,
   "final",
@@ -67,11 +64,7 @@ const starredProjectIds = starredProjects.map(
 const projects =
   fetchProjects().filter((project) =>
     starredProjectIds.includes(project.projectID),
-  ) || [];
-
-if (!projects) {
-  return "";
-}
+  );
 
 return (
   <Widget

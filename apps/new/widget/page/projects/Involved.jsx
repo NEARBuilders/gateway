@@ -13,14 +13,10 @@ if (!context.accountId) {
 const { fetchProjects } = VM.require(
   "${config_account}/widget/lib.projects",
 ) || {
-  fetchProjects: () => {},
+  fetchProjects: () => [],
 };
 
-if (!fetchProjects) {
-  return "";
-}
-
-const projects = fetchProjects() || [];
+const projects = fetchProjects();
 
 projects = projects.filter((project) =>
   project.contributors.includes(context.accountId),
