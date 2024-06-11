@@ -5,18 +5,10 @@ const { Button } = VM.require("${alias_old}/widget/components") || {
 const { fetchProjects } = VM.require(
   "${config_account}/widget/lib.projects",
 ) || {
-  fetchProjects: () => {},
+  fetchProjects: () => [],
 };
 
-if (!fetchProjects) {
-  return "";
-}
-
-const projects = fetchProjects() || [];
-
-if (!projects) {
-  return "";
-}
+const projects = fetchProjects();
 
 return (
   <Widget
