@@ -73,7 +73,7 @@ const fetchProjects = (props) => {
   const data = fetchThings(props, app, type);
 
   if (!data) {
-    return "Loading...";
+    return [];
   }
 
   return processData(data, type);
