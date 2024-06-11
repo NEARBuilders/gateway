@@ -33,8 +33,8 @@ return (
   <HomeContainer>
     <Hero />
     <Build />
-    <BuildSomething />
-    <Cards />
+    {/* <BuildSomething />
+    <Cards /> */}
     <CTA />
   </HomeContainer>
 );

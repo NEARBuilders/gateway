@@ -90,6 +90,14 @@ const config = {
         },
         hide: true,
       },
+      inspect: {
+        path: "${config_account}/widget/page.inspect.Index",
+        blockHeight: "final",
+        init: {
+          name: "Inspect",
+        },
+        hide: true,
+      },
     },
   },
 };

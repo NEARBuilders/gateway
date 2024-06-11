@@ -19,6 +19,10 @@ const NavContainer = styled.div`
   background-color: var(--bg, #000);
   border-bottom: 1px solid var(--stroke-color, rgba(255, 255, 255, 0.2));
 
+  @media screen and (max-width: 768px) {
+    border: none;
+  }
+
   .grey-btn {
     display: flex;
     align-items: center;
