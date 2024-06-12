@@ -7,10 +7,9 @@ const { ProjectCard } = VM.require(
 ) || {
   ProjectCard: () => <></>,
 };
-const { ListCard } = VM.require(
-  "${config_account}/widget/components.project.ListCard",
-) || {
-  ListCard: () => <></>,
+
+const { href } = VM.require("${alias_devs}/widget/lib.url") || {
+  href: () => {},
 };
 
 const projects = props.projects ?? [];
@@ -267,19 +266,53 @@ return (
         {view === "grid" ? (
           <Container>
             {filteredProjects.map((project) => (
-              <ProjectCard
-                data={project}
-                showEditProjectAction={showEditProjectAction}
-              />
+              <Link
+                href={href({
+                  widgetSrc: `${config_index}`,
+                  params: {
+                    page: "project",
+                    id: `${project.accountId}/project/${project.projectID}`,
+                    tab: "overview",
+                  },
+                })}
+                style={{
+                  textDecoration: "none",
+                  display: "flex",
+                  flexGrow: "1",
+                }}
+              >
+                <ProjectCard
+                  data={project}
+                  variant="grid"
+                  showEditProjectAction={showEditProjectAction}
+                />
+              </Link>
             ))}
           </Container>
         ) : (
           <div className="d-flex flex-column gap-3">
             {filteredProjects.map((project) => (
-              <ListCard
-                data={project}
-                showEditProjectAction={showEditProjectAction}
-              />
+              <Link
+                href={href({
+                  widgetSrc: `${config_index}`,
+                  params: {
+                    page: "project",
+                    id: `${project.accountId}/project/${project.projectID}`,
+                    tab: "overview",
+                  },
+                })}
+                style={{
+                  textDecoration: "none",
+                  display: "flex",
+                  flexGrow: "1",
+                }}
+              >
+                <ProjectCard
+                  data={project}
+                  variant="list"
+                  showEditProjectAction={showEditProjectAction}
+                />
+              </Link>
             ))}
           </div>
         )}
