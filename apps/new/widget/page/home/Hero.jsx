@@ -779,7 +779,7 @@ const Hero = () => {
         <div className="d-flex align-items-center gap-4 hero-btns">
           <Button
             className="hero-button"
-            href="${config_account}/widget/Index?page=projects"
+            href={"${alias_gateway_url}?page=projects"}
           >
             Start Project
           </Button>

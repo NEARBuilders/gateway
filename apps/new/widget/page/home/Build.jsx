@@ -308,7 +308,7 @@ const Build = () => {
             style={{
               minWidth: "fit-content",
             }}
-            href="${config_account}/widget/Index?page=resources&tab=gettingStarted"
+            href={"${alias_gateway_url}?page=resources&tab=gettingStarted"}
           >
             <WorkspaceDocsSVG />
             Workspace Docs
