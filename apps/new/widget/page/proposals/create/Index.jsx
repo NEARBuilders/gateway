@@ -1,4 +1,4 @@
-const { daos } = VM.require("${config_account}/widget/fetch.daos") || {
+const { daos } = VM.require("${config_account}/widget/lib.daos") || {
   daos: [],
 };
 
@@ -8,7 +8,7 @@ if (!daos) {
 const options = daos.map((dao) => dao.contract_id);
 
 const { Modal, Button, User } = VM.require(
-  "${config_account}/widget/components",
+  "${alias_old}/widget/components",
 ) || {
   Modal: () => <></>,
   Button: () => <></>,
@@ -71,6 +71,7 @@ return (
     onOpenChange={toggleModal}
     toggle={toggle}
     key={`${props.item.path}@${props.item.blockHeight}`}
+    disableOutsideClick={true}
   >
     <div className="d-flex align-items-center justify-content-between mb-3">
       <div className="d-flex flex-column align-items-start">
@@ -128,7 +129,8 @@ return (
       {selectedOption === "text" && (
         <>
           <Widget
-            src="${config_account}/widget/components.modals.propose.Text"
+            loading=""
+            src="${config_account}/widget/page.proposals.create.Text"
             props={{
               selectedDAO: selectedDAO,
               item: props.item,
@@ -141,7 +143,8 @@ return (
       {selectedOption === "transfer" && (
         <>
           <Widget
-            src="${config_account}/widget/components.modals.propose.Transfer"
+            loading=""
+            src="${config_account}/widget/page.proposals.create.Transfer"
             props={{
               selectedDAO: selectedDAO,
               item: props.item,
@@ -154,7 +157,8 @@ return (
       {selectedOption === "functionCall" && (
         <>
           <Widget
-            src="${config_account}/widget/components.modals.propose.FunctionCall"
+            loading=""
+            src="${config_account}/widget/page.proposals.create.FunctionCall"
             props={{
               selectedDAO: selectedDAO,
               item: props.item,
@@ -167,7 +171,8 @@ return (
       {selectedOption === "addMember" && (
         <>
           <Widget
-            src="${config_account}/widget/components.modals.propose.AddMember"
+            loading=""
+            src="${config_account}/widget/page.proposals.create.AddMember"
             props={{
               roles: roles,
               selectedDAO: selectedDAO,
@@ -181,7 +186,8 @@ return (
       {selectedOption === "removeMember" && (
         <>
           <Widget
-            src="${config_account}/widget/components.modals.propose.RemoveMember"
+            loading=""
+            src="${config_account}/widget/page.proposals.create.RemoveMember"
             props={{
               roles: roles,
               selectedDAO: selectedDAO,

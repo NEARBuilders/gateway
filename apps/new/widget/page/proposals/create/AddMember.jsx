@@ -1,26 +1,30 @@
-const { Button } = VM.require("${config_account}/widget/components") || {
+const { Button } = VM.require("${alias_old}/widget/components") || {
   Button: () => <></>,
 };
 const { ProposalVisibilityInfoModal } = VM.require(
-  "${config_account}/widget/components.modals.propose.ProposalVisibilityInfoModal",
+  "${config_account}/widget/page.proposals.VisibilityInfoModal",
 ) || {
   ProposalVisibilityInfoModal: () => <></>,
 };
-const DaoSDK = VM.require("sdks.near/widget/SDKs.Sputnik.DaoSDK") || (() => {});
+const DaoSDK =
+  VM.require("sdks.near/widget/SDKs.Sputnik.DaoSDK") || (() => <></>);
 
-const [contract, setContract] = useState("");
-const [method, setMethod] = useState("");
-const [args, setArgs] = useState("{}");
-const [gas, setGas] = useState(180000000000000);
-const [deposit, setDeposit] = useState(0);
-const [validatedAddresss, setValidatedAddress] = useState(true);
-const [text, setText] = useState("");
-const [editorKey, setEditorKey] = useState(0);
-const [notificationsData, setNotificationData] = useState(null);
+const [accountId, setAccountId] = useState("");
+const [role, setRole] = useState("");
 const [isInfoModalActive, setInfoModalActive] = useState(false);
 
-const bootstrapTheme = props.bootstrapTheme;
+const roles = props.roles;
+const selectedDAO = props.selectedDAO;
 
+const sdk = DaoSDK(selectedDAO);
+if (!sdk) {
+  return <></>;
+}
+
+const [text, setText] = useState("");
+const [editorKey, setEditorKey] = useState(0);
+
+const bootstrapTheme = props.bootstrapTheme;
 useEffect(() => {
   if (!props.item) {
     return;
@@ -30,20 +34,17 @@ useEffect(() => {
   setEditorKey((editorKey) => editorKey + 1);
 }, [props.item]);
 const memoizedKey = useMemo((editorKey) => editorKey, [editorKey]);
-const selectedDAO = props.selectedDAO;
-const sdk = DaoSDK(selectedDAO);
-if (!sdk) {
-  return <></>;
-}
+const [validatedAddresss, setValidatedAddresss] = useState(true);
+const [notificationsData, setNotificationData] = useState(null);
 
 const regex = /.{1}\.near$/;
 useEffect(() => {
-  if (regex.test(contract) || contract === "") {
-    setValidatedAddress(true);
+  if (regex.test(accountId) || accountId === "") {
+    setValidatedAddresss(true);
   } else {
-    setValidatedAddress(false);
+    setValidatedAddresss(false);
   }
-}, [contract]);
+});
 
 const MarkdownEditor = `
   html {
@@ -175,13 +176,10 @@ const TextareaWrapper = styled.div`
 `;
 
 const sdkCall = () => {
-  sdk.createFunctionCallProposal({
+  sdk.createAddMemberProposal({
     description: text,
-    receiverId: contract,
-    methodName: method,
-    args: args,
-    proposalDeposit: deposit,
-    proposalGas: gas,
+    memberId: accountId,
+    roleId: role,
     gas: 180000000000000,
     deposit: 200000000000000,
     additionalCalls: notificationsData,
@@ -191,16 +189,16 @@ const sdkCall = () => {
 return (
   <div className="d-flex flex-column">
     <div className="form-group mb-3">
-      <label htmlFor="contract">
-        Contract<span className="text-danger">*</span>
+      <label htmlFor="accountId">
+        Account ID<span className="text-danger">*</span>
       </label>
       <input
-        name="contract"
-        id="contract"
-        data-bs-theme={bootstrapTheme}
-        value={contract}
-        onChange={(e) => setContract(e.target.value)}
+        name="accountId"
+        id="accountId"
         className="form-control"
+        data-bs-theme={bootstrapTheme}
+        value={accountId}
+        onChange={(e) => setAccountId(e.target.value)}
       />
       {!validatedAddresss && (
         <span className="text-danger" style={{ fontSize: 12 }}>
@@ -208,62 +206,34 @@ return (
         </span>
       )}
     </div>
+
     <div className="form-group mb-3">
-      <label htmlFor="method">
-        Method<span className="text-danger">*</span>
+      <label htmlFor="role">
+        Role<span className="text-danger">*</span>
       </label>
-      <input
-        name="method"
-        id="method"
+      <select
+        name="role"
+        id="role"
         data-bs-theme={bootstrapTheme}
-        value={method}
-        onChange={(e) => setMethod(e.target.value)}
-        className="form-control"
-      />
+        class="form-select"
+        onChange={(e) => setRole(e.target.value)}
+        selected={role}
+      >
+        <option value="">Select a role</option>
+        {roles.length > 0 &&
+          roles.map((role) => <option value={role}>{role}</option>)}
+      </select>
     </div>
+
     <div className="form-group mb-3">
-      <label htmlFor="args">Arguments (JSON)</label>
-      <textarea
-        name="args"
-        id="args"
-        data-bs-theme={bootstrapTheme}
-        value={args}
-        onChange={(e) => setArgs(e.target.value)}
-        className="form-control"
-      />
-    </div>
-    <div className="form-group mb-3">
-      <label htmlFor="gas">Gas</label>
-      <input
-        name="gas"
-        id="gas"
-        type="number"
-        data-bs-theme={bootstrapTheme}
-        value={gas}
-        onChange={(e) => setGas(e.target.value)}
-        className="form-control"
-      />
-    </div>
-    <div className="form-group mb-3">
-      <label htmlFor="deposit">Deposit</label>
-      <input
-        name="deposit"
-        id="deposit"
-        type="number"
-        data-bs-theme={bootstrapTheme}
-        value={deposit}
-        onChange={(e) => setDeposit(e.target.value)}
-        className="form-control"
-      />
-    </div>
-    <div className="form-group mb-3">
-      <label>Proposal Description</label>
+      <label htmlFor="description">Proposal Description</label>
       <TextareaWrapper
         className="markdown-editor mb-3"
         data-value={text || ""}
         key={memoizedKey}
       >
         <Widget
+          loading=""
           src="${alias_mob}/widget/MarkdownEditorIframe"
           props={{
             initialText: text,
@@ -276,31 +246,32 @@ return (
       </TextareaWrapper>
     </div>
     <Widget
-      src="${config_account}/widget/Notification.NotificationRolesSelector"
+      loading=""
+      src="${config_account}/widget/page.proposals.NotificationRolesSelector"
       props={{
         daoId: selectedDAO,
         onUpdate: (v) => {
           setNotificationData(v);
         },
-        proposalType: "Function Call",
+        proposalType: "Add Member",
       }}
     />
     <div className="w-100 d-flex">
       <Button
-        disabled={!contract || !method || !validatedAddresss}
         className="ms-auto"
         variant="primary"
+        disabled={!accountId || !role || !validatedAddresss}
         onClick={() => {
           setInfoModalActive(true);
         }}
       >
         Create
       </Button>
-      <ProposalVisibilityInfoModal
-        open={isInfoModalActive}
-        setInfoModalActive={setInfoModalActive}
-        sdkCall={sdkCall}
-      />
     </div>
+    <ProposalVisibilityInfoModal
+      open={isInfoModalActive}
+      setInfoModalActive={setInfoModalActive}
+      sdkCall={sdkCall}
+    />
   </div>
 );

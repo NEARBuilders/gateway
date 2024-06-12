@@ -1,9 +1,9 @@
-const { Button, Modal } = VM.require("${config_account}/widget/components") || {
+const { Button, Modal } = VM.require("${alias_old}/widget/components") || {
   Button: <></>,
   Modal: <></>,
 };
 
-const { Header } = VM.require("${config_account}/widget/components.Header") || {
+const { Header } = VM.require("${alias_old}/widget/components.Header") || {
   Header: () => <></>,
 };
 const DaoSDK = VM.require("sdks.near/widget/SDKs.Sputnik.DaoSDK") || (() => {});
@@ -157,7 +157,8 @@ const handleVote = ({ action, proposalId, proposer, showNotification }) => {
                 proposalId: proposalId,
               },
               type: "custom",
-              widget: "${config_account}/widget/Proposals",
+              widget:
+                "${config_account}/widget/Index?page=activity&tab=proposals",
             },
           },
         ]),
@@ -285,7 +286,8 @@ const proposalsComponent = useMemo(() => {
 
           return (
             <Widget
-              src="${config_account}/widget/components.ProposalCard"
+              loading=""
+              src="${config_account}/widget/page.proposals.Card"
               props={{
                 proposalData: {
                   ...item,
@@ -320,14 +322,16 @@ return (
   <ThemeContainer>
     <Container className="d-flex flex-column gap-4">
       <Widget
-        src="${config_account}/widget/components.modals.CreateProposal"
+        loading=""
+        src="${config_account}/widget/page.proposals.create.Index"
         props={{
           showModal: showProposalModal,
           toggleModal: () => setShowModal(!showProposalModal),
         }}
       />
       <Widget
-        src="${config_account}/widget/components.modals.ProposalsFilters"
+        loading=""
+        src="${config_account}/widget/page.proposals.Filters"
         props={{
           parentSelectedTypes: selectedTypes,
           parentSelectedStatus: selectedStatus,
@@ -362,7 +366,8 @@ return (
       {!proposalId && (
         <div className="d-flex justify-content-center my-4">
           <Widget
-            src={"${config_account}/widget/components.Pagination"}
+            loading=""
+            src={"${alias_old}/widget/components.Pagination"}
             props={{
               maxVisiblePages: 5,
               totalPages:

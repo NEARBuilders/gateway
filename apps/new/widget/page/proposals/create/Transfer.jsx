@@ -1,30 +1,27 @@
-const { Button } = VM.require("${config_account}/widget/components") || {
+const { Button } = VM.require("${alias_old}/widget/components") || {
   Button: () => <></>,
 };
 const { ProposalVisibilityInfoModal } = VM.require(
-  "${config_account}/widget/components.modals.propose.ProposalVisibilityInfoModal",
+  "${config_account}/widget/page.proposals.VisibilityInfoModal",
 ) || {
   ProposalVisibilityInfoModal: () => <></>,
 };
-const DaoSDK =
-  VM.require("sdks.near/widget/SDKs.Sputnik.DaoSDK") || (() => <></>);
-const [accountId, setAccountId] = useState("");
-const [role, setRole] = useState("");
+const DaoSDK = VM.require("sdks.near/widget/SDKs.Sputnik.DaoSDK") || (() => {});
+
+const [recipient, setRecipient] = useState("");
+const [token, setToken] = useState("");
+const [amount, setAmount] = useState(0);
+const [description, setDescription] = useState("");
+const [validatedAddresss, setValidatedAddress] = useState(true);
 const [isInfoModalActive, setInfoModalActive] = useState(false);
+const [copied, setCopied] = useState(false);
 
-const roles = props.roles;
-const selectedDAO = props.selectedDAO;
-
-const sdk = DaoSDK(selectedDAO);
-if (!sdk) {
-  return <></>;
-}
+const bootstrapTheme = props.bootstrapTheme;
 
 const [text, setText] = useState("");
 const [editorKey, setEditorKey] = useState(0);
 const [notificationsData, setNotificationData] = useState(null);
 
-const bootstrapTheme = props.bootstrapTheme;
 useEffect(() => {
   if (!props.item) {
     return;
@@ -34,16 +31,48 @@ useEffect(() => {
   setEditorKey((editorKey) => editorKey + 1);
 }, [props.item]);
 const memoizedKey = useMemo((editorKey) => editorKey, [editorKey]);
-const [validatedAddresss, setValidatedAddresss] = useState(true);
+const selectedDAO = props.selectedDAO;
+const sdk = DaoSDK(selectedDAO);
+if (!sdk) {
+  return <></>;
+}
 
+const res = fetch(`https://api.nearblocks.io/v1/account/${selectedDAO}/tokens`);
+const NearTokenId = "NEAR";
+const tokensData = [
+  {
+    decimals: 24,
+    icon: "",
+    name: "NEAR",
+    symbol: "NEAR",
+    tokenId: NearTokenId,
+  },
+];
+if (res.body) {
+  res.body?.tokens?.fts.map((item) => {
+    const ftMetadata = Near.view(item, "ft_metadata", {});
+    if (ftMetadata === null) {
+      return;
+    }
+    tokensData.push({ ...ftMetadata, tokenId: item });
+  });
+}
+
+// handle checking
 const regex = /.{1}\.near$/;
 useEffect(() => {
-  if (regex.test(accountId) || accountId === "") {
-    setValidatedAddresss(true);
+  if (regex.test(recipient) || recipient === "") {
+    setValidatedAddress(true);
   } else {
-    setValidatedAddresss(false);
+    setValidatedAddress(false);
   }
-});
+}, [recipient]);
+
+useEffect(() => {
+  if (amount < 0) {
+    setAmount(0);
+  }
+}, [amount]);
 
 const MarkdownEditor = `
   html {
@@ -175,10 +204,13 @@ const TextareaWrapper = styled.div`
 `;
 
 const sdkCall = () => {
-  sdk.createRemoveMemberProposal({
+  sdk.createTransferProposal({
     description: text,
-    memberId: accountId,
-    roleId: role,
+    tokenId: token === NearTokenId ? "" : token,
+    receiverId: recipient,
+    amount: amountInYocto,
+    gas,
+    deposit,
     gas: 180000000000000,
     deposit: 200000000000000,
     additionalCalls: notificationsData,
@@ -188,16 +220,17 @@ const sdkCall = () => {
 return (
   <div className="d-flex flex-column">
     <div className="form-group mb-3">
-      <label htmlFor="accountId">
-        Account ID<span className="text-danger">*</span>
+      <label htmlFor="recipient">
+        Recipient<span className="text-danger">*</span>
       </label>
       <input
-        name="accountId"
-        id="accountId"
         className="form-control"
+        name="recipient"
+        id="recipient"
+        placeholder="NEAR Address"
+        value={recipient}
         data-bs-theme={bootstrapTheme}
-        value={accountId}
-        onChange={(e) => setAccountId(e.target.value)}
+        onChange={(e) => setRecipient(e.target.value)}
       />
       {!validatedAddresss && (
         <span className="text-danger" style={{ fontSize: 12 }}>
@@ -205,37 +238,47 @@ return (
         </span>
       )}
     </div>
-
     <div className="form-group mb-3">
-      <label htmlFor="role">
-        Role<span className="text-danger">*</span>
+      <label htmlFor="token">
+        Token<span className="text-danger">*</span>
       </label>
       <select
-        name="role"
-        id="role"
-        data-bs-theme={bootstrapTheme}
         class="form-select"
-        onChange={(e) => setRole(e.target.value)}
-        selected={role}
+        name="token"
+        id="token"
+        value={token}
+        data-bs-theme={bootstrapTheme}
+        onChange={(e) => setToken(e.target.value)}
       >
-        <option value="">Select a role</option>
-        {roles.length > 0 &&
-          roles.map((role) => (
-            <option key={`RemoveMember-${selectedDAO}-${role}`} value={role}>
-              {role}
-            </option>
-          ))}
+        <option value="">Select a token</option>
+        {tokensData?.map((item) => {
+          return <option value={item.tokenId}>{item.symbol}</option>;
+        })}
       </select>
     </div>
-
     <div className="form-group mb-3">
-      <label htmlFor="description">Proposal Description</label>
+      <label htmlFor="amount">
+        Amount<span className="text-danger">*</span>
+      </label>
+      <input
+        className="form-control"
+        name="amount"
+        id="amount"
+        type="number"
+        value={amount}
+        data-bs-theme={bootstrapTheme}
+        onChange={(e) => setAmount(e.target.value)}
+      />
+    </div>
+    <div className="form-group mb-3">
+      <label>Proposal Description</label>
       <TextareaWrapper
         className="markdown-editor mb-3"
         data-value={text || ""}
         key={memoizedKey}
       >
         <Widget
+          loading=""
           src="${alias_mob}/widget/MarkdownEditorIframe"
           props={{
             initialText: text,
@@ -248,21 +291,26 @@ return (
       </TextareaWrapper>
     </div>
     <Widget
-      src="${config_account}/widget/Notification.NotificationRolesSelector"
+      loading=""
+      src="${config_account}/widget/page.proposals.NotificationRolesSelector"
       props={{
         daoId: selectedDAO,
         onUpdate: (v) => {
           setNotificationData(v);
         },
-        proposalType: "Remove Member",
+        proposalType: "Add Member",
       }}
     />
-    <div className="d-flex w-100">
+    <div className="w-100 d-flex">
       <Button
+        disabled={!token || !recipient || !amount || !validatedAddresss}
         className="ms-auto"
         variant="primary"
-        disabled={!accountId || !role || !validatedAddresss}
         onClick={() => {
+          let ftMetadata = tokensData.find((item) => item.tokenId === token);
+          const amountInYocto = Big(amount)
+            .mul(Big(10).pow(ftMetadata.decimals))
+            .toFixed();
           setInfoModalActive(true);
         }}
       >
@@ -272,6 +320,8 @@ return (
     <ProposalVisibilityInfoModal
       open={isInfoModalActive}
       setInfoModalActive={setInfoModalActive}
+      copied={copied}
+      setCopied={setCopied}
       sdkCall={sdkCall}
     />
   </div>

@@ -1,10 +1,11 @@
 const DaoSDK = VM.require("sdks.near/widget/SDKs.Sputnik.DaoSDK") || (() => {});
 
-const { InputField } = VM.require("${config_account}/widget/components") || {
+const { InputField } = VM.require("${alias_old}/widget/components") || {
   InputField: <></>,
 };
 
 const [groupsAndMembers, setGroupsAndMembers] = useState([]);
+const[ showList, setShowList] = useState(false)
 const [selectedRoles, setSelectedRoles] = useState({}); // { role:boolean }
 const daoId = props.daoId || "build.sputnik-dao.near";
 const accountId = props.accountId ?? context.accountId;
@@ -24,7 +25,17 @@ const group = sdk.getGroupsAndMembers();
 if (group === null || !group.length) {
   return;
 }
-setGroupsAndMembers(group);
+if(!groupsAndMembers.length){
+  setGroupsAndMembers(group);
+}
+
+useEffect(() => {
+  if(groupsAndMembers.length > 0){
+    setShowList(true)
+  }
+ 
+},[groupsAndMembers])
+
 
 const handleCheckboxChange = (role) => {
   setSelectedRoles((prevRoles) => {
@@ -46,9 +57,11 @@ const ThemeContainer =
   props.ThemeContainer ||
   styled.div`
     --primary-color: rgb(255, 175, 81);
+    --text-color: white;
   `;
 
 const Wrapper = styled.div`
+  color: var(--text-color) !important;
   .checked > span:first-child {
     background: var(--primary-color) !important;
     border-color: var(--primary-color) !important;
@@ -64,6 +77,11 @@ const Wrapper = styled.div`
 
   label {
     font-size: 13px;
+    margin-bottom: 5px;
+  }
+
+  .text {
+    color: var(--text-color) !important;
   }
 `;
 
@@ -98,7 +116,8 @@ const createNotificationsData = () => {
                   page: "proposal",
                 },
                 type: "buildhub/custom",
-                widget: "${config_account}/widget/home",
+                widget:
+                  "${config_account}/widget/Index?page=activity&tab=proposals",
               },
             };
           }),
@@ -136,10 +155,11 @@ const groupList = useMemo(() => {
       return (
         <div key={group}>
           <Widget
+            loading=""
             src="nearui.near/widget/Input.Checkbox"
             props={{
               label: (
-                <div>
+                <div className="text">
                   {capitalizeFirstLetter(group.name)} ({membersLength} members)
                 </div>
               ),
@@ -151,7 +171,7 @@ const groupList = useMemo(() => {
       );
     })
   );
-}, [groupsAndMembers, selectedRoles]);
+}, [showList]);
 
 return (
   <ThemeContainer>
@@ -159,16 +179,17 @@ return (
       <div>Send notification to following roles: (Optional)</div>
       <div>
         <label htmlFor={"notifications-label" + daoId}>Custom Message</label>
-        <input
+        <textarea
           name={"notifications-label" + daoId}
           id={"notifications-label" + daoId}
           className="form-control"
           data-bs-theme={bootstrapTheme}
           value={message}
           onChange={(e) => setMessage(e.target.value)}
+          rows="2"
         />
       </div>
-      <div>{groupList}</div>
+     <div>{groupList}</div>
     </Wrapper>
   </ThemeContainer>
 );
