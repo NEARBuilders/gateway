@@ -16,7 +16,7 @@ const StyledCard = styled.div`
 
   display: flex;
   align-items: flex-start;
-  
+
   gap: 24px;
   color: var(--text-color, #fff);
 
@@ -271,7 +271,7 @@ const ProjectCard = ({ data, variant, showEditProjectAction }) => {
               <Tags tags={tags} location={location} />
               <ProfileImages accountIds={collaborators} />
               <div className="d-flex gap-2 align-items-center">
-                {showEditProjectAction && <EditButton item={item} />} 
+                {showEditProjectAction && <EditButton item={item} />}
                 <Widget
                   src="${config_account}/widget/components.project.StarProject"
                   loading=""
