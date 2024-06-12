@@ -779,7 +779,11 @@ const Hero = () => {
         <div className="d-flex align-items-center gap-4 hero-btns">
           <Button
             className="hero-button"
+<<<<<<< HEAD
             href={`${context.account ? "${config_index}?page=projects" : "${alias_gateway_url}/join"}`}
+=======
+            href={"${alias_gateway_url}?page=projects"}
+>>>>>>> c5b48d1 (URL Update)
           >
             Start Project
           </Button>
