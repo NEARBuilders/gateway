@@ -1110,7 +1110,12 @@ const CTA = () => {
           <MobileText>
             <p>We hope you join us to build better futures for everyone!</p>
           </MobileText>
-          <Button variant="primary">Activity</Button>
+          <Button
+            variant="primary"
+            href="${config_account}/widget/Index?page=activity"
+          >
+            Activity
+          </Button>
         </Content>
       </Container>
     </MainContainer>
