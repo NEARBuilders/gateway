@@ -777,7 +777,10 @@ const Hero = () => {
           Designed to support builders in a multi-chain ecosystem.
         </Subheading>
         <div className="d-flex align-items-center gap-4 hero-btns">
-          <Button className="hero-button" href={"?page=projects&tab=editor"}>
+          <Button
+            className="hero-button"
+            href={`${context.account ? "${config_index}?page=projects" : "${alias_gateway_url}/join"}`}
+          >
             Start Project
           </Button>
           <Button href={"?page=projects"}>Explore Projects</Button>
@@ -848,12 +851,6 @@ const Hero = () => {
             <p className="subheading">
               Engage and grow in real time with Activity Feed
             </p>
-<<<<<<< HEAD
-            {/* <Button variant="primary" href="${config_index}?page=activity">
-              Activity
-            </Button> */}
-=======
->>>>>>> 78f2035 (Landing Page Update 4.0)
           </GrowContainer>
           <GrowImage1 src={GrowBG1} />
           <GrowImage2 src={GrowBG2} />
