@@ -1,4 +1,4 @@
-const { daos } = VM.require("${config_account}/widget/fetch.daos") || {
+const { daos } = VM.require("${config_account}/widget/lib.daos") || {
   daos: [],
 };
 
@@ -7,7 +7,7 @@ if (!daos) {
 }
 const options = daos.map((dao) => dao.contract_id);
 
-const { Modal, Button } = VM.require("${config_account}/widget/components") || {
+const { Modal, Button } = VM.require("${alias_old}/widget/components") || {
   Modal: () => <></>,
   Button: () => <></>,
 };
@@ -177,6 +177,7 @@ return (
                 {proposalTypeOptions[key].map((item) => {
                   return (
                     <Widget
+                      loading=""
                       src="nearui.near/widget/Input.Checkbox"
                       props={{
                         checked: selectedTypes.includes(item.value) || false,
@@ -202,6 +203,7 @@ return (
           {proposalStatusOptions.map((item) => {
             return (
               <Widget
+                loading=""
                 src="nearui.near/widget/Input.Checkbox"
                 props={{
                   checked: selectedStatus.includes(item.value) || false,

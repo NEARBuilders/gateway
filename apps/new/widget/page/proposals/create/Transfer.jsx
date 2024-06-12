@@ -1,25 +1,26 @@
-const { Button } = VM.require("${config_account}/widget/components") || {
+const { Button } = VM.require("${alias_old}/widget/components") || {
   Button: () => <></>,
 };
 const { ProposalVisibilityInfoModal } = VM.require(
-  "${config_account}/widget/components.modals.propose.ProposalVisibilityInfoModal",
+  "${config_account}/widget/page.proposals.VisibilityInfoModal",
 ) || {
   ProposalVisibilityInfoModal: () => <></>,
 };
 const DaoSDK = VM.require("sdks.near/widget/SDKs.Sputnik.DaoSDK") || (() => {});
 
-const [contract, setContract] = useState("");
-const [method, setMethod] = useState("");
-const [args, setArgs] = useState("{}");
-const [gas, setGas] = useState(180000000000000);
-const [deposit, setDeposit] = useState(0);
+const [recipient, setRecipient] = useState("");
+const [token, setToken] = useState("");
+const [amount, setAmount] = useState(0);
+const [description, setDescription] = useState("");
 const [validatedAddresss, setValidatedAddress] = useState(true);
+const [isInfoModalActive, setInfoModalActive] = useState(false);
+const [copied, setCopied] = useState(false);
+
+const bootstrapTheme = props.bootstrapTheme;
+
 const [text, setText] = useState("");
 const [editorKey, setEditorKey] = useState(0);
 const [notificationsData, setNotificationData] = useState(null);
-const [isInfoModalActive, setInfoModalActive] = useState(false);
-
-const bootstrapTheme = props.bootstrapTheme;
 
 useEffect(() => {
   if (!props.item) {
@@ -36,14 +37,42 @@ if (!sdk) {
   return <></>;
 }
 
+const res = fetch(`https://api.nearblocks.io/v1/account/${selectedDAO}/tokens`);
+const NearTokenId = "NEAR";
+const tokensData = [
+  {
+    decimals: 24,
+    icon: "",
+    name: "NEAR",
+    symbol: "NEAR",
+    tokenId: NearTokenId,
+  },
+];
+if (res.body) {
+  res.body?.tokens?.fts.map((item) => {
+    const ftMetadata = Near.view(item, "ft_metadata", {});
+    if (ftMetadata === null) {
+      return;
+    }
+    tokensData.push({ ...ftMetadata, tokenId: item });
+  });
+}
+
+// handle checking
 const regex = /.{1}\.near$/;
 useEffect(() => {
-  if (regex.test(contract) || contract === "") {
+  if (regex.test(recipient) || recipient === "") {
     setValidatedAddress(true);
   } else {
     setValidatedAddress(false);
   }
-}, [contract]);
+}, [recipient]);
+
+useEffect(() => {
+  if (amount < 0) {
+    setAmount(0);
+  }
+}, [amount]);
 
 const MarkdownEditor = `
   html {
@@ -175,32 +204,49 @@ const TextareaWrapper = styled.div`
 `;
 
 const sdkCall = () => {
-  sdk.createFunctionCallProposal({
+  sdk.createTransferProposal({
     description: text,
-    receiverId: contract,
-    methodName: method,
-    args: args,
-    proposalDeposit: deposit,
-    proposalGas: gas,
+    tokenId: token === NearTokenId ? "" : token,
+    receiverId: recipient,
+    amount: amountInYocto,
+    gas,
+    deposit,
     gas: 180000000000000,
     deposit: 200000000000000,
     additionalCalls: notificationsData,
   });
 };
 
+const NotificationSelector = useMemo(() => {
+  return (
+    <Widget
+      loading=""
+      src="${config_account}/widget/page.proposals.NotificationRolesSelector"
+      props={{
+        daoId: selectedDAO,
+        onUpdate: (v) => {
+          setNotificationData(v);
+        },
+        proposalType: "Transfer",
+      }}
+    />
+  );
+}, [selectedDAO]);
+
 return (
   <div className="d-flex flex-column">
     <div className="form-group mb-3">
-      <label htmlFor="contract">
-        Contract<span className="text-danger">*</span>
+      <label htmlFor="recipient">
+        Recipient<span className="text-danger">*</span>
       </label>
       <input
-        name="contract"
-        id="contract"
-        data-bs-theme={bootstrapTheme}
-        value={contract}
-        onChange={(e) => setContract(e.target.value)}
         className="form-control"
+        name="recipient"
+        id="recipient"
+        placeholder="NEAR Address"
+        value={recipient}
+        data-bs-theme={bootstrapTheme}
+        onChange={(e) => setRecipient(e.target.value)}
       />
       {!validatedAddresss && (
         <span className="text-danger" style={{ fontSize: 12 }}>
@@ -209,51 +255,35 @@ return (
       )}
     </div>
     <div className="form-group mb-3">
-      <label htmlFor="method">
-        Method<span className="text-danger">*</span>
+      <label htmlFor="token">
+        Token<span className="text-danger">*</span>
+      </label>
+      <select
+        class="form-select"
+        name="token"
+        id="token"
+        value={token}
+        data-bs-theme={bootstrapTheme}
+        onChange={(e) => setToken(e.target.value)}
+      >
+        <option value="">Select a token</option>
+        {tokensData?.map((item) => {
+          return <option value={item.tokenId}>{item.symbol}</option>;
+        })}
+      </select>
+    </div>
+    <div className="form-group mb-3">
+      <label htmlFor="amount">
+        Amount<span className="text-danger">*</span>
       </label>
       <input
-        name="method"
-        id="method"
-        data-bs-theme={bootstrapTheme}
-        value={method}
-        onChange={(e) => setMethod(e.target.value)}
         className="form-control"
-      />
-    </div>
-    <div className="form-group mb-3">
-      <label htmlFor="args">Arguments (JSON)</label>
-      <textarea
-        name="args"
-        id="args"
-        data-bs-theme={bootstrapTheme}
-        value={args}
-        onChange={(e) => setArgs(e.target.value)}
-        className="form-control"
-      />
-    </div>
-    <div className="form-group mb-3">
-      <label htmlFor="gas">Gas</label>
-      <input
-        name="gas"
-        id="gas"
+        name="amount"
+        id="amount"
         type="number"
+        value={amount}
         data-bs-theme={bootstrapTheme}
-        value={gas}
-        onChange={(e) => setGas(e.target.value)}
-        className="form-control"
-      />
-    </div>
-    <div className="form-group mb-3">
-      <label htmlFor="deposit">Deposit</label>
-      <input
-        name="deposit"
-        id="deposit"
-        type="number"
-        data-bs-theme={bootstrapTheme}
-        value={deposit}
-        onChange={(e) => setDeposit(e.target.value)}
-        className="form-control"
+        onChange={(e) => setAmount(e.target.value)}
       />
     </div>
     <div className="form-group mb-3">
@@ -264,6 +294,7 @@ return (
         key={memoizedKey}
       >
         <Widget
+          loading=""
           src="${alias_mob}/widget/MarkdownEditorIframe"
           props={{
             initialText: text,
@@ -275,32 +306,29 @@ return (
         />
       </TextareaWrapper>
     </div>
-    <Widget
-      src="${config_account}/widget/Notification.NotificationRolesSelector"
-      props={{
-        daoId: selectedDAO,
-        onUpdate: (v) => {
-          setNotificationData(v);
-        },
-        proposalType: "Function Call",
-      }}
-    />
+    {NotificationSelector}
     <div className="w-100 d-flex">
       <Button
-        disabled={!contract || !method || !validatedAddresss}
+        disabled={!token || !recipient || !amount || !validatedAddresss}
         className="ms-auto"
         variant="primary"
         onClick={() => {
+          let ftMetadata = tokensData.find((item) => item.tokenId === token);
+          const amountInYocto = Big(amount)
+            .mul(Big(10).pow(ftMetadata.decimals))
+            .toFixed();
           setInfoModalActive(true);
         }}
       >
         Create
       </Button>
-      <ProposalVisibilityInfoModal
-        open={isInfoModalActive}
-        setInfoModalActive={setInfoModalActive}
-        sdkCall={sdkCall}
-      />
     </div>
+    <ProposalVisibilityInfoModal
+      open={isInfoModalActive}
+      setInfoModalActive={setInfoModalActive}
+      copied={copied}
+      setCopied={setCopied}
+      sdkCall={sdkCall}
+    />
   </div>
 );
