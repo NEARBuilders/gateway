@@ -198,6 +198,7 @@ const cls = (c) => c.join(" ");
 const YouVotedBadge = () => {
   return (
     <Widget
+      loading=""
       src="nearui.near/widget/Element.Badge"
       props={{
         size: "sm",
@@ -268,6 +269,7 @@ function renderHeader({ typeName, id, status }) {
         </div>
         <div className="d-flex gap-2 flex-wrap align-items-center">
           <Widget
+            loading=""
             src="nearui.near/widget/Element.Badge"
             props={{
               children: `Proposal ID #${id}`,
@@ -278,6 +280,7 @@ function renderHeader({ typeName, id, status }) {
           />
 
           <Widget
+            loading=""
             src="nearui.near/widget/Element.Badge"
             props={{
               children: (
@@ -302,11 +305,13 @@ function renderHeader({ typeName, id, status }) {
           {status === "InProgress" &&
             parseInt(Big(expirationTime).div(1000000)) > Date.now() && (
               <Widget
+                loading=""
                 src="nearui.near/widget/Element.Badge"
                 props={{
                   children: (
                     <div className="counter-text">
                       <Widget
+                        loading=""
                         src="astraplusplus.ndctools.near/widget/Common.Layout.Countdown"
                         props={{
                           timeToCheck: parseInt(
@@ -342,6 +347,7 @@ function renderData({
           </div>
           <div className="secondary-text">
             <Widget
+              loading=""
               src="${alias_mob}/widget/Profile.ShortInlineBlock"
               props={{ accountId: proposer, tooltip: true }}
             />
@@ -356,6 +362,7 @@ function renderData({
       </div>
 
       <Widget
+        loading=""
         src="astraplusplus.ndctools.near/widget/Common.Modals.ProposalArguments"
         props={{ daoId, proposal: proposalData }}
       />
@@ -681,10 +688,12 @@ function renderFooter({ totalVotes, votes, comments, daoId, proposal }) {
   const renderModal = (item, index) => {
     return (
       <Widget
+        loading=""
         src="astraplusplus.ndctools.near/widget/Layout.Modal"
         props={{
           content: (
             <Widget
+              loading=""
               src={`astraplusplus.ndctools.near/widget/${item.widget}`}
               props={item.props}
             />

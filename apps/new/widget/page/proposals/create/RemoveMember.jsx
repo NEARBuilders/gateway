@@ -1,20 +1,30 @@
-const { Button } = VM.require("${config_account}/widget/components") || {
+const { Button } = VM.require("${alias_old}/widget/components") || {
   Button: () => <></>,
 };
 const { ProposalVisibilityInfoModal } = VM.require(
-  "${config_account}/widget/components.modals.propose.ProposalVisibilityInfoModal",
+  "${config_account}/widget/page.proposals.VisibilityInfoModal",
 ) || {
   ProposalVisibilityInfoModal: () => <></>,
 };
-const DaoSDK = VM.require("sdks.near/widget/SDKs.Sputnik.DaoSDK") || (() => {});
-if (!DaoSDK) {
+const DaoSDK =
+  VM.require("sdks.near/widget/SDKs.Sputnik.DaoSDK") || (() => <></>);
+const [accountId, setAccountId] = useState("");
+const [role, setRole] = useState("");
+const [isInfoModalActive, setInfoModalActive] = useState(false);
+
+const roles = props.roles;
+const selectedDAO = props.selectedDAO;
+
+const sdk = DaoSDK(selectedDAO);
+if (!sdk) {
   return <></>;
 }
 
 const [text, setText] = useState("");
 const [editorKey, setEditorKey] = useState(0);
-const [isInfoModalActive, setInfoModalActive] = useState(false);
+const [notificationsData, setNotificationData] = useState(null);
 
+const bootstrapTheme = props.bootstrapTheme;
 useEffect(() => {
   if (!props.item) {
     return;
@@ -23,14 +33,17 @@ useEffect(() => {
   setText(`[EMBED](${path}@${blockHeight})`);
   setEditorKey((editorKey) => editorKey + 1);
 }, [props.item]);
-
 const memoizedKey = useMemo((editorKey) => editorKey, [editorKey]);
-const selectedDAO = props.selectedDAO;
-const [notificationsData, setNotificationData] = useState(null);
-const sdk = DaoSDK(selectedDAO);
-if (!sdk) {
-  return <></>;
-}
+const [validatedAddresss, setValidatedAddresss] = useState(true);
+
+const regex = /.{1}\.near$/;
+useEffect(() => {
+  if (regex.test(accountId) || accountId === "") {
+    setValidatedAddresss(true);
+  } else {
+    setValidatedAddresss(false);
+  }
+});
 
 const MarkdownEditor = `
   html {
@@ -50,9 +63,9 @@ const MarkdownEditor = `
   .editor-container {
     background: #4f5055;
   }
-
+  
   .drop-wrap {
-
+    
     border-radius: 0.5rem !important;
   }
 
@@ -79,7 +92,7 @@ const MarkdownEditor = `
     border-top: 0 !important;
     border-bottom: 0 !important;
     border-radius: 8px 8px 0 0;
-
+  
     i {
       color: #cdd0d5;
     }
@@ -162,49 +175,101 @@ const TextareaWrapper = styled.div`
 `;
 
 const sdkCall = () => {
-  sdk.createPollProposal({
+  sdk.createRemoveMemberProposal({
     description: text,
+    memberId: accountId,
+    roleId: role,
     gas: 180000000000000,
     deposit: 200000000000000,
     additionalCalls: notificationsData,
   });
 };
 
-return (
-  <div className="d-flex flex-column ">
-    <label>Proposal Description</label>
-    <TextareaWrapper
-      className="markdown-editor mb-3"
-      data-value={text || ""}
-      key={memoizedKey}
-    >
-      <Widget
-        src="${alias_mob}/widget/MarkdownEditorIframe"
-        props={{
-          initialText: text,
-          embedCss: props.customCSS || MarkdownEditor,
-          onChange: (v) => {
-            setText(v);
-          },
-        }}
-      />
-    </TextareaWrapper>
+const NotificationSelector = useMemo(() => {
+  return (
     <Widget
-      src="${config_account}/widget/Notification.NotificationRolesSelector"
+      loading=""
+      src="${config_account}/widget/page.proposals.NotificationRolesSelector"
       props={{
         daoId: selectedDAO,
         onUpdate: (v) => {
           setNotificationData(v);
         },
-        proposalType: "Add Member",
+        proposalType: "Remove Member",
       }}
     />
+  );
+}, [selectedDAO]);
 
-    {/* {console.log(notificationsData)} */}
-    <div className="w-100 d-flex">
+return (
+  <div className="d-flex flex-column">
+    <div className="form-group mb-3">
+      <label htmlFor="accountId">
+        Account ID<span className="text-danger">*</span>
+      </label>
+      <input
+        name="accountId"
+        id="accountId"
+        className="form-control"
+        data-bs-theme={bootstrapTheme}
+        value={accountId}
+        onChange={(e) => setAccountId(e.target.value)}
+      />
+      {!validatedAddresss && (
+        <span className="text-danger" style={{ fontSize: 12 }}>
+          Please check if the NEAR address is valid!
+        </span>
+      )}
+    </div>
+
+    <div className="form-group mb-3">
+      <label htmlFor="role">
+        Role<span className="text-danger">*</span>
+      </label>
+      <select
+        name="role"
+        id="role"
+        data-bs-theme={bootstrapTheme}
+        class="form-select"
+        onChange={(e) => setRole(e.target.value)}
+        selected={role}
+      >
+        <option value="">Select a role</option>
+        {roles.length > 0 &&
+          roles.map((role) => (
+            <option key={`RemoveMember-${selectedDAO}-${role}`} value={role}>
+              {role}
+            </option>
+          ))}
+      </select>
+    </div>
+
+    <div className="form-group mb-3">
+      <label htmlFor="description">Proposal Description</label>
+      <TextareaWrapper
+        className="markdown-editor mb-3"
+        data-value={text || ""}
+        key={memoizedKey}
+      >
+        <Widget
+          loading=""
+          src="${alias_mob}/widget/MarkdownEditorIframe"
+          props={{
+            initialText: text,
+            embedCss: props.customCSS || MarkdownEditor,
+            onChange: (v) => {
+              setText(v);
+            },
+          }}
+        />
+      </TextareaWrapper>
+    </div>
+    {NotificationSelector}
+    <div className="d-flex w-100">
       <Button
         className="ms-auto"
         variant="primary"
+        disabled={!accountId || !role || !validatedAddresss}
         onClick={() => {
           setInfoModalActive(true);
         }}
