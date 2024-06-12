@@ -16,14 +16,16 @@ const { ProfileImages } = VM.require(
 const GridCard = styled.div`
   border-radius: 16px;
   background: var(--bg-2, #23242b);
+  border: 0.5px solid rgba(255, 255, 255, 0.2);
   width: 100%;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
+  // no flex-grow
+  // no justify-content
   gap: 24px;
   color: var(--text-color, #fff);
 
-  border: 0.5px solid rgba(255, 255, 255, 0.2);
   .info {
     display: flex;
     align-items: flex-start;
@@ -73,6 +75,7 @@ const fallbackUrl =
   "https://ipfs.near.social/ipfs/bafkreibmiy4ozblcgv3fm3gc6q62s55em33vconbavfd2ekkuliznaq3zm";
 
 const Tag = styled.div`
+  // Can this come from common component?
   display: flex;
   height: 24px;
   padding: 4px 8px;
@@ -126,7 +129,7 @@ const ProjectCard = ({ data, showEditProjectAction }) => {
       })}
       style={{ textDecoration: "none", display: "flex", flexGrow: "1" }}
     >
-      <GridCard>
+      <GridCard data-testid="project-grid-card">
         <Widget
           src="${alias_mob}/widget/Image"
           loading=""

@@ -241,6 +241,7 @@ return (
           </Button>
           <div className="d-flex align-items-center gap-2">
             <Button
+              data-testid="grid-layout-button"
               type="icon"
               className="rounded-2"
               variant={view === "grid" ? "primary" : null}
@@ -249,6 +250,7 @@ return (
               <i className="bi bi-grid"></i>
             </Button>
             <Button
+              data-testid="list-layout-button"
               type="icon"
               className="rounded-2"
               variant={view === "list" ? "primary" : null}

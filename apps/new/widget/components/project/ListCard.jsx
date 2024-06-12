@@ -17,7 +17,9 @@ const Card = styled.div`
   border-radius: 16px;
   background: var(--bg-2, #23242b);
   border: 0.5px solid rgba(255, 255, 255, 0.2);
+  // no width 100%
   display: flex;
+  // no flex-direction
   align-items: flex-start;
   flex-grow: 1;
   justify-content: flex-start;
@@ -113,18 +115,17 @@ const ListCard = ({ data, showEditProjectAction }) => {
   };
 
   return (
-    <Link
+    <Link // Let's remove
       href={href({
         widgetSrc: `${config_index}`,
         params: {
           page: "project",
           id: item.path,
-          tab: "overview",
         },
       })}
       style={{ textDecoration: "none", display: "flex", flexGrow: "1" }}
     >
-      <Card>
+      <Card data-testid="project-list-card">
         <div className="d-flex justify-content-start p-4 flex-grow-1 gap-3">
           <div className="d-flex align-items-center">
             <div
