@@ -186,6 +186,22 @@ const sdkCall = () => {
   });
 };
 
+const NotificationSelector = useMemo(() => {
+  return (
+    <Widget
+      loading=""
+      src="${config_account}/widget/page.proposals.NotificationRolesSelector"
+      props={{
+        daoId: selectedDAO,
+        onUpdate: (v) => {
+          setNotificationData(v);
+        },
+        proposalType: "Add Member",
+      }}
+    />
+  );
+}, [selectedDAO]);
+
 return (
   <div className="d-flex flex-column">
     <div className="form-group mb-3">
@@ -245,17 +261,7 @@ return (
         />
       </TextareaWrapper>
     </div>
-    <Widget
-      loading=""
-      src="${config_account}/widget/page.proposals.NotificationRolesSelector"
-      props={{
-        daoId: selectedDAO,
-        onUpdate: (v) => {
-          setNotificationData(v);
-        },
-        proposalType: "Add Member",
-      }}
-    />
+    {NotificationSelector}
     <div className="w-100 d-flex">
       <Button
         className="ms-auto"

@@ -180,7 +180,7 @@ const NotificationSelector = useMemo(() => {
         onUpdate: (v) => {
           setNotificationData(v);
         },
-        proposalType: "Add Member",
+        proposalType: "Text",
       }}
     />
   );

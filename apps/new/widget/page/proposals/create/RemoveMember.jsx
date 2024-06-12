@@ -185,6 +185,22 @@ const sdkCall = () => {
   });
 };
 
+const NotificationSelector = useMemo(() => {
+  return (
+    <Widget
+      loading=""
+      src="${config_account}/widget/page.proposals.NotificationRolesSelector"
+      props={{
+        daoId: selectedDAO,
+        onUpdate: (v) => {
+          setNotificationData(v);
+        },
+        proposalType: "Remove Member",
+      }}
+    />
+  );
+}, [selectedDAO]);
+
 return (
   <div className="d-flex flex-column">
     <div className="form-group mb-3">
@@ -248,17 +264,7 @@ return (
         />
       </TextareaWrapper>
     </div>
-    <Widget
-      loading=""
-      src="${config_account}/widget/page.proposals.NotificationRolesSelector"
-      props={{
-        daoId: selectedDAO,
-        onUpdate: (v) => {
-          setNotificationData(v);
-        },
-        proposalType: "Remove Member",
-      }}
-    />
+    {NotificationSelector}
     <div className="d-flex w-100">
       <Button
         className="ms-auto"

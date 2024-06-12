@@ -5,7 +5,6 @@ const { InputField } = VM.require("${alias_old}/widget/components") || {
 };
 
 const [groupsAndMembers, setGroupsAndMembers] = useState([]);
-const[ showList, setShowList] = useState(false)
 const [selectedRoles, setSelectedRoles] = useState({}); // { role:boolean }
 const daoId = props.daoId || "build.sputnik-dao.near";
 const accountId = props.accountId ?? context.accountId;
@@ -25,17 +24,9 @@ const group = sdk.getGroupsAndMembers();
 if (group === null || !group.length) {
   return;
 }
-if(!groupsAndMembers.length){
+if (!groupsAndMembers.length) {
   setGroupsAndMembers(group);
 }
-
-useEffect(() => {
-  if(groupsAndMembers.length > 0){
-    setShowList(true)
-  }
- 
-},[groupsAndMembers])
-
 
 const handleCheckboxChange = (role) => {
   setSelectedRoles((prevRoles) => {
@@ -153,7 +144,7 @@ const groupList = useMemo(() => {
         return null;
       }
       return (
-        <div key={group}>
+        <div key={group.name}>
           <Widget
             loading=""
             src="nearui.near/widget/Input.Checkbox"
@@ -171,7 +162,7 @@ const groupList = useMemo(() => {
       );
     })
   );
-}, [showList]);
+}, [groupsAndMembers, selectedRoles]);
 
 return (
   <ThemeContainer>
@@ -189,7 +180,7 @@ return (
           rows="2"
         />
       </div>
-     <div>{groupList}</div>
+      <div>{groupList}</div>
     </Wrapper>
   </ThemeContainer>
 );
