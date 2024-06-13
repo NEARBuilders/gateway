@@ -26,7 +26,7 @@ if (!accountId) {
     <LoginContainer>
       <p>Please login in order to see notifications.</p>
       <a href={"${alias_gateway_url}/join"} style={{ textDecoration: "none" }}>
-        <Button variant="primary">Login</Button>
+        <Button variant="primary">Log-in</Button>
       </a>
     </LoginContainer>
   );
