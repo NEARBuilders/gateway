@@ -59,6 +59,7 @@ const Container = styled.div`
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   align-items: center;
+  justify-content: center;
   gap: 4rem;
   @media screen and (max-width: 768px) {
     grid-template-columns: 1fr; /* Stack in a single column */
@@ -101,7 +102,7 @@ const BuildContainer = styled.div`
   }
 
   p {
-    max-width: 421px;
+    /* max-width: 421px; */
     color: var(--Color-Neutral-neutral, #666);
     font-family: Poppins;
     font-size: 18px;
@@ -274,10 +275,17 @@ const Build = () => {
     <Container>
       <Cards>
         <BosContainer>
-          <Text>
-            <h4>bos-workspace</h4>
-            <p>For local development of open web apps.</p>
-          </Text>
+          <Link
+            to="https://github.com/nearbuilders/bos-workspace"
+            style={{
+              textDecoration: "none",
+            }}
+          >
+            <Text>
+              <h4>bos-workspace</h4>
+              <p>For local development of open web apps.</p>
+            </Text>
+          </Link>
           <BosVector src={bosImage} />
         </BosContainer>
         <GettingStarted>
@@ -287,6 +295,7 @@ const Build = () => {
             style={{
               minWidth: "fit-content",
             }}
+            href="https://github.com/NEARBuilders/quickstart.near"
           >
             <GettingStartedSVG />
             Quickstart Guide
@@ -299,6 +308,7 @@ const Build = () => {
             style={{
               minWidth: "fit-content",
             }}
+            href={"${alias_gateway_url}?page=resources&tab=gettingStarted"}
           >
             <WorkspaceDocsSVG />
             Workspace Docs

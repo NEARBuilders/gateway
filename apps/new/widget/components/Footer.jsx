@@ -180,6 +180,7 @@ const Footer = () => {
               style={{
                 borderRadius: "30%",
               }}
+              href="https://x.com/NearBuilders"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -197,6 +198,7 @@ const Footer = () => {
               style={{
                 borderRadius: "30%",
               }}
+              href="https://nearbuilders.com/tg-builders"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -219,6 +221,7 @@ const Footer = () => {
               style={{
                 borderRadius: "30%",
               }}
+              href="https://github.com/NEARBuilders"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -245,7 +248,7 @@ const Footer = () => {
             </Button>
           </SocialIcons>
         </LeftMenu>
-        <Menu className="d-flex gap-5">
+        {/* <Menu className="d-flex gap-5">
           <LearnMenu>
             <h2>Learn</h2>
 
@@ -262,7 +265,7 @@ const Footer = () => {
             <a href="#feedback">Request Feedback</a>
             <a href="#program">Founding Program</a>
           </BuildMenu>
-        </Menu>
+        </Menu> */}
       </Links>
       <Credits>
         <p>© {new Date().getFullYear} BuildDAO. All rights reserved.</p>
