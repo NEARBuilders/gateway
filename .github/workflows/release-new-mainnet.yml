@@ -1,0 +1,20 @@
+name: Deploy Components to Mainnet
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - apps/new/**
+
+jobs:
+  deploy-new-mainnet:
+    uses: nearbuilders/bos-workspace/.github/workflows/deploy.yml@main
+    with:
+      deploy-env: "mainnet"
+      bw-legacy: false
+      app-name: "new"
+      deploy-account-address: "builddao.near"
+      signer-account-address: "builddao.near"
+      signer-public-key: ""
+    secrets:
+      SIGNER_PRIVATE_KEY: ${{ secrets.BOS_BUILDDAO_SIGNER_PRIVATE_KEY }}

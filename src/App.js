@@ -131,6 +131,13 @@ function App() {
         config: {
           defaultFinality: undefined,
         },
+        features: {
+          enableComponentSrcDataKey: true, // adds data-component attribute, helpful during inspect element
+          commitModalByPass: {
+            bypassAll: true, // bypass all commit modals
+          },
+          bypassTransactionConfirmation: true,
+        },
       });
   }, [initNear]);
 
@@ -178,6 +185,7 @@ function App() {
     if (!near) {
       return;
     }
+
     setSignedIn(!!accountId);
     setSignedAccountId(accountId);
     setConnected(true);
