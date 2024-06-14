@@ -44,3 +44,5 @@ return (
         />
       </MainContainer>
     </ProfileContainer>
+  </div>
+);
