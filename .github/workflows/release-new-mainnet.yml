@@ -15,6 +15,6 @@ jobs:
       app-name: "new"
       deploy-account-address: "builddao.near"
       signer-account-address: "builddao.near"
-      signer-public-key: ""
+      signer-public-key: "ed25519:ELLHoQ4DDwFCf8eHxcy1NDwd3qLvVzPxUzuXPBdX7cpQ"
     secrets:
       SIGNER_PRIVATE_KEY: ${{ secrets.BOS_BUILDDAO_SIGNER_PRIVATE_KEY }}
