@@ -140,7 +140,7 @@ const config = {
         },
       },
       proposals: {
-        path: "${alias_old}/widget/Proposals",
+        path: "${config_account}/widget/page.proposals.Index",
         blockHeight: "final",
         init: {
           feedName: "Proposals",
