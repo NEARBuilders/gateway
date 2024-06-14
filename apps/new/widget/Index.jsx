@@ -98,6 +98,14 @@ const config = {
         },
         hide: true,
       },
+      profile: {
+        path: "${config_account}/widget/page.profile.Index",
+        blockHeight: "final",
+        init: {
+          name: "Profile",
+        },
+        hide: true,
+      },
     },
   },
 };

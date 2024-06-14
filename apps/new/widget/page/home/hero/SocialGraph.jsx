@@ -175,6 +175,9 @@ const code = `
         height: 95vh;
         width: 100%;
     }
+    #graph {
+        background: #1e1e1e;
+    }
 </style>
 
 <script>
