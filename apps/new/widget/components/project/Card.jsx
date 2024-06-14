@@ -9,6 +9,10 @@ const { ProfileImages } = VM.require(
   ProfileImages: () => <></>,
 };
 
+const { href } = VM.require("${alias_devs}/widget/lib.url") || {
+  href: () => {},
+};
+
 const StyledCard = styled.div`
   border-radius: 16px;
   background: var(--bg-2, #23242b);
