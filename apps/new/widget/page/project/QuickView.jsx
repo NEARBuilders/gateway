@@ -23,11 +23,34 @@ const Container = styled.div`
   .offcanvas.offcanvas-end {
     width: 60% !important;
   }
+
   .close {
-    position: absolute;
+    position: absolute !important;
     top: 1rem;
     left: -3rem;
   }
+
+  @media screen and (max-width: 1200px) {
+    .offcanvas.offcanvas-end {
+      width: 70% !important;
+    }
+  }
+
+  @media screen and (max-width: 768px) {
+    .offcanvas.offcanvas-end {
+      width: 100% !important;
+    }
+
+    .close {
+      position: relative !important;
+      top: 1rem;
+      left: 0rem;
+      padding: 0.5rem;
+      display: flex;
+      justify-content: end;
+    }
+  }
+
   .profile-card {
     background-color: #161616;
   }
@@ -61,12 +84,16 @@ return (
     <div
       className={`offcanvas offcanvas-end ${showCanvas ? "show" : ""}`}
       tabIndex="-1"
-      id="offcanvasRight"
-      aria-labelledby="offcanvasRightLabel"
-      style={{ visibility: showCanvas ? "visible" : "hidden" }}
+      data-bs-scroll="false"
+      data-bs-backdrop="true"
     >
       <div class="close cursor" onClick={onClose}>
+        <div className="d-block d-md-none">
+          <i class="bi bi-x-circle h3"></i>
+        </div>
+
         <img
+          className="d-none d-md-block"
           height={40}
           src="https://ipfs.near.social/ipfs/bafkreiawbtdt3245gggyeszp7zmslrsdvpre6nom5lb3kcx64x45fa53yu"
         />
@@ -75,6 +102,7 @@ return (
         <BackgroundImage>
           {profile.backgroundImage && (
             <Widget
+              loading=""
               src="${alias_mob}/widget/Image"
               props={{
                 image: profile.backgroundImage,
@@ -90,6 +118,7 @@ return (
         <div className="profile-card p-3 d-flex gap-4 align-items-center rounded-3 justify-content-between">
           <div className="d-flex gap-4 align-items-center">
             <Widget
+              loading=""
               src="${alias_mob}/widget/Image"
               props={{
                 image: profile.image,
