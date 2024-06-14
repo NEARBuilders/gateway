@@ -1,4 +1,4 @@
-const { Button } = VM.require("buildhub.near/widget/components") || {
+const { Button } = VM.require("${alias_old}/widget/components") || {
   Button: () => <></>,
 };
 
@@ -26,7 +26,7 @@ if (!accountId) {
     <LoginContainer>
       <p>Please login in order to see notifications.</p>
       <a href={"${alias_gateway_url}/join"} style={{ textDecoration: "none" }}>
-        <Button variant="primary">Log-in</Button>
+        <Button variant="primary">Login</Button>
       </a>
     </LoginContainer>
   );

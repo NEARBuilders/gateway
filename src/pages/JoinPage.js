@@ -16,7 +16,6 @@ export default function JoinPage({ signedIn, widgets, ...passProps }) {
       ? widgets.trialAccountBanner
       : widgets.login;
 
-  console.log("CurrentView", CurrentView);
   return (
     <>
       <OnboardingFlow signedIn={signedIn} widgets={widgets} />
