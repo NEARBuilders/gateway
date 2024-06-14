@@ -851,6 +851,9 @@ const Hero = () => {
             <p className="subheading">
               Engage and grow in real time with Activity Feed
             </p>
+            {/* <Button variant="primary" href="${config_index}?page=activity">
+              Activity
+            </Button> */}
           </GrowContainer>
           <GrowImage1 src={GrowBG1} />
           <GrowImage2 src={GrowBG2} />
