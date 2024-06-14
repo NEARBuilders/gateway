@@ -35,6 +35,11 @@ const Container = styled.div`
   .text-yellow {
     color: #eca227;
   }
+
+  .offcanvas {
+    border-top-left-radius: 1rem !important;
+    border-bottom-left-radius: 1rem !important;
+  }
 `;
 
 const BackgroundImage = styled.div`
@@ -82,36 +87,36 @@ return (
             />
           )}
         </BackgroundImage>
-        <div className="profile-card p-4 d-flex gap-4 align-items-center rounded-3">
-          <Widget
-            src="${alias_mob}/widget/Image"
-            props={{
-              image: profile.image,
-              alt: "profile image",
-              style: {
-                objectFit: "cover",
-                left: 0,
-                top: 0,
-                height: 60,
-                borderRadius: "50%",
-              },
-              fallbackUrl:
-                "https://ipfs.near.social/ipfs/bafkreibmiy4ozblcgv3fm3gc6q62s55em33vconbavfd2ekkuliznaq3zm",
-            }}
-          />
-          <div>
-            <h5 className="mb-0">{title}</h5>
-            <div className="text-yellow text-sm">@{projectAccountId}</div>
-          </div>
-          <div className="justify-self-end">
+        <div className="profile-card p-3 d-flex gap-4 align-items-center rounded-3 justify-content-between">
+          <div className="d-flex gap-4 align-items-center">
             <Widget
-              src="${alias_old}/widget/components.profile.Linktree"
-              loading=""
+              src="${alias_mob}/widget/Image"
               props={{
-                profile,
+                image: profile.image,
+                alt: "profile image",
+                style: {
+                  objectFit: "cover",
+                  left: 0,
+                  top: 0,
+                  height: 60,
+                  borderRadius: "50%",
+                },
+                fallbackUrl:
+                  "https://ipfs.near.social/ipfs/bafkreibmiy4ozblcgv3fm3gc6q62s55em33vconbavfd2ekkuliznaq3zm",
               }}
             />
+            <div>
+              <h5 className="mb-0">{title}</h5>
+              <div className="text-yellow text-sm">@{projectAccountId}</div>
+            </div>
           </div>
+          <Widget
+            src="${alias_old}/widget/components.profile.Linktree"
+            loading=""
+            props={{
+              profile,
+            }}
+          />
         </div>
 
         <Widget
