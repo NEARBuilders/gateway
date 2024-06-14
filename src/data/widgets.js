@@ -27,8 +27,8 @@ const TestnetWidgets = {
 
 const MainnetWidgets = {
   default: "builddao.near/widget/Index",
-  login: "buildhub.near/widget/login",
-  logout: "buildhub.near/widget/logout",
+  login: "builddao.near/widget/page.login.Index",
+  logout: "builddao.near/widget/page.logout.Index",
   trialAccountBanner: "buildhub.near/widget/TrialAccountBanner",
   onboardingFlow: "buildhub.near/widget/OnboardingFlow",
 
