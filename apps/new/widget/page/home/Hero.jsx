@@ -779,11 +779,7 @@ const Hero = () => {
         <div className="d-flex align-items-center gap-4 hero-btns">
           <Button
             className="hero-button"
-<<<<<<< HEAD
             href={`${context.account ? "${config_index}?page=projects" : "${alias_gateway_url}/join"}`}
-=======
-            href={"${alias_gateway_url}?page=projects"}
->>>>>>> c5b48d1 (URL Update)
           >
             Start Project
           </Button>
@@ -857,12 +853,9 @@ const Hero = () => {
             <p className="subheading">
               Engage and grow in real time with Activity Feed
             </p>
-<<<<<<< HEAD
             {/* <Button variant="primary" href="${config_index}?page=activity">
               Activity
             </Button> */}
-=======
->>>>>>> 78f2035 (Landing Page Update 4.0)
           </GrowContainer>
           <GrowImage1 src={GrowBG1} />
           <GrowImage2 src={GrowBG2} />
