@@ -1112,7 +1112,7 @@ const CTA = () => {
           </MobileText>
           <Button
             variant="primary"
-            href="${config_account}/widget/Index?page=activity"
+            href="${config_index}?page=activity"
           >
             Activity
           </Button>
