@@ -72,7 +72,7 @@ const [showFilterModal, setShowFilterModal] = useState(false);
 const [showCreateModal, setShowCreateModal] = useState(false);
 const [showCreateOptionsModal, setShowCreateOptionsModal] = useState(false);
 const [showImportModal, setShowImportModal] = useState(false);
-const [showQuickViewProjectId, setShowQuickView] = useState(null);
+const [showQuickViewProjectData, setShowQuickView] = useState(null);
 
 const toggleFilterModal = () => {
   setShowFilterModal((prev) => !prev);
@@ -89,11 +89,11 @@ const toggleCreateOptionsModal = () => {
   setShowCreateOptionsModal((prev) => !prev);
 };
 
-const ProjectCardWrapper = ({ children, projectID }) => {
+const ProjectCardWrapper = ({ children, project }) => {
   return (
     <div
       className="cursor d-flex flex-1"
-      onClick={() => setShowQuickView(projectID)}
+      onClick={() => setShowQuickView(project)}
     >
       {children}
     </div>
@@ -193,8 +193,8 @@ return (
       src="${config_account}/widget/page.project.QuickView"
       loading=""
       props={{
-        showCanvas: typeof showQuickViewProjectId === "string",
-        projectID: showQuickViewProjectId,
+        showCanvas: !!showQuickViewProjectData,
+        project: showQuickViewProjectData,
         onClose: () => setShowQuickView(null),
       }}
     />
@@ -291,7 +291,7 @@ return (
         {view === "grid" ? (
           <Container>
             {filteredProjects.map((project) => (
-              <ProjectCardWrapper projectID={project.projectID}>
+              <ProjectCardWrapper project={project}>
                 <ProjectCard
                   data={project}
                   variant="grid"
@@ -303,7 +303,7 @@ return (
         ) : (
           <div className="d-flex flex-column gap-3">
             {filteredProjects.map((project) => (
-              <ProjectCardWrapper projectID={project.projectID}>
+              <ProjectCardWrapper project={project}>
                 <ProjectCard
                   data={project}
                   variant="list"
