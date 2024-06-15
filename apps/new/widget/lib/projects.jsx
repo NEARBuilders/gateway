@@ -5,7 +5,7 @@ const getTagsInArray = (tags) => {
 const flattenObject = (obj, app, type) => {
   const paths = [];
   for (const key of Object.keys(obj || {})) {
-    const projects = Object.keys((obj?.[key]?.[app]?.[type]) || {});
+    const projects = Object.keys(obj?.[key]?.[app]?.[type] || {});
     for (const project of projects) {
       if (project && project.includes("_")) {
         const convertedStr = project.replace(/_/g, "/");
