@@ -83,6 +83,10 @@ const createNotificationsData = () => {
     }
   });
   const uniqueMembersArray = [...new Set(membersToNotify)];
+  const item = {
+    type: "social",
+    path: `${context.accountId}/post/main`,
+  };
   const notification = {
     [accountId]: {
       index: {
@@ -91,14 +95,10 @@ const createNotificationsData = () => {
             return {
               key: account,
               value: {
+                type: `${config_account}/proposal/create`,
+                item,
                 message: message,
-                params: {
-                  daoId: daoId,
-                  tab: "proposals",
-                  page: "proposal",
-                },
-                type: "buildhub/custom",
-                widget: "${config_account}/widget/home",
+                widget: `${config_account}/widget/Index?page=activity&tab=proposals&daoId=${daoId}`,
               },
             };
           }),

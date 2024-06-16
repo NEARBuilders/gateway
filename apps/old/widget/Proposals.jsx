@@ -102,7 +102,7 @@ const NotificationModal = () => {
         onOpenChange={() => {}}
         hideCloseBtn={true}
       >
-        <div className="ndc-card d-flex flex-column gap-3 p-4">
+        <div className="d-flex flex-column gap-3 p-4">
           Do you want to notify proposer: {proposer} about the vote?
           <div className="d-flex gap-3 justify-content-end">
             <Button
@@ -144,6 +144,10 @@ const NotificationModal = () => {
 
 const handleVote = ({ action, proposalId, proposer, showNotification }) => {
   const customAction = action.replace("Vote", "");
+  const item = {
+    type: "social",
+    path: `${context.accountId}/post/main`,
+  };
   const notification = {
     [accountId]: {
       index: {
@@ -151,13 +155,10 @@ const handleVote = ({ action, proposalId, proposer, showNotification }) => {
           {
             key: proposer,
             value: {
+              type: `${config_account}/proposal/vote`,
+              item,
               message: `${accountId} voted to ${customAction} your proposal for ${daoId} (Proposal ID: ${proposalId})`,
-              params: {
-                daoId: daoId,
-                proposalId: proposalId,
-              },
-              type: "custom",
-              widget: "${config_account}/widget/Proposals",
+              widget: `${config_account}/widget/Index?page=activity&tab=proposals&daoId=${daoId}&proposalId=${proposalId}}`,
             },
           },
         ]),

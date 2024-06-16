@@ -657,7 +657,7 @@ function renderFooter({ totalVotes, votes, comments, daoId, proposal }) {
       icon: "bi bi-share",
       widget: "Common.Modals.Share",
       props: {
-        url: `https://near.org/${config_account}/widget/Proposals?daoId=${daoId}&proposalId=${
+        url: `https://www.nearbuilders.org/${config_account}/widget/Index?page=activity&tab=proposals&daoId=${daoId}&proposalId=${
           proposalData.id
         }${props.dev ? "&dev=true" : ""}`,
         text: "Explore this new proposal from our DAO! Your support and feedback are essential as we work towards a decentralized future. Review the details and join the discussion here:",
