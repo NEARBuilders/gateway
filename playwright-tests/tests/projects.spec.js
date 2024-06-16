@@ -16,7 +16,9 @@ test("should navigate to project page on grid card click", async ({ page }) => {
   await expect(projectGridCard).toBeVisible({ timeout: 10000 });
 
   await Promise.all([projectGridCard.click(), page.waitForLoadState("load")]);
-
+  const projectViewBtn = page.getByRole("button", { name: "See Project page" });
+  await expect(projectViewBtn).toBeVisible();
+  await projectViewBtn.click();
   expect(page.url()).toContain("?page=project&id=");
 });
 
@@ -31,6 +33,8 @@ test("should navigate to project page on list card click", async ({ page }) => {
   await expect(projectListCard).toBeVisible({ timeout: 10000 });
 
   await Promise.all([projectListCard.click(), page.waitForLoadState("load")]);
-
+  const projectViewBtn = page.getByRole("button", { name: "See Project page" });
+  await expect(projectViewBtn).toBeVisible();
+  await projectViewBtn.click();
   expect(page.url()).toContain("?page=project&id=");
 });
