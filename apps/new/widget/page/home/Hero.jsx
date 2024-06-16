@@ -777,15 +777,10 @@ const Hero = () => {
           Designed to support builders in a multi-chain ecosystem.
         </Subheading>
         <div className="d-flex align-items-center gap-4 hero-btns">
-          <Button
-            className="hero-button"
-            href={`${context.account ? "${config_index}?page=projects" : "${alias_gateway_url}/join"}`}
-          >
+          <Button className="hero-button" href={"?page=projects&tab=editor"}>
             Start Project
           </Button>
-          <Button href="https://docs.near.org/build/near-components/dev-environment">
-            Explore Projects
-          </Button>
+          <Button href={"?page=projects"}>Explore Projects</Button>
         </div>
       </HeadingSection>
       <CardSection>
