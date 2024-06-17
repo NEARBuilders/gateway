@@ -31,9 +31,8 @@ test.describe("?page=projects&tab=editor", () => {
     test("should complete flow and save data correctly with images populated", async ({
       page,
     }) => {
-
       const expectedTransactionData = {};
-      
+
       // title
       // description
       // tags
