@@ -7,10 +7,9 @@ const { ProjectCard } = VM.require(
 ) || {
   ProjectCard: () => <></>,
 };
-const { ListCard } = VM.require(
-  "${config_account}/widget/components.project.ListCard",
-) || {
-  ListCard: () => <></>,
+
+const { href } = VM.require("${alias_devs}/widget/lib.url") || {
+  href: () => {},
 };
 
 const projects = props.projects ?? [];
@@ -50,6 +49,10 @@ const Wrapper = styled.div`
       color: #b0b0b0;
     }
   }
+
+  .cursor {
+    cursor: pointer;
+  }
 `;
 
 const Subheading = styled.h3`
@@ -69,6 +72,7 @@ const [showFilterModal, setShowFilterModal] = useState(false);
 const [showCreateModal, setShowCreateModal] = useState(false);
 const [showCreateOptionsModal, setShowCreateOptionsModal] = useState(false);
 const [showImportModal, setShowImportModal] = useState(false);
+const [showQuickViewProjectData, setShowQuickView] = useState(null);
 
 const toggleFilterModal = () => {
   setShowFilterModal((prev) => !prev);
@@ -83,6 +87,17 @@ const toggleImportModal = () => {
 
 const toggleCreateOptionsModal = () => {
   setShowCreateOptionsModal((prev) => !prev);
+};
+
+const ProjectCardWrapper = ({ children, project }) => {
+  return (
+    <div
+      className="cursor d-flex flex-1"
+      onClick={() => setShowQuickView(project)}
+    >
+      {children}
+    </div>
+  );
 };
 
 const filteredProjects = useMemo(() => {
@@ -137,6 +152,12 @@ const Heading = styled.div`
   flex-direction: column;
   gap: 1rem;
 
+  @media screen and (max-width: 500px) {
+    h2 {
+      font-size: 32px !important;
+    }
+  }
+
   h2 {
     color: var(--FFFFFF, #fff);
     font-family: Poppins, sans-serif;
@@ -169,6 +190,15 @@ return (
     data-bs-theme="dark"
   >
     <Widget
+      src="${config_account}/widget/page.project.QuickView"
+      loading=""
+      props={{
+        showCanvas: !!showQuickViewProjectData,
+        project: showQuickViewProjectData,
+        onClose: () => setShowQuickView(null),
+      }}
+    />
+    <Widget
       src="${config_account}/widget/page.projects.FiltersModal"
       loading=""
       props={{
@@ -199,7 +229,10 @@ return (
               Create Project
             </Button>
           )}
-          {showOpenRoles && <Button>Open Roles</Button>}
+          {/*
+            Commenting out until roles feature is included
+           {showOpenRoles && <Button>Open Roles</Button>}
+           */}
         </div>
       </div>
       <p>{description}</p>
@@ -232,6 +265,7 @@ return (
           </Button>
           <div className="d-flex align-items-center gap-2">
             <Button
+              data-testid="grid-layout-button"
               type="icon"
               className="rounded-2"
               variant={view === "grid" ? "primary" : null}
@@ -240,6 +274,7 @@ return (
               <i className="bi bi-grid"></i>
             </Button>
             <Button
+              data-testid="list-layout-button"
               type="icon"
               className="rounded-2"
               variant={view === "list" ? "primary" : null}
@@ -256,19 +291,25 @@ return (
         {view === "grid" ? (
           <Container>
             {filteredProjects.map((project) => (
-              <ProjectCard
-                data={project}
-                showEditProjectAction={showEditProjectAction}
-              />
+              <ProjectCardWrapper project={project}>
+                <ProjectCard
+                  data={project}
+                  variant="grid"
+                  showEditProjectAction={showEditProjectAction}
+                />
+              </ProjectCardWrapper>
             ))}
           </Container>
         ) : (
           <div className="d-flex flex-column gap-3">
             {filteredProjects.map((project) => (
-              <ListCard
-                data={project}
-                showEditProjectAction={showEditProjectAction}
-              />
+              <ProjectCardWrapper project={project}>
+                <ProjectCard
+                  data={project}
+                  variant="list"
+                  showEditProjectAction={showEditProjectAction}
+                />
+              </ProjectCardWrapper>
             ))}
           </div>
         )}

@@ -3,9 +3,7 @@ const { User, Hashtag } = VM.require("${alias_old}/widget/components") || {
   Hashtag: () => <></>,
 };
 
-const { getProjectMeta } = VM.require(
-  "${alias_old}/widget/lib.project-data",
-) || {
+const { getProjectMeta } = VM.require("${alias_new}/widget/lib.projects") || {
   getProjectMeta: () => {},
 };
 

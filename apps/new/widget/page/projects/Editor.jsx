@@ -85,7 +85,7 @@ const [title, setTitle] = useState("");
 const [description, setDescription] = useState("");
 const [location, setLocation] = useState("");
 const [contributorsWithRoles, setContributorsWithRoles] = useState([]);
-const [contributors, setContributors] = useState([]);
+const [contributors, setContributors] = useState([context.accountId]);
 const [twitter, setTwitter] = useState("");
 const [gitHub, setGitHub] = useState("");
 const [telegram, setTelegram] = useState("");
@@ -102,9 +102,22 @@ const [showSuccessModal, setShowSuccessModal] = useState(false);
 const [roles, setRoles] = useState([]);
 const [currentScreen, setCurrentScreen] = useState(1);
 const [projectIdForSocialDB, setProjectId] = useState(null); // for edit changes
+const [contributorSearchTerm, setContributorSearch] = useState("");
 
 function removeWhiteSpace(str) {
-  return str.replace(/\s/g, "");
+  return str.replace(/\s/g, "-").toLowerCase();
+}
+
+function convertArrayToObject(array) {
+  const obj = {};
+  array.forEach((value, index) => {
+    obj[value] = "";
+  });
+  return obj;
+}
+
+function convertObjectToArray(obj) {
+  return Object.keys(obj);
 }
 
 useEffect(() => {
@@ -181,7 +194,11 @@ useEffect(() => {
     setAvatar(profileImage?.image ?? profileImage);
     setCoverImage(backgroundImage?.image ?? backgroundImage);
     setProjectAccount(projectAccountId);
-    setTags(tags);
+    setTags(
+      Array.isArray(tags)
+        ? tags.map((i) => removeWhiteSpace(i))
+        : convertObjectToArray(tags ?? {}),
+    );
     setSelectedTabs(new Set(tabs));
   }
 }, [editProjectData]);
@@ -417,7 +434,7 @@ function onCreateProject() {
     description,
     profileImage: avatar,
     backgroundImage: coverImage,
-    tags,
+    tags: convertArrayToObject(tags),
     linktree: {
       twitter: twitter,
       github: gitHub,
@@ -440,11 +457,11 @@ function onCreateProject() {
           description: description,
           image: avatar,
           backgroundImage: coverImage,
-          tags: tags,
+          tags: convertArrayToObject(tags),
           linktree: {
-            twitter: twitter,
-            github: gitHub,
-            telegram: telegram,
+            twitter: twitter && `https://twitter.com/${twitter}`,
+            github: gitHub && `https://github.com/${gitHub}`,
+            telegram: telegram && `https://t.me/${telegram}`,
             website: website,
           },
         },
@@ -500,8 +517,45 @@ function onCreateProject() {
   }
 }
 
-const following = Social.get(`${context.accountId}/graph/follow/*`);
-const followingAccountSuggestion = following && Object.keys(following);
+function getSuggestiveAccounts() {
+  let suugestiveAccounts = [];
+  const profilesData = Social.get("*/profile/name", "final") || {};
+  const followingData = Social.get(
+    `${context.accountId}/graph/follow/**`,
+    "final",
+  );
+  if (!profilesData) return <></>;
+  const profiles = Object.entries(profilesData);
+  const term = (contributorSearchTerm || "").replace(/\W/g, "").toLowerCase();
+  const limit = 10;
+  for (let i = 0; i < profiles.length; i++) {
+    let score = 0;
+    const accountId = profiles[i][0];
+    const accountIdSearch = profiles[i][0].replace(/\W/g, "").toLowerCase();
+    const nameSearch = (profiles[i][1]?.profile?.name || "")
+      .replace(/\W/g, "")
+      .toLowerCase();
+    const accountIdSearchIndex = accountIdSearch.indexOf(term);
+    const nameSearchIndex = nameSearch.indexOf(term);
+
+    if (accountIdSearchIndex > -1 || nameSearchIndex > -1) {
+      score += 10;
+
+      if (accountIdSearchIndex === 0) {
+        score += 10;
+      }
+      if (nameSearchIndex === 0) {
+        score += 10;
+      }
+      if (followingData[accountId] === "") {
+        score += 30;
+      }
+
+      suugestiveAccounts.push(accountId);
+    }
+  }
+  return suugestiveAccounts.slice(0, limit);
+}
 
 const SecondScreen = () => {
   return (
@@ -512,16 +566,10 @@ const SecondScreen = () => {
             <label className="mb-1">Contributors</label>
             <Typeahead
               multiple
-              options={
-                followingAccountSuggestion ?? [
-                  "frank.near",
-                  "ellie.near",
-                  "jane.near",
-                ]
-              }
+              options={getSuggestiveAccounts()}
               allowNew
-              placeholder="frank.near, ellie.near"
               selected={contributors}
+              onInputChange={(e) => setContributorSearch(e)}
               onChange={(e) => handleContributors(e)}
             />
             {invalidContributorFound && (
@@ -690,7 +738,11 @@ const FirstScreen = () => {
       <div className="d-flex flex-column gap-4">
         <InputField
           key={"Project-AccountId"}
-          label={"Project Account Address"}
+          label={
+            <>
+              Project Account Address<span className="text-danger">*</span>
+            </>
+          }
           placeholder={"Enter Project Account Address"}
           value={projectAccount}
           error={invalidProjectAccount}
@@ -704,14 +756,20 @@ const FirstScreen = () => {
         )}
         <InputField
           key={"Project-Title"}
-          label={"Project Title"}
+          label={
+            <>
+              Project Title<span className="text-danger">*</span>
+            </>
+          }
           placeholder={"Enter Project Title"}
           value={title}
           onChange={(e) => setTitle(e.target.value)}
           maxWidth="none"
         />
         <div className="form-group">
-          <label className="mb-1">Description</label>
+          <label className="mb-1">
+            Description<span className="text-danger">*</span>
+          </label>
           <TextEditor
             value={description}
             onChange={(e) => setDescription(e)}
@@ -761,8 +819,9 @@ const FirstScreen = () => {
             <InputField
               key={"twitter"}
               label={"Twitter"}
-              error={twitter && !isValidUrl(twitter)}
-              placeholder={"https://twitter.com/handle"}
+              placeholder={"handle"}
+              error={twitter && !isValidUrl(`https://twitter.com/${twitter}`)}
+              prefix={"https://twitter.com/"}
               value={twitter}
               onChange={(e) => setTwitter(e.target.value)}
               maxWidth="none"
@@ -772,8 +831,9 @@ const FirstScreen = () => {
             <InputField
               key={"github"}
               label={"GitHub"}
-              error={gitHub && !isValidUrl(gitHub)}
-              placeholder={"https://github.com/handle"}
+              placeholder={"handle"}
+              prefix={"https://github.com/"}
+              error={gitHub && !isValidUrl(`https://github.com/${gitHub}`)}
               value={gitHub}
               onChange={(e) => setGitHub(e.target.value)}
               maxWidth="none"
@@ -783,8 +843,9 @@ const FirstScreen = () => {
             <InputField
               key={"telegram"}
               label={"Telegram"}
-              error={telegram && !isValidUrl(telegram)}
-              placeholder={"https://t.me/handle"}
+              placeholder={"handle"}
+              prefix={"https://t.me/"}
+              error={telegram && !isValidUrl(`https://t.me/${telegram}`)}
               value={telegram}
               onChange={(e) => setTelegram(e.target.value)}
               maxWidth="none"
@@ -836,7 +897,7 @@ const FirstScreen = () => {
 };
 
 return (
-  <Container>
+  <Container data-bs-theme="dark">
     <div className="p-4">
       <div className="h4">Create Project</div>
       <p>

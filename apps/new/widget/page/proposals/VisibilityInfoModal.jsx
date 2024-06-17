@@ -1,7 +1,7 @@
-const { Button } = VM.require("${config_account}/widget/components") || {
+const { Button } = VM.require("${alias_old}/widget/components") || {
   Button: () => <></>,
 };
-const { Modal } = VM.require("${config_account}/widget/components.Modal") || {
+const { Modal } = VM.require("${alias_old}/widget/components.Modal") || {
   Modal: () => <></>,
 };
 
@@ -79,7 +79,7 @@ const Content = styled.div`
   padding: 0 20px;
 `;
 const url =
-  "${alias_gateway_url}/${config_account}/widget/app?page=feed&tab=proposals";
+  "${alias_gateway_url}/${config_account}/widget/Index?page=feed&tab=proposals";
 const ProposalVisibilityInfoModal = ({ open, setInfoModalActive, sdkCall }) => {
   const handleCopy = () => {
     clipboard

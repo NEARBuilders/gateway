@@ -17,6 +17,7 @@ let ListsSDK =
 ListsSDK = ListsSDK({ env: "production" });
 
 const allRegistrations = ListsSDK.getRegistrations() || [];
+const [searchTerm, setSearch] = useState(null);
 const isRegisteredProject = allRegistrations.find(
   (registration) => registration.registrant_id === accountId,
 );
@@ -47,6 +48,7 @@ useEffect(() => {
 }, [approvedProjects]);
 
 const searchByWords = (searchTerm) => {
+  setSearch(searchTerm);
   searchTerm = searchTerm.toLowerCase().trim();
   let results = [];
   projects.forEach((project) => {
@@ -97,6 +99,12 @@ const ProjectList = styled.div`
   }
 `;
 
+const Container = styled.div`
+  .error-bg {
+    background-color: #4d4d4d;
+    color: white;
+  }
+`;
 const Search = useMemo(() => {
   return (
     <Widget
@@ -104,6 +112,7 @@ const Search = useMemo(() => {
       props={{
         title: sort,
         numItems: filteredProjects.length,
+        term: searchTerm,
         itemName: "project",
         onSearch: (value) => {
           searchByWords(value);
@@ -111,7 +120,7 @@ const Search = useMemo(() => {
       }}
     />
   );
-}, [projects]);
+}, [projects, searchTerm]);
 
 function shuffleArray(array) {
   return array.sort(() => Math.random() - 0.5);
@@ -163,8 +172,15 @@ if (showCreateModalProjectId) {
 }
 
 return (
-  <div className="d-flex flex-column gap-4 p-4">
+  <Container className="d-flex flex-column gap-4 p-4">
     {Search}
+    {filteredProjects.length === 0 && (
+      <div className="error-bg p-3 h6 rounded-3">
+        {searchTerm
+          ? "No projects were found for your search query."
+          : "Network issue: Couldn't fetch any projects, please try again later."}
+      </div>
+    )}
     {ProjectsComponent}
-  </div>
+  </Container>
 );

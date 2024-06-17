@@ -1091,7 +1091,7 @@ const CTA = () => {
         <BGImage src={CTABG} />
         <Content>
           <Heading>
-            <h2>Start building</h2>
+            <h2>Get involved</h2>
           </Heading>
           <CTADiv
             style={{
@@ -1110,7 +1110,9 @@ const CTA = () => {
           <MobileText>
             <p>We hope you join us to build better futures for everyone!</p>
           </MobileText>
-          <Button variant="primary">Start here</Button>
+          <Button variant="primary" href="${config_index}?page=activity">
+            Activity
+          </Button>
         </Content>
       </Container>
     </MainContainer>

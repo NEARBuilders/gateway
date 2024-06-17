@@ -1,6 +1,6 @@
 {
   "name": "builddao",
-  "version": "1.0.0",
+  "version": "2.0.1",
   "homepage": "/",
   "private": true,
   "scripts": {
@@ -18,7 +18,12 @@
     "start": "yarn dev:gateway",
     "serve": "webpack serve",
     "test": "npx playwright test",
-    "lint": "eslint src --ext js,jsx --report-unused-disable-directives --max-warnings 0"
+    "test:ui": "npx playwright test --ui",
+    "lint": "eslint src --ext js,jsx --report-unused-disable-directives --max-warnings 0",
+    "prepare": "simple-git-hooks"
+  },
+  "simple-git-hooks": {
+    "pre-commit": "npx prettier --write '**/*.{js,jsx,ts,tsx,json}'"
   },
   "dependencies": {
     "@keypom/selector": "1.2.3",
@@ -131,6 +136,7 @@
     "raw-loader": "^4.0.2",
     "sass": "^1.66.1",
     "sass-loader": "^13.1.0",
+    "simple-git-hooks": "^2.11.1",
     "stream-browserify": "^3.0.0",
     "stream-http": "^3.2.0",
     "style-loader": "^3.2.1",

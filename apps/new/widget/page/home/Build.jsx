@@ -59,7 +59,8 @@ const Container = styled.div`
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   align-items: center;
-  gap: 1rem;
+  justify-content: center;
+  gap: 4rem;
   @media screen and (max-width: 768px) {
     grid-template-columns: 1fr; /* Stack in a single column */
   }
@@ -101,7 +102,7 @@ const BuildContainer = styled.div`
   }
 
   p {
-    max-width: 421px;
+    /* max-width: 421px; */
     color: var(--Color-Neutral-neutral, #666);
     font-family: Poppins;
     font-size: 18px;
@@ -272,9 +273,51 @@ const LearnMore = styled.div`
 const Build = () => {
   return (
     <Container>
+      <Cards>
+        <BosContainer>
+          <Link
+            to="https://github.com/nearbuilders/bos-workspace"
+            style={{
+              textDecoration: "none",
+            }}
+          >
+            <Text>
+              <h4>bos-workspace</h4>
+              <p>For local development of open web apps.</p>
+            </Text>
+          </Link>
+          <BosVector src={bosImage} />
+        </BosContainer>
+        <GettingStarted>
+          <p>Getting Started</p>
+          <Button
+            className="rounded-2 gap-2 p-3"
+            style={{
+              minWidth: "fit-content",
+            }}
+            href="https://github.com/NEARBuilders/quickstart.near"
+          >
+            <GettingStartedSVG />
+            Quickstart Guide
+          </Button>
+        </GettingStarted>
+        <LearnMore>
+          <p>Learn More</p>
+          <Button
+            className="rounded-2 gap-2 p-3"
+            style={{
+              minWidth: "fit-content",
+            }}
+            href={"${alias_gateway_url}?page=resources&tab=gettingStarted"}
+          >
+            <WorkspaceDocsSVG />
+            Workspace Docs
+          </Button>
+        </LearnMore>
+      </Cards>
       <BuildContainer>
         <h2>
-          Build in <span>one space</span>
+          Build <span>together</span>
         </h2>
         <p>
           We provide support systems for open-source contributors to help each
@@ -286,39 +329,6 @@ const Build = () => {
           composability across front end and back end frameworks.
         </p>
       </BuildContainer>
-      <Cards>
-        <BosContainer>
-          <Text>
-            <h4>bos-workspace</h4>
-            <p>For local development of open web apps.</p>
-          </Text>
-          <BosVector src={bosImage} />
-        </BosContainer>
-        <GettingStarted>
-          <p>Getting Started</p>
-          <Button
-            className="rounded-2 gap-2"
-            style={{
-              minWidth: "fit-content",
-            }}
-          >
-            <GettingStartedSVG />
-            Quickstart Guide
-          </Button>
-        </GettingStarted>
-        <LearnMore>
-          <p>Learn More</p>
-          <Button
-            className="rounded-2 gap-2"
-            style={{
-              minWidth: "fit-content",
-            }}
-          >
-            <WorkspaceDocsSVG />
-            Workspace Docs
-          </Button>
-        </LearnMore>
-      </Cards>
     </Container>
   );
 };

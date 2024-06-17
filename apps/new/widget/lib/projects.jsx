@@ -1,7 +1,11 @@
+const getTagsInArray = (tags) => {
+  return Array.isArray(tags) ? tags : Object.keys(tags);
+};
+
 const flattenObject = (obj, app, type) => {
   const paths = [];
-  for (const key of Object.keys(obj)) {
-    const projects = Object.keys(obj?.[key]?.[app]?.[type] ?? {});
+  for (const key of Object.keys(obj || {})) {
+    const projects = Object.keys(obj?.[key]?.[app]?.[type] || {});
     for (const project of projects) {
       if (project && project.includes("_")) {
         const convertedStr = project.replace(/_/g, "/");
@@ -53,7 +57,7 @@ const processData = (data, type) => {
           type,
           title: metadata.title,
           metadata,
-          tags: metadata.tags || [],
+          tags: getTagsInArray(metadata.tags || []),
           collaborators: metadata.contributors,
           projectID,
         };
@@ -69,7 +73,7 @@ const fetchProjects = (props) => {
   const data = fetchThings(props, app, type);
 
   if (!data) {
-    return "Loading...";
+    return [];
   }
 
   return processData(data, type);
@@ -88,7 +92,7 @@ const getProjectMeta = (id) => {
 
   try {
     const pj = JSON.parse(data);
-    return pj;
+    return { ...pj, tags: getTagsInArray(pj.tags) };
   } catch (error) {
     console.error("Error parsing project data:", error);
     return null;
@@ -103,4 +107,5 @@ return {
   fetchProjects,
   getProjectMeta,
   getProjectIdFromPath,
+  getTagsInArray,
 };
