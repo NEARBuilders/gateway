@@ -32,45 +32,57 @@ test.describe("?page=projects&tab=editor", () => {
       page,
     }) => {
       await page.goto(`/${ROOT_SRC}?page=projects&tab=editor`);
-      page.getByPlaceholder('Enter Project Title')
+      page.getByPlaceholder("Enter Project Title");
 
-      await page.getByPlaceholder('Enter Project Title').click();
-      await page.getByPlaceholder('Enter Project Title').fill('Test');
-      await page.frameLocator('iframe').locator('textarea[name="textarea"]').click();
-      await page.frameLocator('iframe').locator('textarea[name="textarea"]').fill('Test');
-      await page.getByPlaceholder('Enter location').click();
-      await page.getByPlaceholder('Enter location').fill('Test');
-      await page.getByRole('combobox').selectOption('1-10');
-      await page.getByPlaceholder('handle').first().click();
-      await page.getByPlaceholder('handle').first().fill('test');
-      await page.getByPlaceholder('handle').nth(1).click();
-      await page.getByPlaceholder('handle').nth(1).fill('test');
-      await page.getByPlaceholder('handle').nth(2).click();
-      await page.getByPlaceholder('handle').nth(2).fill('test');
-      await page.getByPlaceholder('https://www.nearbuilders.org/').click();
-      await page.getByPlaceholder('https://www.nearbuilders.org/').fill('https://test.com');
-      await page.getByRole('button', { name: 'Next' }).click();
-      await page.getByText('Upload File').first().click();
-      await page.locator('body').setInputFiles('black.png');
-      await page.getByText('Upload File').setInputFiles('black.png');
-      await page.getByRole('combobox').first().click();
-      await page.getByRole('combobox').first().fill('test.testnet');
-      await page.getByLabel('sonketest.testnet').click();
-      await page.getByLabel('Updates Feed').uncheck();
-      await page.getByLabel('Feedback Feed').uncheck();
-      await page.getByPlaceholder('Start Typing').click();
-      await page.getByPlaceholder('Start Typing').fill('test');
-      await page.getByLabel('test').click();
-      await page.getByRole('combobox').nth(1).fill('clim');
-      await page.getByLabel('menu-options').click();
-      await page.getByText('Contributors anybody.near×Removesonketest.testnet×Remove Avatar Choose a file').click();
-      await page.getByRole('button', { name: 'Create' }).click();
-      await page.locator('pre div').click();
-      await page.getByRole('button', { name: 'Save Data' }).click();
-      await page.getByRole('dialog').press('Escape');
-      await page.getByRole('button', { name: 'Create' }).press('Escape');
-      await page.getByRole('button', { name: 'Create' }).press('Escape');
-      
+      await page.getByPlaceholder("Enter Project Title").click();
+      await page.getByPlaceholder("Enter Project Title").fill("Test");
+      await page
+        .frameLocator("iframe")
+        .locator('textarea[name="textarea"]')
+        .click();
+      await page
+        .frameLocator("iframe")
+        .locator('textarea[name="textarea"]')
+        .fill("Test");
+      await page.getByPlaceholder("Enter location").click();
+      await page.getByPlaceholder("Enter location").fill("Test");
+      await page.getByRole("combobox").selectOption("1-10");
+      await page.getByPlaceholder("handle").first().click();
+      await page.getByPlaceholder("handle").first().fill("test");
+      await page.getByPlaceholder("handle").nth(1).click();
+      await page.getByPlaceholder("handle").nth(1).fill("test");
+      await page.getByPlaceholder("handle").nth(2).click();
+      await page.getByPlaceholder("handle").nth(2).fill("test");
+      await page.getByPlaceholder("https://www.nearbuilders.org/").click();
+      await page
+        .getByPlaceholder("https://www.nearbuilders.org/")
+        .fill("https://test.com");
+      await page.getByRole("button", { name: "Next" }).click();
+      await page.getByText("Upload File").first().click();
+      await page.locator("body").setInputFiles("black.png");
+      await page.getByText("Upload File").setInputFiles("black.png");
+      await page.getByRole("combobox").first().click();
+      await page.getByRole("combobox").first().fill("test.testnet");
+      await page.getByLabel("sonketest.testnet").click();
+      await page.getByLabel("Updates Feed").uncheck();
+      await page.getByLabel("Feedback Feed").uncheck();
+      await page.getByPlaceholder("Start Typing").click();
+      await page.getByPlaceholder("Start Typing").fill("test");
+      await page.getByLabel("test").click();
+      await page.getByRole("combobox").nth(1).fill("clim");
+      await page.getByLabel("menu-options").click();
+      await page
+        .getByText(
+          "Contributors anybody.near×Removesonketest.testnet×Remove Avatar Choose a file",
+        )
+        .click();
+      await page.getByRole("button", { name: "Create" }).click();
+      await page.locator("pre div").click();
+      await page.getByRole("button", { name: "Save Data" }).click();
+      await page.getByRole("dialog").press("Escape");
+      await page.getByRole("button", { name: "Create" }).press("Escape");
+      await page.getByRole("button", { name: "Create" }).press("Escape");
+
       // title
       // description
       // tags
