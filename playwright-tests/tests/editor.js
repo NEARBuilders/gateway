@@ -33,14 +33,11 @@ test.describe("?page=projects&tab=editor", () => {
       // description
       // tags
       // images
-
       // click button that triggers transaction
       // await page.getByRole("button", { name: "Donate" }).nth(1).click();
-
       // const transactionObj = JSON.parse(
       //   await page.locator("div.modal-body code").innerText(),
       // );
-
       // // do something with transactionObj
       // expect(transactionObj).toMatchObject({
       //   amount: 100,
