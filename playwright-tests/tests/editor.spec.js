@@ -13,7 +13,11 @@ test.describe("?page=projects&tab=editor", () => {
     });
 
     test("editor page should prompt user to log in", async ({ page }) => {
-      // This needs to be fixed, editor still shows up
+      const requireLogin = await page.getByText(
+        "Please log in in order to see create or edit a project.",
+      );
+
+      await expect(requireLogin).toBeVisible();
     });
   });
 
@@ -39,17 +43,57 @@ test.describe("?page=projects&tab=editor", () => {
     test("should not allow next when empty required fields", async ({
       page,
     }) => {
-      // title
-      // description
+      const nextButton = await page.getByRole("button", { name: "Next" });
+      await expect(nextButton).toBeDisabled();
+
+      const projectAccountAddress = await page.getByPlaceholder(
+        "Enter Project Account Address",
+      );
+
+      const title = await page.getByPlaceholder("Enter Project Title");
+      const description = await page
+        .frameLocator("iframe")
+        .locator('textarea[name="textarea"]');
+
+      // Fill required fields
+      await projectAccountAddress.fill("anyproject.near");
+      await title.fill("Sample project");
+
+      await description.click();
+      await description.fill("This is a sample project");
+
+      await expect(nextButton).toBeEnabled();
+
+      // Clear title
+      await title.clear();
+      await expect(nextButton).toBeDisabled();
+
+      await title.fill("Sample project");
+      await expect(nextButton).toBeEnabled();
+
+      await description.click();
+      await description.clear();
+      await expect(nextButton).toBeDisabled();
     });
 
-    test("next should navigate to next editor page", async ({ page }) => {});
-
-    test("back should navigate to first editor page", async ({ page }) => {});
-
-    test("cancel should navigate to main projects page", async ({
+    test("should not allow invalid project account address", async ({
       page,
-    }) => {});
+    }) => {
+      // Project Account Address
+      await page
+        .getByPlaceholder("Enter Project Account Address")
+        .fill("anyproject");
+
+      const errorMsg = await page.getByText(
+        "Invalid Near Address, please enter a valid near address",
+      );
+      await expect(errorMsg).toBeVisible();
+    });
+
+    test("cancel should navigate to main projects page", async ({ page }) => {
+      await page.getByRole("button", { name: "Cancel" }).click();
+      expect(page.url()).toContain("?page=projects");
+    });
 
     test("should complete flow and save data correctly with images populated", async ({
       page,
@@ -117,10 +161,12 @@ test.describe("?page=projects&tab=editor", () => {
 
       // Page one //
 
-      // Title
+      // Project Account Address
       await page
         .getByPlaceholder("Enter Project Account Address")
         .fill("anyproject.near");
+
+      // Title
       await page.getByPlaceholder("Enter Project Title").fill("Sample project");
 
       // Description
