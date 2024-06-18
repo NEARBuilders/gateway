@@ -61,7 +61,7 @@ test.describe("Start project redirection for logged out users", () => {
     });
     await expect(startProjectButton).toBeVisible();
     await startProjectButton.click();
-    expect(page.url()).toContain("/join");
+    expect(page.url()).toContain("?page=projects&tab=editor");
   });
 });
 
@@ -95,7 +95,7 @@ test.describe("Explore Projects for logged out user", () => {
     });
     await expect(exploreProjectsButton).toBeVisible();
     await exploreProjectsButton.click();
-    expect(page.url()).toContain("/join");
+    expect(page.url()).toContain("?page=projects");
   });
 });
 
