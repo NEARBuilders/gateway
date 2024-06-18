@@ -111,7 +111,7 @@ test.describe("?page=projects&tab=editor", () => {
 
       await page.getByPlaceholder("Enter location").fill("anywhere"); // Location
 
-      await page.getByRole('combobox').selectOption('1-10');
+      await page.getByRole("combobox").selectOption("1-10");
 
       await page.getByLabel("Twitter").fill("SampleTwitter");
       await page.getByLabel("Github").fill("SampleGithub");
@@ -130,11 +130,15 @@ test.describe("?page=projects&tab=editor", () => {
 
       // Avatar
       const avatarInput = await page.locator("input[type=file]").nth(0);
-      await avatarInput.setInputFiles(path.join(__dirname, "./assets/black.png"));
+      await avatarInput.setInputFiles(
+        path.join(__dirname, "./assets/black.png"),
+      );
 
       // Background
       const backgroundInput = await page.locator("input[type=file]").nth(0);
-      await backgroundInput.setInputFiles(path.join(__dirname, "./assets/black.png"));
+      await backgroundInput.setInputFiles(
+        path.join(__dirname, "./assets/black.png"),
+      );
 
       await page.getByLabel("Updates Feed").uncheck();
       await page.getByLabel("Feedback Feed").uncheck();
