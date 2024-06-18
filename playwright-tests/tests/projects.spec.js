@@ -53,7 +53,12 @@ test.describe("?page=projects", () => {
 
     test("'create project' button should be hidden on projects page", async ({
       page,
-    }) => {});
+    }) => {
+      const projectButton = await page.getByRole("button", {
+        name: "Create Project",
+      });
+      await expect(projectButton).not.toBeVisible();
+    });
   });
 
   test.describe("User is logged in", () => {
@@ -63,14 +68,40 @@ test.describe("?page=projects", () => {
 
     test("'create project' button should be visable and bring up modal", async ({
       page,
-    }) => {});
+    }) => {
+      const projectButton = await page.getByRole("button", {
+        name: "Create Project",
+      });
+      await expect(projectButton).toBeVisible();
 
-    test("'create own project' should navigate to editor", async ({
-      page,
-    }) => {});
+      await projectButton.click();
+      const modal = await page.getByTestId("create-project-modal");
+      await expect(modal).toBeVisible();
+    });
 
-    test("'import from potlock' should navigate to potlockImport", async ({
-      page,
-    }) => {});
+    test.describe("Modal", () => {
+      test.beforeEach(async ({ page }) => {
+        const projectButton = await page.getByRole("button", {
+          name: "Create Project",
+        });
+        await projectButton.click();
+      });
+
+      test("'create own project' should navigate to editor", async ({
+        page,
+      }) => {
+        const createOwnProject = await page.getByText("Create my own project");
+        await createOwnProject.click();
+        expect(page.url()).toContain("?page=projects&tab=editor");
+      });
+
+      test("'import from potlock' should navigate to potlockImport", async ({
+        page,
+      }) => {
+        const importFromPotlock = await page.getByText("Import from Potlock");
+        await importFromPotlock.click();
+        expect(page.url()).toContain("?page=projects&tab=potlockImport");
+      });
+    });
   });
 });

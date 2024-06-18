@@ -56,7 +56,7 @@ return (
     onOpenChange={toggleModal}
     toggle={toggle}
   >
-    <Container className="d-flex flex-column gap-4 my-2">
+    <Container className="d-flex flex-column gap-4 my-2" data-testid="create-project-modal">
       <Item
         title="Create my own project"
         description="Create your own completely new project, customize it your way!"
