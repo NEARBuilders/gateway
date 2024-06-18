@@ -22,6 +22,20 @@ test.describe("?page=projects&tab=editor", () => {
       storageState: "playwright-tests/storage-states/wallet-connected.json",
     });
 
+    test.beforeEach(async ({ page }) => {
+      // Intercept IPFS requests
+      await page.route("**/add", async (route) => {
+        const modifiedResponse = {
+          status: 200,
+          contentType: "application/json",
+          body: JSON.stringify({ cid: "simple_cid" }),
+        };
+
+        // Fulfill the route with the modified response
+        await route.fulfill(modifiedResponse);
+      });
+    });
+
     test("should not allow next when empty required fields", async ({
       page,
     }) => {
@@ -41,10 +55,15 @@ test.describe("?page=projects&tab=editor", () => {
       page,
     }) => {
       const expectedProjectData = {
+        // TODO: We will want to get rid of this
         title: "Sample project",
         description: "This is a sample project",
-        profileImage: "",
-        backgroundImage: "",
+        profileImage: {
+          ipfs_cid: "simple_cid",
+        },
+        backgroundImage: {
+          ipfs_cid: "simple_cid",
+        },
         tags: {
           test: "",
         },
@@ -54,6 +73,7 @@ test.describe("?page=projects&tab=editor", () => {
           telegram: "SampleTelegram",
           website: "https://www.samplewebsite.com",
         },
+        // End remove
         contributors: ["anybody.near", "nobody.near"],
         tabs: ["overview", "tasks", "activity"],
         projectAccountId: "anyproject.near",
@@ -69,8 +89,12 @@ test.describe("?page=projects&tab=editor", () => {
               metadata: {
                 name: "Sample project",
                 description: "This is a sample project",
-                image: "",
-                backgroundImage: "",
+                image: {
+                  ipfs_cid: "simple_cid",
+                },
+                backgroundImage: {
+                  ipfs_cid: "simple_cid",
+                },
                 tags: {
                   test: "",
                 },
@@ -135,7 +159,7 @@ test.describe("?page=projects&tab=editor", () => {
       );
 
       // Background
-      const backgroundInput = await page.locator("input[type=file]").nth(0);
+      const backgroundInput = await page.locator("input[type=file]").nth(1);
       await backgroundInput.setInputFiles(
         path.join(__dirname, "./assets/black.png"),
       );

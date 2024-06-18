@@ -661,7 +661,7 @@ const SecondScreen = () => {
             src="${alias_old}/widget/components.UploadField"
             props={{
               image: avatar,
-              onChange: (image) => setAvatar({ image }),
+              onChange: (image) => setAvatar(image),
             }}
           />
         </div>
@@ -671,7 +671,7 @@ const SecondScreen = () => {
             src="${alias_old}/widget/components.UploadField"
             props={{
               image: coverImage,
-              onChange: (image) => setCoverImage({ image }),
+              onChange: (image) => setCoverImage(image),
             }}
           />
         </div>
