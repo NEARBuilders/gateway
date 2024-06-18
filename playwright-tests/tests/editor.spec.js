@@ -1,6 +1,6 @@
 import { expect, test } from "@playwright/test";
-import { ROOT_SRC } from "../util/constants";
 import path from "path";
+import { ROOT_SRC } from "../util/constants";
 
 test.describe("?page=projects&tab=editor", () => {
   test.beforeEach(async ({ page }) => {
