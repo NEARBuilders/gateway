@@ -767,10 +767,11 @@ const FirstScreen = () => {
           maxWidth="none"
         />
         <div className="form-group">
-          <label className="mb-1">
+          <label className="mb-1" htmlFor="description">
             Description<span className="text-danger">*</span>
           </label>
           <TextEditor
+            id="description"
             value={description}
             onChange={(e) => setDescription(e)}
             maxWidth="none"
