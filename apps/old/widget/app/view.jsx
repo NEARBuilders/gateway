@@ -81,6 +81,10 @@ const Content = styled.div`
   width: 100%;
   height: 100%;
   background: var(--bg-1, #000);
+
+  .main {
+    min-width: 0;
+  }
 `;
 
 // const Template = config.Template ?? (({children}) => <>{children}</>);
