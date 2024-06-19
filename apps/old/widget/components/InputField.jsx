@@ -81,10 +81,11 @@ function InputField({
       key={`input-container-${key}`}
       style={{ maxWidth: maxWidth ?? "390px" }}
     >
-      {label && <Label>{label}</Label>}
+      {label && <Label htmlFor={label}>{label}</Label>}
       <InputWrapper style={{ maxWidth: maxWidth ?? "390px" }}>
         {prefix && <PrefixContainer>{prefix}</PrefixContainer>}
         <Input
+          id={label}
           key={`input-field-${key}`}
           value={value}
           className={error ? "invalid" : ""}
