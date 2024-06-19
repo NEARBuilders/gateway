@@ -103,6 +103,8 @@ const [roles, setRoles] = useState([]);
 const [currentScreen, setCurrentScreen] = useState(1);
 const [projectIdForSocialDB, setProjectId] = useState(null); // for edit changes
 const [contributorSearchTerm, setContributorSearch] = useState("");
+const [showDeleteModal, setShowDeleteModal] = useState(false);
+const [showDeleteSuccessModal, setShowDeleteSuccessModal] = useState(false);
 
 function removeWhiteSpace(str) {
   return str.replace(/\s/g, "-").toLowerCase();
@@ -341,6 +343,15 @@ const Container = styled.div`
     }
   }
 
+  .destructive {
+    background-color: #fd2a5c;
+    color: white;
+    border-color: #fd2a5c;
+
+    &:hover {
+      background-color: #fd2a5c !important;
+    }
+  }
   .err,
   .err-p_id {
     color: #ff8888;
@@ -427,6 +438,85 @@ const SuccessModal = () => {
   );
 };
 
+function onSuccessDeleteModalToggle(v) {
+  setShowDeleteSuccessModal(v);
+}
+
+const SuccessDeleteModal = () => {
+  return (
+    <ModalContainer>
+      <Modal
+        open={showDeleteSuccessModal}
+        onOpenChange={onSuccessDeleteModalToggle}
+        toggle={onSuccessDeleteModalToggle}
+      >
+        <div className="d-flex flex-column gap-2 align-items-center">
+          <img
+            src="https://ipfs.near.social/ipfs/bafkreidhpcgdofhhvyybz3d4xmoheovksulnatfsdyfljpphwvm74kl43e"
+            width={50}
+          />
+          <div className="h5">Project Deleted successfully!</div>
+
+          <div className="text-center mt-2">
+            <Button
+              variant="primary"
+              href={href({
+                widgetSrc: `${alias_new}/widget/Index`,
+                params: {
+                  page: "projects",
+                  tab: "myProjects",
+                },
+              })}
+            >
+              View My Projects Page
+            </Button>
+          </div>
+        </div>
+      </Modal>
+    </ModalContainer>
+  );
+};
+
+function onDeletModalToggle(v) {
+  setShowDeleteModal(v);
+}
+
+const DeleteConfirmationModal = () => {
+  return (
+    <ModalContainer>
+      <Modal
+        open={showDeleteModal}
+        onOpenChange={onDeletModalToggle}
+        toggle={onDeletModalToggle}
+      >
+        <div className="d-flex flex-column gap-2 align-items-center">
+          <img
+            src="https://ipfs.near.social/ipfs/bafkreicuj5kuflnu4w3gsjre7erix2pxqmtcrp3aamdkt7viea3pldafpi"
+            width={50}
+          />
+          <div className="h5 mb-0">Would like to delete this project?</div>
+          <div>This action can't be undone.</div>
+          <div className="d-flex justify-content-center gap-3 mt-2">
+            <Button variant="outline" onClick={() => setShowDeleteModal(false)}>
+              Cancel
+            </Button>
+            <Button
+              variant="outline"
+              className="destructive"
+              onClick={() => {
+                setShowDeleteModal(true);
+                onDeleteProject();
+              }}
+            >
+              Confirm
+            </Button>
+          </div>
+        </div>
+      </Modal>
+    </ModalContainer>
+  );
+};
+
 function onCreateProject() {
   const projectID = isEditScreen ? projectIdForSocialDB : normalize(title, "-");
   const project = {
@@ -489,7 +579,7 @@ function onCreateProject() {
       methodName: "add_proposal",
       args: {
         proposal: {
-          description: `Project creation using BuildDAO created by ${context.accountId}`,
+          description: `This project was created using the Nearbuilder's gateway by ${context.accountId}`,
           kind: {
             FunctionCall: {
               receiver_id: "${alias_socialdb}",
@@ -512,6 +602,62 @@ function onCreateProject() {
     Social.set(data, {
       onCommit: () => {
         setShowSuccessModal(true);
+      },
+    });
+  }
+}
+
+function onDeleteProject() {
+  const projectID = projectIdForSocialDB;
+  const data = {
+    project: {
+      [projectID]: null,
+    },
+    [app]: {
+      project: {
+        [`${context.accountId}_project_${projectID}`]: null,
+      },
+    },
+  };
+  if (projectAccount.includes(".sputnik-dao.near")) {
+    const policy = Near.view(projectAccount, "get_policy");
+    const base64 = Buffer.from(
+      JSON.stringify({
+        data: {
+          [projectAccount]: data,
+        },
+        options: { refund_unused_deposit: true },
+      }),
+      "utf-8",
+    ).toString("base64");
+    Near.call({
+      contractName: projectAccount,
+      methodName: "add_proposal",
+      args: {
+        proposal: {
+          description: `This project was deleted using the Nearbuilder's gateway by ${context.accountId}`,
+          kind: {
+            FunctionCall: {
+              receiver_id: "${alias_socialdb}",
+              actions: [
+                {
+                  method_name: "set",
+                  args: base64,
+                  deposit: "100000000000000000000000",
+                  gas: "200000000000000",
+                },
+              ],
+            },
+          },
+        },
+      },
+      deposit: policy?.proposal_bond || 100000000000000000000000,
+      gas: 200000000000000,
+    });
+  } else {
+    Social.set(data, {
+      onCommit: () => {
+        setShowDeleteSuccessModal(true);
       },
     });
   }
@@ -556,6 +702,20 @@ function getSuggestiveAccounts() {
   }
   return suugestiveAccounts.slice(0, limit);
 }
+
+const DeleteProjectBtn = () => {
+  if (isEditScreen) {
+    return (
+      <Button
+        variant="outline"
+        className="destructive"
+        onClick={() => setShowDeleteModal(true)}
+      >
+        Delete Project
+      </Button>
+    );
+  } else return null;
+};
 
 const SecondScreen = () => {
   return (
@@ -719,6 +879,7 @@ const SecondScreen = () => {
           />
         </div>
         <div className="d-flex align-items-center justify-content-end gap-2 mt-3">
+          <DeleteProjectBtn />
           <Button variant="outline" onClick={() => setCurrentScreen(1)}>
             Back
           </Button>
@@ -865,6 +1026,7 @@ const FirstScreen = () => {
         </div>
 
         <div className="d-flex align-items-center justify-content-end gap-2 mt-3">
+          <DeleteProjectBtn />
           <Button
             variant="outline"
             href={href({
@@ -904,6 +1066,8 @@ return (
         Easily create, share, and track all projects within our vibrant builder
         community.
       </p>
+      <DeleteConfirmationModal />
+      <SuccessDeleteModal />
       <SuccessModal />
       {currentScreen === 1 ? <FirstScreen /> : <SecondScreen />}
     </div>
