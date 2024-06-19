@@ -49,7 +49,7 @@ const isNearAddress = (address) => {
     return false;
   }
 
-  const parts = address.split(".");
+  const parts = (address ?? "").split(".");
 
   if (parts[0].length < 2 || parts[0].length > 32) {
     return false;
