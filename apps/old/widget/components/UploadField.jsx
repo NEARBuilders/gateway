@@ -13,9 +13,11 @@ const uploadFile = (files) => {
     })
     .then((res) => {
       setImg(res.body.cid);
-      props.setImage({
-        ipfs_cid: res.body.cid,
-      });
+      if (props.onChange) {
+        props.onChange({
+          ipfs_cid: res.body.cid,
+        });
+      }
     });
 };
 

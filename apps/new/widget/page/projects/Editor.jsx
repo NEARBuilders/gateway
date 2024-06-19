@@ -1,4 +1,17 @@
 const accountId = context.accountId;
+
+if (!context.accountId) {
+  return (
+    <Widget
+      src="${config_account}/widget/components.LoginAction"
+      loading=""
+      props={{
+        text: "Please log in in order to see create or edit a project.",
+      }}
+    />
+  );
+}
+
 const { Button, InputField, TextEditor, Modal } = VM.require(
   "${alias_old}/widget/components",
 ) || {
@@ -661,7 +674,7 @@ const SecondScreen = () => {
             src="${alias_old}/widget/components.UploadField"
             props={{
               image: avatar,
-              onChange: (image) => setAvatar({ image }),
+              onChange: (image) => setAvatar(image),
             }}
           />
         </div>
@@ -671,7 +684,7 @@ const SecondScreen = () => {
             src="${alias_old}/widget/components.UploadField"
             props={{
               image: coverImage,
-              onChange: (image) => setCoverImage({ image }),
+              onChange: (image) => setCoverImage(image),
             }}
           />
         </div>
@@ -723,7 +736,11 @@ const SecondScreen = () => {
             Back
           </Button>
 
-          <Button variant="primary" onClick={onCreateProject}>
+          <Button
+            variant="primary"
+            onClick={onCreateProject}
+            disabled={invalidContributorFound}
+          >
             {isEditScreen ? "Save Changes" : "Create"}
           </Button>
         </div>
@@ -880,11 +897,7 @@ const FirstScreen = () => {
           <Button
             variant="primary"
             disabled={
-              invalidContributorFound ||
-              invalidProjectAccount ||
-              !title ||
-              !description ||
-              !projectAccount
+              invalidProjectAccount || !title || !description || !projectAccount
             }
             onClick={() => setCurrentScreen(2)}
           >
