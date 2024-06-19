@@ -222,4 +222,88 @@ test.describe("?page=projects", () => {
       });
     });
   });
+
+  test.describe("Watchlist", () => {
+    test.beforeEach(async ({ page }) => {
+      await page.goto(`/${ROOT_SRC}?page=projects&tab=watchList`);
+    });
+
+    test.describe("User is not logged in", () => {
+      test.use({
+        storageState:
+          "playwright-tests/storage-states/wallet-not-connected.json",
+      });
+
+      test("should see login screen", async ({ page }) => {
+        const requireLogin = await page.getByText(
+          "Please log in in order to see watchlist projects!",
+        );
+        await expect(requireLogin).toBeVisible();
+      });
+    });
+
+    test.describe("User is logged in with bookmarked project", () => {
+      test.use({
+        storageState:
+          "playwright-tests/storage-states/wallet-connected-project-owner.json",
+      });
+      test("should see projects", async ({ page }) => {
+        const projectTitle = await page.getByText(
+          "Testing project on Build DAO",
+        );
+        await expect(projectTitle).toBeVisible();
+      });
+    });
+
+    test.describe("User without bookmarked projects is logged in", () => {
+      test.use({
+        storageState: "playwright-tests/storage-states/wallet-connected.json",
+      });
+      test("should see empty page", async ({ page }) => {
+        const noProjectFound = await page.getByText("No Projects Found");
+        await expect(noProjectFound).toBeVisible();
+      });
+    });
+  });
+
+  test.describe("Projects Involved", () => {
+    test.beforeEach(async ({ page }) => {
+      await page.goto(`/${ROOT_SRC}?page=projects&tab=involvedProjects`);
+    });
+
+    test.describe("User is not logged in", () => {
+      test.use({
+        storageState:
+          "playwright-tests/storage-states/wallet-not-connected.json",
+      });
+      test("should see login screen", async ({ page }) => {
+        const requireLogin = await page.getByText(
+          "Please log in in order to see involved projects!",
+        );
+        await expect(requireLogin).toBeVisible();
+      });
+    });
+
+    test.describe("User involved in projects is logged in", () => {
+      test.use({
+        storageState: "playwright-tests/storage-states/wallet-connected.json",
+      });
+      test("should see project", async ({ page }) => {
+        const projectTitle = await page.getByText(
+          "Testing project on Build DAO",
+        );
+        await expect(projectTitle).toBeVisible();
+      });
+    });
+
+    test.describe("User not involved in projects is logged in", () => {
+      test.use({
+        storageState: "playwright-tests/storage-states/wallet-connected.json",
+      });
+      test("should see empty screen", async ({ page }) => {
+        const noProjectFound = await page.getByText("No Projects Found");
+        await expect(noProjectFound).toBeVisible();
+      });
+    });
+  });
 });
