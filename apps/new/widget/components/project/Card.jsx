@@ -107,6 +107,7 @@ const Tag = styled.div`
 const EditButton = ({ item }) => {
   return (
     <Button
+      data-testid="edit-btn"
       href={href({
         widgetSrc: `${config_index}`,
         params: {
