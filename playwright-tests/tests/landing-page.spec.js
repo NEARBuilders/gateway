@@ -45,6 +45,7 @@ test.describe("User is logged in", () => {
     await expect(startProjectButton).toBeVisible();
     await startProjectButton.click();
     expect(page.url()).toContain("?page=projects&tab=editor");
+    await page.waitForTimeout(2000);
     expect(page.getByText("Create Project", { exact: true })).toBeVisible();
   });
   test("Explore Projects redirection for logged in user", async ({ page }) => {
