@@ -24,7 +24,7 @@ const { normalize } = VM.require("${alias_devs}/widget/lib.stringUtils") || {
   normalize: () => {},
 };
 
-const { getProjectMeta } = VM.require(
+const { getProjectMeta, getProjectIdFromPath } = VM.require(
   "${config_account}/widget/lib.projects",
 ) || {
   getProjectMeta: () => {},
@@ -179,6 +179,10 @@ useEffect(() => {
 }, [potlockProjectProfile]);
 
 useEffect(() => {
+  setProjectId(getProjectIdFromPath(editProjectId));
+}, [editProjectId]);
+
+useEffect(() => {
   if (editProjectData && !title) {
     const {
       title,
@@ -198,7 +202,6 @@ useEffect(() => {
     setTitle(title);
     setLocation(location);
     setTeamSize(teamSize);
-    setProjectId(editProjectId.split("project/")[1]);
     setDescription(description);
     setContributorsWithRoles(contributorsWithRoles ?? []);
     setContributors(contributors ?? []);
