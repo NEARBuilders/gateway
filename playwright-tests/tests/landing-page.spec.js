@@ -120,6 +120,7 @@ test.describe("User is not logged in", () => {
     await expect(startProjectButton).toBeVisible();
     await startProjectButton.click();
     expect(page.url()).toContain("?page=projects&tab=editor");
+    await page.waitForTimeout(2000);
     expect(page.getByRole("button", { name: "Connect" })).toBeVisible();
   });
 });
