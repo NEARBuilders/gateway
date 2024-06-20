@@ -11,20 +11,22 @@ test.describe("?page=resources", () => {
       name: "Guide",
     });
     await guideButton.click();
-    const h1 = await page.getByRole("heading", { name: "Resources" });
-    await expect(h1).toBeVisible();
+    const pageHeader = await page.getByRole("heading", { name: "Resources" });
+    await expect(pageHeader).toBeVisible();
   });
 
-  test("Should navigate to Working with VM page", async ({ page }) => {
+  test("Should navigate to 'Working with VM' page", async ({ page }) => {
     const workingWithVMButton = await page.getByRole("button", {
       name: "Working with VM",
     });
     await workingWithVMButton.click();
-    const h1 = await page.getByRole("heading", { name: "Working with the VM" });
-    await expect(h1).toBeVisible();
+    const pageHeader = await page.getByRole("heading", {
+      name: "Working with the VM",
+    });
+    await expect(pageHeader).toBeVisible();
   });
 
-  test("Should navigate to Getting Started page", async ({ page }) => {
+  test("Should navigate to 'Getting Started' page", async ({ page }) => {
     const gettingStartedButton = await page.getByRole("button", {
       name: "Getting Started",
     });
@@ -33,11 +35,13 @@ test.describe("?page=resources", () => {
       name: "Getting Started",
     });
     await gettingStartedLink.click();
-    const h1 = await page.getByRole("heading", { name: "bos-workspace" });
-    await expect(h1).toBeVisible();
+    const pageHeader = await page.getByRole("heading", {
+      name: "bos-workspace",
+    });
+    await expect(pageHeader).toBeVisible();
   });
 
-  test("Should navigate to Migration Guide page", async ({ page }) => {
+  test("Should navigate to 'Migration Guide' page", async ({ page }) => {
     const gettingStartedButton = await page.getByRole("button", {
       name: "Getting Started",
     });
@@ -46,11 +50,13 @@ test.describe("?page=resources", () => {
       name: "Migration Guide",
     });
     await migrationGuideLink.click();
-    const h1 = await page.getByRole("heading", { name: "Migration Guide" });
-    await expect(h1).toBeVisible();
+    const pageHeader = await page.getByRole("heading", {
+      name: "Migration Guide",
+    });
+    await expect(pageHeader).toBeVisible();
   });
 
-  test("Should navigate to Installation page", async ({ page }) => {
+  test("Should navigate to 'Installation' page", async ({ page }) => {
     const gettingStartedButton = await page.getByRole("button", {
       name: "Getting Started",
     });
@@ -59,11 +65,13 @@ test.describe("?page=resources", () => {
       name: "Installation",
     });
     await installationLink.click();
-    const h1 = await page.getByRole("heading", { name: "Installation 🏗️" });
-    await expect(h1).toBeVisible();
+    const pageHeader = await page.getByRole("heading", {
+      name: "Installation 🏗️",
+    });
+    await expect(pageHeader).toBeVisible();
   });
 
-  test("Should navigate to Usage page", async ({ page }) => {
+  test("Should navigate to 'Usage' page", async ({ page }) => {
     const usageButton = await page.getByRole("button", {
       name: "Usage",
     });
@@ -72,11 +80,11 @@ test.describe("?page=resources", () => {
       name: "Usage",
     });
     await usageLink.click();
-    const h1 = await page.getByRole("heading", { name: "Usage 👷🏽‍♀️" });
-    await expect(h1).toBeVisible();
+    const pageHeader = await page.getByRole("heading", { name: "Usage 👷🏽‍♀️" });
+    await expect(pageHeader).toBeVisible();
   });
 
-  test("Should navigate to Aliases page", async ({ page }) => {
+  test("Should navigate to 'Aliases' page", async ({ page }) => {
     const usageButton = await page.getByRole("button", {
       name: "Usage",
     });
@@ -85,36 +93,38 @@ test.describe("?page=resources", () => {
       name: "Aliases",
     });
     await aliasesLink.click();
-    const h1 = await page.getByRole("heading", { name: "aliases" });
-    await expect(h1).toBeVisible();
+    const pageHeader = await page.getByRole("heading", { name: "aliases" });
+    await expect(pageHeader).toBeVisible();
   });
 
-  test("Should navigate to Deploying Widgets page", async ({ page }) => {
+  test("Should navigate to 'Deploying Widgets' page", async ({ page }) => {
     const deployingWidgetsButton = await page.getByRole("button", {
       name: "Deploying Widgets",
     });
     await deployingWidgetsButton.click();
-    const h1 = await page.getByRole("heading", { name: "Deployment" });
-    await expect(h1).toBeVisible();
+    const pageHeader = await page.getByRole("heading", { name: "Deployment" });
+    await expect(pageHeader).toBeVisible();
   });
 
-  test("Should navigate to Web 4.0 Deployment page", async ({ page }) => {
+  test("Should navigate to 'Web 4.0 Deployment' page", async ({ page }) => {
     const web4Button = await page.getByRole("button", {
       name: "Web 4.0 Deployment",
     });
     await web4Button.click();
-    const h1 = await page.getByRole("heading", { name: "deploy to web4" });
-    await expect(h1).toBeVisible();
+    const pageHeader = await page.getByRole("heading", {
+      name: "deploy to web4",
+    });
+    await expect(pageHeader).toBeVisible();
   });
 
-  test("Should navigate to adding new resources page", async ({ page }) => {
+  test("Should navigate to 'Adding New Resources' page", async ({ page }) => {
     const newResourcesButton = await page.getByRole("button", {
       name: "Adding New Resources",
     });
     await newResourcesButton.click();
-    const h1 = await page.getByRole("heading", {
+    const pageHeader = await page.getByRole("heading", {
       name: "Adding new Resources",
     });
-    await expect(h1).toBeVisible();
+    await expect(pageHeader).toBeVisible();
   });
 });
