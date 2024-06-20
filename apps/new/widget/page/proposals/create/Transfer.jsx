@@ -204,6 +204,10 @@ const TextareaWrapper = styled.div`
 `;
 
 const sdkCall = () => {
+  let ftMetadata = tokensData.find((item) => item.tokenId === token);
+  const amountInYocto = Big(amount)
+    .mul(Big(10).pow(ftMetadata.decimals))
+    .toFixed();
   sdk.createTransferProposal({
     description: text,
     tokenId: token === NearTokenId ? "" : token,
@@ -313,10 +317,6 @@ return (
         className="ms-auto"
         variant="primary"
         onClick={() => {
-          let ftMetadata = tokensData.find((item) => item.tokenId === token);
-          const amountInYocto = Big(amount)
-            .mul(Big(10).pow(ftMetadata.decimals))
-            .toFixed();
           setInfoModalActive(true);
         }}
       >
