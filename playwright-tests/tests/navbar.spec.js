@@ -28,6 +28,8 @@ test.describe("Navbar", () => {
     await expect(page).toHaveURL(
       /.*\?page=inspect&widgetPath=builddao.testnet\/widget\/page.home.Index/,
     );
+    await page.waitForTimeout(1000);
+    expect(page.locator("i.bi.bi-file-earmark-code.me-1")).toHaveText("Source");
   });
 
   test("Edit Code", async ({ page }) => {
