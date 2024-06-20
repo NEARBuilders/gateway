@@ -62,7 +62,7 @@ const config = {
           },
           migrationGuide: {
             init: {
-              name: "MigrationGuide",
+              name: "Migration Guide",
             },
           },
           installation: {
@@ -70,11 +70,12 @@ const config = {
               name: "Installation",
             },
           },
-          setup: {
-            init: {
-              name: "Setup",
-            },
-          },
+          // Hidden because not available yet
+          // setup: {
+          //   init: {
+          //     name: "Setup",
+          //   },
+          // },
         },
       },
       migrationGuide: {
@@ -99,17 +100,17 @@ const config = {
         },
         hide: true,
       },
-      setup: {
-        path: "${alias_old}/widget/Resources",
-        blockHeight: "final",
-        init: {
-          feedName: "Setup",
-          name: "Setup",
-          mdPath:
-            "https://raw.githubusercontent.com/NEARBuilders/bos-workspace-docs/main/md/getting_started/setup.md",
-        },
-        hide: true,
-      },
+      // setup: {
+      //   path: "${alias_old}/widget/Resources",
+      //   blockHeight: "final",
+      //   init: {
+      //     feedName: "Setup",
+      //     name: "Setup",
+      //     mdPath:
+      //       "https://raw.githubusercontent.com/NEARBuilders/bos-workspace-docs/main/md/getting_started/setup.md",
+      //   },
+      //   hide: true,
+      // },
       gettingStarted: {
         path: "${alias_old}/widget/Resources",
         blockHeight: "final",
