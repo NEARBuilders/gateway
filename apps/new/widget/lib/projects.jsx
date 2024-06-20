@@ -100,7 +100,7 @@ const getProjectMeta = (id) => {
 };
 
 const getProjectIdFromPath = (id) => {
-  return id.split("/")[2] ?? null;
+  return (id ?? "").split("/")[2] ?? null;
 };
 
 return {
