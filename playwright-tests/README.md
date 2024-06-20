@@ -48,17 +48,15 @@ It is encouraged to include video in pull requests in order to demonstrate funct
 Currently, none of the tests post actual transactions to the smart contracts. Still you should try writing your tests so that they do the actual function call, but just skip the final step of sending the transaction. You can do this by capturing the transaction confirmation popup provided by the NEAR social VM.
 
 ```javascript
+const expectedTransactionData = {};
+
 // click button that triggers transaction
-await page.getByRole("button", { name: "Donate" }).nth(1).click();
+await page.getByRole("button", { name: "Create" }).nth(1).click();
 
 const transactionObj = JSON.parse(await page.locator("div.modal-body code").innerText());
 
 // do something with transactionObj
-expect(transactionObj).toMatchObject({
-  amount: 100,
-  message: "",
-  projectId: DEFAULT_PROJECT_ID,
-});
+expect(transactionObj).toMatchObject(expectedTransactionData);
 ```
 
-See the test called "project with no active pot should donate direct with correct amount" in donate.spec.js for a full example.
+See the test called "should complete flow and save data correctly with images populated" in editor.spec.js for a full example.
