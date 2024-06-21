@@ -113,11 +113,14 @@ const NavLinks = styled.div`
 
   span {
     color: var(--text-white, #fff);
+    font-size: 14px;
+    font-family: Poppins, sans-serif;
+    font-weight: 600;
   }
 
   .active {
     color: var(--eca-227, #eca227);
-    font-weight: 700;
+    /* font-weight: 700; */
   }
 
   @media screen and (max-width: 960px) {

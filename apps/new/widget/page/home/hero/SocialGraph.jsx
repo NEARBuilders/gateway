@@ -9,7 +9,7 @@ const GraphContainer = styled.div`
   overflow: hidden;
   iframe {
     overflow: hidden;
-    transform: scale(2.1);
+    transform: scale(1.5);
   }
 `;
 const ProfileContainer = styled.div`
@@ -177,6 +177,7 @@ const code = `
     }
     #graph {
         background: #1e1e1e;
+        padding-top: 24px;
     }
 </style>
 
