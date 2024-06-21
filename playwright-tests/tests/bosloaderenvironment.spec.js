@@ -14,9 +14,9 @@ test("should find bos loader configuration in localstorage", async ({
 });
 
 test("should not get bos loader fetch error", async ({ page }) => {
-  await page.goto("/buildhub.near/widget/app?page=home");
+  await page.goto("/buildhub.testnet/widget/app?page=home");
   const bodyText = await page.textContent("body");
   expect(bodyText).not.toContain(
-    'Source code for "buildhub.near/widget/app" is not found',
+    'Source code for "buildhub.testnet/widget/app" is not found',
   );
 });
