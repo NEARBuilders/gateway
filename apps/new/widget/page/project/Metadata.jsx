@@ -1,3 +1,11 @@
+const { Button } = VM.require("${alias_old}/widget/components") || {
+  Button: () => <></>,
+};
+
+const { href } = VM.require("${alias_devs}/widget/lib.url") || {
+  href: () => {},
+};
+
 const BackgroundImage = styled.div`
   img {
     height: 252px;
@@ -40,15 +48,11 @@ const ProfileInfo = styled.div`
     gap: 24px;
 
     .info {
-      display: flex;
-      align-items: flex-start;
-      gap: 4px;
-      flex-direction: column;
       h3 {
         color: var(--white-100, #fff);
         font-size: 24px;
         font-weight: 500;
-        margin: 0;
+        margin-bottom: 4px;
       }
 
       p {
@@ -68,10 +72,39 @@ const ProfileInfo = styled.div`
     }
   }
 `;
-const Metadata = ({ profile, title, projectAccountId }) => {
+
+const EditButton = ({ item }) => {
+  return (
+    <Button
+      data-testid="edit-btn"
+      href={href({
+        widgetSrc: `${config_index}`,
+        params: {
+          page: "projects",
+          tab: "editor",
+          id: item.path,
+        },
+      })}
+      type="icon"
+      className={"rounded-3"}
+      variant="primary"
+    >
+      <i class="bi bi-pencil-fill"></i>
+    </Button>
+  );
+};
+
+const Metadata = ({
+  profile,
+  accountId,
+  title,
+  projectAccountId,
+  projectId,
+}) => {
+  console.log(projectAccountId);
+  console.log(accountId);
   return (
     <div>
-      {" "}
       <BackgroundImage>
         {profile.backgroundImage && (
           <Widget
@@ -100,19 +133,34 @@ const Metadata = ({ profile, title, projectAccountId }) => {
             }}
           />
         </div>
-        <div className="right">
-          <div className="info">
-            <h3>{title ?? profile.name}</h3>
-            <p>@{projectAccountId}</p>
-          </div>
+        <div className="right d-flex flex-row w-100 align-items-center">
+          <div className="d-flex flex-column gap-2">
+            <div className="info">
+              <h3>{title ?? profile.name}</h3>
+              <p>@{projectAccountId}</p>
+            </div>
 
-          <div className="links">
-            <span>Links</span>
-            <Widget
-              src="${alias_old}/widget/components.profile.Linktree"
-              loading=""
-              props={{
-                profile,
+            <div className="links">
+              <span>Links</span>
+              <Widget
+                src="${alias_old}/widget/components.profile.Linktree"
+                loading=""
+                props={{
+                  profile,
+                }}
+              />
+            </div>
+          </div>
+          <div
+            style={{
+              display: accountId === projectAccountId ? "block" : "none",
+            }}
+            className="ms-auto"
+          >
+            <EditButton
+              item={{
+                type: "social",
+                path: `${projectAccountId}/project/${projectId}`,
               }}
             />
           </div>

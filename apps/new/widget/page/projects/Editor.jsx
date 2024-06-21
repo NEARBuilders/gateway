@@ -331,6 +331,7 @@ const Container = styled.div`
   .form-control {
     background: transparent;
   }
+  font-family: "InterVariable", sans-serif;
 
   .form-group {
     width: 100%;
