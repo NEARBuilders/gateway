@@ -440,6 +440,8 @@ const ModalContainer = styled.div`
     padding-bottom: 0px !important;
     margin-bottom: -20px !important;
   }
+
+  font-family: "Poppins", sans-serif;
 `;
 
 const SuccessModal = () => {
