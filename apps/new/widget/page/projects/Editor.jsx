@@ -63,17 +63,44 @@ const isNearAddress = (address) => {
 };
 
 const tabs = [
-  { id: "overview", label: "Overview", disabled: true, checked: true },
+  {
+    id: "overview",
+    label: "Overview",
+    disabled: true,
+    checked: true,
+    description:
+      "Overview of the project displaying basic information about the project.",
+  },
   // { id: "activity", label: "Activity", checked: true },
-  { id: "tasks", label: "Tasks", checked: true },
+  {
+    id: "tasks",
+    label: "Tasks",
+    checked: true,
+    description: "A list of tasks that the project is working on.",
+  },
   // Uncomment after the support is added
   // { id: "discussion", label: "Discussion", checked: false },
   // { id: "code", label: "Code", checked: false },
   // { id: "roadmap", label: "Roadmap", checked: false },
   // Feed tabs
-  { id: "activity", label: "Activity", checked: true },
-  { id: "updatesFeed", label: "Updates Feed", checked: true },
-  { id: "feedbackFeed", label: "Feedback Feed", checked: true },
+  {
+    id: "activity",
+    label: "Activity",
+    checked: true,
+    description: "Activity feed for the project.",
+  },
+  {
+    id: "updatesFeed",
+    label: "Updates Feed",
+    checked: true,
+    description: "A list of updates that the project has made.",
+  },
+  {
+    id: "feedbackFeed",
+    label: "Feedback Feed",
+    checked: true,
+    description: "A list of feedback that the project has received.",
+  },
 ];
 
 const app = props.app ?? "${config_account}";
@@ -855,20 +882,25 @@ const SecondScreen = () => {
           <label className="mb-3">Tabs</label>
           <div className="d-flex flex-column gap-1">
             {tabs.map((tab) => (
-              <div className="form-check form-switch" key={tab.id}>
-                <label className="form-check-label" htmlFor={tab.id}>
-                  {tab.label}
-                </label>
-                <input
-                  className="form-check-input"
-                  type="checkbox"
-                  role="switch"
-                  id={tab.id}
-                  checked={selectedTabs.has(tab.id.toLowerCase())}
-                  onChange={handleCheckboxChange}
-                  disabled={tab.disabled}
-                />
-              </div>
+              <>
+                <div className="form-check form-switch" key={tab.id}>
+                  <label className="form-check-label" htmlFor={tab.id}>
+                    {tab.label}
+                  </label>
+                  <input
+                    className="form-check-input"
+                    type="checkbox"
+                    role="switch"
+                    id={tab.id}
+                    checked={selectedTabs.has(tab.id.toLowerCase())}
+                    onChange={handleCheckboxChange}
+                    disabled={tab.disabled}
+                  />
+                </div>
+                <div key={`${tab.id}-description`} className="form-text">
+                  {tab.description}
+                </div>
+              </>
             ))}
           </div>
         </div>
