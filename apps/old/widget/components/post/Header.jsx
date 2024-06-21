@@ -134,38 +134,32 @@ const toggleDropdown = () => {
 };
 
 const Dropdown = styled.div`
-  border-radius: 8px;
-  border: 1px solid var(--stroke-color, rgba(255, 255, 255, 0.2));
-  background: var(--bg-2, #23242b);
+  border-radius: 0.375rem;
+  background: rgb(35, 36, 43);
   z-index: 20;
 
   display: flex;
-  padding: 10px 0px;
+  padding: 0.5rem;
   flex-direction: column;
   align-items: flex-start;
-  gap: 10px;
+  gap: 0.125rem;
+  border: 1px solid rgba(0, 0, 0, 0.175);
 
   .dropdown-item {
-    color: #fff;
-
-    /* Body/10px */
-    font-family: InterVariable, sans-serif;
-    font-size: 12px;
-    font-style: normal;
-    font-weight: 400;
-    line-height: normal;
-
+    color: #9ba1a6 !important;
+    font-family: Poppins, sans-serif;
+    font-size: 1rem;
     display: flex;
-    padding: 10px;
+    padding: 12px;
     align-items: center;
     gap: 4px;
     align-self: stretch;
+    border-radius: 8px;
   }
 
   .dropdown-item:hover {
-    transition: all 300ms;
-    color: #000 !important;
-    background: #fff;
+    background: #151718 !important;
+    color: #fff !important;
   }
 `;
 
@@ -326,6 +320,7 @@ return (
                 style={{
                   border:
                     "1px solid var(--stroke-color, rgba(255, 255, 255, 0.2)",
+                  margin: "0.5rem 0",
                   width: "100%",
                 }}
               ></div>
