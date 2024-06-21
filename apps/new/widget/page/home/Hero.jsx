@@ -132,7 +132,6 @@ const EndCard = styled.div`
   position: relative;
   padding: 24px;
   .card-content {
-
     display: flex;
     flex-direction: column;
     gap: 8px;
@@ -178,7 +177,7 @@ const EndCard = styled.div`
     font-size: 16px;
     margin: 0;
     font-weight: 400;
-    line-height: 140%; 
+    line-height: 140%;
   }
 
   .heading {
@@ -186,7 +185,7 @@ const EndCard = styled.div`
     font-family: Poppins, sans-serif;
     font-size: 32px;
     font-weight: 500;
-    line-height: 120%; 
+    line-height: 120%;
     letter-spacing: -1.28px;
     margin: 0;
   }
@@ -287,7 +286,7 @@ const Card = styled.div`
     font-size: 16px;
     margin: 0;
     font-weight: 400;
-    line-height: 140%; 
+    line-height: 140%;
   }
 
   .heading {
@@ -295,11 +294,10 @@ const Card = styled.div`
     font-family: Poppins, sans-serif;
     font-size: 32px;
     font-weight: 500;
-    line-height: 120%; 
+    line-height: 120%;
     letter-spacing: -1.28px;
     margin: 0;
   }
-
 
   .title {
     color: #fff;
@@ -797,11 +795,16 @@ const Hero = () => {
             <p className="subheading">
               Learn with our Social Graph of Build Commons.
             </p>
-<div style={{
-  display: "flex",
-  flexDirection: "column",
-  alignItems: "center",
-}}>            <Widget src="${config_account}/widget/page.home.hero.SocialGraph" /></div>
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+              }}
+            >
+              {" "}
+              <Widget src="${config_account}/widget/page.home.hero.SocialGraph" />
+            </div>
           </ExploreContainer>
         </Card>
         <CenterCard>
