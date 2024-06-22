@@ -78,7 +78,6 @@ useEffect(() => {
       };
     }
     Object.values(graphData).forEach((links) => {
-      console.log(graphData);
       Object.keys(links).forEach((memberId) => {
         if (!(memberId in nodes)) {
           nodes[memberId] = {
@@ -103,8 +102,6 @@ useEffect(() => {
       createNodesAndEdges(accountId, graphData.graph);
     });
   }
-  console.log("nodes", nodes);
-  console.log("edges", edges);
 
   setMessage({
     nodes: Object.values(nodes),

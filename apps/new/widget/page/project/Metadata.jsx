@@ -101,8 +101,6 @@ const Metadata = ({
   projectAccountId,
   projectId,
 }) => {
-  console.log(projectAccountId);
-  console.log(accountId);
   return (
     <div>
       <BackgroundImage>
