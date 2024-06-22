@@ -328,7 +328,6 @@ const projectAccountIdHandler = (e) => {
 
 const Container = styled.div`
   color: white;
-  opacity: 1 !important;
   .form-control {
     background: transparent;
   }

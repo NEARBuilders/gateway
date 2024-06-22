@@ -20,6 +20,7 @@ const profile = {
 };
 
 const Container = styled.div`
+  opacity: 1 !important;
   .offcanvas.offcanvas-end {
     width: 60% !important;
   }
@@ -80,7 +81,7 @@ const BackgroundImage = styled.div`
 const id = `${project.accountId}/project/${project.projectID}`;
 
 return (
-  <Container style={{ opacity: 1 }}>
+  <Container>
     <div
       className={`offcanvas offcanvas-end ${showCanvas ? "show" : ""}`}
       tabIndex="-1"
