@@ -468,7 +468,7 @@ const SuccessModal = () => {
             <Button
               variant="primary"
               href={href({
-                widgetSrc: `${alias_new}/widget/Index`,
+                widgetSrc: `${config_index}`,
                 params: {
                   page: "projects",
                   tab: "myProjects",
@@ -507,7 +507,7 @@ const SuccessDeleteModal = () => {
             <Button
               variant="primary"
               href={href({
-                widgetSrc: `${alias_new}/widget/Index`,
+                widgetSrc: `${config_index}`,
                 params: {
                   page: "projects",
                   tab: "myProjects",
@@ -1085,7 +1085,7 @@ const FirstScreen = () => {
           <Button
             variant="outline"
             href={href({
-              widgetSrc: `${alias_new}/widget/Index`,
+              widgetSrc: `${config_index}`,
               params: {
                 page: "projects",
               },
