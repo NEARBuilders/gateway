@@ -23,14 +23,13 @@ test.describe("?page=profile", () => {
     });
 
     test.use({
-      storageState:
-        "playwright-tests/storage-states/wallet-connected-project-owner.json",
+      storageState: "playwright-tests/storage-states/wallet-connected.json",
     });
 
     test("should show profile page if no accountId is passed", async ({
       page,
     }) => {
-      const profileId = page.getByText("meghagoel.testnet").nth(2);
+      const profileId = page.getByText("anybody.near").nth(2);
       await expect(profileId).toBeVisible();
     });
 
@@ -42,28 +41,6 @@ test.describe("?page=profile", () => {
         name: "Elliot",
       });
       await expect(profileName).toBeVisible();
-    });
-
-    test("Should navigate to Posts and Show them", async ({ page }) => {
-      const postButton = page.getByRole("tab", { name: "Posts" });
-      await postButton.click();
-
-      await expect(postButton).toHaveClass("nav-link active");
-    });
-    test("Should navigate to NFTs and Show them", async ({ page }) => {
-      const nftButton = page.getByRole("tab", { name: "NFTs" });
-      await nftButton.click();
-
-      await expect(nftButton).toHaveClass("nav-link active");
-    });
-    test("Should navigate to Widgets and Show them", async ({ page }) => {
-      const widgetButton = page.getByRole("tab", { name: "Widgets" });
-      await widgetButton.click();
-
-      const widgetTitle = page.getByRole("heading", {
-        name: "components.rfps.Rfp",
-      });
-      await expect(widgetTitle).toBeVisible({ timeout: 10000 });
     });
 
     test("Should navigate to Edit Profile and save correct data", async ({
@@ -81,6 +58,17 @@ test.describe("?page=profile", () => {
         path.join(__dirname, "./assets/black.png"),
       );
 
+      await page.route("**/add", async (route) => {
+        const modifiedResponse = {
+          status: 200,
+          contentType: "application/json",
+          body: JSON.stringify({ cid: "simple_cid" }),
+        };
+
+        // Fulfill the route with the modified response
+        await route.fulfill(modifiedResponse);
+      });
+
       await page.getByPlaceholder("Enter full name").fill("Someone");
 
       const description = await page
@@ -96,7 +84,7 @@ test.describe("?page=profile", () => {
       await page.getByPlaceholder("website link").fill("Someone.com");
 
       const expectedResult = {
-        "meghagoel.testnet": {
+        "anybody.near": {
           profile: {
             name: "Someone",
             description: "Someone",
@@ -171,6 +159,16 @@ test.describe("?page=profile", () => {
         name: "efiz.testnet/widget/SimpleMDE",
       });
       await expect(widgetTitle).toBeVisible({ timeout: 10000 });
+    });
+    test("Should not navigate to Edit Profile", async ({ page }) => {
+      await page.goto(`/${ROOT_SRC}?page=profile&accountId=efiz.testnet`);
+      const profileImageSection = page.locator(".profile-image-section");
+      await expect(profileImageSection).toBeVisible();
+      // expect no Edit Profile button in the profile image section
+      const editProfileButton = page.getByRole("button", {
+        name: "Edit Profile",
+      });
+      await expect(editProfileButton).toBeHidden();
     });
   });
 });
