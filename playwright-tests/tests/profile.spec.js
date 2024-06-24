@@ -126,7 +126,7 @@ test.describe("?page=profile", () => {
       await expect(loginPrompt).toBeVisible();
     });
 
-    test("Should show profile page when accountId is passed", async ({
+    test("should show profile page when accountId is passed", async ({
       page,
     }) => {
       await page.goto(`/${ROOT_SRC}?page=profile&accountId=efiz.testnet`);
