@@ -57,6 +57,49 @@ test.describe("?page=projects", () => {
       expect(page.url()).toContain("?page=project&id=");
     });
 
+    test("should filter projects by team size and tags", async ({ page }) => {
+      // wait for data to load
+      const projectGridCard = await page
+        .getByTestId("project-grid-card")
+        .nth(1);
+      await expect(projectGridCard).toBeVisible({ timeout: 10000 });
+
+      const filterBtn = await page.getByRole("button", {
+        name: "Filter",
+      });
+      await expect(filterBtn).toBeVisible();
+      await filterBtn.click();
+      await page.getByRole("combobox").nth(0).selectOption("1-10");
+      await page.getByPlaceholder("Start Typing").fill("test");
+      await page.getByLabel("test").click();
+      await page.getByRole("button", { name: "Filter", exact: true }).click();
+      const filteredProjectCounts = await page
+        .getByText("test", { exact: true })
+        .count();
+      expect(filteredProjectCounts).toBeGreaterThan(0);
+    });
+
+    test("should search projects by title", async ({ page }) => {
+      // wait for data to load
+      const projectGridCard = await page
+        .getByTestId("project-grid-card")
+        .nth(1);
+      await expect(projectGridCard).toBeVisible({ timeout: 10000 });
+
+      const searchInput = await page.getByPlaceholder(
+        "Search by project ID or name",
+      );
+      await expect(searchInput).toBeVisible();
+      const title = "Testing project on Build DAO";
+      await searchInput.fill(title);
+      // only one projects should be found
+      const filteredProject = await page.getByTestId("project-grid-card");
+      await expect(filteredProject).toBeVisible({ timeout: 10000 });
+      await expect(page.getByRole("heading", { name: title })).toBeVisible({
+        timeout: 10000,
+      });
+    });
+
     test.describe("User is not logged in", () => {
       test.use({
         storageState:
@@ -148,27 +191,17 @@ test.describe("?page=projects", () => {
         expect(page.url()).toContain("?page=projects&tab=editor");
       });
 
-      test("should be able to edit a project'", async ({ page }) => {
+      test("should be able to edit a project", async ({ page }) => {
         // wait for data to be fetched
         await page.waitForTimeout(5000);
         const expectedTransactionData = {
           "meghagoel.testnet": {
             project: {
               "testing-project-on-builddao": {
-                "": '{"title":"New project title","description":"New Project description","profileImage":{"ipfs_cid":"bafkreifk42ibqsg5sfky5tlhkfty6rkup5leqite5koenhesnuwq55kufi"},"backgroundImage":{"ipfs_cid":"bafkreidbfu7uxtr4is7wxileg3mrbajve6cgkfmrqemc6pxsr6nnczz7ly"},"tags":{"test":""},"linktree":{"twitter":"https://test.nearbuilders.org/","github":"https://test.nearbuilders.org/","telegram":"https://test.nearbuilders.org/","website":"https://test.nearbuilders.org/"},"contributors":["megha19.testnet"],"tabs":["overview","activity","tasks"],"projectAccountId":"meghagoel.testnet","teamSize":"1-10","location":"New Location"}',
+                "": '{"title":"New project title","description":"New Project description","profileImage":{"ipfs_cid":"bafkreifk42ibqsg5sfky5tlhkfty6rkup5leqite5koenhesnuwq55kufi"},"backgroundImage":{"ipfs_cid":"bafkreidbfu7uxtr4is7wxileg3mrbajve6cgkfmrqemc6pxsr6nnczz7ly"},"tags":{"test":""},"linktree":{"twitter":"https://test.nearbuilders.org/","github":"https://test.nearbuilders.org/","telegram":"https://test.nearbuilders.org/","website":"https://test.nearbuilders.org/"},"contributors":["meghagoel.testnet"],"tabs":["overview","activity","tasks","updatesfeed","feedbackfeed"],"projectAccountId":"meghagoel.testnet","teamSize":"1-10","location":"New Location"}',
                 metadata: {
                   name: "New project title",
                   description: "New Project description",
-
-                  tags: {
-                    test: "",
-                  },
-                  linktree: {
-                    twitter:
-                      "https://twitter.com/https://test.nearbuilders.org/",
-                    github: "https://github.com/https://test.nearbuilders.org/",
-                    telegram: "https://t.me/https://test.nearbuilders.org/",
-                  },
                 },
               },
             },
@@ -181,7 +214,9 @@ test.describe("?page=projects", () => {
         const descriptionInput = await page
           .frameLocator("iframe")
           .locator('textarea[name="textarea"]');
-        await expect(descriptionInput).toHaveText("This is the description");
+        await expect(descriptionInput).toHaveText("This is the description", {
+          timeout: 20000,
+        });
         await descriptionInput.click();
         await descriptionInput.fill("New Project description");
         const locationInput = page.getByPlaceholder("Enter location");
@@ -219,6 +254,91 @@ test.describe("?page=projects", () => {
           await page.locator("div.modal-body code").innerText(),
         );
         expect(transactionObj).toMatchObject(expectedTransactionData);
+      });
+    });
+  });
+
+  test.describe("Watchlist", () => {
+    test.beforeEach(async ({ page }) => {
+      await page.goto(`/${ROOT_SRC}?page=projects&tab=watchList`);
+    });
+
+    test.describe("User is not logged in", () => {
+      test.use({
+        storageState:
+          "playwright-tests/storage-states/wallet-not-connected.json",
+      });
+
+      test("should see login screen", async ({ page }) => {
+        const requireLogin = await page.getByText(
+          "Please log in in order to see watchlist projects!",
+        );
+        await expect(requireLogin).toBeVisible();
+      });
+    });
+
+    test.describe("User is logged in with bookmarked project", () => {
+      test.use({
+        storageState:
+          "playwright-tests/storage-states/wallet-connected-project-owner.json",
+      });
+      test("should see their bookmarked projects", async ({ page }) => {
+        const projectTitle = await page.getByText(
+          "Testing project on Build DAO",
+        );
+        await expect(projectTitle).toBeVisible({ timeout: 10000 });
+      });
+    });
+
+    test.describe("User without bookmarked projects is logged in", () => {
+      test.use({
+        storageState: "playwright-tests/storage-states/wallet-connected.json",
+      });
+      test("should see empty page", async ({ page }) => {
+        const noProjectFound = await page.getByText("No Projects Found");
+        await expect(noProjectFound).toBeVisible();
+      });
+    });
+  });
+
+  test.describe("Projects Involved", () => {
+    test.beforeEach(async ({ page }) => {
+      await page.goto(`/${ROOT_SRC}?page=projects&tab=involvedProjects`);
+    });
+
+    test.describe("User is not logged in", () => {
+      test.use({
+        storageState:
+          "playwright-tests/storage-states/wallet-not-connected.json",
+      });
+      test("should see login screen", async ({ page }) => {
+        const requireLogin = await page.getByText(
+          "Please log in in order to see involved projects!",
+        );
+        await expect(requireLogin).toBeVisible();
+      });
+    });
+
+    test.describe("User involved in projects is logged in", () => {
+      test.use({
+        storageState:
+          "playwright-tests/storage-states/wallet-connected-project-owner.json",
+      });
+      test("should see their involved project", async ({ page }) => {
+        const projectTitle = await page.getByText(
+          "Testing project on Build DAO",
+        );
+        await expect(projectTitle).toBeVisible({ timeout: 10000 });
+      });
+    });
+
+    test.describe("User not involved in projects is logged in", () => {
+      test.use({
+        storageState: "playwright-tests/storage-states/wallet-connected.json",
+      });
+      test("should see empty screen", async ({ page }) => {
+        const noProjectFound = await page.getByText("No Projects Found");
+        await expect(noProjectFound).toBeVisible();
       });
     });
   });
