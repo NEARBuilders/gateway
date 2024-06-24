@@ -32,6 +32,17 @@ test.describe("?page=profile", () => {
     test("should navigate to 'Edit Profile' and save correct data", async ({
       page,
     }) => {
+      await page.route("**/add", async (route) => {
+        const modifiedResponse = {
+          status: 200,
+          contentType: "application/json",
+          body: JSON.stringify({ cid: "simple_cid" }),
+        };
+
+        // Fulfill the route with the modified response
+        await route.fulfill(modifiedResponse);
+      });
+
       const editButton = page.getByRole("button", { name: "Edit Profile" });
       await editButton.click();
 
@@ -43,17 +54,6 @@ test.describe("?page=profile", () => {
       await avatarInput.setInputFiles(
         path.join(__dirname, "./assets/black.png"),
       );
-
-      await page.route("**/add", async (route) => {
-        const modifiedResponse = {
-          status: 200,
-          contentType: "application/json",
-          body: JSON.stringify({ cid: "simple_cid" }),
-        };
-
-        // Fulfill the route with the modified response
-        await route.fulfill(modifiedResponse);
-      });
 
       await page.getByPlaceholder("Enter full name").fill("Someone");
 
