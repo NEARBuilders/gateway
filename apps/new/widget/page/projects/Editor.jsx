@@ -99,7 +99,7 @@ const tabs = [
     id: "feedbackFeed",
     label: "Feedback Feed",
     checked: true,
-    description: "A list of feedback that the project has received.",
+    description: "A feed of feedback on-chain, including comments, suggestions, and critiques from users, to help guide future improvements and increase community involvement.",
   },
 ];
 
