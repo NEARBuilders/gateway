@@ -6,6 +6,21 @@ const { Footer } = VM.require("${config_account}/widget/components.Footer") || {
   Footer: () => <></>,
 };
 
+const data = fetch(`https://httpbin.org/headers`);
+const gatewayURL = data?.body?.headers?.Origin ?? "";
+
+const Container = gatewayURL.includes("near.org")
+  ? styled.div`
+      width: 100%;
+    `
+  : styled.div`
+      position: fixed;
+      inset: 73px 0px 0px;
+      width: 100%;
+      overflow-y: scroll;
+      height: 100%;
+    `;
+
 const config = {
   theme: {},
   layout: {
@@ -111,7 +126,9 @@ const config = {
 };
 
 return (
-  <CSS>
-    <Widget src="${alias_old}/widget/app.view" props={{ config, ...props }} />
-  </CSS>
+  <Container>
+    <CSS>
+      <Widget src="${alias_old}/widget/app.view" props={{ config, ...props }} />
+    </CSS>
+  </Container>
 );
