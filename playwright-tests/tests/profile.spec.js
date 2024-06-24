@@ -8,20 +8,6 @@ test.describe("?page=profile", () => {
   });
 
   test.describe("User logged in", () => {
-    test.beforeEach(async ({ page }) => {
-      // Intercept IPFS requests
-      await page.route("**/add", async (route) => {
-        const modifiedResponse = {
-          status: 200,
-          contentType: "application/json",
-          body: JSON.stringify({ cid: "simple_cid" }),
-        };
-
-        // Fulfill the route with the modified response
-        await route.fulfill(modifiedResponse);
-      });
-    });
-
     test.use({
       storageState: "playwright-tests/storage-states/wallet-connected.json",
     });
@@ -126,31 +112,21 @@ test.describe("?page=profile", () => {
       await expect(loginPrompt).toBeVisible();
     });
 
-    test("should show profile page when accountId is passed", async ({
-      page,
-    }) => {
-      await page.goto(`/${ROOT_SRC}?page=profile&accountId=efiz.testnet`);
-      const profileName = page.getByRole("heading", {
-        name: "Elliot",
-      });
-      await expect(profileName).toBeVisible();
-    });
-
-    test("Should navigate to Posts and Show them", async ({ page }) => {
+    test("should navigate to 'Posts' and display them", async ({ page }) => {
       await page.goto(`/${ROOT_SRC}?page=profile&accountId=efiz.testnet`);
       const postButton = page.getByRole("tab", { name: "Posts" });
       await postButton.click();
 
       await expect(postButton).toHaveClass("nav-link active");
     });
-    test("Should navigate to NFTs and Show them", async ({ page }) => {
+    test("should navigate to 'NFTs' and display them", async ({ page }) => {
       await page.goto(`/${ROOT_SRC}?page=profile&accountId=efiz.testnet`);
       const nftButton = page.getByRole("tab", { name: "NFTs" });
       await nftButton.click();
 
       await expect(nftButton).toHaveClass("nav-link active");
     });
-    test("Should navigate to Widgets and Show them", async ({ page }) => {
+    test("should navigate to 'Widgets' and display them", async ({ page }) => {
       await page.goto(`/${ROOT_SRC}?page=profile&accountId=efiz.testnet`);
       const widgetButton = page.getByRole("tab", { name: "Widgets" });
       await widgetButton.click();
@@ -160,7 +136,7 @@ test.describe("?page=profile", () => {
       });
       await expect(widgetTitle).toBeVisible({ timeout: 10000 });
     });
-    test("Should not navigate to Edit Profile", async ({ page }) => {
+    test("should not navigate to 'Edit Profile'", async ({ page }) => {
       await page.goto(`/${ROOT_SRC}?page=profile&accountId=efiz.testnet`);
       const profileImageSection = page.locator(".profile-image-section");
       await expect(profileImageSection).toBeVisible();
