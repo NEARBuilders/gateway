@@ -9,7 +9,8 @@ const { href } = VM.require("${alias_old}/widget/lib.url") || {
 const data = fetch(`https://httpbin.org/headers`);
 const gatewayURL = data?.body?.headers?.Origin ?? "";
 
-const isNearDiscovery = gatewayURL.includes("near.org") || gatewayURL.includes("everything.dev");
+const isNearDiscovery =
+  gatewayURL.includes("near.org") || gatewayURL.includes("everything.dev");
 
 const showCanvas = props.showCanvas;
 const onClose = props.onClose;
