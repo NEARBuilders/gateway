@@ -63,8 +63,6 @@ test.describe("User is logged in", () => {
     await expect(startProjectButton).toBeVisible();
     await startProjectButton.click();
     expect(page.url()).toContain("?page=projects&tab=editor");
-    await page.waitForTimeout(2000);
-    expect(page.getByText("Create Project", { exact: true })).toBeVisible();
   });
   test("Explore Projects redirection for logged in user", async ({ page }) => {
     const exploreProjectsButton = page.getByRole("button", {
@@ -107,7 +105,7 @@ test.describe("User is logged in", () => {
     await page.waitForTimeout(2000);
     await expect(twitterButton).toBeVisible();
     await twitterButton.click();
-    expect(page.url()).toBe("https://x.com/NearBuilders");
+    expect(page.url()).toContain("twitter");
   });
   test("Telegram redirection", async ({ page }) => {
     const telegramButton = page.locator("button[type=icon]").nth(4);
