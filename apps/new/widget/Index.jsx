@@ -9,17 +9,18 @@ const { Footer } = VM.require("${config_account}/widget/components.Footer") || {
 const data = fetch(`https://httpbin.org/headers`);
 const gatewayURL = data?.body?.headers?.Origin ?? "";
 
-const Container = gatewayURL.includes("near.org")
-  ? styled.div`
-      width: 100%;
-    `
-  : styled.div`
-      position: fixed;
-      inset: 73px 0px 0px;
-      width: 100%;
-      overflow-y: scroll;
-      height: 100%;
-    `;
+const Container =
+  gatewayURL.includes("near.org") || gatewayURL.includes("everything.dev")
+    ? styled.div`
+        width: 100%;
+      `
+    : styled.div`
+        position: fixed;
+        inset: 73px 0px 0px;
+        width: 100%;
+        overflow-y: scroll;
+        height: 100%;
+      `;
 
 const config = {
   theme: {},
