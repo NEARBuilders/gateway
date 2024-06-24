@@ -93,7 +93,10 @@ const ProjectCardWrapper = ({ children, project }) => {
   return (
     <div
       className="cursor d-flex flex-1"
-      onClick={() => setShowQuickView(project)}
+      onClick={(e) => {
+        e.stopPropagation();
+        setShowQuickView(project);
+      }}
     >
       {children}
     </div>
