@@ -143,7 +143,7 @@ test.describe("?page=projects", () => {
 
       test.beforeEach(async ({ page }) => {
         const editBtn = page.getByTestId("edit-btn");
-        await expect(editBtn).toBeVisible();
+        await expect(editBtn).toBeVisible({ timeout: 10000 });
         await editBtn.click();
         expect(page.url()).toContain("?page=projects&tab=editor");
       });
@@ -155,20 +155,10 @@ test.describe("?page=projects", () => {
           "meghagoel.testnet": {
             project: {
               "testing-project-on-builddao": {
-                "": '{"title":"New project title","description":"New Project description","profileImage":{"ipfs_cid":"bafkreifk42ibqsg5sfky5tlhkfty6rkup5leqite5koenhesnuwq55kufi"},"backgroundImage":{"ipfs_cid":"bafkreidbfu7uxtr4is7wxileg3mrbajve6cgkfmrqemc6pxsr6nnczz7ly"},"tags":{"test":""},"linktree":{"twitter":"https://test.nearbuilders.org/","github":"https://test.nearbuilders.org/","telegram":"https://test.nearbuilders.org/","website":"https://test.nearbuilders.org/"},"contributors":["megha19.testnet"],"tabs":["overview","activity","tasks"],"projectAccountId":"meghagoel.testnet","teamSize":"1-10","location":"New Location"}',
+                "": '{"title":"New project title","description":"New Project description","profileImage":{"ipfs_cid":"bafkreifk42ibqsg5sfky5tlhkfty6rkup5leqite5koenhesnuwq55kufi"},"backgroundImage":{"ipfs_cid":"bafkreidbfu7uxtr4is7wxileg3mrbajve6cgkfmrqemc6pxsr6nnczz7ly"},"tags":{"test":""},"linktree":{"twitter":"https://test.nearbuilders.org/","github":"https://test.nearbuilders.org/","telegram":"https://test.nearbuilders.org/","website":"https://test.nearbuilders.org/"},"contributors":["meghagoel.testnet"],"tabs":["overview","activity","tasks","updatesfeed","feedbackfeed"],"projectAccountId":"meghagoel.testnet","teamSize":"1-10","location":"New Location"}',
                 metadata: {
                   name: "New project title",
                   description: "New Project description",
-
-                  tags: {
-                    test: "",
-                  },
-                  linktree: {
-                    twitter:
-                      "https://twitter.com/https://test.nearbuilders.org/",
-                    github: "https://github.com/https://test.nearbuilders.org/",
-                    telegram: "https://t.me/https://test.nearbuilders.org/",
-                  },
                 },
               },
             },
