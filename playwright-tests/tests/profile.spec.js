@@ -116,7 +116,7 @@ test.describe("?page=profile", () => {
       storageState: "playwright-tests/storage-states/wallet-not-connected.json",
     });
 
-    test("Should show login prompt if no accountId is passed", async ({
+    test("should show login prompt if no accountId is passed", async ({
       page,
     }) => {
       await page.goto(`/${ROOT_SRC}?page=profile`);
