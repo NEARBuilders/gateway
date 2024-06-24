@@ -27,6 +27,7 @@ const Container = styled.div`
   opacity: 1 !important;
   .offcanvas.offcanvas-end {
     width: 60% !important;
+    top: 73px;
   }
 
   .close {
