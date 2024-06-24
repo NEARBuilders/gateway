@@ -76,7 +76,7 @@ const tabs = [
     id: "tasks",
     label: "Tasks",
     checked: true,
-    description: "A list of tasks that the project is working on.",
+    description: "A list of tasks associated with the project, which active contributors can add manually.",
   },
   // Uncomment after the support is added
   // { id: "discussion", label: "Discussion", checked: false },
