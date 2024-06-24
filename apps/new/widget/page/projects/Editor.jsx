@@ -93,7 +93,7 @@ const tabs = [
     id: "updatesFeed",
     label: "Updates Feed",
     checked: true,
-    description: "A list of updates that the project has made.",
+    description: "A list of updates on-chain that the project has made, including new features, bug fixes, performance improvements, and other significant changes, to keep users informed of the project's development progress.",
   },
   {
     id: "feedbackFeed",
