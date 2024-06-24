@@ -247,7 +247,7 @@ test.describe("?page=projects&tab=editor", () => {
       const warningText = page.getByText(
         "Network issue: Couldn't fetch any projects, please try again later",
       );
-      expect(warningText).toBeHidden();
+      await expect(warningText).toBeVisible();
     });
   });
 });
