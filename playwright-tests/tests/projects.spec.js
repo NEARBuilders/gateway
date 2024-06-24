@@ -57,6 +57,49 @@ test.describe("?page=projects", () => {
       expect(page.url()).toContain("?page=project&id=");
     });
 
+    test("should filter projects by team size and tags", async ({ page }) => {
+      // wait for data to load
+      const projectGridCard = await page
+        .getByTestId("project-grid-card")
+        .nth(1);
+      await expect(projectGridCard).toBeVisible({ timeout: 10000 });
+
+      const filterBtn = await page.getByRole("button", {
+        name: "Filter",
+      });
+      await expect(filterBtn).toBeVisible();
+      await filterBtn.click();
+      await page.getByRole("combobox").nth(0).selectOption("1-10");
+      await page.getByPlaceholder("Start Typing").fill("test");
+      await page.getByLabel("test").click();
+      await page.getByRole("button", { name: "Filter", exact: true }).click();
+      const filteredProjectCounts = await page
+        .getByText("test", { exact: true })
+        .count();
+      expect(filteredProjectCounts).toBeGreaterThan(0);
+    });
+
+    test("should search projects by title", async ({ page }) => {
+      // wait for data to load
+      const projectGridCard = await page
+        .getByTestId("project-grid-card")
+        .nth(1);
+      await expect(projectGridCard).toBeVisible({ timeout: 10000 });
+
+      const searchInput = await page.getByPlaceholder(
+        "Search by project ID or name",
+      );
+      await expect(searchInput).toBeVisible();
+      const title = "Testing project on Build DAO";
+      await searchInput.fill(title);
+      // only one projects should be found
+      const filteredProject = await page.getByTestId("project-grid-card");
+      await expect(filteredProject).toBeVisible({ timeout: 10000 });
+      await expect(page.getByRole("heading", { name: title })).toBeVisible({
+        timeout: 10000,
+      });
+    });
+
     test.describe("User is not logged in", () => {
       test.use({
         storageState:
