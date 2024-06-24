@@ -69,7 +69,7 @@ const tabs = [
     disabled: true,
     checked: true,
     description:
-      "Overview of the project displaying basic information about the project.",
+      "Overview of the project displaying basic information like description, tags, contributors, location, etc..",
   },
   // { id: "activity", label: "Activity", checked: true },
   {
