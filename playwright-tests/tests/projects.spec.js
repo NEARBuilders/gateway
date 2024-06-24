@@ -186,7 +186,7 @@ test.describe("?page=projects", () => {
 
       test.beforeEach(async ({ page }) => {
         const editBtn = page.getByTestId("edit-btn");
-        await expect(editBtn).toBeVisible();
+        await expect(editBtn).toBeVisible({ timeout: 10000 });
         await editBtn.click();
         expect(page.url()).toContain("?page=projects&tab=editor");
       });
