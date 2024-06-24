@@ -87,7 +87,7 @@ const tabs = [
     id: "activity",
     label: "Activity",
     checked: true,
-    description: "Activity feed for the project.",
+    description: "An activity feed for the project, showcasing recent updates, task completions, and contributor actions to keep all team members and the broader builder's community informed of the project's progress.",
   },
   {
     id: "updatesFeed",
