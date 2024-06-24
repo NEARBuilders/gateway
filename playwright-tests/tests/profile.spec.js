@@ -43,7 +43,7 @@ test.describe("?page=profile", () => {
       await expect(profileName).toBeVisible();
     });
 
-    test("Should navigate to Edit Profile and save correct data", async ({
+    test("should navigate to 'Edit Profile' and save correct data", async ({
       page,
     }) => {
       const editButton = page.getByRole("button", { name: "Edit Profile" });
