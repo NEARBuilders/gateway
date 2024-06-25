@@ -10,7 +10,10 @@ const data = fetch(`https://httpbin.org/headers`);
 const gatewayURL = data?.body?.headers?.Origin ?? "";
 
 const Container =
-  gatewayURL.includes("near.org") || gatewayURL.includes("everything.dev")
+  gatewayURL.includes("near.org") ||
+  gatewayURL.includes("everything.dev") ||
+  gatewayURL.includes("nearbuilders.org") ||
+  gatewayURL.includes("gitbos.app")
     ? styled.div`
         width: 100%;
       `

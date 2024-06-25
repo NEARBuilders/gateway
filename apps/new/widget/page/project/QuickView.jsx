@@ -10,7 +10,10 @@ const data = fetch(`https://httpbin.org/headers`);
 const gatewayURL = data?.body?.headers?.Origin ?? "";
 
 const isNearDiscovery =
-  gatewayURL.includes("near.org") || gatewayURL.includes("everything.dev");
+  gatewayURL.includes("near.org") ||
+  gatewayURL.includes("everything.dev") ||
+  gatewayURL.includes("nearbuilders.org") ||
+  gatewayURL.includes("gitbos.app");
 
 const showCanvas = props.showCanvas;
 const onClose = props.onClose;
@@ -93,7 +96,7 @@ return (
       tabIndex="-1"
       data-bs-scroll="false"
       data-bs-backdrop="true"
-      style={{ top: isNearDiscovery ? "" : "73px" }}
+      style={{ top: isNearDiscovery ? "0px" : "73px" }}
     >
       <div class="close cursor" onClick={onClose}>
         <div className="d-block d-md-none">
