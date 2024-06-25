@@ -2,7 +2,7 @@ const { Button } = VM.require("${alias_old}/widget/components") || {
   Button: () => <></>,
 };
 const { getTagsFromSocialProfileData, getTeamMembersFromSocialProfileData } =
-  VM.require("potlock.near/widget/utils") || {
+  VM.require("${alias_potlock}/widget/utils") || {
     getTagsFromSocialProfileData: () => [],
     getTeamMembersFromSocialProfileData: () => [],
   };
@@ -10,7 +10,7 @@ const { getTagsFromSocialProfileData, getTeamMembersFromSocialProfileData } =
 const bootstrapTheme = props.bootstrapTheme || "dark";
 
 let ListsSDK =
-  VM.require("potlock.near/widget/SDK.lists") ||
+  VM.require("${alias_potlock}/widget/SDK.lists") ||
   (() => ({
     getRegistrations: () => {},
   }));

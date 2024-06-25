@@ -677,7 +677,7 @@ const ViewTaskModal = () => {
                 <div className="assignee-item" key={index}>
                   <Widget
                     src={
-                      "devhub.near/widget/devhub.components.molecule.ProfileCard"
+                      "${config_account}/widget/components.project.ProfileCard"
                     }
                     props={{
                       accountId: assignee,

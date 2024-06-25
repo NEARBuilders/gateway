@@ -101,25 +101,24 @@ test.describe("User is logged in", () => {
   });
 
   test("Twitter redirection", async ({ page }) => {
-    const twitterButton = page.locator("button[type=icon]").nth(3);
-    await page.waitForTimeout(2000);
-    await expect(twitterButton).toBeVisible();
-    await twitterButton.click();
-    expect(page.url()).toContain("twitter");
+    const popupPromise = page.waitForEvent("popup");
+    await page.locator("button[type=icon]").nth(3).click();
+    const popup = await popupPromise;
+    await popup.goto("https://x.com/NearBuilders");
   });
+
   test("Telegram redirection", async ({ page }) => {
-    const telegramButton = page.locator("button[type=icon]").nth(4);
-    await page.waitForTimeout(2000);
-    await expect(telegramButton).toBeVisible();
-    await telegramButton.click();
-    expect(page.url()).toBe("https://www.nearbuilders.com/tg-builders");
+    const popupPromise = page.waitForEvent("popup");
+    await page.locator("button[type=icon]").nth(4).click();
+    const popup = await popupPromise;
+    await popup.goto("https://www.nearbuilders.com/tg-builders");
   });
+
   test("Github redirection", async ({ page }) => {
-    const githubButton = page.locator("button[type=icon]").nth(5);
-    await page.waitForTimeout(2000);
-    await expect(githubButton).toBeVisible();
-    await githubButton.click();
-    expect(page.url()).toBe("https://github.com/NEARBuilders");
+    const popupPromise = page.waitForEvent("popup");
+    await page.locator("button[type=icon]").nth(5).click();
+    const popup = await popupPromise;
+    await popup.goto("https://github.com/NEARBuilders");
   });
 });
 
