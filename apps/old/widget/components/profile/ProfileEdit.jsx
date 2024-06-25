@@ -15,10 +15,6 @@ if (!accountId) {
 
 const profile = Social.getr(`${accountId}/profile`);
 
-if (!profile) {
-  return "";
-}
-
 const [name, setName] = useState(profile.name ?? "");
 const [description, setDescription] = useState(profile.description ?? "");
 const [location, setLocation] = useState(profile.location ?? "");
