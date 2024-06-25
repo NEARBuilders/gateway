@@ -8,7 +8,7 @@ const { href } = VM.require("${alias_old}/widget/lib.url") || {
 
 const { isNearSocial } = VM.require("${alias_new}/widget/lib.gateway") || {
   isNearSocial: false,
-}
+};
 
 const showCanvas = props.showCanvas;
 const onClose = props.onClose;
