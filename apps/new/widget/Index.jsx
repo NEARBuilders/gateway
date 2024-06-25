@@ -6,24 +6,21 @@ const { Footer } = VM.require("${config_account}/widget/components.Footer") || {
   Footer: () => <></>,
 };
 
-const data = fetch(`https://httpbin.org/headers`);
-const gatewayURL = data?.body?.headers?.Origin ?? "";
+const { isNearSocial } = VM.require("${alias_new}/widget/lib.gateway") || {
+  isNearSocial: false,
+};
 
-const Container =
-  gatewayURL.includes("near.org") ||
-  gatewayURL.includes("everything.dev") ||
-  gatewayURL.includes("nearbuilders.org") ||
-  gatewayURL.includes("gitbos.app")
-    ? styled.div`
-        width: 100%;
-      `
-    : styled.div`
-        position: fixed;
-        inset: 73px 0px 0px;
-        width: 100%;
-        overflow-y: scroll;
-        height: 100%;
-      `;
+const Container = isNearSocial
+  ? styled.div`
+      position: fixed;
+      inset: 73px 0px 0px;
+      width: 100%;
+      overflow-y: scroll;
+      height: 100%;
+    `
+  : styled.div`
+      width: 100%;
+    `;
 
 const config = {
   theme: {},
