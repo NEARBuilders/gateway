@@ -538,32 +538,21 @@ function onCreateProject() {
   const project = {
     title,
     description,
-    profileImage: avatar,
-    backgroundImage: coverImage,
     tags: convertArrayToObject(tags),
-    linktree: {
-      twitter: twitter,
-      github: gitHub,
-      telegram: telegram,
-      website: website,
-    },
-    contributors,
-    tabs: Array.from(selectedTabs),
-    projectAccountId: projectAccount,
-    teamSize,
     location,
+    teamSize,
   };
 
   const data = {
     project: {
       [projectID]: {
-        "": JSON.stringify(project),
+        project,
         metadata: {
-          name: title,
-          description: description,
           image: avatar,
           backgroundImage: coverImage,
-          tags: convertArrayToObject(tags),
+          contributors,
+          tabs: Array.from(selectedTabs),
+          projectAccountId: projectAccount,
           linktree: {
             twitter: twitter && `https://twitter.com/${twitter}`,
             github: gitHub && `https://github.com/${gitHub}`,
