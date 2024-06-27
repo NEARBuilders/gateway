@@ -541,6 +541,7 @@ function onCreateProject() {
     tags: convertArrayToObject(tags),
     location,
     teamSize,
+    contributors,
   };
 
   const data = {
@@ -550,9 +551,8 @@ function onCreateProject() {
         metadata: {
           image: avatar,
           backgroundImage: coverImage,
-          contributors,
-          tabs: Array.from(selectedTabs),
           projectAccountId: projectAccount,
+          tabs: Array.from(selectedTabs),
           linktree: {
             twitter: twitter && `https://twitter.com/${twitter}`,
             github: gitHub && `https://github.com/${gitHub}`,
