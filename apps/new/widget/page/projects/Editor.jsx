@@ -76,7 +76,8 @@ const tabs = [
     id: "tasks",
     label: "Tasks",
     checked: true,
-    description: "A list of tasks associated with the project, which active contributors can add manually.",
+    description:
+      "A list of tasks associated with the project, which active contributors can add manually.",
   },
   // Uncomment after the support is added
   // { id: "discussion", label: "Discussion", checked: false },
@@ -87,19 +88,22 @@ const tabs = [
     id: "activity",
     label: "Activity",
     checked: true,
-    description: "An activity feed for the project, showcasing recent updates, task completions, and contributor actions to keep all team members and the broader builder's community informed of the project's progress.",
+    description:
+      "An activity feed for the project, showcasing recent updates, task completions, and contributor actions to keep all team members and the broader builder's community informed of the project's progress.",
   },
   {
     id: "updatesFeed",
     label: "Updates Feed",
     checked: true,
-    description: "A list of updates on-chain that the project has made, including new features, bug fixes, performance improvements, and other significant changes, to keep users informed of the project's development progress.",
+    description:
+      "A list of updates on-chain that the project has made, including new features, bug fixes, performance improvements, and other significant changes, to keep users informed of the project's development progress.",
   },
   {
     id: "feedbackFeed",
     label: "Feedback Feed",
     checked: true,
-    description: "A feed of feedback on-chain, including comments, suggestions, and critiques from users, to help guide future improvements and increase community involvement.",
+    description:
+      "A feed of feedback on-chain, including comments, suggestions, and critiques from users, to help guide future improvements and increase community involvement.",
   },
 ];
 

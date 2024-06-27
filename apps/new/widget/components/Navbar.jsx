@@ -120,7 +120,6 @@ const NavLinks = styled.div`
 
   .active {
     color: var(--eca-227, #eca227);
-    /* font-weight: 700; */
   }
 
   @media screen and (max-width: 960px) {
