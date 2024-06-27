@@ -547,7 +547,7 @@ function onCreateProject() {
   const data = {
     project: {
       [projectID]: {
-        project,
+        "": JSON.stringify(project),
         metadata: {
           image: avatar,
           backgroundImage: coverImage,
