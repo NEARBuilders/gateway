@@ -24,7 +24,6 @@ function findDefaultRoute(routesObject) {
 const tab = props.tab ?? findDefaultRoute(routes);
 
 const Sidebar = styled.div`
-  background: #000;
   display: flex;
   min-width: 259px;
   min-height: 100vh;

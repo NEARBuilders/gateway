@@ -6,6 +6,22 @@ const { Footer } = VM.require("${config_account}/widget/components.Footer") || {
   Footer: () => <></>,
 };
 
+const { isNearSocial } = VM.require("${alias_new}/widget/lib.gateway") || {
+  isNearSocial: false,
+};
+
+const Container = isNearSocial
+  ? styled.div`
+      position: fixed;
+      inset: 73px 0px 0px;
+      width: 100%;
+      overflow-y: scroll;
+      height: 100%;
+    `
+  : styled.div`
+      width: 100%;
+    `;
+
 const config = {
   theme: {},
   layout: {
@@ -111,7 +127,9 @@ const config = {
 };
 
 return (
-  <CSS>
-    <Widget src="${alias_old}/widget/app.view" props={{ config, ...props }} />
-  </CSS>
+  <Container>
+    <CSS>
+      <Widget src="${alias_old}/widget/app.view" props={{ config, ...props }} />
+    </CSS>
+  </Container>
 );
