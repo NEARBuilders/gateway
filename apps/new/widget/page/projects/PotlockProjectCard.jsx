@@ -1,6 +1,6 @@
 const { potId, potDetail, payoutDetails, projects } = props;
 const { nearToUsd, ipfsUrlFromCid, yoctosToNear, yoctosToUsdWithFallback } =
-  VM.require("potlock.near/widget/utils") || {
+  VM.require("${alias_potlock}/widget/utils") || {
     ipfsUrlFromCid: () => "",
     yoctosToNear: () => "",
     yoctosToUsdWithFallback: () => "",
@@ -8,30 +8,30 @@ const { nearToUsd, ipfsUrlFromCid, yoctosToNear, yoctosToUsdWithFallback } =
   };
 
 const { _address } = VM.require(
-  `potlock.near/widget/Components.DonorsUtils`,
+  "${alias_potlock}/widget/Components.DonorsUtils",
 ) || {
   _address: (address) => address,
 };
 
 const { ownerId, NADA_BOT_URL, SUPPORTED_FTS } = VM.require(
-  "potlock.near/widget/constants",
+  "${alias_potlock}/widget/constants",
 ) || {
   ownerId: "",
   NADA_BOT_URL: "",
   SUPPORTED_FTS: {},
 };
 const { getTagsFromSocialProfileData } = VM.require(
-  "potlock.near/widget/utils",
+  "${alias_potlock}/widget/utils",
 ) || {
   getTagsFromSocialProfileData: () => [],
 };
 
-const PotSDK = VM.require("potlock.near/widget/SDK.pot") || {
+const PotSDK = VM.require("${alias_potlock}/widget/SDK.pot") || {
   getDonationsForProject: () => {},
 };
 
 let DonateSDK =
-  VM.require("potlock.near/widget/SDK.donate") ||
+  VM.require("${alias_potlock}/widget/SDK.donate") ||
   (() => ({
     getDonationsForRecipient: () => {},
   }));
@@ -363,7 +363,10 @@ const profileImageStyle = {
 const tags = getTagsFromSocialProfileData(profile);
 
 return (
-  <div onClick={() => props.setShowCreateModalProjectId(projectId)}>
+  <div
+    data-testid="potlock-card"
+    onClick={() => props.setShowCreateModalProjectId(projectId)}
+  >
     <Card>
       <HeaderContainer className="pt-0 position-relative">
         <BackgroundImageContainer>

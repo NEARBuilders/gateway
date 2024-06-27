@@ -369,6 +369,7 @@ const DropdownMenu = ({ columnTitle, item, index, changeStatusOptions }) => {
       onBlur={() => handleDropdownToggle(columnTitle, index, false)}
     >
       <div
+        data-testid="task-dropdown"
         data-bs-toggle="dropdown"
         aria-expanded="false"
         onClick={() => {
@@ -479,6 +480,7 @@ const AddTaskModal = useMemo(() => {
         src="${config_account}/widget/page.project.TaskEditor"
         props={{
           showAddTaskModal: showAddTaskModal,
+          isEditTask: isEditTask,
           task: taskDetail,
           onEditTask: onEditTask,
           onAddTask: onAddTask,
@@ -526,7 +528,7 @@ const ViewTaskModal = () => {
                 <div className="assignee-item" key={index}>
                   <Widget
                     src={
-                      "devhub.near/widget/devhub.components.molecule.ProfileCard"
+                      "${config_account}/widget/components.project.ProfileCard"
                     }
                     props={{
                       accountId: assignee,
