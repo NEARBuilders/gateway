@@ -619,6 +619,11 @@ const ExploreContainer = styled.div`
   flex-direction: column;
   gap: 2rem;
   border-radius: 24px;
+  .explore-main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
 `;
 const ContentCenter = styled.div``;
 
@@ -795,13 +800,7 @@ const Hero = () => {
             <p className="subheading">
               Learn with our Social Graph of Build Commons.
             </p>
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-              }}
-            >
+            <div className="explore-main">
               {" "}
               <Widget src="${config_account}/widget/page.home.hero.SocialGraph" />
             </div>
