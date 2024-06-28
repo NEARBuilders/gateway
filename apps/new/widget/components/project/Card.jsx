@@ -130,12 +130,12 @@ const EditButton = ({ item }) => {
 
 const Tags = ({ tags }) => {
   const tagsLength = tags?.length;
-  const firstThreeTags = tagsLength > 3 ? tags.slice(0, 3) : tags;
-  const remainingTags = tagsLength > 3 ? tags.slice(3) : [];
+  const firstThreeLinesOfTags = tagsLength > 5 ? tags.slice(0, 5) : tags;
+  const remainingTags = tagsLength > 5 ? tags.slice(5) : [];
   return (
     <>
-      {firstThreeTags &&
-        firstThreeTags.map((tag) => (
+      {firstThreeLinesOfTags &&
+        firstThreeLinesOfTags.map((tag) => (
           <Tag>
             <span className="fw-bold">{tag}</span>
           </Tag>
