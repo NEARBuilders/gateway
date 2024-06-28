@@ -127,17 +127,12 @@ const EditButton = ({ item }) => {
   );
 };
 
-const Tags = ({ tags, location }) => {
+const Tags = ({ tags }) => {
   const tagsLength = tags?.length;
   const firstThreeTags = tagsLength > 3 ? tags.slice(0, 3) : tags;
   const remainingTags = tagsLength > 3 ? tags.slice(3) : [];
   return (
     <>
-      {location && (
-        <Tag>
-          <i className="bi bi-globe"></i> {location}
-        </Tag>
-      )}
       {firstThreeTags &&
         firstThreeTags.map((tag) => (
           <Tag>
@@ -201,7 +196,6 @@ const ProjectCard = ({ data, variant, showEditProjectAction }) => {
     projectID,
     profileImage,
     backgroundImage,
-    location,
   } = data;
 
   const item = {
@@ -259,7 +253,7 @@ const ProjectCard = ({ data, variant, showEditProjectAction }) => {
               <p>{description}</p>
             </div>
             <div className="d-flex gap-2 flex-wrap align-items-center mt-auto">
-              <Tags location={location} tags={tags} />
+              <Tags tags={tags} />
               <span className="ms-auto">
                 <ProfileImages accountIds={collaborators} />
               </span>
