@@ -54,7 +54,7 @@ const Container = styled.div`
       margin: 0;
     }
 
-    span {
+    .account-id {
       display: flex;
       align-items: center;
       gap: 4px;
@@ -213,9 +213,15 @@ const InfoSection = () => {
       </div>
       <div className="account-info-section">
         <h3>{profile.name}</h3>
-        <span onClick={() => clipboard.writeText(accountId)}>
-          {accountId} <CopyIcon />
-        </span>
+        <div
+          className="account-id"
+          onClick={() => clipboard.writeText(accountId)}
+        >
+          <span className="text-truncate" style={{ maxWidth: 200 }}>
+            {accountId}
+          </span>
+          <CopyIcon />
+        </div>
       </div>
       <div>
         <Widget
