@@ -6,6 +6,10 @@ const { href } = VM.require("${alias_old}/widget/lib.url") || {
   href: () => {},
 };
 
+const { isNearSocial } = VM.require("${alias_new}/widget/lib.gateway") || {
+  isNearSocial: false,
+};
+
 const showCanvas = props.showCanvas;
 const onClose = props.onClose;
 const project = props.project;
@@ -86,8 +90,8 @@ return (
       className={`offcanvas offcanvas-end ${showCanvas ? "show" : ""}`}
       tabIndex="-1"
       data-bs-scroll="false"
-      data-bs-backdrop="static"
-      style={{ zIndex: 100 }}
+      data-bs-backdrop="true"
+      style={{ top: isNearSocial ? "73px" : "0px", zIndex: 100 }}
     >
       <div class="close cursor" onClick={onClose}>
         <div className="d-block d-md-none">

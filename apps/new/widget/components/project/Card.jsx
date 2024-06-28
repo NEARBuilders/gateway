@@ -118,6 +118,7 @@ const EditButton = ({ item }) => {
           id: item.path,
         },
       })}
+      onClick={(e) => e.stopPropagation()}
       type="icon"
       className={"rounded-3"}
       variant="primary"
