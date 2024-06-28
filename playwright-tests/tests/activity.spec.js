@@ -137,7 +137,7 @@ test.describe("User is logged in", () => {
     const postQuestion = await page.frameLocator("iframe").first();
     await postQuestion
       .locator('textarea[name="textarea"]')
-      .fill("Post a test update");
+      .fill("Post a test question");
     const expectedTransactionData = {
       "saswat_test.testnet": {
         post: {
