@@ -20,7 +20,7 @@ test.describe("?page=resources", () => {
       name: "Working with VM",
     });
     await workingWithVMButton.click();
-    expect(page.url()).toContain("&tab=vm");
+    expect(page.url()).toContain("&tab=VM");
     const pageHeader = await page.getByRole("heading", {
       name: "Working with the VM",
     });

@@ -87,7 +87,6 @@ test.describe("?page=projects&tab=editor", () => {
         page,
       }) => {
         const expectedProjectData = {
-          // TODO: We will want to get rid of this
           title: "Sample project",
           description: "This is a sample project",
           profileImage: {
@@ -205,6 +204,8 @@ test.describe("?page=projects&tab=editor", () => {
           path.join(__dirname, "./assets/black.png"),
         );
 
+        await expect(await page.getByRole('img', { name: 'Image Preview' }).nth(0)).toBeVisible();
+
         await page.route("**/add", async (route) => {
           const modifiedResponse = {
             status: 200,
@@ -221,6 +222,8 @@ test.describe("?page=projects&tab=editor", () => {
         await backgroundInput.setInputFiles(
           path.join(__dirname, "./assets/black.png"),
         );
+
+        await expect(await page.getByRole('img', { name: 'Image Preview' }).nth(1)).toBeVisible();
 
         await page.getByLabel("Updates Feed").uncheck();
         await page.getByLabel("Feedback Feed").uncheck();
