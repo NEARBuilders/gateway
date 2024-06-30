@@ -35,6 +35,7 @@ const StyledCard = styled.div`
     display: flex;
     align-items: flex-start;
     flex-direction: column;
+    gap: 4px;
 
     h4 {
       color: #fff;
@@ -88,9 +89,10 @@ const Tag = styled.div`
   justify-content: center;
   align-items: center;
   gap: 4px;
-  border-radius: 6px;
+  border-radius: 50rem;
   border: 1px solid #666;
   background: rgba(5, 41, 77, 0.03);
+  min-width: fit-content;
 
   color: #fff;
   font-family: Poppins;
@@ -126,23 +128,24 @@ const EditButton = ({ item }) => {
   );
 };
 
-const Tags = ({ tags, location }) => {
+const Tags = ({ tags }) => {
+  const tagsLength = tags?.length;
+  const firstThreeLinesOfTags = tagsLength > 5 ? tags.slice(0, 5) : tags;
+  const remainingTags = tagsLength > 5 ? tags.slice(5) : [];
   return (
-    <div
-      className={`d-flex align-items-center ${variant === "grid" ? "flex-wrap" : ""} gap-2`}
-    >
-      {location && (
-        <Tag>
-          <i className="bi bi-globe"></i> {location}
-        </Tag>
-      )}
-      {tags &&
-        tags.map((tag) => (
+    <>
+      {firstThreeLinesOfTags &&
+        firstThreeLinesOfTags.map((tag) => (
           <Tag>
             <span className="fw-bold">{tag}</span>
           </Tag>
         ))}
-    </div>
+      {remainingTags.length > 0 && (
+        <Tag>
+          <span className="fw-bold">+{remainingTags.length}</span>
+        </Tag>
+      )}
+    </>
   );
 };
 
@@ -194,7 +197,6 @@ const ProjectCard = ({ data, variant, showEditProjectAction }) => {
     projectID,
     profileImage,
     backgroundImage,
-    location,
   } = data;
 
   const item = {
@@ -251,9 +253,11 @@ const ProjectCard = ({ data, variant, showEditProjectAction }) => {
               />
               <p>{description}</p>
             </div>
-            <div className="d-flex justify-content-between align-items-center mt-auto">
-              <Tags tags={tags} projectAccountId={projectAccountId} />
-              <ProfileImages accountIds={collaborators} />
+            <div className="d-flex gap-2 flex-wrap align-items-center mt-auto">
+              <Tags tags={tags} />
+              <span className="ms-auto">
+                <ProfileImages accountIds={collaborators} />
+              </span>
             </div>
           </div>
         </>
@@ -273,8 +277,11 @@ const ProjectCard = ({ data, variant, showEditProjectAction }) => {
                 projectAccountId={projectAccountId}
               />
             </div>
-            <div className="d-flex align-items-center gap-3">
-              <Tags tags={tags} location={location} />
+            <div
+              style={{ minWidth: "fit-content" }}
+              className="d-flex flex-wrap align-items-center gap-2"
+            >
+              <Tags tags={tags} />
               <ProfileImages accountIds={collaborators} />
               <div className="d-flex gap-2 align-items-center">
                 {showEditProjectAction && <EditButton item={item} />}

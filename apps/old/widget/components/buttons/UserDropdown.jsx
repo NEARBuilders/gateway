@@ -179,7 +179,7 @@ return (
           className="dropdown-item"
           type="button"
           to={href({
-            widgetSrc: "${alias_new}/widget/Index",
+            widgetSrc: "${config_index}",
             params: {
               page: "profile",
               accountId: context.accountId,

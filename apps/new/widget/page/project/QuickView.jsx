@@ -6,11 +6,9 @@ const { href } = VM.require("${alias_old}/widget/lib.url") || {
   href: () => {},
 };
 
-const data = fetch(`https://httpbin.org/headers`);
-const gatewayURL = data?.body?.headers?.Origin ?? "";
-
-const isNearDiscovery =
-  gatewayURL.includes("near.org") || gatewayURL.includes("everything.dev");
+const { isNearSocial } = VM.require("${alias_new}/widget/lib.gateway") || {
+  isNearSocial: false,
+};
 
 const showCanvas = props.showCanvas;
 const onClose = props.onClose;
@@ -26,9 +24,9 @@ const profile = {
 };
 
 const Container = styled.div`
+  opacity: 1 !important;
   .offcanvas.offcanvas-end {
     width: 60% !important;
-    top: 73px;
   }
 
   .close {
@@ -93,7 +91,7 @@ return (
       tabIndex="-1"
       data-bs-scroll="false"
       data-bs-backdrop="true"
-      style={{ top: isNearDiscovery ? "" : "73px" }}
+      style={{ top: isNearSocial ? "73px" : "0px", zIndex: 100 }}
     >
       <div class="close cursor" onClick={onClose}>
         <div className="d-block d-md-none">
@@ -178,5 +176,9 @@ return (
         </Button>
       </div>
     </div>
+    <div
+      style={{ pointerEvents: "none", zIndex: 50 }}
+      className={`modal-backdrop fade ${showCanvas ? "show" : ""}`}
+    ></div>
   </Container>
 );
