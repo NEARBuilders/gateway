@@ -1,7 +1,6 @@
 import { expect, test } from "@playwright/test";
 import { ROOT_SRC } from "../util/constants";
 import path from "path";
-
 const clickAndAssertTab = async (page, tabName, urlFragment, textToAssert) => {
   await page.getByRole("button", { name: tabName }).click();
   expect(page.url()).toContain(urlFragment);
