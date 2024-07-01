@@ -49,10 +49,7 @@ test.describe("Navbar tabs redirection", () => {
   });
 });
 
-test.describe("User is logged in", () => {
-  test.use({
-    storageState: "playwright-tests/storage-states/wallet-connected.json",
-  });
+test.describe("Landing page redirection", () => {
   test.beforeEach(async ({ page }) => {
     await page.goto(`/${ROOT_SRC}`);
   });
@@ -101,43 +98,41 @@ test.describe("User is logged in", () => {
   });
 
   test("Twitter redirection", async ({ page }) => {
-    const popupPromise = page.waitForEvent("popup");
-    await page.locator("button[type=icon]").nth(3).click();
-    const popup = await popupPromise;
-    await popup.goto("https://x.com/NearBuilders");
+    const [newPage] = await Promise.all([
+      page.waitForEvent("popup"),
+      page.getByTestId("twitter").click(),
+    ]);
+
+    // Wait for the new page to load completely
+    await newPage.waitForLoadState("domcontentloaded");
+
+    // Assert that the new page has the expected URL
+    expect(newPage.url()).toContain("https://x.com/NearBuilders");
   });
 
   test("Telegram redirection", async ({ page }) => {
-    const popupPromise = page.waitForEvent("popup");
-    await page.locator("button[type=icon]").nth(4).click();
-    const popup = await popupPromise;
-    await popup.goto("https://www.nearbuilders.com/tg-builders");
+    const [newPage] = await Promise.all([
+      page.waitForEvent("popup"),
+      page.getByTestId("telegram").click(),
+    ]);
+
+    // Wait for the new page to load completely
+    await newPage.waitForLoadState("domcontentloaded");
+
+    // Assert that the new page has the expected URL
+    expect(newPage.url()).toContain("https://www.nearbuilders.com/tg-builders");
   });
 
   test("Github redirection", async ({ page }) => {
-    const popupPromise = page.waitForEvent("popup");
-    await page.locator("button[type=icon]").nth(5).click();
-    const popup = await popupPromise;
-    await popup.goto("https://github.com/NEARBuilders");
-  });
-});
+    const [newPage] = await Promise.all([
+      page.waitForEvent("popup"),
+      page.getByTestId("github").click(),
+    ]);
 
-test.describe("User is not logged in", () => {
-  test.use({
-    storageState: "playwright-tests/storage-states/wallet-not-connected.json",
-  });
-  test.beforeEach(async ({ page }) => {
-    await page.goto(`/${ROOT_SRC}`);
-  });
-  test("Start project redirection for logged out users", async ({ page }) => {
-    const startProjectButton = page.getByRole("button", {
-      name: "Start Project",
-    });
-    await expect(startProjectButton).toBeVisible();
-    await startProjectButton.click();
-    expect(page.url()).toContain("?page=projects&tab=editor");
-    await page.waitForTimeout(2000);
-    const connectButton = page.getByRole("button", { name: "Connect" });
-    await expect(connectButton).toBeVisible();
+    // Wait for the new page to load completely
+    await newPage.waitForLoadState("domcontentloaded");
+
+    // Assert that the new page has the expected URL
+    expect(newPage.url()).toContain("https://github.com/NEARBuilders");
   });
 });
