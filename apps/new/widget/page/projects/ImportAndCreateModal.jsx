@@ -16,7 +16,7 @@ const Item = ({ title, description, src, tab }) => {
   return (
     <Link
       href={href({
-        widgetSrc: `${alias_new}/widget/Index`,
+        widgetSrc: `${config_index}`,
         params: {
           page: "projects",
           tab: tab,

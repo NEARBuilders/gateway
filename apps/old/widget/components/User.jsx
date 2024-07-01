@@ -59,7 +59,7 @@ const Overlay = (props) => (
   <Link
     className="link-dark text-truncate d-inline-flex mw-100"
     to={href({
-      widgetSrc: "${config_account}/widget/app",
+      widgetSrc: "${config_index}",
       params: {
         page: "profile",
         accountId,

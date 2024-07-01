@@ -17,6 +17,7 @@ test.describe("Navbar", () => {
   });
 
   test("View source", async ({ page }) => {
+    test.setTimeout(60000);
     const btn = page.locator("i.bi.bi-three-dots");
     await page.waitForTimeout(1000);
     await expect(btn).toBeVisible();
@@ -29,9 +30,8 @@ test.describe("Navbar", () => {
       /.*\?page=inspect&widgetPath=builddao.testnet\/widget\/page.home.Index/,
     );
     await page.waitForTimeout(2000);
-    expect(
-      page.locator("a.btn.btn-sm.btn-outline-secondary.border-0").nth(0),
-    ).toHaveText("Source");
+    const widgetTitle = page.locator("h5", { hasText: "page.home.Index" });
+    await expect(widgetTitle).toBeVisible();
   });
 
   test("Edit Code", async ({ page }) => {

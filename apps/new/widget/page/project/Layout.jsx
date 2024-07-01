@@ -7,7 +7,15 @@ const { Metadata } = VM.require(
 const { href } = VM.require("${alias_old}/widget/lib.url") || {
   href: () => {},
 };
-const Layout = ({ projectAccountId, profile, children, project, tab }) => {
+const Layout = ({
+  projectAccountId,
+  projectId,
+  profile,
+  children,
+  project,
+  tab,
+  accountId,
+}) => {
   const { title } = project;
 
   if (!projectAccountId) {
@@ -34,6 +42,8 @@ const Layout = ({ projectAccountId, profile, children, project, tab }) => {
         title={title}
         profile={profile}
         projectAccountId={projectAccountId}
+        projectId={projectId}
+        accountId={accountId}
       />
       <h5
         style={{

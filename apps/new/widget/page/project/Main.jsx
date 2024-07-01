@@ -26,7 +26,10 @@ const { Layout } = VM.require(
   Layout: () => <></>,
 };
 const config = {
-  theme: {},
+  theme: {
+    "--font-family": "Poppins, sans-serif",
+    fontFamily: "var(--font-family)",
+  },
   layout: {
     src: "${alias_devs}/widget/Layout",
     props: {
@@ -42,6 +45,8 @@ const config = {
           projectAccountId={data.projectAccountId}
           page={page}
           project={project}
+          projectId={id}
+          accountId={context.accountId}
           {...props}
         ></Layout>
       </>

@@ -219,7 +219,7 @@ test.describe("?page=project&id=", () => {
     });
     test("should display feed and post option", async ({ page }) => {
       await expect(
-        page.getByText("Testing Project On Build DAO Feed"),
+        page.getByText("Testing Project On Build DAO"),
       ).toBeVisible();
       await expect(page.getByText("Post")).toBeVisible();
     });
@@ -233,7 +233,7 @@ test.describe("?page=project&id=", () => {
     });
     test("should display feed and post option", async ({ page }) => {
       await expect(
-        page.getByText("Testing Project On Build DAO Updates Feed"),
+        page.getByText("Testing Project On Build DAO Updates"),
       ).toBeVisible();
       await expect(page.getByText("Post")).toBeVisible();
     });
@@ -247,7 +247,7 @@ test.describe("?page=project&id=", () => {
     });
     test("should display feed and post option", async ({ page }) => {
       await expect(
-        page.getByText("Testing Project On Build DAO Feedback Feed"),
+        page.getByText("Testing Project On Build DAO Feedback"),
       ).toBeVisible();
       await expect(page.getByText("Post")).toBeVisible();
     });

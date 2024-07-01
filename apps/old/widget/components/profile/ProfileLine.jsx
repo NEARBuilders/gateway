@@ -46,7 +46,7 @@ inner = link ? (
       link !== true
         ? link
         : href({
-            widgetSrc: "${config_account}/widget/app",
+            widgetSrc: "${config_index}",
             params: {
               page: "profile",
               accountId,

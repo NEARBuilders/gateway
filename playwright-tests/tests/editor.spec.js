@@ -28,20 +28,6 @@ test.describe("?page=projects&tab=editor", () => {
         storageState: "playwright-tests/storage-states/wallet-connected.json",
       });
 
-      test.beforeEach(async ({ page }) => {
-        // Intercept IPFS requests
-        await page.route("**/add", async (route) => {
-          const modifiedResponse = {
-            status: 200,
-            contentType: "application/json",
-            body: JSON.stringify({ cid: "simple_cid" }),
-          };
-
-          // Fulfill the route with the modified response
-          await route.fulfill(modifiedResponse);
-        });
-      });
-
       test("should not allow next when empty required fields", async ({
         page,
       }) => {
@@ -101,14 +87,13 @@ test.describe("?page=projects&tab=editor", () => {
         page,
       }) => {
         const expectedProjectData = {
-          // TODO: We will want to get rid of this
           title: "Sample project",
           description: "This is a sample project",
           profileImage: {
-            ipfs_cid: "simple_cid",
+            ipfs_cid: "simple_cid_1",
           },
           backgroundImage: {
-            ipfs_cid: "simple_cid",
+            ipfs_cid: "simple_cid_2",
           },
           tags: {
             test: "",
@@ -136,10 +121,10 @@ test.describe("?page=projects&tab=editor", () => {
                   name: "Sample project",
                   description: "This is a sample project",
                   image: {
-                    ipfs_cid: "simple_cid",
+                    ipfs_cid: "simple_cid_1",
                   },
                   backgroundImage: {
-                    ipfs_cid: "simple_cid",
+                    ipfs_cid: "simple_cid_2",
                   },
                   tags: {
                     test: "",
@@ -202,17 +187,47 @@ test.describe("?page=projects&tab=editor", () => {
         await page.getByRole("combobox").nth(0).fill("nobody.near");
         await page.getByLabel("nobody.near").click();
 
+        await page.route("**/add", async (route) => {
+          const modifiedResponse = {
+            status: 200,
+            contentType: "application/json",
+            body: JSON.stringify({ cid: "simple_cid_1" }),
+          };
+
+          // Fulfill the route with the modified response
+          await route.fulfill(modifiedResponse);
+        });
+
         // Avatar
         const avatarInput = await page.locator("input[type=file]").nth(0);
         await avatarInput.setInputFiles(
           path.join(__dirname, "./assets/black.png"),
         );
 
+        await expect(
+          await page.getByRole("img", { name: "Image Preview" }).nth(0),
+        ).toBeVisible();
+
+        await page.route("**/add", async (route) => {
+          const modifiedResponse = {
+            status: 200,
+            contentType: "application/json",
+            body: JSON.stringify({ cid: "simple_cid_2" }),
+          };
+
+          // Fulfill the route with the modified response
+          await route.fulfill(modifiedResponse);
+        });
+
         // Background
         const backgroundInput = await page.locator("input[type=file]").nth(1);
         await backgroundInput.setInputFiles(
           path.join(__dirname, "./assets/black.png"),
         );
+
+        await expect(
+          await page.getByRole("img", { name: "Image Preview" }).nth(1),
+        ).toBeVisible();
 
         await page.getByLabel("Updates Feed").uncheck();
         await page.getByLabel("Feedback Feed").uncheck();

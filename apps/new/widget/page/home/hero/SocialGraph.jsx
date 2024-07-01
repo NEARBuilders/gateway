@@ -9,7 +9,7 @@ const GraphContainer = styled.div`
   overflow: hidden;
   iframe {
     overflow: hidden;
-    transform: scale(2.1);
+    transform: scale(1.5);
   }
 `;
 const ProfileContainer = styled.div`
@@ -78,7 +78,6 @@ useEffect(() => {
       };
     }
     Object.values(graphData).forEach((links) => {
-      console.log(graphData);
       Object.keys(links).forEach((memberId) => {
         if (!(memberId in nodes)) {
           nodes[memberId] = {
@@ -103,8 +102,6 @@ useEffect(() => {
       createNodesAndEdges(accountId, graphData.graph);
     });
   }
-  console.log("nodes", nodes);
-  console.log("edges", edges);
 
   setMessage({
     nodes: Object.values(nodes),
@@ -177,6 +174,7 @@ const code = `
     }
     #graph {
         background: #1e1e1e;
+        padding-top: 24px;
     }
 </style>
 

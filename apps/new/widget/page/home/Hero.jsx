@@ -49,7 +49,7 @@ const HeadingSection = styled.div`
         #eca227 1.24%,
         #fc8119 55.76%,
         #9747ff 108.89%
-      );
+      ) !important;
     }
   }
 
@@ -130,11 +130,11 @@ const EndCard = styled.div`
   z-index: 2;
   overflow: clip;
   position: relative;
+  padding: 24px;
   .card-content {
-    padding: 24px;
     display: flex;
     flex-direction: column;
-    gap: 24px;
+    gap: 8px;
     position: relative;
     @keyframes floating {
       0%,
@@ -176,15 +176,18 @@ const EndCard = styled.div`
     font-family: Poppins, sans-serif;
     font-size: 16px;
     margin: 0;
+    font-weight: 400;
+    line-height: 140%;
   }
 
   .heading {
     color: #000;
     font-family: Poppins, sans-serif;
-    font-size: 24px;
+    font-size: 32px;
     font-weight: 500;
-    line-height: 130%; /* 31.2px */
-    letter-spacing: -0.48px;
+    line-height: 120%;
+    letter-spacing: -1.28px;
+    margin: 0;
   }
 
   @media screen and (max-width: 1024px) {
@@ -278,19 +281,22 @@ const Card = styled.div`
   background: #1e1e1e;
 
   .subheading {
-    color: #666;
+    color: #a0a0a0;
     font-family: Poppins, sans-serif;
     font-size: 16px;
     margin: 0;
+    font-weight: 400;
+    line-height: 140%;
   }
 
   .heading {
     color: #fff;
     font-family: Poppins, sans-serif;
-    font-size: 24px;
+    font-size: 32px;
     font-weight: 500;
-    line-height: 130%; /* 31.2px */
-    letter-spacing: -0.48px;
+    line-height: 120%;
+    letter-spacing: -1.28px;
+    margin: 0;
   }
 
   .title {
@@ -397,7 +403,6 @@ const GrowContainer = styled.div`
   flex-shrink: 0;
   flex-direction: column;
   position: relative;
-  padding: 24px;
   @media screen and (max-width: 768px) {
     padding-bottom: 200px;
   }
@@ -538,7 +543,7 @@ const ContributeImage2 = styled.img`
   z-index: 0;
   transform: scale(0.35);
   right: 0;
-  top: -180px;
+  top: -170px;
   animation:
     slideInTranslate2 2s forwards,
     scaleIn2 1s forwards;
@@ -614,6 +619,11 @@ const ExploreContainer = styled.div`
   flex-direction: column;
   gap: 2rem;
   border-radius: 24px;
+  .explore-main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
 `;
 const ContentCenter = styled.div``;
 
@@ -621,7 +631,7 @@ const GrowImage1 = styled.img`
   position: absolute;
   z-index: 1;
   left: 0;
-  bottom: -60px;
+  bottom: -50px;
   width: 100%;
   object-fit: cover;
   transform: scale(0.7);
@@ -790,7 +800,10 @@ const Hero = () => {
             <p className="subheading">
               Learn with our Social Graph of Build Commons.
             </p>
-            <Widget src="${config_account}/widget/page.home.hero.SocialGraph" />
+            <div className="explore-main">
+              {" "}
+              <Widget src="${config_account}/widget/page.home.hero.SocialGraph" />
+            </div>
           </ExploreContainer>
         </Card>
         <CenterCard>

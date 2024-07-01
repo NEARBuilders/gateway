@@ -53,7 +53,7 @@ customActions = [
 
 return (
   <div key={feedName}>
-    <Header>{feedName} Feed</Header>
+    <Header>{feedName}</Header>
     {/* Modals */}
     <Widget
       src="${config_account}/widget/components.modals.CreateProposal"

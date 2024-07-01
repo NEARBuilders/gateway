@@ -63,17 +63,48 @@ const isNearAddress = (address) => {
 };
 
 const tabs = [
-  { id: "overview", label: "Overview", disabled: true, checked: true },
+  {
+    id: "overview",
+    label: "Overview",
+    disabled: true,
+    checked: true,
+    description:
+      "Overview of the project displaying basic information like description, tags, contributors, location, etc..",
+  },
   // { id: "activity", label: "Activity", checked: true },
-  { id: "tasks", label: "Tasks", checked: true },
+  {
+    id: "tasks",
+    label: "Tasks",
+    checked: true,
+    description:
+      "A list of tasks associated with the project, which active contributors can add manually.",
+  },
   // Uncomment after the support is added
   // { id: "discussion", label: "Discussion", checked: false },
   // { id: "code", label: "Code", checked: false },
   // { id: "roadmap", label: "Roadmap", checked: false },
   // Feed tabs
-  { id: "activity", label: "Activity", checked: true },
-  { id: "updatesFeed", label: "Updates Feed", checked: true },
-  { id: "feedbackFeed", label: "Feedback Feed", checked: true },
+  {
+    id: "activity",
+    label: "Activity",
+    checked: true,
+    description:
+      "An activity feed for the project, showcasing recent updates, task completions, and contributor actions to keep all team members and the broader builder's community informed of the project's progress.",
+  },
+  {
+    id: "updatesFeed",
+    label: "Updates Feed",
+    checked: true,
+    description:
+      "A list of updates on-chain that the project has made, including new features, bug fixes, performance improvements, and other significant changes, to keep users informed of the project's development progress.",
+  },
+  {
+    id: "feedbackFeed",
+    label: "Feedback Feed",
+    checked: true,
+    description:
+      "A feed of feedback on-chain, including comments, suggestions, and critiques from users, to help guide future improvements and increase community involvement.",
+  },
 ];
 
 const app = props.app ?? "${config_account}";
@@ -304,6 +335,7 @@ const Container = styled.div`
   .form-control {
     background: transparent;
   }
+  font-family: "InterVariable", sans-serif;
 
   .form-group {
     width: 100%;
@@ -412,6 +444,8 @@ const ModalContainer = styled.div`
     padding-bottom: 0px !important;
     margin-bottom: -20px !important;
   }
+
+  font-family: "Poppins", sans-serif;
 `;
 
 const SuccessModal = () => {
@@ -438,7 +472,7 @@ const SuccessModal = () => {
             <Button
               variant="primary"
               href={href({
-                widgetSrc: `${alias_new}/widget/Index`,
+                widgetSrc: `${config_index}`,
                 params: {
                   page: "projects",
                   tab: "myProjects",
@@ -477,7 +511,7 @@ const SuccessDeleteModal = () => {
             <Button
               variant="primary"
               href={href({
-                widgetSrc: `${alias_new}/widget/Index`,
+                widgetSrc: `${config_index}`,
                 params: {
                   page: "projects",
                   tab: "myProjects",
@@ -855,20 +889,25 @@ const SecondScreen = () => {
           <label className="mb-3">Tabs</label>
           <div className="d-flex flex-column gap-1">
             {tabs.map((tab) => (
-              <div className="form-check form-switch" key={tab.id}>
-                <label className="form-check-label" htmlFor={tab.id}>
-                  {tab.label}
-                </label>
-                <input
-                  className="form-check-input"
-                  type="checkbox"
-                  role="switch"
-                  id={tab.id}
-                  checked={selectedTabs.has(tab.id.toLowerCase())}
-                  onChange={handleCheckboxChange}
-                  disabled={tab.disabled}
-                />
-              </div>
+              <>
+                <div className="form-check form-switch" key={tab.id}>
+                  <label className="form-check-label" htmlFor={tab.id}>
+                    {tab.label}
+                  </label>
+                  <input
+                    className="form-check-input"
+                    type="checkbox"
+                    role="switch"
+                    id={tab.id}
+                    checked={selectedTabs.has(tab.id.toLowerCase())}
+                    onChange={handleCheckboxChange}
+                    disabled={tab.disabled}
+                  />
+                </div>
+                <div key={`${tab.id}-description`} className="form-text">
+                  {tab.description}
+                </div>
+              </>
             ))}
           </div>
         </div>
@@ -1050,7 +1089,7 @@ const FirstScreen = () => {
           <Button
             variant="outline"
             href={href({
-              widgetSrc: `${alias_new}/widget/Index`,
+              widgetSrc: `${config_index}`,
               params: {
                 page: "projects",
               },
