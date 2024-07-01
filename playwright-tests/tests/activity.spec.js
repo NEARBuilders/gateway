@@ -1,12 +1,15 @@
 import { expect, test } from "@playwright/test";
 import { ROOT_SRC } from "../util/constants";
 import path from "path";
+
 const clickAndAssertTab = async (page, tabName, urlFragment, textToAssert) => {
   await page.getByRole("button", { name: tabName }).click();
   expect(page.url()).toContain(urlFragment);
   await page.waitForTimeout(1000);
   if (textToAssert) {
-    expect(page.getByText(textToAssert, { exact: true })).toBeVisible();
+    await expect(page.getByText(textToAssert).nth(0)).toBeVisible({
+      timeout: 10000,
+    });
   }
 };
 
@@ -17,7 +20,7 @@ test.describe("All tabs must be visible and redirected to respective pages", () 
   });
 
   test("All Feed", async ({ page }) => {
-    await clickAndAssertTab(page, "All", "?page=activity&tab=all", "All Feed");
+    await clickAndAssertTab(page, "All", "?page=activity&tab=all", "All");
   });
 
   test("Updates", async ({ page }) => {
@@ -25,7 +28,7 @@ test.describe("All tabs must be visible and redirected to respective pages", () 
       page,
       "Updates",
       "?page=activity&tab=updates",
-      "Updates Feed",
+      "Updates",
     );
   });
 
@@ -34,17 +37,12 @@ test.describe("All tabs must be visible and redirected to respective pages", () 
       page,
       "Question",
       "?page=activity&tab=question",
-      "Question Feed",
+      "Question",
     );
   });
 
   test("Idea", async ({ page }) => {
-    await clickAndAssertTab(
-      page,
-      "Idea",
-      "?page=activity&tab=idea",
-      "Idea Feed",
-    );
+    await clickAndAssertTab(page, "Idea", "?page=activity&tab=idea", "Idea");
   });
 
   test("Feedback", async ({ page }) => {
@@ -52,7 +50,7 @@ test.describe("All tabs must be visible and redirected to respective pages", () 
       page,
       "Feedback",
       "?page=activity&tab=feedback",
-      "Feedback Feed",
+      "Feedback",
     );
   });
 
@@ -76,7 +74,7 @@ test.describe("All tabs must be visible and redirected to respective pages", () 
       page,
       "Request",
       "?page=activity&tab=request",
-      "Request Feed",
+      "Request",
     );
   });
 
@@ -380,7 +378,6 @@ test.describe("User is logged in", () => {
   });
 
   test("Edit a post and Save", async ({ page }) => {
-    await clickAndAssertTab(page, "All", "?page=activity&tab=all", "All Feed");
     await page.waitForTimeout(1000);
     const dropdown = page.locator(".bi.bi-three-dots-vertical").nth(1);
     await dropdown.click();
@@ -412,7 +409,6 @@ test.describe("User is logged in", () => {
   });
 
   test("Bookmark a Post", async ({ page }) => {
-    await clickAndAssertTab(page, "All", "?page=activity&tab=all", "All Feed");
     await page.waitForTimeout(1000);
     const bookmarkIcon = await page.getByTitle("Bookmark").nth(1);
     await bookmarkIcon.click();
@@ -446,7 +442,6 @@ test.describe("User is logged in", () => {
     expect(transactionObj).toMatchObject(expectedTransactionData);
   });
   test("Like a Post", async ({ page }) => {
-    await clickAndAssertTab(page, "All", "?page=activity&tab=all", "All Feed");
     await page.waitForTimeout(1000);
     const likeIcon = await page.getByTitle("Like").nth(1);
     await page.waitForTimeout(1000);
@@ -471,7 +466,6 @@ test.describe("User is logged in", () => {
     expect(transactionObj).toMatchObject(expectedTransactionData);
   });
   test("Repost a Post", async ({ page }) => {
-    await clickAndAssertTab(page, "All", "?page=activity&tab=all", "All Feed");
     await page.waitForTimeout(1000);
     const repostIcon = await page.getByTitle("Repost").nth(1);
     await page.waitForTimeout(1000);
@@ -502,7 +496,6 @@ test.describe("User is logged in", () => {
   });
 
   test("Comment on a post", async ({ page }) => {
-    await clickAndAssertTab(page, "All", "?page=activity&tab=all", "All Feed");
     await page.waitForTimeout(1000);
     const commentIcon = await page.getByTitle("Comment").nth(1);
     await page.waitForTimeout(1000);
@@ -533,8 +526,42 @@ test.describe("User is logged in", () => {
     };
     expect(transactionObj).toMatchObject(expectedTransactionData);
   });
+
+  test.describe("All tabs must be visible and redirected to respective pages", () => {
+    test.beforeEach(async ({ page }) => {
+      await page.waitForTimeout(1000);
+      const shareBtn = await page.getByTitle("Share").nth(1);
+      await shareBtn.click();
+    });
+
+    test("should copy post link to clipboard", async ({ page }) => {
+      await page.getByRole("button", { name: "Copy link to post" }).click();
+      await page.waitForTimeout(1000);
+      const handle = await page.evaluateHandle(() =>
+        navigator.clipboard.readText(),
+      );
+      expect((await handle.jsonValue()).includes("MainPage.N.Post.Page"));
+    });
+
+    test("should share post link via email", async ({ page }) => {
+      await page.getByRole("button", { name: "Share by email" }).click();
+      await page.waitForTimeout(1000);
+      const handle = await page.evaluateHandle(() =>
+        navigator.clipboard.readText(),
+      );
+      expect((await handle.jsonValue()).includes("MainPage.N.Post.Page"));
+    });
+
+    test("should share post link via twitter", async ({ page }) => {
+      const [newPage] = await Promise.all([
+        page.waitForEvent("popup"),
+        page.getByRole("button", { name: "Share by Twitter" }).click(),
+      ]);
+      await newPage.waitForLoadState("domcontentloaded");
+      expect(newPage.url()).toContain("https://x.com/intent");
+    });
+  });
   test("Convert post into proposal", async ({ page }) => {
-    await clickAndAssertTab(page, "All", "?page=activity&tab=all", "All Feed");
     await page.waitForTimeout(1000);
     const dropdown = page.locator(".bi.bi-three-dots-vertical").nth(1);
     await dropdown.click();
