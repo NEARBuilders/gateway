@@ -110,8 +110,8 @@ impl Contract {
         <meta name="twitter:title" content="{app_name}{title}">
         <meta name="twitter:description" content="{description}">
         <meta name="twitter:image" content="{image}">
-        <script src="https://ipfs.web4.near.page/ipfs/bafybeic6aeztkdlthx5uwehltxmn5i6owm47b7b2jxbbpwmydv2mwxdfca/main.794b6347ae264789bc61.bundle.js"></script>  // this could come from bos.config.json
-        <script src="https://ipfs.web4.near.page/ipfs/bafybeic6aeztkdlthx5uwehltxmn5i6owm47b7b2jxbbpwmydv2mwxdfca/runtime.25b143da327a5371509f.bundle.js"></script>
+        <script src="https://ipfs.web4.near.page/ipfs/bafybeiancp5im5nfkdki3cfvo7ownl2knjovqh7bseegk4zvzsl4buryoi/main.e3d28e0d8977da89f0c4.bundle.js"></script>
+        <script src="https://ipfs.web4.near.page/ipfs/bafybeiancp5im5nfkdki3cfvo7ownl2knjovqh7bseegk4zvzsl4buryoi/runtime.475541d9ed47b876d02e.bundle.js"></script>
     </head>
     <body>
         <near-social-viewer src="{current_account_id}/widget/Index" initialProps='{initial_props_json}'></near-social-viewer>
