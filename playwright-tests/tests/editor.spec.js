@@ -1,11 +1,11 @@
 import { expect, test } from "@playwright/test";
 import path from "path";
-import { ROOT_SRC } from "../util/constants";
+import { TESTNET_ROOT_SRC } from "../util/constants";
 
 test.describe("?page=projects&tab=editor", () => {
   test.describe("Editor", () => {
     test.beforeEach(async ({ page }) => {
-      await page.goto(`/${ROOT_SRC}?page=projects&tab=editor`);
+      await page.goto(`/${TESTNET_ROOT_SRC}?page=projects&tab=editor`);
     });
 
     test.describe("User is not logged in", () => {
@@ -252,7 +252,7 @@ test.describe("?page=projects&tab=editor", () => {
 
   test.describe("Import project from Potlock", () => {
     test.beforeEach(async ({ page }) => {
-      await page.goto(`/${ROOT_SRC}?page=projects&tab=potlockImport`);
+      await page.goto(`/${TESTNET_ROOT_SRC}?page=projects&tab=potlockImport`);
     });
     test.use({
       storageState: "playwright-tests/storage-states/wallet-connected.json",

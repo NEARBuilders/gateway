@@ -1,5 +1,5 @@
 import { test, expect } from "@playwright/test";
-import { ROOT_SRC } from "../util/constants";
+import { TESTNET_ROOT_SRC } from "../util/constants";
 
 test.describe("User is not logged in", () => {
   test.use({
@@ -7,7 +7,7 @@ test.describe("User is not logged in", () => {
   });
 
   test.beforeEach(async ({ page }) => {
-    await page.goto(`/${ROOT_SRC}`);
+    await page.goto(`/${TESTNET_ROOT_SRC}`);
   });
 
   test("To verify that the sign in button is visible in the home page and when clicked navigates to login page", async ({
@@ -26,7 +26,7 @@ test.describe("User is logged in", () => {
   });
 
   test.beforeEach(async ({ page }) => {
-    await page.goto(`/${ROOT_SRC}`);
+    await page.goto(`/${TESTNET_ROOT_SRC}`);
   });
 
   test("To verify that the user is logged in succesfully", async ({ page }) => {

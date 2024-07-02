@@ -1,9 +1,9 @@
 import { expect, test } from "@playwright/test";
-import { ROOT_SRC } from "../util/constants";
+import { TESTNET_ROOT_SRC } from "../util/constants";
 
 test.describe("?page=resources", () => {
   test.beforeEach(async ({ page }) => {
-    await page.goto(`/${ROOT_SRC}?page=resources`);
+    await page.goto(`/${TESTNET_ROOT_SRC}?page=resources`);
   });
 
   test("Should navigate to default page", async ({ page }) => {
