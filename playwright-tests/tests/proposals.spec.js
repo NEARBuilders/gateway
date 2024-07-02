@@ -124,7 +124,7 @@ test.describe("?page=activity&tab=proposals", () => {
         await description.click();
         await description.fill("This is a test text proposal");
         await page.getByRole("button", { name: "Create" }).click();
-       await expect(page.getByText("Awaiting Approval")).toBeVisible()
+        await expect(page.getByText("Awaiting Approval")).toBeVisible();
         await page.getByText("Copy").click();
         const expectedTransactionData = {
           proposal: {
@@ -153,7 +153,7 @@ test.describe("?page=activity&tab=proposals", () => {
         await page.getByPlaceholder("NEAR Address").fill("megha19.near");
         await page.getByPlaceholder("0").fill("10");
         await page.getByRole("button", { name: "Create" }).click();
-        await expect(page.getByText("Awaiting Approval")).toBeVisible()
+        await expect(page.getByText("Awaiting Approval")).toBeVisible();
         await page.getByText("Copy").click();
         const expectedTransactionData = {
           proposal: {
@@ -173,7 +173,7 @@ test.describe("?page=activity&tab=proposals", () => {
         expect(transactionObj).toMatchObject(expectedTransactionData);
       });
       test("should create 'Function call' proposal", async ({ page }) => {
-       await page.waitForSelector("");
+        await page.waitForSelector("");
       });
       test("should create 'Add member to role' proposal", async ({ page }) => {
         await page.waitForSelector("");
