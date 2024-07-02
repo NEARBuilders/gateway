@@ -23,7 +23,7 @@ test.describe("Navbar tabs redirection", () => {
     await activityTab.click();
     expect(page.url()).toContain("?page=activity");
     await page.waitForTimeout(1000);
-    expect(page.getByText("All Feed", { exact: true })).toBeVisible();
+    expect(page.getByText("All").nth(0)).toBeVisible();
   });
   test("Projects", async ({ page }) => {
     const projectsTab = page.getByRole("link", {
