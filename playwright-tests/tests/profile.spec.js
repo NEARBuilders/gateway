@@ -15,7 +15,7 @@ test.describe("?page=profile", () => {
     test("should show profile page if no accountId is passed", async ({
       page,
     }) => {
-      const profileId = page.getByText("anybody.near").nth(2);
+      const profileId = page.getByText("saswat_test.testnet").nth(2);
       await expect(profileId).toBeVisible();
     });
 
@@ -70,7 +70,7 @@ test.describe("?page=profile", () => {
       await page.getByPlaceholder("website link").fill("Someone.com");
 
       const expectedResult = {
-        "anybody.near": {
+        "saswat_test.testnet": {
           profile: {
             name: "Someone",
             description: "Someone",
