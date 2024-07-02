@@ -107,6 +107,7 @@ return (
     <div className="mb-3">
       <label htmlFor="proposal-type">Proposal Type</label>
       <select
+        data-testid="select-proposal-type"
         name="proposal-type"
         id="proposal-type"
         data-bs-theme={bootstrapTheme}

@@ -565,6 +565,7 @@ function renderVoteButtons({
       <div className="w-100">
         {voted.yes && <YouVotedBadge />}
         <VoteButton
+          data-testid="approve-vote"
           className="yes"
           percentage={percentages.yes}
           finished={finished}
@@ -587,6 +588,7 @@ function renderVoteButtons({
       <div className="w-100">
         {voted.no && <YouVotedBadge />}
         <VoteButton
+          data-testid="reject-vote"
           className="no"
           percentage={percentages.no}
           finished={finished}
@@ -610,6 +612,7 @@ function renderVoteButtons({
       <div className="w-100">
         {voted.spam && <YouVotedBadge />}
         <VoteButton
+          data-testid="spam-vote"
           className="spam"
           percentage={percentages.spam}
           finished={finished}

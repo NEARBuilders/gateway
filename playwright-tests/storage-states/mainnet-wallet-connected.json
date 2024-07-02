@@ -10,11 +10,11 @@
         },
         {
           "name": "near_app_wallet_auth_key",
-          "value": "{\"accountId\":\"megha19.near\"}"
+          "value": "{\"accountId\":\"efiz.near\"}"
         },
         {
           "name": "near-social-vm:v01::accountId:",
-          "value": "megha19.near"
+          "value": "efiz.near"
         },
         {
           "name": "flags",
