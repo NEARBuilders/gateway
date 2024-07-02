@@ -1,10 +1,12 @@
 name: Deploy to staging
 on:
   pull_request:
+    paths:
+      - web4contract/**
 
 jobs:
   test:
-    uses: ./.github/workflows/test.yml
+    uses: ./.github/workflows/web4-test.yml
 
   deploy-staging:
     name: Deploy to staging subaccount
@@ -13,7 +15,7 @@ jobs:
     needs: [test]
     runs-on: ubuntu-latest
     env:
-      NEAR_CONTRACT_PR_STAGING_ACCOUNT_ID: gh-${{ github.event.number }}.${{ vars.NEAR_CONTRACT_STAGING_ACCOUNT_ID }}
+      NEAR_CONTRACT_PR_STAGING_ACCOUNT_ID: gh-${{ github.event.number }}.${{ vars.BOS_TESTNET_SIGNER_ACCOUNT_ID }}
 
     steps:
       - name: Checkout repository
@@ -25,12 +27,12 @@ jobs:
         if: github.event.action == 'opened' || github.event.action == 'reopened'
         run: |
           near account create-account fund-myself "${{ env.NEAR_CONTRACT_PR_STAGING_ACCOUNT_ID }}" '10 NEAR' \
-            use-manually-provided-public-key "${{ vars.NEAR_CONTRACT_STAGING_ACCOUNT_PUBLIC_KEY }}" \
-            sign-as "${{ vars.NEAR_CONTRACT_STAGING_ACCOUNT_ID }}" \
-            network-config "${{ vars.NEAR_CONTRACT_STAGING_NETWORK }}" \
+            use-manually-provided-public-key "${{ vars.BOS_TESTNET_SIGNER_PUBLIC_KEY }}" \
+            sign-as "${{ vars.BOS_TESTNET_SIGNER_ACCOUNT_ID }}" \
+            network-config "testnet" \
             sign-with-plaintext-private-key \
-              --signer-public-key "${{ vars.NEAR_CONTRACT_STAGING_ACCOUNT_PUBLIC_KEY }}" \
-              --signer-private-key "${{ secrets.NEAR_CONTRACT_STAGING_ACCOUNT_PRIVATE_KEY }}" \
+              --signer-public-key "${{ vars.BOS_TESTNET_SIGNER_PUBLIC_KEY }}" \
+              --signer-private-key "${{ secrets.BOS_BUILDDAO_TESTNET_SIGNER_PRIVATE_KEY }}" \
             send
 
       - name: Install cargo-near CLI
@@ -39,14 +41,14 @@ jobs:
         run: |
           cargo near deploy "${{ env.NEAR_CONTRACT_PR_STAGING_ACCOUNT_ID }}" \
             without-init-call \
-            network-config "${{ vars.NEAR_CONTRACT_STAGING_NETWORK }}" \
+            network-config "testnet" \
             sign-with-plaintext-private-key \
-              --signer-public-key "${{ vars.NEAR_CONTRACT_STAGING_ACCOUNT_PUBLIC_KEY }}" \
-              --signer-private-key "${{ secrets.NEAR_CONTRACT_STAGING_ACCOUNT_PRIVATE_KEY }}" \
+              --signer-public-key "${{ vars.BOS_TESTNET_SIGNER_PUBLIC_KEY }}" \
+              --signer-private-key "${{ secrets.BOS_BUILDDAO_TESTNET_SIGNER_PRIVATE_KEY }}" \
             send
 
       - name: Comment on pull request
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          gh pr comment "${{ github.event.number }}" --body "Staging contract is deployed to ["'`'"${{ env.NEAR_CONTRACT_PR_STAGING_ACCOUNT_ID }}"'`'" account](https://explorer.${{ vars.NEAR_CONTRACT_STAGING_NETWORK }}.near.org/accounts/${{ env.NEAR_CONTRACT_PR_STAGING_ACCOUNT_ID }})"
+          gh pr comment "${{ github.event.number }}" --body "Staging contract is deployed to ["'`'"${{ env.NEAR_CONTRACT_PR_STAGING_ACCOUNT_ID }}"'`'" account](https://explorer.testnet.near.org/accounts/${{ env.NEAR_CONTRACT_PR_STAGING_ACCOUNT_ID }})"

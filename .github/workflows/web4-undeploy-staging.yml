@@ -2,13 +2,15 @@ name: Undeploy staging
 on:
   pull_request:
     types: [closed]
+    paths:
+      - web4contract/**
 
 jobs:
   cleanup-staging:
     name: Cleanup staging account
     runs-on: ubuntu-latest
     env:
-      NEAR_CONTRACT_PR_STAGING_ACCOUNT_ID: gh-${{ github.event.number }}.${{ vars.NEAR_CONTRACT_STAGING_ACCOUNT_ID }}
+      NEAR_CONTRACT_PR_STAGING_ACCOUNT_ID: gh-${{ github.event.number }}.${{ vars.BOS_TESTNET_SIGNER_ACCOUNT_ID }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -17,9 +19,9 @@ jobs:
       - name: Remove staging account
         run: |
           near account delete-account "${{ env.NEAR_CONTRACT_PR_STAGING_ACCOUNT_ID }}" \
-            beneficiary "${{ vars.NEAR_CONTRACT_STAGING_ACCOUNT_ID }}" \
-            network-config "${{ vars.NEAR_CONTRACT_STAGING_NETWORK }}" \
+            beneficiary "${{ vars.BOS_TESTNET_SIGNER_ACCOUNT_ID }}" \
+            network-config "testnet" \
             sign-with-plaintext-private-key \
-              --signer-public-key "${{ vars.NEAR_CONTRACT_STAGING_ACCOUNT_PUBLIC_KEY }}" \
-              --signer-private-key "${{ secrets.NEAR_CONTRACT_STAGING_ACCOUNT_PRIVATE_KEY }}" \
+              --signer-public-key "${{ vars.BOS_TESTNET_SIGNER_PUBLIC_KEY }}" \
+              --signer-private-key "${{ secrets.BOS_BUILDDAO_TESTNET_SIGNER_PRIVATE_KEY }}" \
             send
