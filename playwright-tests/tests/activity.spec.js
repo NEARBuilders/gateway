@@ -544,18 +544,16 @@ test.describe("User is logged in", () => {
     });
 
     test("should share post link via email", async ({ page }) => {
-      await page.getByRole("button", { name: "Share by email" }).click();
       await page.waitForTimeout(1000);
-      const handle = await page.evaluateHandle(() =>
-        navigator.clipboard.readText(),
-      );
-      expect((await handle.jsonValue()).includes("MainPage.N.Post.Page"));
+      // mailto opens email app, couldn't find a way to test opening of that app
+      const emailLink = page.getByRole("link", { name: " Share by email" });
+      await expect(emailLink).toHaveAttribute("href", /^mailto:/);
     });
 
     test("should share post link via twitter", async ({ page }) => {
       const [newPage] = await Promise.all([
         page.waitForEvent("popup"),
-        page.getByRole("button", { name: "Share by Twitter" }).click(),
+        page.getByRole("link", { name: " Share on Twitter" }).click(),
       ]);
       await newPage.waitForLoadState("domcontentloaded");
       expect(newPage.url()).toContain("https://x.com/intent");
