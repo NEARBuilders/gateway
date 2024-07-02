@@ -2,6 +2,10 @@ name: Test
 on:
   workflow_call:
 
+defaults:
+  run:
+    working-directory: ./web4contract
+
 jobs:
   code-formatting:
     name: Code Formatting

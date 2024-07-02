@@ -5,6 +5,10 @@ on:
     paths:
       - web4contract/**
 
+defaults:
+  run:
+    working-directory: ./web4contract
+
 jobs:
   cleanup-staging:
     name: Cleanup staging account

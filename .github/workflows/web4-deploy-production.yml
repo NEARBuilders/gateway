@@ -5,6 +5,10 @@ on:
     paths:
       - web4contract/**
 
+defaults:
+  run:
+    working-directory: ./web4contract
+
 jobs:
   test:
     uses: ./.github/workflows/web4-test.yml
