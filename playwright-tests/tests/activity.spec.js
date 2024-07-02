@@ -1,5 +1,5 @@
 import { expect, test } from "@playwright/test";
-import { ROOT_SRC } from "../util/constants";
+import { TESTNET_ROOT_SRC } from "../util/constants";
 import path from "path";
 const clickAndAssertTab = async (page, tabName, urlFragment, textToAssert) => {
   await page.getByRole("button", { name: tabName }).click();
@@ -12,7 +12,7 @@ const clickAndAssertTab = async (page, tabName, urlFragment, textToAssert) => {
 
 test.describe("All tabs must be visible and redirected to respective pages", () => {
   test.beforeEach(async ({ page }) => {
-    await page.goto(`/${ROOT_SRC}?page=activity`);
+    await page.goto(`/${TESTNET_ROOT_SRC}?page=activity`);
     await page.waitForTimeout(5000);
   });
 
@@ -90,7 +90,7 @@ test.describe("User is logged in", () => {
   });
 
   test.beforeEach(async ({ page }) => {
-    await page.goto(`/${ROOT_SRC}?page=activity`);
+    await page.goto(`/${TESTNET_ROOT_SRC}?page=activity`);
     await page.waitForTimeout(5000);
   });
 

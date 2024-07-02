@@ -1,12 +1,12 @@
 import { expect, test } from "@playwright/test";
-import { ROOT_SRC } from "../util/constants";
+import { TESTNET_ROOT_SRC } from "../util/constants";
 
 test.describe("Navbar", () => {
   test.use({
     storageState: "playwright-tests/storage-states/wallet-connected.json",
   });
   test.beforeEach(async ({ page }) => {
-    await page.goto(`/${ROOT_SRC}`);
+    await page.goto(`/${TESTNET_ROOT_SRC}`);
   });
 
   test("Notifications", async ({ page }) => {
@@ -55,7 +55,7 @@ test.describe("Navbar", () => {
     await expect(mainetOption).toBeVisible();
     await mainetOption.click();
     await page.waitForTimeout(1000);
-    if (page.url().includes(ROOT_SRC)) {
+    if (page.url().includes(TESTNET_ROOT_SRC)) {
       expect(page.url()).toContain("/builddao.near/widget/Index");
     } else {
       expect(page.url()).toContain("https://www.nearbuilders.org/");
@@ -71,8 +71,8 @@ test.describe("Navbar", () => {
     await expect(testnetOption).toBeVisible();
     await testnetOption.click();
     await page.waitForTimeout(1000);
-    if (page.url().includes(ROOT_SRC)) {
-      expect(page.url()).toContain(`/${ROOT_SRC}`);
+    if (page.url().includes(TESTNET_ROOT_SRC)) {
+      expect(page.url()).toContain(`/${TESTNET_ROOT_SRC}`);
     } else {
       expect(page.url()).toContain("https://test.nearbuilders.org/");
     }

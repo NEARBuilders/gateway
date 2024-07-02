@@ -1,9 +1,9 @@
 import { expect, test } from "@playwright/test";
-import { ROOT_SRC } from "../util/constants";
+import { TESTNET_ROOT_SRC } from "../util/constants";
 
 test.describe("Navbar tabs redirection", () => {
   test.beforeEach(async ({ page }) => {
-    await page.goto(`/${ROOT_SRC}`);
+    await page.goto(`/${TESTNET_ROOT_SRC}`);
   });
   test("Home", async ({ page }) => {
     const homeTab = page.locator("span", { hasText: "Home" });
@@ -51,7 +51,7 @@ test.describe("Navbar tabs redirection", () => {
 
 test.describe("Landing page redirection", () => {
   test.beforeEach(async ({ page }) => {
-    await page.goto(`/${ROOT_SRC}`);
+    await page.goto(`/${TESTNET_ROOT_SRC}`);
   });
   test("Start project redirection for logged in users", async ({ page }) => {
     const startProjectButton = page.getByRole("button", {

@@ -1,10 +1,10 @@
 import { expect, test } from "@playwright/test";
-import { ROOT_SRC } from "../util/constants";
+import { TESTNET_ROOT_SRC } from "../util/constants";
 import path from "path";
 
 test.describe("?page=profile", () => {
   test.beforeEach(async ({ page }) => {
-    await page.goto(`/${ROOT_SRC}?page=profile`);
+    await page.goto(`/${TESTNET_ROOT_SRC}?page=profile`);
   });
 
   test.describe("User logged in", () => {
@@ -22,7 +22,9 @@ test.describe("?page=profile", () => {
     test("should show profile page when accountId is passed", async ({
       page,
     }) => {
-      await page.goto(`/${ROOT_SRC}?page=profile&accountId=efiz.testnet`);
+      await page.goto(
+        `/${TESTNET_ROOT_SRC}?page=profile&accountId=efiz.testnet`,
+      );
       const profileName = page.getByRole("heading", {
         name: "Elliot",
       });
@@ -105,7 +107,7 @@ test.describe("?page=profile", () => {
     test("should show login prompt if no accountId is passed", async ({
       page,
     }) => {
-      await page.goto(`/${ROOT_SRC}?page=profile`);
+      await page.goto(`/${TESTNET_ROOT_SRC}?page=profile`);
       const loginPrompt = page.getByText(
         "AccountID prop or signed in account is required",
       );
@@ -113,21 +115,27 @@ test.describe("?page=profile", () => {
     });
 
     test("should navigate to 'Posts' and display them", async ({ page }) => {
-      await page.goto(`/${ROOT_SRC}?page=profile&accountId=efiz.testnet`);
+      await page.goto(
+        `/${TESTNET_ROOT_SRC}?page=profile&accountId=efiz.testnet`,
+      );
       const postButton = page.getByRole("tab", { name: "Posts" });
       await postButton.click();
 
       await expect(postButton).toHaveClass("nav-link active");
     });
     test("should navigate to 'NFTs' and display them", async ({ page }) => {
-      await page.goto(`/${ROOT_SRC}?page=profile&accountId=efiz.testnet`);
+      await page.goto(
+        `/${TESTNET_ROOT_SRC}?page=profile&accountId=efiz.testnet`,
+      );
       const nftButton = page.getByRole("tab", { name: "NFTs" });
       await nftButton.click();
 
       await expect(nftButton).toHaveClass("nav-link active");
     });
     test("should navigate to 'Widgets' and display them", async ({ page }) => {
-      await page.goto(`/${ROOT_SRC}?page=profile&accountId=efiz.testnet`);
+      await page.goto(
+        `/${TESTNET_ROOT_SRC}?page=profile&accountId=efiz.testnet`,
+      );
       const widgetButton = page.getByRole("tab", { name: "Widgets" });
       await widgetButton.click();
 
@@ -137,7 +145,9 @@ test.describe("?page=profile", () => {
       await expect(widgetTitle).toBeVisible({ timeout: 10000 });
     });
     test("should not navigate to 'Edit Profile'", async ({ page }) => {
-      await page.goto(`/${ROOT_SRC}?page=profile&accountId=efiz.testnet`);
+      await page.goto(
+        `/${TESTNET_ROOT_SRC}?page=profile&accountId=efiz.testnet`,
+      );
       const profileImageSection = page.locator(".profile-image-section");
       await expect(profileImageSection).toBeVisible();
       // expect no Edit Profile button in the profile image section

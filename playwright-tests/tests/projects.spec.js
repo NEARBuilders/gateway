@@ -1,10 +1,10 @@
 import { expect, test } from "@playwright/test";
-import { ROOT_SRC } from "../util/constants";
+import { TESTNET_ROOT_SRC } from "../util/constants";
 
 test.describe("?page=projects", () => {
   test.describe("Explore Projects", () => {
     test.beforeEach(async ({ page }) => {
-      await page.goto(`/${ROOT_SRC}?page=projects`);
+      await page.goto(`/${TESTNET_ROOT_SRC}?page=projects`);
     });
 
     test("should navigate to project page on grid card click", async ({
@@ -165,7 +165,7 @@ test.describe("?page=projects", () => {
 
   test.describe("My Project Page", () => {
     test.beforeEach(async ({ page }) => {
-      await page.goto(`/${ROOT_SRC}?page=projects&tab=myProjects`);
+      await page.goto(`/${TESTNET_ROOT_SRC}?page=projects&tab=myProjects`);
     });
 
     test.describe("Wallet is not connected", () => {
@@ -260,7 +260,7 @@ test.describe("?page=projects", () => {
 
   test.describe("Watchlist", () => {
     test.beforeEach(async ({ page }) => {
-      await page.goto(`/${ROOT_SRC}?page=projects&tab=watchList`);
+      await page.goto(`/${TESTNET_ROOT_SRC}?page=projects&tab=watchList`);
     });
 
     test.describe("User is not logged in", () => {
@@ -303,7 +303,9 @@ test.describe("?page=projects", () => {
 
   test.describe("Projects Involved", () => {
     test.beforeEach(async ({ page }) => {
-      await page.goto(`/${ROOT_SRC}?page=projects&tab=involvedProjects`);
+      await page.goto(
+        `/${TESTNET_ROOT_SRC}?page=projects&tab=involvedProjects`,
+      );
     });
 
     test.describe("User is not logged in", () => {

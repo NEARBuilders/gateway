@@ -1,10 +1,10 @@
 import { expect, test } from "@playwright/test";
-import { ROOT_SRC } from "../util/constants";
+import { TESTNET_ROOT_SRC } from "../util/constants";
 
 test.describe("?page=project&id=", () => {
   const projectId = "meghagoel.testnet/project/testing-project-on-builddao";
   test.beforeEach(async ({ page }) => {
-    await page.goto(`/${ROOT_SRC}?page=project&id=${projectId}`);
+    await page.goto(`/${TESTNET_ROOT_SRC}?page=project&id=${projectId}`);
   });
 
   test("should navigate to projects using 'Back to projects'", async ({
@@ -26,7 +26,9 @@ test.describe("?page=project&id=", () => {
   });
   test.describe("Tasks Page", () => {
     test.beforeEach(async ({ page }) => {
-      await page.goto(`/${ROOT_SRC}?page=project&id=${projectId}&tab=tasks`);
+      await page.goto(
+        `/${TESTNET_ROOT_SRC}?page=project&id=${projectId}&tab=tasks`,
+      );
     });
     test("should display 'Tasks' board", async ({ page }) => {
       await expect(page.getByText("Proposed")).toBeVisible();
@@ -215,7 +217,9 @@ test.describe("?page=project&id=", () => {
 
   test.describe("Activity Page", () => {
     test.beforeEach(async ({ page }) => {
-      await page.goto(`/${ROOT_SRC}?page=project&id=${projectId}&tab=activity`);
+      await page.goto(
+        `/${TESTNET_ROOT_SRC}?page=project&id=${projectId}&tab=activity`,
+      );
     });
     test("should display feed and post option", async ({ page }) => {
       await expect(
@@ -228,7 +232,7 @@ test.describe("?page=project&id=", () => {
   test.describe("Updates Page", () => {
     test.beforeEach(async ({ page }) => {
       await page.goto(
-        `/${ROOT_SRC}?page=project&id=${projectId}&tab=updatesFeed`,
+        `/${TESTNET_ROOT_SRC}?page=project&id=${projectId}&tab=updatesFeed`,
       );
     });
     test("should display feed and post option", async ({ page }) => {
@@ -242,7 +246,7 @@ test.describe("?page=project&id=", () => {
   test.describe("Feedback Page", () => {
     test.beforeEach(async ({ page }) => {
       await page.goto(
-        `/${ROOT_SRC}?page=project&id=${projectId}&tab=feedbackFeed`,
+        `/${TESTNET_ROOT_SRC}?page=project&id=${projectId}&tab=feedbackFeed`,
       );
     });
     test("should display feed and post option", async ({ page }) => {
