@@ -31,10 +31,15 @@ impl Contract {
     /// Learn more about web4 here: https://web4.near.page
     pub fn web4_get(&self, request: Web4Request) -> Web4Response {
         let mut current_account_id = env::current_account_id().to_string();
+        let mut network = "mainnet";
 
         // Check if current_account_id starts with "web4." and remove it if it does
         if let Some(stripped) = current_account_id.strip_prefix("web4.") {
             current_account_id = stripped.to_string();
+        }
+
+        if current_account_id.ends_with(".testnet") {
+            network = "testnet";
         }
 
         let path_parts: Vec<&str> = request.path.split('/').collect();
@@ -83,11 +88,9 @@ impl Contract {
             "https://i.near.social/magic/large/https://near.social/magic/img/account/{}",
             &current_account_id
         );
-        let redirect_path;
-        let initial_props_json;
 
-        redirect_path = format!("{}/widget/Index", &current_account_id);
-        initial_props_json = json!({"page": path_parts.get(2)});
+        let redirect_path = format!("{}/widget/Index", &current_account_id);
+        let initial_props_json = json!({"page": path_parts.get(2)});
 
         let app_name = html_escape::encode_text(&app_name).to_string();
         let title = html_escape::encode_text(&title).to_string();
@@ -110,11 +113,11 @@ impl Contract {
         <meta name="twitter:title" content="{app_name}{title}">
         <meta name="twitter:description" content="{description}">
         <meta name="twitter:image" content="{image}">
-        <script src="https://ipfs.web4.near.page/ipfs/bafybeiancp5im5nfkdki3cfvo7ownl2knjovqh7bseegk4zvzsl4buryoi/main.e3d28e0d8977da89f0c4.bundle.js"></script>
-        <script src="https://ipfs.web4.near.page/ipfs/bafybeiancp5im5nfkdki3cfvo7ownl2knjovqh7bseegk4zvzsl4buryoi/runtime.475541d9ed47b876d02e.bundle.js"></script>
+        <script defer src="https://ipfs.web4.near.page/ipfs/bafybeiancp5im5nfkdki3cfvo7ownl2knjovqh7bseegk4zvzsl4buryoi/main.e3d28e0d8977da89f0c4.bundle.js"></script>
+        <script defer src="https://ipfs.web4.near.page/ipfs/bafybeiancp5im5nfkdki3cfvo7ownl2knjovqh7bseegk4zvzsl4buryoi/runtime.475541d9ed47b876d02e.bundle.js"></script>
     </head>
     <body>
-        <near-social-viewer src="{current_account_id}/widget/Index" initialProps='{initial_props_json}'></near-social-viewer>
+        <near-social-viewer src="{current_account_id}/widget/Index" initialProps='{initial_props_json}' network="{network}"></near-social-viewer>
     </body>
     </html>"#,
             url = redirect_path
@@ -273,6 +276,9 @@ mod tests {
                     assert!(
                         body_string.contains("<meta name=\"twitter:title\" content=\"Anything\">")
                     );
+
+                    assert!(body_string
+                        .contains("<near-social-viewer src=\"anybody.near/widget/Index\""));
                 }
                 _ => {
                     panic!(
@@ -280,6 +286,41 @@ mod tests {
                         unknown_path
                     );
                 }
+            }
+        }
+    }
+
+    #[test]
+    pub fn test_network_param() {
+        let contract: String = "anybody.testnet".to_string();
+        let context = VMContextBuilder::new()
+            .current_account_id(contract.try_into().unwrap())
+            .build();
+
+        testing_env!(context);
+
+        let contract = Contract {};
+        let response = contract.web4_get(
+                serde_json::from_value(serde_json::json!({
+                    "path": "/",
+                    "preloads": create_preload_result(String::from("Anything"), String::from("Anywhere")),
+                }))
+                .unwrap(),
+            );
+        match response {
+            Web4Response::Body { content_type, body } => {
+                assert_eq!("text/html; charset=UTF-8", content_type);
+
+                let body_string =
+                    String::from_utf8(Contract::BASE64_ENGINE.decode(body).unwrap()).unwrap();
+
+                assert!(body_string
+                    .contains("<near-social-viewer src=\"anybody.testnet/widget/Index\""));
+
+                assert!(body_string.contains("network=\"testnet\""));
+            }
+            _ => {
+                panic!("Should return Web4Response::Body for '{}' path", "/");
             }
         }
     }
