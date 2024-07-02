@@ -74,76 +74,6 @@ const LeftMenu = styled.div`
     align-items: center;
   }
 `;
-const LearnMenu = styled.div`
-  width: 185px;
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  h2 {
-    align-self: stretch;
-    color: #fff;
-    font-family: Poppins;
-    font-size: 16px;
-    font-style: normal;
-    font-weight: 400;
-    line-height: 150%; /* 24px */
-    margin: 0;
-  }
-  a {
-    padding-top: 8px 0px;
-    color: var(--Color-Neutral-neutral, #666);
-    font-family: Poppins;
-    font-size: 14px;
-    font-style: normal;
-    font-weight: 400;
-    line-height: 150%; /* 21px */
-    text-decoration: none;
-  }
-  flex-shrink: 0;
-  @media screen and (max-width: 768px) {
-    align-items: center;
-    justify-content: flex;
-    h2 {
-      align-self: center;
-      justify-content: flex;
-    }
-  }
-`;
-const BuildMenu = styled.div`
-  width: 185px;
-  display: flex;
-  flex-direction: column;
-  flex-shrink: 0;
-  gap: 16px;
-  h2 {
-    align-self: stretch;
-    color: #fff;
-    font-family: Poppins;
-    font-size: 16px;
-    font-style: normal;
-    font-weight: 400;
-    line-height: 150%; /* 24px */
-    margin: 0;
-  }
-  a {
-    padding-top: 8px 0px;
-    text-decoration: none;
-    color: var(--Color-Neutral-neutral, #666);
-    font-family: Poppins;
-    font-size: 14px;
-    font-style: normal;
-    font-weight: 400;
-    line-height: 150%; /* 21px */
-  }
-  @media screen and (max-width: 768px) {
-    align-items: center;
-    justify-content: flex;
-    h2 {
-      align-self: center;
-      justify-content: flex;
-    }
-  }
-`;
 
 const Credits = styled.div`
   display: flex;
@@ -158,12 +88,6 @@ const Credits = styled.div`
     font-weight: 400;
     line-height: 150%; /* 24px */
     margin: 0;
-  }
-`;
-
-const Menu = styled.div`
-  @media screen and (max-width: 500px) {
-    flex-direction: column;
   }
 `;
 
@@ -182,6 +106,7 @@ const Footer = () => {
                 borderRadius: "30%",
               }}
               target="_blank"
+              data-testid="twitter"
               href="https://x.com/NearBuilders"
             >
               <svg
@@ -202,6 +127,7 @@ const Footer = () => {
               style={{
                 borderRadius: "30%",
               }}
+              data-testid="telegram"
               href="https://nearbuilders.com/tg-builders"
             >
               <svg
@@ -228,6 +154,7 @@ const Footer = () => {
                 borderRadius: "30%",
               }}
               href="https://github.com/NEARBuilders"
+              data-testid="github"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -254,27 +181,9 @@ const Footer = () => {
             </Button>
           </SocialIcons>
         </LeftMenu>
-        {/* <Menu className="d-flex gap-5">
-          <LearnMenu>
-            <h2>Learn</h2>
-
-            <a href="#read">Read</a>
-            <a href="#watch">Watch</a>
-            <a href="#tools">Tools</a>
-            <a href="#components">Components</a>
-          </LearnMenu>
-          <BuildMenu>
-            <h2>Build</h2>
-            <a href="#guide">Guide</a>
-            <a href="#project">Project</a>
-            <a href="#activity">See Activity</a>
-            <a href="#feedback">Request Feedback</a>
-            <a href="#program">Founding Program</a>
-          </BuildMenu>
-        </Menu> */}
       </Links>
       <Credits>
-        <p>© {new Date().getFullYear} BuildDAO. All rights reserved.</p>
+        <p>© {new Date().getFullYear} Build DAO. All rights reserved.</p>
       </Credits>
     </Container>
   );

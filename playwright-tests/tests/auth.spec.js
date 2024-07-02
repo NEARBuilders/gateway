@@ -30,15 +30,19 @@ test.describe("User is logged in", () => {
   });
 
   test("To verify that the user is logged in succesfully", async ({ page }) => {
-    const LoggedInButton = page.getByRole("button", { name: "anybody.near" });
-    await expect(LoggedInButton).toHaveText("anybody.near");
+    const LoggedInButton = page.getByRole("button", {
+      name: "saswat_test.testnet",
+    });
+    await expect(LoggedInButton).toHaveText("saswat_test.testnet");
   });
 
   test("To verify that the sign out button is visible in the dropdown and when clicked navigates to logout page", async ({
     page,
   }) => {
-    const LoggedInButton = page.getByRole("button", { name: "anybody.near" });
-    await expect(LoggedInButton).toHaveText("anybody.near");
+    const LoggedInButton = page.getByRole("button", {
+      name: "saswat_test.testnet",
+    });
+    await expect(LoggedInButton).toHaveText("saswat_test.testnet");
     await LoggedInButton.click();
     const dropdownItems = await page.$$(".dropdown-item");
     const secondDropdownItem = dropdownItems[1];

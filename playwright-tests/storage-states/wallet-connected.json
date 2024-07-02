@@ -10,11 +10,11 @@
         },
         {
           "name": "near_app_wallet_auth_key",
-          "value": "{\"accountId\":\"anybody.near\"}"
+          "value": "{\"accountId\":\"saswat_test.testnet\"}"
         },
         {
           "name": "near-social-vm:v01::accountId:",
-          "value": "anybody.near"
+          "value": "saswat_test.testnet"
         },
         {
           "name": "flags",
