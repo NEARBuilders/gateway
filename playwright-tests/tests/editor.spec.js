@@ -105,7 +105,7 @@ test.describe("?page=projects&tab=editor", () => {
             website: "https://www.samplewebsite.com",
           },
           // End remove
-          contributors: ["anybody.near", "nobody.near"],
+          contributors: ["saswat_test.testnet", "nobody.testnet"],
           tabs: ["overview", "tasks", "activity"],
           projectAccountId: "anyproject.near",
           teamSize: "1-10",
@@ -113,7 +113,7 @@ test.describe("?page=projects&tab=editor", () => {
         };
 
         const expectedTransactionData = {
-          "anybody.near": {
+          "saswat_test.testnet": {
             project: {
               "sample-project": {
                 "": JSON.stringify(expectedProjectData),
@@ -140,7 +140,7 @@ test.describe("?page=projects&tab=editor", () => {
             },
             "builddao.testnet": {
               project: {
-                "anybody.near_project_sample-project": "",
+                "saswat_test.testnet_project_sample-project": "",
               },
             },
           },
@@ -184,8 +184,8 @@ test.describe("?page=projects&tab=editor", () => {
 
         // Contributors
         await page.getByRole("combobox").nth(0).click();
-        await page.getByRole("combobox").nth(0).fill("nobody.near");
-        await page.getByLabel("nobody.near").click();
+        await page.getByRole("combobox").nth(0).fill("nobody.testnet");
+        await page.getByLabel("nobody.testnet").click();
 
         await page.route("**/add", async (route) => {
           const modifiedResponse = {
