@@ -27,7 +27,7 @@ export default defineConfig({
   reporter: "line",
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
-    permissions: ["clipboard-read"],
+    permissions: ["clipboard-read", "clipboard-write"],
     video: "off",
     /* Maximum time each action such as `click()` can take. Defaults to 0 (no limit). */
     actionTimeout: 0,
@@ -96,9 +96,16 @@ export default defineConfig({
   outputDir: "test-results/",
 
   /* Run your local dev server before starting the tests */
-  webServer: {
-    command: "npm run dev:testnet",
-    port: 8080,
-    reuseExistingServer: !process.env.CI,
-  },
+  webServer: [
+    {
+      command: "npm run dev:mainnet",
+      url: "http://127.0.0.1:8000",
+      reuseExistingServer: !process.env.CI,
+    },
+    {
+      command: "npm run dev:testnet",
+      url: "http://127.0.0.1:8080",
+      reuseExistingServer: !process.env.CI,
+    },
+  ],
 });

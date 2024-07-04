@@ -1,5 +1,5 @@
 import { test, expect } from "@playwright/test";
-import { ROOT_SRC } from "../util/constants";
+import { TESTNET_ROOT_SRC } from "../util/constants";
 
 test("should find bos loader configuration in localstorage", async ({
   page,
@@ -15,7 +15,9 @@ test("should find bos loader configuration in localstorage", async ({
 });
 
 test("should not get bos loader fetch error", async ({ page }) => {
-  await page.goto(`/${ROOT_SRC}`);
+  await page.goto(`/${TESTNET_ROOT_SRC}`);
   const bodyText = await page.textContent("body");
-  expect(bodyText).not.toContain(`Source code for "${ROOT_SRC}" is not found`);
+  expect(bodyText).not.toContain(
+    `Source code for "${TESTNET_ROOT_SRC}" is not found`,
+  );
 });

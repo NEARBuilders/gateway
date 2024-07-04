@@ -209,6 +209,7 @@ return (
         Account ID<span className="text-danger">*</span>
       </label>
       <input
+        data-testid="add-member-account"
         name="accountId"
         id="accountId"
         className="form-control"
@@ -228,6 +229,7 @@ return (
         Role<span className="text-danger">*</span>
       </label>
       <select
+        data-testid="add-member-role-select"
         name="role"
         id="role"
         data-bs-theme={bootstrapTheme}

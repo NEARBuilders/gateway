@@ -1,6 +1,6 @@
 const { Button, Modal } = VM.require("${alias_old}/widget/components") || {
-  Button: <></>,
-  Modal: <></>,
+  Button: () => <></>,
+  Modal: () => <></>,
 };
 
 const { Header } = VM.require("${alias_old}/widget/components.Header") || {

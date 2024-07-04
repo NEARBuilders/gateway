@@ -266,6 +266,7 @@ return (
         class="form-select"
         name="token"
         id="token"
+        data-testid="transfer-token-select"
         value={token}
         data-bs-theme={bootstrapTheme}
         onChange={(e) => setToken(e.target.value)}
@@ -281,6 +282,7 @@ return (
         Amount<span className="text-danger">*</span>
       </label>
       <input
+        placeholder="0"
         className="form-control"
         name="amount"
         id="amount"

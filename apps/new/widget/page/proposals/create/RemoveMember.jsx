@@ -209,6 +209,7 @@ return (
       </label>
       <input
         name="accountId"
+        data-testid="remove-member-account"
         id="accountId"
         className="form-control"
         data-bs-theme={bootstrapTheme}
@@ -227,6 +228,7 @@ return (
         Role<span className="text-danger">*</span>
       </label>
       <select
+        data-testid="remove-member-role-select"
         name="role"
         id="role"
         data-bs-theme={bootstrapTheme}
