@@ -1,6 +1,8 @@
 import { expect, test } from "@playwright/test";
 import { MAINNET_ROOT_SRC } from "../util/constants";
 
+const inputAccount = "anybody.near";
+
 test.describe("?page=activity&tab=proposals", () => {
   test.use({
     baseURL: "http://localhost:8000",
@@ -150,7 +152,7 @@ test.describe("?page=activity&tab=proposals", () => {
         await page
           .getByTestId("transfer-token-select")
           .selectOption({ value: "NEAR" });
-        await page.getByPlaceholder("NEAR Address").fill("megha19.near");
+        await page.getByPlaceholder("NEAR Address").fill(inputAccount);
         await page.getByPlaceholder("0").fill("10");
         await page.getByRole("button", { name: "Create" }).click();
         await expect(page.getByText("Awaiting Approval")).toBeVisible();
@@ -161,7 +163,7 @@ test.describe("?page=activity&tab=proposals", () => {
             kind: {
               Transfer: {
                 token_id: "",
-                receiver_id: "megha.near",
+                receiver_id: inputAccount,
                 amount: "7000000000000000000000000",
               },
             },
@@ -172,17 +174,112 @@ test.describe("?page=activity&tab=proposals", () => {
         );
         expect(transactionObj).toMatchObject(expectedTransactionData);
       });
+
       test("should create 'Function call' proposal", async ({ page }) => {
-        await page.waitForSelector("");
-      });
-      test("should create 'Add member to role' proposal", async ({ page }) => {
-        await page.waitForSelector("");
+        await page
+          .getByTestId("select-proposal-type")
+          .selectOption({ value: "functionCall" });
+        await page.waitForTimeout(1000);
+        await page.getByLabel("Contract*").fill("contract.near");
+        await page.getByLabel("Method*").fill("methodName");
+        await page.getByRole("button", { name: "Create" }).click();
+        await expect(page.getByText("Awaiting Approval")).toBeVisible();
+        await page.getByText("Copy").click();
+        const expectedTransactionData = {
+          proposal: {
+            description: "",
+            kind: {
+              FunctionCall: {
+                receiver_id: "contract.near",
+                actions: [
+                  {
+                    method_name: "methodName",
+                    args: "Int9Ig==",
+                    deposit: 0,
+                    gas: 180000000000000,
+                  },
+                ],
+              },
+            },
+          },
+        };
+        const transactionObj = JSON.parse(
+          await page.locator("div.modal-body code").innerText(),
+        );
+        expect(transactionObj).toMatchObject(expectedTransactionData);
       });
 
-      test("should create 'Remove member to role' proposal", async ({
+      test("should create 'Add member to role' proposal", async ({ page }) => {
+        await page
+          .getByTestId("select-proposal-type")
+          .selectOption({ value: "addMember" });
+        await page.waitForTimeout(1000);
+        await page.getByTestId("add-member-account").fill(inputAccount);
+        await page
+          .getByTestId("add-member-role-select")
+          .selectOption({ value: "community" });
+        const description = await page
+          .frameLocator("iframe")
+          .locator('textarea[name="textarea"]');
+        await description.click();
+        await description.fill("This is a test Add member to role proposal");
+        await page.getByRole("button", { name: "Create" }).click();
+        await expect(page.getByText("Awaiting Approval")).toBeVisible();
+        await page.getByText("Copy").click();
+        const expectedTransactionData = {
+          proposal: {
+            description: "This is a test Add member to role proposal",
+            kind: {
+              AddMemberToRole: {
+                member_id: inputAccount,
+                role: "community",
+              },
+            },
+          },
+        };
+        const transactionObj = JSON.parse(
+          await page.locator("div.modal-body code").innerText(),
+        );
+        expect(transactionObj).toMatchObject(expectedTransactionData);
+      });
+
+      test("should create 'Remove member from role' proposal", async ({
         page,
       }) => {
-        await page.waitForSelector("");
+        await page
+          .getByTestId("select-proposal-type")
+          .selectOption({ value: "removeMember" });
+        await page.waitForTimeout(1000);
+        await page.getByTestId("remove-member-account").fill(inputAccount);
+
+        await page
+          .getByTestId("remove-member-role-select")
+          .selectOption({ value: "community" });
+        const description = await page
+          .frameLocator("iframe")
+          .locator('textarea[name="textarea"]');
+        await description.click();
+        await description.fill(
+          "This is a test Remove member from role proposal",
+        );
+        await page.getByRole("button", { name: "Create" }).click();
+        await expect(page.getByText("Awaiting Approval")).toBeVisible();
+        await page.getByText("Copy").click();
+        const expectedTransactionData = {
+          proposal: {
+            description: "This is a test Remove member from role proposal",
+            kind: {
+              RemoveMemberFromRole: {
+                member_id: inputAccount,
+                role: "community",
+              },
+            },
+          },
+        };
+        const transactionObj = JSON.parse(
+          await page.locator("div.modal-body code").innerText(),
+        );
+        expect(transactionObj).toMatchObject(expectedTransactionData);
       });
     });
   });
