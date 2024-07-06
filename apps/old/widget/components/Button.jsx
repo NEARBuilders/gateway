@@ -151,7 +151,7 @@ function Button({
   return (
     <StyledButton
       id={id}
-      disabled={disabled}
+      disabled={disabled || loading}
       key={`Button-${type ?? "Normal"}-${variant ?? "Default"}-${id}`}
       className={className}
       variant={variant}
