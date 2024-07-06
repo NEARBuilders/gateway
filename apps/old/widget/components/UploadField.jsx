@@ -1,15 +1,47 @@
+const initialMsg = (
+  <>
+    <i className="bi bi-cloud-upload"></i>
+    <div className="d-flex flex-column gap-2">
+      <p>Choose a file or drag & drop it here.</p>
+      <p className="secondary">JPEG, PNG, PDF, and MP4 formats, up to 50 MB.</p>
+    </div>
+  </>
+);
+
 const [img, setImg] = useState("");
-const [msg, setMsg] = useState("Upload");
+const [msg, setMsg] = useState(initialMsg);
+
+const SpinningIcon = styled.i`
+  animation: spin 0.8s linear infinite;
+  @keyframes spin {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+`;
 const uploadFile = (files) => {
-  setMsg("Uploading...");
+  setMsg(
+    <>
+      <SpinningIcon className="bi bi-arrow-repeat" />
+      <p>Uploading...</p>
+    </>,
+  );
   asyncFetch("https://ipfs.near.social/add", {
     method: "POST",
     headers: { Accept: "application/json" },
     body: files[0],
   })
     .catch((e) => {
-      console.error(e);
-      setMsg("Failed to upload");
+      console.error("Upload error:", e);
+      setMsg(
+        <>
+          <i className="bi bi-exclamation-triangle text-danger"></i>
+          <p>Failed to upload. Please try again.</p>
+        </>,
+      );
     })
     .then((res) => {
       setImg(res.body.cid);
@@ -17,6 +49,22 @@ const uploadFile = (files) => {
         props.onChange({
           ipfs_cid: res.body.cid,
         });
+      }
+      if (res.body.cid) {
+        setMsg(
+          <>
+            <i className="bi bi-check-circle text-success"></i>
+            <p>Upload successful!</p>
+          </>,
+        );
+        setTimeout(() => setMsg(""), 1500);
+      } else {
+        setMsg(
+          <>
+            <i className="bi bi-exclamation-triangle text-danger"></i>
+            <p>Failed to upload. Please try again.</p>
+          </>,
+        );
       }
     });
 };
@@ -102,11 +150,7 @@ const UploadedImage = styled.img`
 
 return (
   <UploadContainer background={background}>
-    <i class="bi bi-cloud-upload"></i>
-    <div className="d-flex flex-column gap-2">
-      <p>Choose a file or drag & drop it here.</p>
-      <p className="secondary">JPEG, PNG, PDF, and MP4 formats, up to 50 MB.</p>
-    </div>
+    {msg}
     <ButtonContainer>
       <Button>
         <Files
