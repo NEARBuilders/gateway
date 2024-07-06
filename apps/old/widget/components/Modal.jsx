@@ -36,6 +36,10 @@ const Content = styled.div`
     max-width: 100%;
     min-width: 0;
   }
+
+  .flex-1 {
+    flex: 1;
+  }
 `;
 
 const NoButton = styled.button`
@@ -50,7 +54,6 @@ const NoButton = styled.button`
 const CloseContainer = styled.div`
   display: flex;
   justify-content: flex-end;
-  width: 100%;
 `;
 
 const Icon = styled.i`
@@ -94,7 +97,7 @@ function Modal({
           >
             <Content theme={theme}>
               <div className="d-flex align-items-center justify-content-between pb-4">
-                <h5 className="w-100">{title}</h5>
+                <h5 className="flex-1">{title}</h5>
                 {!hideCloseBtn && (
                   <Dialog.Close asChild>
                     <CloseContainer>
