@@ -73,12 +73,14 @@ return (
       </p>
     </div>
     <div className="d-flex gap-5">
-      <div className="section">
-        <p className="heading">Location</p>
-        <p className="description d-flex align-items-center gap-2">
-          <MapIcon /> {location ?? "No Location"}
-        </p>
-      </div>
+      {location && (
+        <div className="section">
+          <p className="heading">Location</p>
+          <p className="description d-flex align-items-center gap-2">
+            <MapIcon /> {location ?? "No Location"}
+          </p>
+        </div>
+      )}
       <div className="section">
         <p className="heading">Team Size</p>
         <p className="description d-flex align-items-center gap-2">
