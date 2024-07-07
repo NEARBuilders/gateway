@@ -149,6 +149,7 @@ const [projectIdForSocialDB, setProjectId] = useState(null); // for edit changes
 const [contributorSearchTerm, setContributorSearch] = useState("");
 const [showDeleteModal, setShowDeleteModal] = useState(false);
 const [showDeleteSuccessModal, setShowDeleteSuccessModal] = useState(false);
+const [onCreateLoader, setCreateLoader] = useState(false);
 
 function removeWhiteSpace(str) {
   return str.replace(/\s/g, "-").toLowerCase();
@@ -156,7 +157,7 @@ function removeWhiteSpace(str) {
 
 function convertArrayToObject(array) {
   const obj = {};
-  array.forEach((value, index) => {
+  (array ?? []).forEach((value, index) => {
     obj[value] = "";
   });
   return obj;
@@ -568,6 +569,7 @@ const DeleteConfirmationModal = () => {
 };
 
 function onCreateProject() {
+  setCreateLoader(true);
   const projectID = isEditScreen ? projectIdForSocialDB : normalize(title, "-");
   const project = {
     title,
@@ -651,8 +653,10 @@ function onCreateProject() {
   } else {
     Social.set(data, {
       onCommit: () => {
+        setCreateLoader(false);
         setShowSuccessModal(true);
       },
+      onCancel: () => setCreateLoader(false),
     });
   }
 }
@@ -759,6 +763,7 @@ const DeleteProjectBtn = () => {
       <Button
         variant="outline"
         className="destructive"
+        loading={showDeleteModal}
         onClick={() => setShowDeleteModal(true)}
       >
         Delete Project
@@ -943,6 +948,7 @@ const SecondScreen = () => {
             variant="primary"
             onClick={onCreateProject}
             disabled={invalidContributorFound}
+            loading={onCreateLoader}
           >
             {isEditScreen ? "Save Changes" : "Create"}
           </Button>
