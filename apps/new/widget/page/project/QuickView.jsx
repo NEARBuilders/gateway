@@ -11,6 +11,13 @@ const { isNearSocial } = VM.require("${alias_new}/widget/lib.gateway") || {
   isNearSocial: false,
 };
 
+const ListsSDK =
+  VM.require("${alias_potlock}/widget/SDK.lists") ||
+  (() => ({
+    getRegistration: () => {},
+  }));
+const lists = ListsSDK({ env: "production" });
+
 const showCanvas = props.showCanvas;
 const onClose = props.onClose;
 const project = props.project;
@@ -107,6 +114,9 @@ const openDonateModal = () => {
 
 const id = `${project.accountId}/project/${project.projectID}`;
 
+const isRegisteredProjectOnPotlock =
+  lists.getRegistration(null, projectAccountId) ?? false;
+
 return (
   <Container>
     <div
@@ -198,17 +208,19 @@ return (
           >
             See Project Page
           </Button>
-          <Button
-            variant="outline"
-            className="primary-outline text-yellow"
-            disabled={!context.accountId}
-            onClick={(e) => {
-              e.preventDefault();
-              openDonateModal();
-            }}
-          >
-            Donate on Potlock
-          </Button>
+          {isRegisteredProjectOnPotlock && (
+            <Button
+              variant="outline"
+              className="primary-outline text-yellow"
+              disabled={!context.accountId}
+              onClick={(e) => {
+                e.preventDefault();
+                openDonateModal();
+              }}
+            >
+              Donate on Potlock
+            </Button>
+          )}
         </div>
       </div>
     </div>

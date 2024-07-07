@@ -34,6 +34,13 @@ const { href } = VM.require("${alias_old}/widget/lib.url") || {
   href: () => {},
 };
 
+const ListsSDK =
+  VM.require("${alias_potlock}/widget/SDK.lists") ||
+  (() => ({
+    getRegistration: () => {},
+  }));
+const lists = ListsSDK({ env: "production" });
+
 const isNearAddress = (address) => {
   if (typeof address !== "string") {
     return false;
@@ -753,6 +760,31 @@ function getSuggestiveAccounts() {
   return suugestiveAccounts.slice(0, limit);
 }
 
+function onRegisterOnPotlock() {
+  Near.call([
+    {
+      contractName: "registry.potlock.near",
+      methodName: "register",
+      args: { project_id: projectAccount },
+      deposit: Big(0.05).mul(Big(10).pow(24)),
+      gas: "300000000000000",
+    },
+  ]);
+}
+
+const isRegisteredProjectOnPotlock =
+  lists.getRegistration(null, projectAccount) ?? false;
+
+const RegisterOnPotlock = () => {
+  if (isEditScreen && !isRegisteredProjectOnPotlock) {
+    return (
+      <Button variant="primary" onClick={onRegisterOnPotlock}>
+        Register on Potlock
+      </Button>
+    );
+  } else return null;
+};
+
 const DeleteProjectBtn = () => {
   if (isEditScreen) {
     return (
@@ -1116,11 +1148,16 @@ const FirstScreen = () => {
 return (
   <Container data-bs-theme="dark">
     <div className="p-4">
-      <div className="h4">Create Project</div>
-      <p>
-        Easily create, share, and track all projects within our vibrant builder
-        community.
-      </p>
+      <div className="d-flex justify-content-between">
+        <div className="h4">{isEditScreen ? "Edit" : "Create"} Project</div>
+        <RegisterOnPotlock />
+      </div>
+      {!isEditScreen && (
+        <p>
+          Easily create, share, and track all projects within our vibrant
+          builder community.
+        </p>
+      )}
       <DeleteConfirmationModal />
       <SuccessDeleteModal />
       <SuccessModal />
