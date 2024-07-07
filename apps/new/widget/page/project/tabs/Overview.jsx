@@ -81,13 +81,15 @@ return (
           </p>
         </div>
       )}
-      <div className="section">
-        <p className="heading">Team Size</p>
-        <p className="description d-flex align-items-center gap-2">
-          <i className="bi bi-person"></i>
-          {teamSize || "unspecified"}
-        </p>
-      </div>
+      {teamSize && (
+        <div className="section">
+          <p className="heading">Team Size</p>
+          <p className="description d-flex align-items-center gap-2">
+            <i className="bi bi-person"></i>
+            {teamSize || "unspecified"}
+          </p>
+        </div>
+      )}
     </div>
     <div className="section">
       <p className="heading">Contributors</p>
