@@ -23,7 +23,7 @@ const SpinningIcon = styled.i`
   }
 `;
 const uploadFile = (files) => {
-  setMsg(
+  setDisplayText(
     <>
       <SpinningIcon className="bi bi-arrow-repeat" />
       <p>Uploading...</p>
@@ -36,7 +36,7 @@ const uploadFile = (files) => {
   })
     .catch((e) => {
       console.error("Upload error:", e);
-      setMsg(
+      setDisplayText(
         <>
           <i className="bi bi-exclamation-triangle text-danger"></i>
           <p>Failed to upload. Please try again.</p>
@@ -51,15 +51,15 @@ const uploadFile = (files) => {
         });
       }
       if (res.body.cid) {
-        setMsg(
+        setDisplayText(
           <>
             <i className="bi bi-check-circle text-success"></i>
             <p>Upload successful!</p>
           </>,
         );
-        setTimeout(() => setMsg(""), 1500);
+        setTimeout(() => setDisplayText(""), 1500);
       } else {
-        setMsg(
+        setDisplayText(
           <>
             <i className="bi bi-exclamation-triangle text-danger"></i>
             <p>Failed to upload. Please try again.</p>
