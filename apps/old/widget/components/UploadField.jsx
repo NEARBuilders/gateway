@@ -9,7 +9,7 @@ const initialMsg = (
 );
 
 const [img, setImg] = useState("");
-const [msg, setMsg] = useState(initialMsg);
+const [displayText, setDisplayText] = useState(initialMsg);
 
 const SpinningIcon = styled.i`
   animation: spin 0.8s linear infinite;
