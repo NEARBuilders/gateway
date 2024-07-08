@@ -198,6 +198,17 @@ test.describe("?page=projects&tab=editor", () => {
           await route.fulfill(modifiedResponse);
         });
 
+        await page.route("**/add", async (route) => {
+          const modifiedResponse = {
+            status: 200,
+            contentType: "application/json",
+            body: JSON.stringify({ cid: "simple_cid_1" }),
+          };
+
+          // Fulfill the route with the modified response
+          await route.fulfill(modifiedResponse);
+        });
+
         // Avatar
         const avatarInput = await page.locator("input[type=file]").nth(0);
         await avatarInput.setInputFiles(

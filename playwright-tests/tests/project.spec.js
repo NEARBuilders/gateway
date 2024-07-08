@@ -27,11 +27,12 @@ test.describe("?page=project&id=", () => {
   test.describe("Tasks Page", () => {
     test.beforeEach(async ({ page }) => {
       await page.goto(`/${ROOT_SRC}?page=project&id=${projectId}&tab=tasks`);
+      await page.waitForTimeout(10000);
     });
     test("should display 'Tasks' board", async ({ page }) => {
       await expect(page.getByText("Proposed")).toBeVisible();
-      await expect(page.getByText("In Progess")).toBeVisible();
-      await expect(page.getByText("Complete")).toBeVisible();
+      await expect(page.getByText("In Progress")).toBeVisible();
+      await expect(page.getByText("Completed")).toBeVisible();
     });
 
     test("should be able to view a task", async ({ page }) => {
@@ -81,7 +82,7 @@ test.describe("?page=project&id=", () => {
             },
             "buildhub.testnet": {
               "project-task": {
-                "testing-project-on-build-dao": {
+                "testing-project-on-builddao": {
                   task: {
                     "meghagoel.testnet_task_task-created-using-playwright": "",
                   },
@@ -155,7 +156,7 @@ test.describe("?page=project&id=", () => {
             },
             "buildhub.testnet": {
               "project-task": {
-                "testing-project-on-build-dao": {
+                "testing-project-on-builddao": {
                   task: {
                     "meghagoel.testnet_task_playwright-test": "",
                   },
@@ -188,7 +189,7 @@ test.describe("?page=project&id=", () => {
             },
             "buildhub.testnet": {
               "project-task": {
-                "testing-project-on-build-dao": {
+                "testing-project-on-builddao": {
                   task: {
                     "meghagoel.testnet_task_playwright-test": null,
                   },
