@@ -108,7 +108,7 @@ impl Contract {
             r#"<!DOCTYPE html>
     <html>
     <head>
-        <title>{title}</title>
+        <title>{app_name}</title>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width,initial-scale=1">
         <meta property="og:url" content="{url}" />
@@ -128,11 +128,10 @@ impl Contract {
             margin: 0;
             padding: 0;
             height: 100%;
-            background-color: #000000;
+            background-color: #000000 !important;
             box-sizing: border-box;
             overflow-x: hidden;
             scroll-behavior: smooth;
-            -webkit-font-smoothing: antialiased;
         }}
         </style>
     </head>
