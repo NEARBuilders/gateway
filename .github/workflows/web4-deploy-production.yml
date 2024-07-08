@@ -1,0 +1,33 @@
+name: Deploy to production
+on:
+  push:
+    branches: [main]
+    paths:
+      - web4contract/**
+
+defaults:
+  run:
+    working-directory: ./web4contract
+
+jobs:
+  test:
+    uses: ./.github/workflows/web4-test.yml
+
+  deploy-staging:
+    name: Deploy to production
+    needs: [test]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Install cargo-near CLI
+        run: curl --proto '=https' --tlsv1.2 -LsSf https://github.com/near/cargo-near/releases/download/cargo-near-v0.6.2/cargo-near-installer.sh | sh
+      - name: Deploy to production
+        run: |
+          cargo near deploy "${{ vars.BOS_DEPLOY_ACCOUNT_ID }}" \
+            without-init-call \
+            network-config "mainnet" \
+            sign-with-plaintext-private-key \
+              --signer-public-key "${{ vars.BOS_SIGNER_PUBLIC_KEY }}" \
+              --signer-private-key "${{ secrets.BOS_BUILDDAO_SIGNER_PRIVATE_KEY }}" \
+            send
