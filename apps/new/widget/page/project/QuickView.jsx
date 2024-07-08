@@ -1,5 +1,6 @@
-const { Button } = VM.require("${alias_old}/widget/components") || {
+const { Button, Modal } = VM.require("${alias_old}/widget/components") || {
   Button: () => <></>,
+  Modal: () => <></>,
 };
 
 const { href } = VM.require("${alias_old}/widget/lib.url") || {
@@ -9,6 +10,13 @@ const { href } = VM.require("${alias_old}/widget/lib.url") || {
 const { isNearSocial } = VM.require("${alias_new}/widget/lib.gateway") || {
   isNearSocial: false,
 };
+
+const ListsSDK =
+  VM.require("${alias_potlock}/widget/SDK.lists") ||
+  (() => ({
+    getRegistration: () => {},
+  }));
+const lists = ListsSDK({ env: "production" });
 
 const showCanvas = props.showCanvas;
 const onClose = props.onClose;
@@ -64,6 +72,10 @@ const Container = styled.div`
     color: #eca227;
   }
 
+  .primary-outline {
+    border-color: #eca227 !important;
+  }
+
   .offcanvas {
     border-top-left-radius: 1rem !important;
     border-bottom-left-radius: 1rem !important;
@@ -82,7 +94,28 @@ const BackgroundImage = styled.div`
   }
 `;
 
+State.init({
+  donateModal: {
+    isOpen: false,
+    projectId: null,
+  },
+  successfulDonation: false,
+});
+
+const openDonateModal = () => {
+  State.update({
+    donateModal: {
+      isOpen: true,
+      projectId: projectAccountId,
+    },
+    successfulDonation: null,
+  });
+};
+
 const id = `${project.accountId}/project/${project.projectID}`;
+
+const isRegisteredProjectOnPotlock =
+  lists.getRegistration(null, projectAccountId) ?? false;
 
 return (
   <Container>
@@ -161,21 +194,78 @@ return (
             id: id,
           }}
         />
-        <Button
-          variant="primary"
-          href={href({
-            widgetSrc: `${config_index}`,
-            params: {
-              page: "project",
-              id,
-              tab: "overview",
-            },
-          })}
-        >
-          See Project Page
-        </Button>
+        <div className="d-flex gap-3 align-items-center">
+          <Button
+            variant="primary"
+            href={href({
+              widgetSrc: `${config_index}`,
+              params: {
+                page: "project",
+                id,
+                tab: "overview",
+              },
+            })}
+          >
+            See Project Page
+          </Button>
+          {isRegisteredProjectOnPotlock && (
+            <Button
+              variant="outline"
+              className="primary-outline text-yellow"
+              disabled={!context.accountId}
+              onClick={(e) => {
+                e.preventDefault();
+                openDonateModal();
+              }}
+            >
+              Donate on Potlock
+            </Button>
+          )}
+        </div>
       </div>
     </div>
+    {state.donateModal.isOpen && (
+      <Widget
+        src={"${config_account}/widget/components.potlock.ModalDonation.Index"}
+        loading={""}
+        props={{
+          ...props,
+          isModalOpen: state.donateModal.isOpen,
+          onClose: () =>
+            State.update({
+              donateModal: {
+                isOpen: false,
+                projectId: null,
+              },
+            }),
+          openDonationModalSuccess: (donation) => {
+            State.update({
+              donateModal: {
+                isOpen: false,
+                projectId: null,
+              },
+              successfulDonation: donation,
+            });
+          },
+          projectId: state.donateModal.projectId,
+        }}
+      />
+    )}
+    {state.successfulDonation && (
+      <Modal
+        open={state.successfulDonation}
+        title={`Successful`}
+        onOpenChange={(v) =>
+          State.update({
+            successfulDonation: v,
+          })
+        }
+      >
+        <h6>
+          Congratulations, you have successfully donated to {projectAccountId}
+        </h6>
+      </Modal>
+    )}
     <div
       style={{ pointerEvents: "none", zIndex: 50 }}
       className={`modal-backdrop fade ${showCanvas ? "show" : ""}`}
