@@ -192,15 +192,17 @@ return (
     className="container-xl mx-auto d-flex flex-column gap-5"
     data-bs-theme="dark"
   >
-    <Widget
-      src="${config_account}/widget/page.project.QuickView"
-      loading=""
-      props={{
-        showCanvas: !!showQuickViewProjectData,
-        project: showQuickViewProjectData,
-        onClose: () => setShowQuickView(null),
-      }}
-    />
+    {!!showQuickViewProjectData && (
+      <Widget
+        src="${config_account}/widget/page.project.QuickView"
+        loading=""
+        props={{
+          showCanvas: !!showQuickViewProjectData,
+          project: showQuickViewProjectData,
+          onClose: () => setShowQuickView(null),
+        }}
+      />
+    )}
     <Widget
       src="${config_account}/widget/page.projects.FiltersModal"
       loading=""
