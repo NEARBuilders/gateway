@@ -10,8 +10,11 @@ const { normalize } = VM.require("${alias_devs}/widget/lib.stringUtils") || {
   normalize: () => {},
 };
 
-const { getProjectMeta } = VM.require("${alias_new}/widget/lib.projects") || {
+const { getProjectMeta, getProjectIdFromPath } = VM.require(
+  "${alias_new}/widget/lib.projects",
+) || {
   getProjectMeta: () => {},
+  getProjectIdFromPath: () => {},
 };
 
 const { id } = props;
@@ -136,7 +139,7 @@ const Wrapper = styled.div`
   }
 `;
 
-const projectID = normalize(project?.title, "-");
+const projectID = getProjectIdFromPath(id);
 
 const StatusValues = {
   PROPOSED: "proposed",
