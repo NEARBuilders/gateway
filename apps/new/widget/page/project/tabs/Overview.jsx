@@ -73,19 +73,23 @@ return (
       </p>
     </div>
     <div className="d-flex gap-5">
-      <div className="section">
-        <p className="heading">Location</p>
-        <p className="description d-flex align-items-center gap-2">
-          <MapIcon /> {location ?? "No Location"}
-        </p>
-      </div>
-      <div className="section">
-        <p className="heading">Team Size</p>
-        <p className="description d-flex align-items-center gap-2">
-          <i className="bi bi-person"></i>
-          {teamSize || "unspecified"}
-        </p>
-      </div>
+      {location && (
+        <div className="section">
+          <p className="heading">Location</p>
+          <p className="description d-flex align-items-center gap-2">
+            <MapIcon /> {location ?? "No Location"}
+          </p>
+        </div>
+      )}
+      {teamSize && (
+        <div className="section">
+          <p className="heading">Team Size</p>
+          <p className="description d-flex align-items-center gap-2">
+            <i className="bi bi-person"></i>
+            {teamSize || "unspecified"}
+          </p>
+        </div>
+      )}
     </div>
     <div className="section">
       <p className="heading">Contributors</p>
