@@ -42,11 +42,19 @@ impl Contract {
             network = "testnet";
         }
 
+        // it would be cool if this could hook into bos-workspace aliases
+        let social_near = if network == "testnet" {
+            "v1.social08.testnet"
+        } else {
+            "social.near"
+        };
+
         let path_parts: Vec<&str> = request.path.split('/').collect();
 
         let metadata_preload_url = format!(
             // web4 contract call for widget metadata
-            "/web4/contract/social.near/get?keys.json=%5B%22{}/widget/Index/metadata/**%22%5D",
+            "/web4/contract/{}/get?keys.json=%5B%22{}/widget/Index/metadata/**%22%5D",
+            social_near,
             &current_account_id
         );
 
@@ -115,6 +123,18 @@ impl Contract {
         <meta name="twitter:image" content="{image}">
         <script defer src="https://ipfs.web4.near.page/ipfs/bafybeiancp5im5nfkdki3cfvo7ownl2knjovqh7bseegk4zvzsl4buryoi/main.e3d28e0d8977da89f0c4.bundle.js"></script>
         <script defer src="https://ipfs.web4.near.page/ipfs/bafybeiancp5im5nfkdki3cfvo7ownl2knjovqh7bseegk4zvzsl4buryoi/runtime.475541d9ed47b876d02e.bundle.js"></script>
+        <style>
+        body {{
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            background-color: #000000;
+            box-sizing: border-box;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+            -webkit-font-smoothing: antialiased;
+        }}
+        </style>
     </head>
     <body>
         <near-social-viewer src="{current_account_id}/widget/Index" initialProps='{initial_props_json}' network="{network}"></near-social-viewer>
