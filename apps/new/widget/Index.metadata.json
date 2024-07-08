@@ -1,0 +1,17 @@
+{
+  "name": "Build DAO",
+  "description": "Support Systems for Open Web Projects",
+  "linktree": {
+    "website": "nearbuilders.org"
+  },
+  "image": {
+    "ipfs_cid": "bafkreie5hd6cfckrpyx6nmtgwzlmsd356nh2e6pqeryond3b54ejqeszqi"
+  },
+  "tags": {
+    "build": "",
+    "dao": "",
+    "public-goods": "",
+    "open-source": "",
+    "app": ""
+  }
+}
