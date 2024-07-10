@@ -74,7 +74,7 @@ const getImageSrc = (image) => {
 };
 
 return (
-  <Card>
+  <Card onClick={() => props.setSelectedProjectId(project.slug)}>
     <img
       src={getImageSrc(project.profile.image)}
       className="image"

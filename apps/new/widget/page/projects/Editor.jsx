@@ -271,6 +271,40 @@ const handleTags = (tags) => {
   setTags(filtered);
 };
 
+// Handle NEAR Catalog Projects
+const catalogProjectId = props.catalogProjectId;
+const catalogProjectData = null;
+if (catalogProjectId) {
+  const indexer = "https://nearcatalog.xyz/wp-json/nearcatalog/v1";
+  const query = "";
+  query = fetch(indexer + "/project?pid=" + catalogProjectId);
+  if (!query.body) {
+    return <>No data Found!</>;
+  }
+  catalogProjectData = query.body.profile;
+}
+useEffect(() => {
+  if (catalogProjectData) {
+    console.log("project data", catalogProjectData);
+    const { website, github, telegram, twitter } = catalogProjectData.linktree;
+    const githubLink = github.split("/")[3];
+    const telegramLink = telegram.split("/")[3];
+    const twitterLink = twitter.split("/")[3];
+    const tags = Object.values(catalogProjectData.tags || []).map((tag) => {
+      return removeWhiteSpace(tag);
+    });
+
+    setTitle(catalogProjectData.name);
+    setDescription(catalogProjectData.description);
+    setAvatar(catalogProjectData.image);
+    setWebsite(website);
+    setGitHub(githubLink);
+    setTelegram(telegramLink);
+    setTwitter(twitterLink);
+    setTags(tags);
+  }
+}, [catalogProjectData]);
+
 // Commenting roles code (to be added in v1)
 // const handleRoles = (roles) => {
 //   let filtered = roles.map((role) =>

@@ -151,6 +151,20 @@ const ProjectsGrid = styled.div`
   max-width: 100%;
 `;
 
+const [selectedProjectId, setSelectedProjectId] = useState(null);
+
+if (selectedProjectId) {
+  return (
+    <Widget
+      src="${alias_new}/widget/page.projects.Editor"
+      loading=""
+      props={{
+        catalogProjectId: selectedProjectId,
+      }}
+    />
+  );
+}
+
 return (
   <Container className="d-flex flex-column gap-4 p-4">
     {Search}
@@ -169,6 +183,7 @@ return (
             loading={<CardSkeleton />}
             props={{
               project: filteredProjects[projectId],
+              setSelectedProjectId: setSelectedProjectId,
             }}
           />
         );
