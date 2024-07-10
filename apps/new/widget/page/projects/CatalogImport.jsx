@@ -81,8 +81,6 @@ if (!projects) {
   return "No projects found";
 }
 
-const [searchTerm, setSearch] = useState(null);
-
 const Container = styled.div`
   .error-bg {
     background-color: #4d4d4d;
@@ -90,6 +88,9 @@ const Container = styled.div`
   }
   max-width: 100%;
 `;
+
+const [filteredProjects, setFilteredProjects] = useState(projects);
+const [searchTerm, setSearch] = useState(null);
 
 const Search = useMemo(() => {
   return (
@@ -101,7 +102,39 @@ const Search = useMemo(() => {
         term: searchTerm,
         itemName: "project",
         onSearch: (value) => {
-          console.log(value);
+          setSearch(value);
+
+          if (searchTerm === value) return;
+          if (searchTerm === "") return;
+
+          const filtered = {};
+          Object.keys(projects).forEach((projectId) => {
+            if (
+              projects[projectId].profile.name
+                .toLowerCase()
+                .includes(value.toLowerCase())
+            ) {
+              filtered[projectId] = projects[projectId];
+            }
+
+            if (
+              projects[projectId].profile.tagline
+                .toLowerCase()
+                .includes(value.toLowerCase())
+            ) {
+              filtered[projectId] = projects[projectId];
+            }
+
+            const tags = Object.values(projects[projectId].profile.tags);
+            if (
+              tags.some((tag) =>
+                tag.toLowerCase().includes(value.toLowerCase()),
+              )
+            ) {
+              filtered[projectId] = projects[projectId];
+            }
+          });
+          setFilteredProjects(filtered);
         },
       }}
     />
@@ -121,7 +154,7 @@ const ProjectsGrid = styled.div`
 return (
   <Container className="d-flex flex-column gap-4 p-4">
     {Search}
-    {projects.length === 0 && (
+    {Object.keys(filteredProjects).length === 0 && (
       <div className="error-bg p-3 h6 rounded-3">
         {searchTerm
           ? "No projects were found for your search query."
@@ -129,13 +162,13 @@ return (
       </div>
     )}
     <ProjectsGrid>
-      {Object.keys(projects).map((projectId) => {
+      {Object.keys(filteredProjects).map((projectId) => {
         return (
           <Widget
             src={"${alias_new}/widget/page.projects.CatalogProjectCard"}
             loading={<CardSkeleton />}
             props={{
-              project: projects[projectId],
+              project: filteredProjects[projectId],
             }}
           />
         );
