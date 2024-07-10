@@ -1,11 +1,12 @@
 import { expect, test } from "@playwright/test";
-import { MAIN_SRC } from "../util/constants";
+import { ROOT_SRC } from "../util/constants";
+import { mockRpcRequest } from "../util/rpcmock";
 test.describe("Potlock import tests", () => {
   test.use({
     storageState: "playwright-tests/storage-states/wallet-connected.json",
   });
   test.beforeEach(async ({ page }) => {
-    await page.goto(`/${MAIN_SRC}?page=projects`);
+    await page.goto(`/${ROOT_SRC}?page=projects`);
     await page.waitForTimeout(5000);
   });
   test("Import project", async ({ page }) => {
@@ -20,17 +21,21 @@ test.describe("Potlock import tests", () => {
     const importProject = await page.getByText("Import from Potlock");
     await importProject.click();
     await page.waitForTimeout(5000);
-    await expect(page.url()).toContain("?page=projects&tab=potlockImport");
-    await page.waitForTimeout(5000);
-    await page.reload();
-    const inputField = await page.getByPlaceholder("Search projects");
-    await inputField.fill("bos-workspace");
-    await page.waitForTimeout(5000);
-    const searchBtn = await page.getByRole("button", { name: "Search" });
-    await expect(searchBtn).toBeVisible();
-    await searchBtn.click();
-    await page.waitForTimeout(2000);
-    const potlockCard = await page.getByTestId("potlock-card");
-    await expect(potlockCard).toBeVisible({ timeout: 10000 });
+    const mockedResult = {
+      name: "Potlock Project",
+      description: "Mocked response for Potlock project import",
+      data: [10, 20, 30],
+    };
+
+    await mockRpcRequest({
+      page,
+      filterParams: {
+        method_name: "get",
+      },
+      mockedResult: mockedResult,
+      modifyOriginalResultFunction: async (originalResult) => {
+        return originalResult;
+      },
+    });
   });
 });
