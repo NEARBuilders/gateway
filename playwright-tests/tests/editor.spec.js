@@ -281,16 +281,17 @@ test.describe("?page=projects&tab=editor", () => {
     test.beforeEach(async ({ page }) => {
       await page.goto(`/${ROOT_SRC}?page=projects&tab=catalogImport`);
     });
+
     test.use({
       storageState: "playwright-tests/storage-states/wallet-connected.json",
     });
 
     // should have visible projects
     test("should have visible projects", async ({ page }) => {
-      const projectHeading = page.getByRole("heading", {
+      const projectHeading = await page.getByRole("heading", {
         name: "Race of Sloths",
       });
-      await expect(projectHeading).toBeVisible({ timeout: 60000 });
+      await expect(projectHeading).toBeVisible();
     });
 
     test("Should be able to create a new project from NEAR Catalog", async ({
@@ -307,7 +308,7 @@ test.describe("?page=projects&tab=editor", () => {
       await expect(parentDiv).toBeVisible({ timeout: 60000 });
       await parentDiv.dispatchEvent("click");
 
-      const nextButton = page.getByRole("button", { name: "Next" });
+      const nextButton = await page.getByRole("button", { name: "Next" });
       await expect(nextButton).toBeVisible({ timeout: 60000 });
       await nextButton.click();
 

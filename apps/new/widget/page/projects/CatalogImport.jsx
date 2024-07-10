@@ -1,6 +1,9 @@
 const indexer = "https://nearcatalog.xyz/wp-json/nearcatalog/v1";
-const projects = {};
 const query = "";
+
+const { Feed } = VM.require("${alias_devs}/widget/Feed") || {
+  Feed: () => <></>,
+};
 
 const CardSkeletonContainer = styled.div`
   @keyframes loadingSkeleton {
@@ -71,15 +74,17 @@ const CardSkeleton = () => (
   </CardSkeletonContainer>
 );
 
-query = fetch(indexer + "/projects");
-if (!query || !query.body) {
-  return "Loading...";
-}
-projects = query.body;
+let projects = {};
 
-if (!projects) {
-  return "No projects found";
-}
+projects = useCache(() => {
+  return asyncFetch(indexer + "/projects").then((res) => {
+    if (res.ok) {
+      return res.body;
+    } else {
+      return {};
+    }
+  });
+}, ["near-catalog-projects"]);
 
 const Container = styled.div`
   .error-bg {
@@ -89,7 +94,14 @@ const Container = styled.div`
   max-width: 100%;
 `;
 
-const [filteredProjects, setFilteredProjects] = useState(projects);
+const [filteredProjects, setFilteredProjects] = useState({});
+
+useEffect(() => {
+  if (projects) {
+    setFilteredProjects(projects);
+  }
+}, [projects]);
+
 const [searchTerm, setSearch] = useState(null);
 
 const Search = useMemo(() => {
@@ -168,26 +180,34 @@ if (selectedProjectId) {
 return (
   <Container className="d-flex flex-column gap-4 p-4">
     {Search}
-    {Object.keys(filteredProjects).length === 0 && (
-      <div className="error-bg p-3 h6 rounded-3">
-        {searchTerm
-          ? "No projects were found for your search query."
-          : "Network issue: Couldn't fetch any projects, please try again later."}
-      </div>
+    {projects === null ? (
+      <>
+        <div className="error-bg p-3 h6 rounded-3">Loading projects...</div>
+      </>
+    ) : (
+      <>
+        {Object.keys(filteredProjects).length === 0 && (
+          <div className="error-bg p-3 h6 rounded-3">
+            {searchTerm
+              ? "No projects were found for your search query."
+              : "Network issue: Couldn't fetch any projects, please try again later."}
+          </div>
+        )}
+      </>
     )}
-    <ProjectsGrid>
-      {Object.keys(filteredProjects).map((projectId) => {
-        return (
-          <Widget
-            src={"${alias_new}/widget/page.projects.CatalogProjectCard"}
-            loading={<CardSkeleton />}
-            props={{
-              project: filteredProjects[projectId],
-              setSelectedProjectId: setSelectedProjectId,
-            }}
-          />
-        );
-      })}
-    </ProjectsGrid>
+    <Feed
+      items={Object.keys(filteredProjects).map((projectId) => ({ projectId }))}
+      Item={({ projectId }) => (
+        <Widget
+          src={"${alias_new}/widget/page.projects.CatalogProjectCard"}
+          loading={<CardSkeleton />}
+          props={{
+            project: filteredProjects[projectId],
+            setSelectedProjectId: setSelectedProjectId,
+          }}
+        />
+      )}
+      Layout={ProjectsGrid}
+    />
   </Container>
 );
