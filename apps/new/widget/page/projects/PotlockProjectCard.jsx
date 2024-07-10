@@ -177,20 +177,19 @@ const Tag = styled.span`
   border: 1px solid rgba(123, 123, 123, 0.36);
 `;
 
-// Skeleton
-const loadingSkeleton = styled.keyframes`
-  0% {
-    opacity: 0.8;
-  }
-  50% {
-    opacity: 0.3;
-  }
-  100% {
-    opacity: 0.6;
-  }
-`;
-
 const CardSkeletonContainer = styled.div`
+  @keyframes loadingSkeleton {
+    0% {
+      opacity: 0.8;
+    }
+    50% {
+      opacity: 0.3;
+    }
+    100% {
+      opacity: 0.6;
+    }
+  }
+
   display: flex;
   flex-direction: column;
   height: 447px;
@@ -202,7 +201,7 @@ const CardSkeletonContainer = styled.div`
   margin-left: auto;
   margin-right: auto;
   overflow: hidden;
-  animation-name: ${loadingSkeleton};
+  animation-name: loadingSkeleton;
   animation-duration: 1s;
   animation-iteration-count: infinite;
 `;
