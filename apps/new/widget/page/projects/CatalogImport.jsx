@@ -111,14 +111,14 @@ return (
     {Search}
     {projects === null ? (
       <>
-        <div className="error-bg p-3 h6 rounded-3">Loading projects...</div>
+        <div className="bg-secondary text-white p-3 h6 rounded-3">Loading projects...</div>
       </>
     ) : (
       <>
         {Object.keys(filteredProjects).length === 0 && (
-          <div className="error-bg p-3 h6 rounded-3">
+          <div className="bg-secondary text-white p-3 h6 rounded-3">
             {searchTerm
-              ? "No projects were found for your search query."
+              ? `No projects were found for your search query "${searchTerm}".`
               : "Network issue: Couldn't fetch any projects, please try again later."}
           </div>
         )}
