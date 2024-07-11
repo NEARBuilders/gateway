@@ -25,13 +25,17 @@ export async function mockRpcRequest({
       }
 
       const mockedResponse = {
-        jsonrpc: "2.0",
-        id: "dontcare",
-        result: {
-          result: Array.from(
-            new TextEncoder().encode(JSON.stringify(mockedResult)),
-          ),
+        method: "query",
+        params: {
+          request_type: "call_function",
+          account_id: "social.near",
+          method_name: "get",
+          args_base64:
+            "eyJrZXlzIjpbImJ1aWxkZGFvLm5lYXIvd2lkZ2V0L3BhZ2UucHJvamVjdHMuUG90bG9ja0ltcG9ydCJdfQ==",
+          finality: "optimistic",
         },
+        id: 189,
+        jsonrpc: "2.0",
       };
 
       route.fulfill({
