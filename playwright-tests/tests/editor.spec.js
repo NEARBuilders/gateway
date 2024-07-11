@@ -278,19 +278,7 @@ test.describe("?page=projects&tab=editor", () => {
   });
 
   test.describe("Import project from NEAR Catalog", () => {
-    test.use({
-      storageState: "playwright-tests/storage-states/wallet-connected.json",
-    });
-
-    test("should show loading text", async ({ page }) => {
-      await page.goto(`/${ROOT_SRC}?page=projects&tab=catalogImport`);
-      const loadingText = page.getByText("Loading projects...");
-      await expect(loadingText).toBeVisible();
-    });
-
-    test("Should be able to create a new project from NEAR Catalog", async ({
-      page,
-    }) => {
+    test.beforeEach(async ({ page }) => {
       // mock projects fetch
       await page.route(
         "https://nearcatalog.xyz/wp-json/nearcatalog/v1/projects",
@@ -360,7 +348,27 @@ test.describe("?page=projects&tab=editor", () => {
           });
         },
       );
+
       await page.goto(`/${ROOT_SRC}?page=projects&tab=catalogImport`);
+    });
+    test.use({
+      storageState: "playwright-tests/storage-states/wallet-connected.json",
+    });
+
+    test("Should show error if no projects found in search", async ({
+      page,
+    }) => {
+      await page.getByPlaceholder("Search projects").fill("Test");
+      const searchButton = await page.getByRole("button", { name: "Search" });
+      await expect(searchButton).toBeVisible();
+      await searchButton.click();
+      const errorText = page.getByText("No projects were found for");
+      await expect(errorText).toBeVisible();
+    });
+
+    test("Should be able to create a new project from NEAR Catalog", async ({
+      page,
+    }) => {
       await page.getByPlaceholder("Search projects").fill("Build DAO");
       const searchButton = await page.getByRole("button", { name: "Search" });
       await expect(searchButton).toBeVisible();
