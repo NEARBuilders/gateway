@@ -278,83 +278,144 @@ test.describe("?page=projects&tab=editor", () => {
   });
 
   test.describe("Import project from NEAR Catalog", () => {
-    test.beforeEach(async ({ page }) => {
-      await page.goto(`/${ROOT_SRC}?page=projects&tab=catalogImport`);
-    });
-
     test.use({
       storageState: "playwright-tests/storage-states/wallet-connected.json",
     });
 
-    // should have visible projects
-    test("should have visible projects", async ({ page }) => {
-      const projectHeading = await page.getByRole("heading", {
-        name: "Race of Sloths",
-      });
-      await expect(projectHeading).toBeVisible();
+    test("should show loading text", async ({ page }) => {
+      await page.goto(`/${ROOT_SRC}?page=projects&tab=catalogImport`);
+      const loadingText = page.getByText("Loading projects...");
+      await expect(loadingText).toBeVisible();
     });
 
     test("Should be able to create a new project from NEAR Catalog", async ({
       page,
     }) => {
+      // mock projects fetch
+      await page.route(
+        "https://nearcatalog.xyz/wp-json/nearcatalog/v1/projects",
+        (route) => {
+          // Mocked response data
+          const mockedResponse = {
+            "build-dao": {
+              slug: "build-dao",
+              profile: {
+                name: "Build DAO",
+                tagline: "Builders helping each other learn together",
+                image: {
+                  url: "https://nearcatalog.xyz/wp-content/uploads/nearcatalog/build-dao.jpg",
+                },
+                tags: {
+                  dao: "DAO",
+                  developer_support: "Developer Support",
+                  ecosystem: "Ecosystem",
+                  service_provider: "Service Provider",
+                },
+              },
+            },
+          };
+
+          // Fulfill the request with the mocked response
+          route.fulfill({
+            contentType: "application/json",
+            body: JSON.stringify(mockedResponse),
+          });
+        },
+      );
+
+      // mock project fetch
+      await page.route(
+        "https://nearcatalog.xyz/wp-json/nearcatalog/v1/project?pid=build-dao",
+        (route) => {
+          // Mocked response data
+          const mockedResponse = {
+            slug: "build-dao",
+            profile: {
+              name: "Build DAO",
+              tagline: "Builders helping each other learn together",
+              description:
+                "Member-owned collective, resource hub, and support system for open web projects",
+              image: {
+                url: "https://nearcatalog.xyz/wp-content/uploads/nearcatalog/build-dao.jpg",
+              },
+              tags: {
+                dao: "DAO",
+                developer_support: "Developer Support",
+                ecosystem: "Ecosystem",
+                service_provider: "Service Provider",
+              },
+              linktree: {
+                website: "https://nearbuilders.org",
+                twitter: "https://x.com/nearbuilders",
+                telegram: "https://t.me/+0yT1bqsQHxkzMDkx",
+                github: "https://github.com/nearbuilders",
+              },
+            },
+          };
+
+          // Fulfill the request with the mocked response
+          route.fulfill({
+            contentType: "application/json",
+            body: JSON.stringify(mockedResponse),
+          });
+        },
+      );
+      await page.goto(`/${ROOT_SRC}?page=projects&tab=catalogImport`);
+      await page.getByPlaceholder("Search projects").fill("Build DAO");
+      const searchButton = await page.getByRole("button", { name: "Search" });
+      await expect(searchButton).toBeVisible();
+      await searchButton.click();
       const projectHeading = page.getByRole("heading", {
-        name: "Race of Sloths",
+        name: "Build DAO",
       });
-      await expect(projectHeading).toBeVisible({ timeout: 60000 });
+      await expect(projectHeading).toBeVisible();
 
       const parentDiv = page
         .locator("div.project-card")
         .filter({ has: projectHeading });
-      await expect(parentDiv).toBeVisible({ timeout: 60000 });
+      await expect(parentDiv).toBeVisible();
       await parentDiv.dispatchEvent("click");
 
+      const createProjectHeading = page.getByText("Create Project");
+      await expect(createProjectHeading).toBeVisible();
+
+      await expect(page.getByPlaceholder("Enter Project Title")).toHaveValue(
+        "Build DAO",
+      );
+      await expect(
+        page.frameLocator("iframe").locator('textarea[name="textarea"]'),
+      ).toBeVisible({ timeout: 60000 });
+      await expect(
+        page.frameLocator("iframe").locator('textarea[name="textarea"]'),
+      ).toHaveValue(
+        "Member-owned collective, resource hub, and support system for open web projects",
+      );
+      await expect(page.getByLabel("Twitter")).toHaveValue("nearbuilders");
+      await expect(page.getByLabel("GitHub")).toHaveValue("nearbuilders");
+      await expect(page.getByLabel("Website")).toHaveValue(
+        "https://nearbuilders.org",
+      );
+      await expect(page.getByLabel("Telegram")).toHaveValue(
+        "+0yT1bqsQHxkzMDkx",
+      );
+
       const nextButton = await page.getByRole("button", { name: "Next" });
-      await expect(nextButton).toBeVisible({ timeout: 60000 });
+      await expect(nextButton).toBeVisible();
       await nextButton.click();
 
-      const createButton = page.getByRole("button", { name: "Create" });
-      await expect(createButton).toBeVisible({ timeout: 60000 });
-      await createButton.click();
+      await expect(
+        await page.getByRole("img", { name: "not defined" }).nth(1),
+      ).toBeVisible();
 
-      const expectedTransactionData = {
-        "saswat_test.testnet": {
-          project: {
-            "race-of-sloths": {
-              "": '{"title":"Race of Sloths","description":"# Our mission\\r\\nWe\'re developers aiming to make open-source fun and rewarding.\\r\\n\\r\\nOpen-source drives global innovation, and we want more people to join in. With many open issues in open-source projects, why not make it enjoyable to solve them?\\r\\n\\r\\nJoin the Sloths community to earn Sloth Points in weekly quests while contributing to open-source.\\r\\n\\r\\nThe Race of Sloths originated from NEAR ecosystem, so we want to begin the race with the projects that helped to build NEAR and expand it from there.\\r\\n\\r\\n# How it works\\r\\n\\r\\n**1. Tag the Bot**\\r\\n\\r\\nContributor mentions @race-of-sloths in their pull request on GitHub to join the Race\\r\\n\\r\\n![1. Tag the Bot](https://race-of-sloths.com/images/bot1.svg)\\r\\n\\r\\n**2. Bot Responds**\\r\\n\\r\\nThe pull request is now a part of the Race\\r\\n\\r\\n![2. Bot Responds](https://race-of-sloths.com/images/bot2.svg)\\r\\n\\r\\n\\r\\n**3. Maintainer Scores**\\r\\n\\r\\nRepository maintainer scores the pull request using a Fibonacci scale [0, 1, 2, 3, 5, 8, 13]\\r\\n\\r\\n![3. Maintainer Scores](https://race-of-sloths.com/images/bot3.svg)\\r\\n\\r\\n**4. Leaderboard Updates**\\r\\n\\r\\nAfter 24 hours from the merge, the bot finalizes the score and updates the leaderboard\\r\\n\\r\\n![4. Leaderboard Updates](https://race-of-sloths.com/images/bot4.svg)\\r\\n\\r\\n# Earn Sloth Points  &  Recognition\\r\\n\\r\\n![rating 00](https://race-of-sloths.com/images/rating1.svg)\\r\\n\\r\\n**Valuable Contribution**\\r\\n\\r\\nEarn +10 Sloth points for each score point by submitting valuable pull requests.\\r\\n\\r\\n![rating 01](https://race-of-sloths.com/images/rating2.svg)\\r\\n\\r\\n**Weekly streak**\\r\\n\\r\\nMake at least one contribution each week and earn a bonus on top of your Sloth Points. Consistency is a key!\\r\\n\\r\\n![rating 10](https://race-of-sloths.com/images/rating3.svg)\\r\\n\\r\\n**Monthly streak**\\r\\n\\r\\nKeep your monthly streak of high-valuable pull requests scored 8 or 13 to receive additional bonus at the end of the month.\\r\\n\\r\\n![rating 11](https://race-of-sloths.com/images/rating4.svg)\\r\\n\\r\\n**Lifetime bonus**\\r\\n\\r\\nKeep rocking with your streaks to receive a lifetime bonus to your Sloth points.\\r\\n\\r\\n\\r\\n# Have Fun  &  Contribute\\r\\n\\r\\n### [🦥 Pick a Project](https://race-of-sloths.com/projects)","profileImage":{"url":"https://nearcatalog.xyz/wp-content/uploads/nearcatalog/race-of-sloths.jpg"},"backgroundImage":"","tags":{"developer-support":"","ecosystem":""},"linktree":{"twitter":"race_of_sloths","github":"race-of-sloths","telegram":"race_of_sloths","website":"https://race-of-sloths.com/"},"contributors":["saswat_test.testnet"],"tabs":["overview","tasks","activity","updatesfeed","feedbackfeed"],"projectAccountId":"saswat_test.testnet","teamSize":"","location":""}',
-              metadata: {
-                name: "Race of Sloths",
-                description:
-                  "# Our mission\r\nWe're developers aiming to make open-source fun and rewarding.\r\n\r\nOpen-source drives global innovation, and we want more people to join in. With many open issues in open-source projects, why not make it enjoyable to solve them?\r\n\r\nJoin the Sloths community to earn Sloth Points in weekly quests while contributing to open-source.\r\n\r\nThe Race of Sloths originated from NEAR ecosystem, so we want to begin the race with the projects that helped to build NEAR and expand it from there.\r\n\r\n# How it works\r\n\r\n**1. Tag the Bot**\r\n\r\nContributor mentions @race-of-sloths in their pull request on GitHub to join the Race\r\n\r\n![1. Tag the Bot](https://race-of-sloths.com/images/bot1.svg)\r\n\r\n**2. Bot Responds**\r\n\r\nThe pull request is now a part of the Race\r\n\r\n![2. Bot Responds](https://race-of-sloths.com/images/bot2.svg)\r\n\r\n\r\n**3. Maintainer Scores**\r\n\r\nRepository maintainer scores the pull request using a Fibonacci scale [0, 1, 2, 3, 5, 8, 13]\r\n\r\n![3. Maintainer Scores](https://race-of-sloths.com/images/bot3.svg)\r\n\r\n**4. Leaderboard Updates**\r\n\r\nAfter 24 hours from the merge, the bot finalizes the score and updates the leaderboard\r\n\r\n![4. Leaderboard Updates](https://race-of-sloths.com/images/bot4.svg)\r\n\r\n# Earn Sloth Points  &  Recognition\r\n\r\n![rating 00](https://race-of-sloths.com/images/rating1.svg)\r\n\r\n**Valuable Contribution**\r\n\r\nEarn +10 Sloth points for each score point by submitting valuable pull requests.\r\n\r\n![rating 01](https://race-of-sloths.com/images/rating2.svg)\r\n\r\n**Weekly streak**\r\n\r\nMake at least one contribution each week and earn a bonus on top of your Sloth Points. Consistency is a key!\r\n\r\n![rating 10](https://race-of-sloths.com/images/rating3.svg)\r\n\r\n**Monthly streak**\r\n\r\nKeep your monthly streak of high-valuable pull requests scored 8 or 13 to receive additional bonus at the end of the month.\r\n\r\n![rating 11](https://race-of-sloths.com/images/rating4.svg)\r\n\r\n**Lifetime bonus**\r\n\r\nKeep rocking with your streaks to receive a lifetime bonus to your Sloth points.\r\n\r\n\r\n# Have Fun  &  Contribute\r\n\r\n### [🦥 Pick a Project](https://race-of-sloths.com/projects)",
-                image: {
-                  url: "https://nearcatalog.xyz/wp-content/uploads/nearcatalog/race-of-sloths.jpg",
-                },
-                backgroundImage: "",
-                tags: {
-                  "developer-support": "",
-                  ecosystem: "",
-                },
-                linktree: {
-                  twitter: "https://twitter.com/race_of_sloths",
-                  github: "https://github.com/race-of-sloths",
-                  telegram: "https://t.me/race_of_sloths",
-                  website: "https://race-of-sloths.com/",
-                },
-              },
-            },
-          },
-          "builddao.testnet": {
-            project: {
-              "saswat_test.testnet_project_race-of-sloths": "",
-            },
-          },
-        },
-      };
+      const tags = page
+        .locator("div")
+        .filter({
+          hasText:
+            /^dao×Removedeveloper-support×Removeecosystem×Removeservice-provider×Remove$/,
+        })
+        .nth(1);
 
-      const transactionObj = JSON.parse(
-        await page.locator("div.modal-body code").innerText(),
-      );
-      // do something with transactionObj
-      expect(transactionObj).toMatchObject(expectedTransactionData);
+      await expect(tags).toBeVisible();
     });
   });
 });

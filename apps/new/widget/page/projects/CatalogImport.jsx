@@ -111,7 +111,9 @@ return (
     {Search}
     {projects === null ? (
       <>
-        <div className="bg-secondary text-white p-3 h6 rounded-3">Loading projects...</div>
+        <div className="bg-secondary text-white p-3 h6 rounded-3">
+          Loading projects...
+        </div>
       </>
     ) : (
       <>

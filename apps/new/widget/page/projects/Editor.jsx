@@ -285,7 +285,6 @@ if (catalogProjectId) {
 }
 useEffect(() => {
   if (catalogProjectData) {
-    console.log("project data", catalogProjectData);
     const { website, github, telegram, twitter } = catalogProjectData.linktree;
     const githubLink = github.split("/")[3];
     const telegramLink = telegram.split("/")[3];
