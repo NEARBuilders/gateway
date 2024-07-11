@@ -7,9 +7,11 @@ const { nearToUsd, ipfsUrlFromCid, yoctosToNear, yoctosToUsdWithFallback } =
     nearToUsd: 1,
   };
 
-const { CardSkeleton } = VM.require("${alias_new}/widget/page.projects.CardSkeleton") || {
+const { CardSkeleton } = VM.require(
+  "${alias_new}/widget/page.projects.CardSkeleton",
+) || {
   CardSkeleton: () => <></>,
-}
+};
 
 const { _address } = VM.require(
   "${alias_potlock}/widget/Components.DonorsUtils",

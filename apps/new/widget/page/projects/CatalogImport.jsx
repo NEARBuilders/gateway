@@ -2,9 +2,11 @@ const { Feed } = VM.require("${alias_devs}/widget/Feed") || {
   Feed: () => <></>,
 };
 
-const { CardSkeleton } = VM.require("${alias_new}/widget/page.projects.CardSkeleton") || {
+const { CardSkeleton } = VM.require(
+  "${alias_new}/widget/page.projects.CardSkeleton",
+) || {
   CardSkeleton: () => <></>,
-}
+};
 
 const indexer = "https://nearcatalog.xyz/wp-json/nearcatalog/v1";
 const query = "";
