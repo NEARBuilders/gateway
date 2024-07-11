@@ -7,6 +7,10 @@ const { nearToUsd, ipfsUrlFromCid, yoctosToNear, yoctosToUsdWithFallback } =
     nearToUsd: 1,
   };
 
+const { CardSkeleton } = VM.require("${alias_new}/widget/page.projects.CardSkeleton") || {
+  CardSkeleton: () => <></>,
+}
+
 const { _address } = VM.require(
   "${alias_potlock}/widget/Components.DonorsUtils",
 ) || {
@@ -177,125 +181,10 @@ const Tag = styled.span`
   border: 1px solid rgba(123, 123, 123, 0.36);
 `;
 
-const CardSkeletonContainer = styled.div`
-  @keyframes loadingSkeleton {
-    0% {
-      opacity: 0.8;
-    }
-    50% {
-      opacity: 0.3;
-    }
-    100% {
-      opacity: 0.6;
-    }
-  }
-
-  display: flex;
-  flex-direction: column;
-  height: 447px;
-  width: 100%;
-  max-width: 400px;
-  border-radius: 12px;
-  background: var(--bg-color, #23242b);
-  color: var(--text-color, #fff);
-  margin-left: auto;
-  margin-right: auto;
-  overflow: hidden;
-  animation-name: loadingSkeleton;
-  animation-duration: 1s;
-  animation-iteration-count: infinite;
-`;
-
-const HeaderSkeleton = styled.div`
-  display: block;
-  width: 100%;
-  height: 168px;
-  background: #eee;
-`;
-
-const ProfileImageSkeleton = styled.div`
-  background: #e0e0e0;
-  margin-left: 32px;
-  transform: translateY(148px);
-  width: 40px;
-  height: 40px;
-  position: absolute;
-  border-radius: 999px;
-`;
-
-const TitleSkeleton = styled.div`
-  width: 120px;
-  height: 24px;
-  background: #eee;
-  margin-left: 24px;
-  margin-top: 24px;
-`;
-
-const DescriptionSkeleton = styled.div`
-  width: 83%;
-  height: 48px;
-  background: #eee;
-  margin-left: 24px;
-  margin-top: 24px;
-`;
-
-const TagSkeleton = styled.div`
-  background: #eee;
-  border-radius: 4px;
-  height: 34px;
-  width: 110px;
-  margin: 24px;
-`;
-
-const FooterItemSkeleton = styled.div`
-  width: 150px;
-  height: 40px;
-  background: #eee;
-
-  @media screen and (max-width: 390px) {
-    width: 100px;
-  }
-`;
-
-const DonationsInfoContainerSkeleton = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  padding: 16px 24px;
-  width: 100%;
-  border-top: 1px #f0f0f0 solid;
-`;
-
-const DonationsInfoItemSkeleton = styled.div`
-  display: flex;
-  flex-direction: row;
-  gap: 8px;
-  align-items: center;
-`;
-
-const CardSkeleton = () => (
-  <CardSkeletonContainer>
-    <HeaderSkeleton />
-    <ProfileImageSkeleton />
-    <TitleSkeleton />
-    <DescriptionSkeleton />
-    <TagSkeleton />
-    <DonationsInfoContainerSkeleton>
-      <DonationsInfoItemSkeleton>
-        <FooterItemSkeleton />
-      </DonationsInfoItemSkeleton>
-      <DonationsInfoItemSkeleton>
-        <FooterItemSkeleton />
-      </DonationsInfoItemSkeleton>
-    </DonationsInfoContainerSkeleton>
-  </CardSkeletonContainer>
-);
-
 const projectId = props.project.id || props.projectId;
 const profile = Social.getr(`${projectId}/profile`);
 
-if (profile === null) return <CardSkeleton />;
+if (profile === null) return <CardSkeleton variant={"potlock"} />;
 
 const MAX_DESCRIPTION_LENGTH = 80;
 
@@ -305,7 +194,7 @@ const donationsForProject = potId
   ? PotSDK.getDonationsForProject(potId, projectId)
   : DonateSDK.getDonationsForRecipient(projectId);
 
-if (donationsForProject === null) return <CardSkeleton />;
+if (donationsForProject === null) return <CardSkeleton variant={"potlock"} />;
 
 const [totalAmountNear, totalDonors] = useMemo(() => {
   if (!donationsForProject) return ["0", 0];

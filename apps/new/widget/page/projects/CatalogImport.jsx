@@ -1,78 +1,13 @@
-const indexer = "https://nearcatalog.xyz/wp-json/nearcatalog/v1";
-const query = "";
-
 const { Feed } = VM.require("${alias_devs}/widget/Feed") || {
   Feed: () => <></>,
 };
 
-const CardSkeletonContainer = styled.div`
-  @keyframes loadingSkeleton {
-    0% {
-      opacity: 0.8;
-    }
-    50% {
-      opacity: 0.3;
-    }
-    100% {
-      opacity: 0.6;
-    }
-  }
+const { CardSkeleton } = VM.require("${alias_new}/widget/page.projects.CardSkeleton") || {
+  CardSkeleton: () => <></>,
+}
 
-  display: flex;
-  flex-direction: column;
-  height: 447px;
-  width: 100%;
-  max-width: 400px;
-  border-radius: 12px;
-  background: var(--bg-color, #23242b);
-  color: var(--text-color, #fff);
-  margin-left: auto;
-  margin-right: auto;
-  overflow: hidden;
-  animation-name: loadingSkeleton;
-  animation-duration: 1s;
-  animation-iteration-count: infinite;
-`;
-
-const HeaderSkeleton = styled.div`
-  display: block;
-  width: 100%;
-  height: 168px;
-  background: #eee;
-`;
-
-const TitleSkeleton = styled.div`
-  width: 120px;
-  height: 24px;
-  background: #eee;
-  margin-left: 24px;
-  margin-top: 24px;
-`;
-
-const DescriptionSkeleton = styled.div`
-  width: 83%;
-  height: 48px;
-  background: #eee;
-  margin-left: 24px;
-  margin-top: 24px;
-`;
-
-const TagSkeleton = styled.div`
-  background: #eee;
-  border-radius: 4px;
-  height: 34px;
-  width: 110px;
-  margin: 24px;
-`;
-
-const CardSkeleton = () => (
-  <CardSkeletonContainer>
-    <HeaderSkeleton />
-    <TitleSkeleton />
-    <DescriptionSkeleton />
-    <TagSkeleton />
-  </CardSkeletonContainer>
-);
+const indexer = "https://nearcatalog.xyz/wp-json/nearcatalog/v1";
+const query = "";
 
 let projects = {};
 
@@ -200,7 +135,7 @@ return (
       Item={({ projectId }) => (
         <Widget
           src={"${alias_new}/widget/page.projects.CatalogProjectCard"}
-          loading={<CardSkeleton />}
+          loading={<CardSkeleton varaint={"catalog"} />}
           props={{
             project: filteredProjects[projectId],
             setSelectedProjectId: setSelectedProjectId,

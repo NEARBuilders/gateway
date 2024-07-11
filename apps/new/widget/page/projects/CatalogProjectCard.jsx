@@ -13,10 +13,10 @@ const Card = styled.div`
   background: #23242b;
   color: white;
   transition: all 300ms;
+  height: 100%;
 
   &:hover {
     transform: translateY(-0.5rem);
-    box-shadow: 0px -2px 0px #dbdbdb inset;
     cursor: pointer;
   }
 
