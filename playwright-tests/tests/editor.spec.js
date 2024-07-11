@@ -392,7 +392,7 @@ test.describe("?page=projects&tab=editor", () => {
       );
       await expect(
         page.frameLocator("iframe").locator('textarea[name="textarea"]'),
-      ).toBeVisible({ timeout: 60000 });
+      ).toBeVisible();
       await expect(
         page.frameLocator("iframe").locator('textarea[name="textarea"]'),
       ).toHaveValue(
