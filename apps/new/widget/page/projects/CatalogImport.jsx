@@ -23,14 +23,6 @@ projects = useCache(() => {
   });
 }, ["near-catalog-projects"]);
 
-const Container = styled.div`
-  .error-bg {
-    background-color: #4d4d4d;
-    color: white;
-  }
-  max-width: 100%;
-`;
-
 const [filteredProjects, setFilteredProjects] = useState({});
 
 useEffect(() => {
@@ -115,7 +107,7 @@ if (selectedProjectId) {
 }
 
 return (
-  <Container className="d-flex flex-column gap-4 p-4">
+  <div className="d-flex flex-column gap-4 p-4">
     {Search}
     {projects === null ? (
       <>
@@ -146,5 +138,5 @@ return (
       )}
       Layout={ProjectsGrid}
     />
-  </Container>
+  </div>
 );
