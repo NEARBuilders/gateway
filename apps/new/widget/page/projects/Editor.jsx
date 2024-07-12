@@ -30,6 +30,12 @@ const { getProjectMeta, getProjectIdFromPath } = VM.require(
   getProjectMeta: () => {},
 };
 
+const { fetchCatalogProject } = VM.require(
+  "${alias_new}/widget/lib.projects",
+) || {
+  fetchCatalogProject: () => {},
+};
+
 const { href } = VM.require("${alias_old}/widget/lib.url") || {
   href: () => {},
 };
@@ -275,13 +281,7 @@ const handleTags = (tags) => {
 const catalogProjectId = props.catalogProjectId;
 const catalogProjectData = null;
 if (catalogProjectId) {
-  const indexer = "https://nearcatalog.xyz/wp-json/nearcatalog/v1";
-  const query = "";
-  query = fetch(indexer + "/project?pid=" + catalogProjectId);
-  if (!query.body) {
-    return <>No data Found!</>;
-  }
-  catalogProjectData = query.body.profile;
+  catalogProjectData = fetchCatalogProject(catalogProjectId);
 }
 useEffect(() => {
   if (catalogProjectData) {

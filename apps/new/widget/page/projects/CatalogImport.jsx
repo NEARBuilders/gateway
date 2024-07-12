@@ -8,19 +8,14 @@ const { CardSkeleton } = VM.require(
   CardSkeleton: () => <></>,
 };
 
-const indexer = "https://nearcatalog.xyz/wp-json/nearcatalog/v1";
-const query = "";
+const { fetchCatalogProjects } = VM.require(
+  "${alias_new}/widget/lib.projects",
+) || {
+  fetchCatalogProjects: () => {},
+};
 
-let projects = {};
-
-projects = useCache(() => {
-  return asyncFetch(indexer + "/projects").then((res) => {
-    if (res.ok) {
-      return res.body;
-    } else {
-      return {};
-    }
-  });
+const projects = useCache(() => {
+  return fetchCatalogProjects();
 }, ["near-catalog-projects"]);
 
 const [filteredProjects, setFilteredProjects] = useState({});
