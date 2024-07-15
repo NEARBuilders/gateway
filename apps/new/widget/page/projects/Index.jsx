@@ -73,6 +73,14 @@ const config = {
         },
         hide: true,
       },
+      catalogImport: {
+        path: "${config_account}/widget/page.projects.CatalogImport",
+        blockHeight: "final",
+        init: {
+          name: "Import Project",
+        },
+        hide: true,
+      },
     },
   },
 };

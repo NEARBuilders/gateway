@@ -276,4 +276,154 @@ test.describe("?page=projects&tab=editor", () => {
       await expect(warningText).toBeVisible();
     });
   });
+
+  test.describe("Import project from NEAR Catalog", () => {
+    test.beforeEach(async ({ page }) => {
+      // mock projects fetch
+      await page.route(
+        "https://nearcatalog.xyz/wp-json/nearcatalog/v1/projects",
+        (route) => {
+          // Mocked response data
+          const mockedResponse = {
+            "build-dao": {
+              slug: "build-dao",
+              profile: {
+                name: "Build DAO",
+                tagline: "Builders helping each other learn together",
+                image: {
+                  url: "https://nearcatalog.xyz/wp-content/uploads/nearcatalog/build-dao.jpg",
+                },
+                tags: {
+                  dao: "DAO",
+                  developer_support: "Developer Support",
+                  ecosystem: "Ecosystem",
+                  service_provider: "Service Provider",
+                },
+              },
+            },
+          };
+
+          // Fulfill the request with the mocked response
+          route.fulfill({
+            contentType: "application/json",
+            body: JSON.stringify(mockedResponse),
+          });
+        },
+      );
+
+      // mock project fetch
+      await page.route(
+        "https://nearcatalog.xyz/wp-json/nearcatalog/v1/project?pid=build-dao",
+        (route) => {
+          // Mocked response data
+          const mockedResponse = {
+            slug: "build-dao",
+            profile: {
+              name: "Build DAO",
+              tagline: "Builders helping each other learn together",
+              description:
+                "Member-owned collective, resource hub, and support system for open web projects",
+              image: {
+                url: "https://nearcatalog.xyz/wp-content/uploads/nearcatalog/build-dao.jpg",
+              },
+              tags: {
+                dao: "DAO",
+                developer_support: "Developer Support",
+                ecosystem: "Ecosystem",
+                service_provider: "Service Provider",
+              },
+              linktree: {
+                website: "https://nearbuilders.org",
+                twitter: "https://x.com/nearbuilders",
+                telegram: "https://t.me/+0yT1bqsQHxkzMDkx",
+                github: "https://github.com/nearbuilders",
+              },
+            },
+          };
+
+          // Fulfill the request with the mocked response
+          route.fulfill({
+            contentType: "application/json",
+            body: JSON.stringify(mockedResponse),
+          });
+        },
+      );
+
+      await page.goto(`/${ROOT_SRC}?page=projects&tab=catalogImport`);
+    });
+    test.use({
+      storageState: "playwright-tests/storage-states/wallet-connected.json",
+    });
+
+    test("Should show error if no projects found in search", async ({
+      page,
+    }) => {
+      await page.getByPlaceholder("Search projects").fill("Test");
+      const searchButton = await page.getByRole("button", { name: "Search" });
+      await expect(searchButton).toBeVisible();
+      await searchButton.click();
+      const errorText = page.getByText("No projects were found for");
+      await expect(errorText).toBeVisible();
+    });
+
+    test("Should be able to create a new project from NEAR Catalog", async ({
+      page,
+    }) => {
+      await page.getByPlaceholder("Search projects").fill("Build DAO");
+      const searchButton = await page.getByRole("button", { name: "Search" });
+      await expect(searchButton).toBeVisible();
+      await searchButton.click();
+      const projectHeading = page.getByRole("heading", {
+        name: "Build DAO",
+      });
+      await expect(projectHeading).toBeVisible();
+
+      const parentDiv = page
+        .locator("div.project-card")
+        .filter({ has: projectHeading });
+      await expect(parentDiv).toBeVisible();
+      await parentDiv.dispatchEvent("click");
+
+      const createProjectHeading = page.getByText("Create Project");
+      await expect(createProjectHeading).toBeVisible();
+
+      await expect(page.getByPlaceholder("Enter Project Title")).toHaveValue(
+        "Build DAO",
+      );
+      await expect(
+        page.frameLocator("iframe").locator('textarea[name="textarea"]'),
+      ).toBeVisible();
+      await expect(
+        page.frameLocator("iframe").locator('textarea[name="textarea"]'),
+      ).toHaveValue(
+        "Member-owned collective, resource hub, and support system for open web projects",
+      );
+      await expect(page.getByLabel("Twitter")).toHaveValue("nearbuilders");
+      await expect(page.getByLabel("GitHub")).toHaveValue("nearbuilders");
+      await expect(page.getByLabel("Website")).toHaveValue(
+        "https://nearbuilders.org",
+      );
+      await expect(page.getByLabel("Telegram")).toHaveValue(
+        "+0yT1bqsQHxkzMDkx",
+      );
+
+      const nextButton = await page.getByRole("button", { name: "Next" });
+      await expect(nextButton).toBeVisible();
+      await nextButton.click();
+
+      await expect(
+        await page.getByRole("img", { name: "not defined" }).nth(1),
+      ).toBeVisible();
+
+      const tags = page
+        .locator("div")
+        .filter({
+          hasText:
+            /^dao×Removedeveloper-support×Removeecosystem×Removeservice-provider×Remove$/,
+        })
+        .nth(1);
+
+      await expect(tags).toBeVisible();
+    });
+  });
 });

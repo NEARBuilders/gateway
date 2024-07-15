@@ -53,10 +53,29 @@ const expectedTransactionData = {};
 // click button that triggers transaction
 await page.getByRole("button", { name: "Create" }).nth(1).click();
 
-const transactionObj = JSON.parse(await page.locator("div.modal-body code").innerText());
+const transactionObj = JSON.parse(
+  await page.locator("div.modal-body code").innerText(),
+);
 
 // do something with transactionObj
 expect(transactionObj).toMatchObject(expectedTransactionData);
 ```
 
 See the test called "should complete flow and save data correctly with images populated" in editor.spec.js for a full example.
+
+### Mocking fetch requests
+
+If you are testing a component that makes fetch requests, you can mock them using the [fetch](https://playwright.dev/docs/api/class-fetch) API.
+
+```javascript
+await page.route("**/api/hello", (route) => {
+  return route.fulfill({
+    status: 200,
+    body: "Hello, World!",
+  });
+});
+```
+
+Currently, we add this to the `beforeEach` hook in the test file. This way we do not have to mock the requests for every test.
+
+See the test called "Import project from Potlock" in editor.spec.js for a full example.

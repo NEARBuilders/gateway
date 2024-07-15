@@ -66,14 +66,18 @@ return (
         src="https://ipfs.near.social/ipfs/bafkreidbfu7uxtr4is7wxileg3mrbajve6cgkfmrqemc6pxsr6nnczz7ly"
         tab="editor"
       />
-
       <Item
         title="Import from Potlock"
         description="Import your projects from the Potlock platform."
         src="https://ipfs.near.social/ipfs/bafkreifk42ibqsg5sfky5tlhkfty6rkup5leqite5koenhesnuwq55kufi"
         tab="potlockImport"
       />
-
+      <Item
+        title="Import from NEAR Catalog"
+        description="Import your projects from the NEAR Catalog platform."
+        src="https://ipfs.near.social/ipfs/bafkreicjv6eesybeura3gfwj6xs262ipsfhbeogpwsuf5tc5nlzve7faz4"
+        tab="catalogImport"
+      />
       <div className="my-1 d-flex justify-content-center">
         <Button variant="primary" onClick={toggleModal}>
           Cancel
