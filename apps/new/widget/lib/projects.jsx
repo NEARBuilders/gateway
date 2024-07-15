@@ -105,12 +105,11 @@ const getProjectIdFromPath = (id) => {
 
 const fetchCatalogProjects = () => {
   const indexer = "https://nearcatalog.xyz/wp-json/nearcatalog/v1";
-  const query = "";
   return asyncFetch(indexer + "/projects").then((response) => {
-    if (!query.body) {
+    if (!response.body) {
       return {};
     }
-    return query.body;
+    return response.body;
   });
 };
 
