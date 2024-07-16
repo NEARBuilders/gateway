@@ -1,4 +1,4 @@
-name: Undeploy staging
+name: Undeploy web4 contract from staging
 on:
   pull_request:
     types: [closed]

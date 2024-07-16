@@ -1,4 +1,4 @@
-name: Deploy to production
+name: Deploy web4 contract to production
 on:
   push:
     branches: [main]

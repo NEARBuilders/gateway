@@ -1,4 +1,4 @@
-name: Deploy to staging
+name: Deploy web4 contract to staging
 on:
   pull_request:
     paths:
