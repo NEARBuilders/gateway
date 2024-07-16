@@ -87,8 +87,8 @@ const starClick = (event) => {
 };
 
 const title = hasStar
-  ? (props.titleUnstar ?? "Unstar")
-  : (props.titleStar ?? "Star");
+  ? props.titleUnstar ?? "Unstar"
+  : props.titleStar ?? "Star";
 
 const inner = (
   <div className="d-inline-flex align-items-center">
