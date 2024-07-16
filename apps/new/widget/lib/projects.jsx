@@ -103,8 +103,30 @@ const getProjectIdFromPath = (id) => {
   return (id ?? "").split("/")[2] ?? null;
 };
 
+const fetchCatalogProjects = () => {
+  const indexer = "https://nearcatalog.xyz/wp-json/nearcatalog/v1";
+  return asyncFetch(indexer + "/projects").then((response) => {
+    if (!response.body) {
+      return {};
+    }
+    return response.body;
+  });
+};
+
+const fetchCatalogProject = (id) => {
+  const indexer = "https://nearcatalog.xyz/wp-json/nearcatalog/v1";
+  const query = "";
+  query = fetch(indexer + "/project?pid=" + id);
+  if (!query.body) {
+    return {};
+  }
+  return query.body.profile;
+};
+
 return {
   fetchProjects,
+  fetchCatalogProjects,
+  fetchCatalogProject,
   getProjectMeta,
   getProjectIdFromPath,
   getTagsInArray,

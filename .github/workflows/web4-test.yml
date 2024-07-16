@@ -1,4 +1,4 @@
-name: Test
+name: Test web4 contract
 on:
   workflow_call:
 

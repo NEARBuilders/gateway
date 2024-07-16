@@ -54,8 +54,7 @@ impl Contract {
         let metadata_preload_url = format!(
             // web4 contract call for widget metadata
             "/web4/contract/{}/get?keys.json=%5B%22{}/widget/Index/metadata/**%22%5D",
-            social_near,
-            &current_account_id
+            social_near, &current_account_id
         );
 
         let mut app_name = String::new();

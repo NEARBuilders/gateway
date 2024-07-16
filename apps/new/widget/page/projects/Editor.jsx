@@ -30,6 +30,12 @@ const { getProjectMeta, getProjectIdFromPath } = VM.require(
   getProjectMeta: () => {},
 };
 
+const { fetchCatalogProject } = VM.require(
+  "${alias_new}/widget/lib.projects",
+) || {
+  fetchCatalogProject: () => {},
+};
+
 const { href } = VM.require("${alias_old}/widget/lib.url") || {
   href: () => {},
 };
@@ -270,6 +276,33 @@ const handleTags = (tags) => {
   );
   setTags(filtered);
 };
+
+// Handle NEAR Catalog Projects
+const catalogProjectId = props.catalogProjectId;
+const catalogProjectData = null;
+if (catalogProjectId) {
+  catalogProjectData = fetchCatalogProject(catalogProjectId);
+}
+useEffect(() => {
+  if (catalogProjectData) {
+    const { website, github, telegram, twitter } = catalogProjectData.linktree;
+    const githubLink = github.split("/")[3];
+    const telegramLink = telegram.split("/")[3];
+    const twitterLink = twitter.split("/")[3];
+    const tags = Object.values(catalogProjectData.tags || []).map((tag) => {
+      return removeWhiteSpace(tag);
+    });
+
+    setTitle(catalogProjectData.name);
+    setDescription(catalogProjectData.description);
+    setAvatar(catalogProjectData.image);
+    setWebsite(website);
+    setGitHub(githubLink);
+    setTelegram(telegramLink);
+    setTwitter(twitterLink);
+    setTags(tags);
+  }
+}, [catalogProjectData]);
 
 // Commenting roles code (to be added in v1)
 // const handleRoles = (roles) => {
