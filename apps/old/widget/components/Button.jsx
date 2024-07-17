@@ -36,6 +36,8 @@ const StyledButton = styled.button`
         return "var(--button-secondary-bg, #23242B)";
       case "transparent":
         return "transparent";
+      case "danger": 
+        return "var(--button-danger-bg, #fd2a5c)";
       default:
         return "var(--button-default-bg, #23242B)";
     }
@@ -49,8 +51,10 @@ const StyledButton = styled.button`
         return "var(--button-outline-color, #fff)";
       case "secondary":
         return "var(--button-secondary-color, #CDD0D5)";
+      case "danger":
+        return "var(--button-danger-hover-bg, #fff)";
       default:
-        return "var(--button-default-color, #CDD0D5)";
+        return "var(--button-default-color, #white)";
     }
   }};
 
@@ -67,6 +71,8 @@ const StyledButton = styled.button`
           return "var(--button-primary-hover-bg, #e49b48)";
         case "outline":
           return "var(--button-outline-hover-bg, rgba(255, 255, 255, 0.20))";
+        case "danger":
+          return "var(--button-danger-hover-bg, #fd2a5c";
         default:
           return "var(--button-default-hover-bg, #17181c)";
       }
