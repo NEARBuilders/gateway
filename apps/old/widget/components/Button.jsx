@@ -36,7 +36,7 @@ const StyledButton = styled.button`
         return "var(--button-secondary-bg, #23242B)";
       case "transparent":
         return "transparent";
-      case "danger": 
+      case "danger":
         return "var(--button-danger-bg, #fd2a5c)";
       default:
         return "var(--button-default-bg, #23242B)";
