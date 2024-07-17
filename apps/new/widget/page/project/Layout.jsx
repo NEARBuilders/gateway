@@ -4,7 +4,7 @@ const { Metadata } = VM.require(
   Metadata: () => <></>,
 };
 
-const { href } = VM.require("${alias_old}/widget/lib.url") || {
+const { href } = VM.require("${alias_devs}/widget/lib.url") || {
   href: () => {},
 };
 const Layout = ({

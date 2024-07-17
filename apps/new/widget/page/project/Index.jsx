@@ -93,7 +93,7 @@ const config = {
         },
       },
       activity: {
-        path: "${alias_old}/widget/Feed",
+        path: "${config_account}/widget/components.Feed",
         blockHeight: "final",
         label: "Activity",
         init: {
@@ -104,7 +104,7 @@ const config = {
         },
       },
       updatesFeed: {
-        path: "${alias_old}/widget/Feed",
+        path: "${config_account}/widget/components.Feed",
         blockHeight: "final",
         init: {
           feedName: `${data.title} Updates`,
@@ -114,7 +114,7 @@ const config = {
         },
       },
       feedbackFeed: {
-        path: "${alias_old}/widget/Feed",
+        path: "${config_account}/widget/components.Feed",
         blockHeight: "final",
         init: {
           feedName: `${data.title} Feedback`,

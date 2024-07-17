@@ -1,8 +1,8 @@
-const { Button } = VM.require("${alias_old}/widget/components") || {
+const { Button } = VM.require("${config_account}/widget/components.Index") || {
   Button: () => <></>,
 };
 
-const { href } = VM.require("${alias_old}/widget/lib.url") || {
+const { href } = VM.require("${alias_devs}/widget/lib.url") || {
   href: () => {},
 };
 
@@ -146,7 +146,7 @@ return (
             </div>
           </div>
           <Widget
-            src="${alias_old}/widget/components.profile.Linktree"
+            src="${config_account}/widget/components.profile.Linktree"
             loading=""
             props={{
               profile,

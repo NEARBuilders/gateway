@@ -1,8 +1,8 @@
-const { Button } = VM.require("${alias_old}/widget/components") || {
+const { Button } = VM.require("${config_account}/widget/components.Index") || {
   Button: () => <></>,
 };
 
-const { href } = VM.require("${alias_old}/widget/lib.url") || {
+const { href } = VM.require("${alias_devs}/widget/lib.url") || {
   href: () => {},
 };
 
@@ -451,7 +451,7 @@ function Navbar(props) {
             </StyledDropdown>
             {context.accountId ? (
               <Widget
-                src="${alias_old}/widget/components.buttons.UserDropdown"
+                src="${config_account}/widget/components.UserDropdown"
                 loading=""
                 props={props}
               />
@@ -614,7 +614,7 @@ function Navbar(props) {
                 {context.accountId ? (
                   <div className="mx-auto d-flex align-items-stretch ">
                     <Widget
-                      src="${alias_old}/widget/components.buttons.UserDropdown"
+                      src="${config_account}/widget/components.UserDropdown"
                       loading=""
                       props={props}
                     />

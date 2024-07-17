@@ -1,10 +1,10 @@
-const { Avatar, Button } = VM.require("${alias_old}/widget/components") || {
+const { Avatar, Button } = VM.require("${config_account}/widget/components.Index") || {
   Avatar: () => <></>,
   Button: () => <></>,
 };
 
 const { ProfileImages } = VM.require(
-  "${alias_old}/widget/components.ProfileImages",
+  "${config_account}/widget/components.ProfileImages",
 ) || {
   ProfileImages: () => <></>,
 };

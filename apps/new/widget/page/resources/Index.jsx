@@ -25,7 +25,7 @@ const config = {
     param: "tab",
     routes: {
       guide: {
-        path: "${alias_old}/widget/Resources",
+        path: "${config_account}/widget/components.Document",
         blockHeight: "final",
         label: "BOS-WORKSPACE DOCS",
         init: {
@@ -37,7 +37,7 @@ const config = {
         default: true,
       },
       VM: {
-        path: "${alias_old}/widget/Resources",
+        path: "${config_account}/widget/components.Document",
         blockHeight: "final",
         init: {
           name: "Working with VM",
@@ -48,7 +48,7 @@ const config = {
       },
 
       starter: {
-        path: "${alias_old}/widget/Resources",
+        path: "${config_account}/widget/components.Document",
         blockHeight: "final",
         init: {
           name: "Getting Started",
@@ -79,7 +79,7 @@ const config = {
         },
       },
       migrationGuide: {
-        path: "${alias_old}/widget/Resources",
+        path: "${config_account}/widget/components.Document",
         blockHeight: "final",
         init: {
           feedName: "Migration Guide",
@@ -90,7 +90,7 @@ const config = {
         hide: true,
       },
       installation: {
-        path: "${alias_old}/widget/Resources",
+        path: "${config_account}/widget/components.Document",
         blockHeight: "final",
         init: {
           feedName: "Installation",
@@ -101,7 +101,7 @@ const config = {
         hide: true,
       },
       // setup: {
-      //   path: "${alias_old}/widget/Resources",
+      //   path: "${config_account}/widget/components.Document",
       //   blockHeight: "final",
       //   init: {
       //     feedName: "Setup",
@@ -112,7 +112,7 @@ const config = {
       //   hide: true,
       // },
       gettingStarted: {
-        path: "${alias_old}/widget/Resources",
+        path: "${config_account}/widget/components.Document",
         blockHeight: "final",
         init: {
           feedName: "Getting Started",
@@ -123,7 +123,7 @@ const config = {
         hide: true,
       },
       usageHeading: {
-        path: "${alias_old}/widget/Resources",
+        path: "${config_account}/widget/components.Document",
         blockHeight: "final",
         init: {
           name: "Usage",
@@ -149,7 +149,7 @@ const config = {
         },
       },
       aliases: {
-        path: "${alias_old}/widget/Resources",
+        path: "${config_account}/widget/components.Document",
         blockHeight: "final",
         init: {
           feedName: "Aliases",
@@ -160,7 +160,7 @@ const config = {
         hide: true,
       },
       deploy: {
-        path: "${alias_old}/widget/Resources",
+        path: "${config_account}/widget/components.Document",
         blockHeight: "final",
         init: {
           feedName: "Deploy",
@@ -171,7 +171,7 @@ const config = {
         hide: true,
       },
       usage: {
-        path: "${alias_old}/widget/Resources",
+        path: "${config_account}/widget/components.Document",
         blockHeight: "final",
         init: {
           feedName: "Usage",
@@ -182,7 +182,7 @@ const config = {
         hide: true,
       },
       deploying_widgets: {
-        path: "${alias_old}/widget/Resources",
+        path: "${config_account}/widget/components.Document",
         blockHeight: "final",
         label: "Deploying Widgets",
         init: {
@@ -193,7 +193,7 @@ const config = {
         },
       },
       deploying_web4: {
-        path: "${alias_old}/widget/Resources",
+        path: "${config_account}/widget/components.Document",
         blockHeight: "final",
 
         init: {
@@ -204,7 +204,7 @@ const config = {
         },
       },
       adding_new_resouces: {
-        path: "${alias_old}/widget/Resources",
+        path: "${config_account}/widget/components.Document",
         blockHeight: "final",
         label: "Update Resources",
         init: {

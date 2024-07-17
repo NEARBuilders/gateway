@@ -1,5 +1,6 @@
 const CSS = styled.div`
   min-height: 100vh;
+  background: var(--bg-1, #000);
 
   @font-face {
     font-family: "Poppins";
@@ -181,12 +182,8 @@ const CSS = styled.div`
     background: var(--bg-1, black);
   }
 
-  .content {
-    background: var(--bg-1, #000);
-
-    .main {
-      min-width: 0;
-    }
+  .main {
+    min-width: 0;
   }
 `;
 

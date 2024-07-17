@@ -1,4 +1,4 @@
-const { User, Hashtag } = VM.require("${alias_old}/widget/components") || {
+const { User, Hashtag } = VM.require("${config_account}/widget/components.Index") || {
   User: () => <></>,
   Hashtag: () => <></>,
 };

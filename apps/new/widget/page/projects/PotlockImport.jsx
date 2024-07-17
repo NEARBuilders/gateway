@@ -1,4 +1,4 @@
-const { Button } = VM.require("${alias_old}/widget/components") || {
+const { Button } = VM.require("${config_account}/widget/components.Index") || {
   Button: () => <></>,
 };
 const { getTagsFromSocialProfileData, getTeamMembersFromSocialProfileData } =

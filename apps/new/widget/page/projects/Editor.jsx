@@ -13,7 +13,7 @@ if (!context.accountId) {
 }
 
 const { Button, InputField, TextEditor, Modal } = VM.require(
-  "${alias_old}/widget/components",
+  "${config_account}/widget/components.Index",
 ) || {
   Button: () => <></>,
   InputField: () => <></>,
@@ -36,7 +36,7 @@ const { fetchCatalogProject } = VM.require(
   fetchCatalogProject: () => {},
 };
 
-const { href } = VM.require("${alias_old}/widget/lib.url") || {
+const { href } = VM.require("${alias_devs}/widget/lib.url") || {
   href: () => {},
 };
 
@@ -906,7 +906,7 @@ const SecondScreen = () => {
         <div className="form-group mb-3">
           <label className="pb-2">Avatar</label>
           <Widget
-            src="${alias_old}/widget/components.UploadField"
+            src="${config_account}/widget/components.UploadField"
             props={{
               image: avatar,
               onChange: (image) => setAvatar(image),
@@ -916,7 +916,7 @@ const SecondScreen = () => {
         <div className="form-group mb-3">
           <label className="pb-2">Cover Image</label>
           <Widget
-            src="${alias_old}/widget/components.UploadField"
+            src="${config_account}/widget/components.UploadField"
             props={{
               image: coverImage,
               onChange: (image) => setCoverImage(image),

@@ -1,7 +1,7 @@
 const { Feed } = VM.require("${alias_devs}/widget/Feed") ?? {
   Feed: () => <></>,
 };
-const { Post } = VM.require("${alias_old}/widget/components") || {
+const { Post } = VM.require("${config_account}/widget/components.Index") || {
   Post: () => <></>,
 };
 const { getProjectMeta } = VM.require("${alias_new}/widget/lib.projects") || {
@@ -22,7 +22,7 @@ return (
           style={{ height: 400 }}
         ></div>
       }
-      src="${alias_old}/widget/Compose"
+      src="${config_account}/widget/components.Compose"
       props={{
         draftKey: id + "_discussions",
       }}
@@ -59,7 +59,7 @@ return (
           accountId={p.accountId}
           blockHeight={p.blockHeight}
           noBorder={true}
-          currentPath={`/${alias_old}/widget/app?page=feed`}
+          currentPath={`/${config_index}?page=activity`}
         />
       )}
     />

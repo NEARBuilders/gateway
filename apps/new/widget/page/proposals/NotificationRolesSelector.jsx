@@ -1,6 +1,6 @@
 const DaoSDK = VM.require("sdks.near/widget/SDKs.Sputnik.DaoSDK") || (() => {});
 
-const { InputField } = VM.require("${alias_old}/widget/components") || {
+const { InputField } = VM.require("${config_account}/widget/components.Index") || {
   InputField: <></>,
 };
 

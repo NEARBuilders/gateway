@@ -6,5 +6,6 @@
   "gateway_url": "https://nearbuilders.org",
   "new": "builddao.near",
   "old": "buildhub.near",
-  "potlock": "potlock.near"
+  "potlock": "potlock.near",
+  "every": "every.near"
 }

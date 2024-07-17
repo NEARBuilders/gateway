@@ -1,5 +1,5 @@
 const { Modal, Button, ProgressState } = VM.require(
-  "${alias_old}/widget/components",
+  "${config_account}/widget/components.Index",
 ) || {
   Modal: () => <></>,
   Button: () => <></>,

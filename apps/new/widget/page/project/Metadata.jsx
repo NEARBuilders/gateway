@@ -1,4 +1,4 @@
-const { Button } = VM.require("${alias_old}/widget/components") || {
+const { Button } = VM.require("${config_account}/widget/components.Index") || {
   Button: () => <></>,
 };
 
@@ -141,7 +141,7 @@ const Metadata = ({
             <div className="links">
               <span>Links</span>
               <Widget
-                src="${alias_old}/widget/components.profile.Linktree"
+                src="${config_account}/widget/components.profile.Linktree"
                 loading=""
                 props={{
                   profile,
