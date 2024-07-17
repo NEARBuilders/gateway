@@ -1,4 +1,4 @@
-const { Post } = VM.require("${alias_old}/widget/components") || {
+const { Post } = VM.require("${config_account}/widget/components.Index") || {
   Post: () => <></>,
 };
 
@@ -34,5 +34,5 @@ return parentPost ? (
     raw={props.raw}
   />
 ) : (
-  <Widget src="${alias_old}/widget/Comment.Comment" props={props} />
+  <Widget src="${config_account}/widget/comment.Comment" props={props} />
 );

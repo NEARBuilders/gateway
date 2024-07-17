@@ -6,5 +6,6 @@
   "gateway_url": "https://test.nearbuilders.org",
   "new": "builddao.testnet",
   "old": "buildhub.testnet",
-  "potlock": "potlock.testnet"
+  "potlock": "potlock.testnet",
+  "every": "allthethings.testnet"
 }

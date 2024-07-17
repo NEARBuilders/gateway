@@ -122,6 +122,14 @@ const config = {
         },
         hide: true,
       },
+      library: {
+        path: "${config_account}/widget/page.library.Index",
+        blockHeight: "final",
+        init: {
+          name: "Library",
+        },
+        hide: true,
+      },
     },
   },
 };

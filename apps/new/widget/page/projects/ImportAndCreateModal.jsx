@@ -1,9 +1,9 @@
-const { Modal, Button } = VM.require("${alias_old}/widget/components") || {
+const { Modal, Button } = VM.require("${config_account}/widget/components.Index") || {
   Modal: () => <></>,
   Button: () => <></>,
 };
 
-const { href } = VM.require("${alias_old}/widget/lib.url") || {
+const { href } = VM.require("${alias_devs}/widget/lib.url") || {
   href: () => {},
 };
 

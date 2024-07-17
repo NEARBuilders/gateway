@@ -2,7 +2,7 @@ const { TEMPLATES } = VM.require("${config_account}/widget/feed.templates") || {
   TEMPLATES: {},
 };
 
-const { Post } = VM.require("${config_account}/widget/components") || {
+const { Post } = VM.require("${config_account}/widget/components.Index") || {
   Post: () => <></>,
 };
 
@@ -33,7 +33,7 @@ const config = {
     param: "tab",
     routes: {
       all: {
-        path: "${alias_old}/widget/Feed",
+        path: "${config_account}/widget/components.Feed",
         blockHeight: "final",
         init: {
           feedName: "All",
@@ -44,7 +44,7 @@ const config = {
         default: true,
       },
       updates: {
-        path: "${alias_old}/widget/Feed",
+        path: "${config_account}/widget/components.Feed",
         blockHeight: "final",
         init: {
           feedName: "Updates",
@@ -55,7 +55,7 @@ const config = {
         },
       },
       question: {
-        path: "${alias_old}/widget/Feed",
+        path: "${config_account}/widget/components.Feed",
         blockHeight: "final",
         init: {
           feedName: "Question",
@@ -66,7 +66,7 @@ const config = {
         },
       },
       idea: {
-        path: "${alias_old}/widget/Feed",
+        path: "${config_account}/widget/components.Feed",
         blockHeight: "final",
         init: {
           feedName: "Idea",
@@ -77,7 +77,7 @@ const config = {
         },
       },
       feedback: {
-        path: "${alias_old}/widget/Feed",
+        path: "${config_account}/widget/components.Feed",
         blockHeight: "final",
         init: {
           feedName: "Feedback",
@@ -87,7 +87,7 @@ const config = {
         },
       },
       events: {
-        path: "${alias_old}/widget/events.Calendar",
+        path: "${config_account}/widget/components.events.Calendar",
         blockHeight: "final",
         init: {
           feedName: "Events",
@@ -98,7 +98,7 @@ const config = {
         },
       },
       bookmarks: {
-        path: "${alias_old}/widget/OrderedGraphFeed",
+        path: "${config_account}/widget/components.OrderedGraphFeed",
         blockHeight: "final",
         init: {
           feedName: "Bookmarks",
@@ -118,7 +118,7 @@ const config = {
         },
       },
       request: {
-        path: "${alias_old}/widget/Feed",
+        path: "${config_account}/widget/components.Feed",
         blockHeight: "final",
         init: {
           feedName: "Request",

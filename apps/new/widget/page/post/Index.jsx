@@ -1,4 +1,4 @@
-const { Post } = VM.require("${alias_old}/widget/components") || {
+const { Post } = VM.require("${config_account}/widget/components.Index") || {
   Post: () => <></>,
 };
 

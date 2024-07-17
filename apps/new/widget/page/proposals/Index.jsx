@@ -1,9 +1,9 @@
-const { Button, Modal } = VM.require("${alias_old}/widget/components") || {
+const { Button, Modal } = VM.require("${config_account}/widget/components.Index") || {
   Button: <></>,
   Modal: <></>,
 };
 
-const { Header } = VM.require("${alias_old}/widget/components.Header") || {
+const { Header } = VM.require("${config_account}/widget/components.Header") || {
   Header: () => <></>,
 };
 const DaoSDK = VM.require("sdks.near/widget/SDKs.Sputnik.DaoSDK") || (() => {});
@@ -28,7 +28,6 @@ if (!sdk) {
 const [showProposalModal, setShowModal] = useState(false);
 const [showNotificationModal, setNotificationModal] = useState(false);
 const [voteDetails, setVoteDetails] = useState(null);
-const [showCreateProposalModal, setShowCreateProposalModal] = useState(false);
 const [showFiltersModal, setFiltersModal] = useState(false);
 
 const [selectedTypes, setSelectedTypes] = useState([]);
@@ -367,7 +366,7 @@ return (
         <div className="d-flex justify-content-center my-4">
           <Widget
             loading=""
-            src={"${alias_old}/widget/components.Pagination"}
+            src={"${config_account}/widget/components.Pagination"}
             props={{
               maxVisiblePages: 5,
               totalPages:
