@@ -180,8 +180,8 @@ const bookmarkClick = () => {
 };
 
 const title = hasBookmark
-  ? props.titleUnbookmark ?? "Unbookmark"
-  : props.titleBookmark ?? "Bookmark";
+  ? (props.titleUnbookmark ?? "Unbookmark")
+  : (props.titleBookmark ?? "Bookmark");
 
 const inner = (
   <div className="d-inline-flex align-items-center">

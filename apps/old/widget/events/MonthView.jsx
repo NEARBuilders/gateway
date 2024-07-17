@@ -180,7 +180,7 @@ const EventModal = styled.div`
 `;
 
 const embedCss =
-  props.embedCss ?? theme === "light" ? customCSSLight : customCSSDark;
+  (props.embedCss ?? theme === "light") ? customCSSLight : customCSSDark;
 
 const code = `
 <script src='https://cdn.jsdelivr.net/npm/fullcalendar/index.global.js'></script>

@@ -213,7 +213,7 @@ useEffect(() => {
       currentPage === 0
         ? lastProposalId > resPerPage
           ? lastProposalId - resPerPage
-          : lastProposalId ?? resPerPage
+          : (lastProposalId ?? resPerPage)
         : filteredProposals[0].id - currentPage * resPerPage;
 
     sdk
