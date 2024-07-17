@@ -39,21 +39,21 @@ let inner = (
   </>
 );
 
-inner =
+inner = (
   <Link
     href={href({
-            widgetSrc: "${config_index}",
-            params: {
-              page: "profile",
-              accountId,
-            },
-          })
-    }
+      widgetSrc: "${config_index}",
+      params: {
+        page: "profile",
+        accountId,
+      },
+    })}
     style={{ color: "var(--font-color, #fff)" }}
     className="text-white text-truncate d-inline-flex"
   >
     {inner}
   </Link>
+);
 
 if (props.tooltip === true) {
   return (

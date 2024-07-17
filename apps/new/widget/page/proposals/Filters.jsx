@@ -7,7 +7,9 @@ if (!daos) {
 }
 const options = daos.map((dao) => dao.contract_id);
 
-const { Modal, Button } = VM.require("${config_account}/widget/components.Index") || {
+const { Modal, Button } = VM.require(
+  "${config_account}/widget/components.Index",
+) || {
   Modal: () => <></>,
   Button: () => <></>,
 };

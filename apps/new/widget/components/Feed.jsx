@@ -1,7 +1,9 @@
 const { Feed } = VM.require("${alias_devs}/widget/Feed") || {
   Feed: () => <></>,
 };
-const { Post, Button } = VM.require("${config_account}/widget/components.Index") || {
+const { Post, Button } = VM.require(
+  "${config_account}/widget/components.Index",
+) || {
   Post: () => <></>,
   Button: () => <></>,
 };

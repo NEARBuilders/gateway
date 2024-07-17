@@ -53,8 +53,7 @@ const Wrapper = styled.div`
   }
 `;
 
-const currentPath =
-  props.currentPath ?? "/${config_index}?page=activity";
+const currentPath = props.currentPath ?? "/${config_index}?page=activity";
 
 const [onHashtag] = useState(() => (hashtag) => (
   <span
