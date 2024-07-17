@@ -425,15 +425,6 @@ const Container = styled.div`
     }
   }
 
-  .destructive {
-    background-color: #fd2a5c;
-    color: white;
-    border-color: #fd2a5c;
-
-    &:hover {
-      background-color: #fd2a5c !important;
-    }
-  }
   .err,
   .err-p_id {
     color: #ff8888;
@@ -585,8 +576,7 @@ const DeleteConfirmationModal = () => {
               Cancel
             </Button>
             <Button
-              variant="outline"
-              className="destructive"
+              variant="danger"
               onClick={() => {
                 setShowDeleteModal(true);
                 onDeleteProject();
@@ -794,8 +784,7 @@ const DeleteProjectBtn = () => {
   if (isEditScreen) {
     return (
       <Button
-        variant="outline"
-        className="destructive"
+        variant="danger"
         loading={showDeleteModal}
         onClick={() => setShowDeleteModal(true)}
       >
