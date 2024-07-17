@@ -560,13 +560,16 @@ test.describe("User is logged in", () => {
     });
   });
   test("Convert post into proposal", async ({ page }) => {
-    await page.waitForTimeout(1000);
+    await page.waitForLoadState("networkidle");
+
     const dropdown = page.locator(".bi.bi-three-dots-vertical").nth(1);
+    await expect(dropdown).toBeVisible();
     await dropdown.click();
-    await page.waitForTimeout(1000);
-    const convertPost = page.getByText("Propose");
+
+    const convertPost = page.getByRole("button", { name: "Propose" });
+    await expect(convertPost).toBeVisible();
     await convertPost.click();
-    await page.waitForTimeout(1000);
+
     const DAOContractID = await page.getByText("build.sputnik-dao.near");
     await expect(DAOContractID).toBeVisible();
   });

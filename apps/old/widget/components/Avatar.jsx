@@ -4,9 +4,13 @@ function Avatar(props) {
   const ImageWrapper = styled.div`
     img {
       width: ${(props) =>
-        props.variant === "mobile" ? "40px" : props.size ?? "52px"} !important;
+        props.variant === "mobile"
+          ? "40px"
+          : (props.size ?? "52px")} !important;
       height: ${(props) =>
-        props.variant === "mobile" ? "40px" : props.size ?? "52px"} !important;
+        props.variant === "mobile"
+          ? "40px"
+          : (props.size ?? "52px")} !important;
       flex-shrink: 0 !important;
       border-radius: 100px !important;
     }
