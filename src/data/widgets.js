@@ -11,7 +11,6 @@ const TestnetWidgets = {
   default: "builddao.testnet/widget/Index",
   login: "builddao.testnet/widget/login",
   logout: "builddao.testnet/widget/logout",
-  trialAccountBanner: "buildhub.testnet/widget/TrialAccountBanner",
   onboardingFlow: "buildhub.testnet/widget/OnboardingFlow",
 
   image: "eugenethedream/widget/Image",
@@ -29,7 +28,6 @@ const MainnetWidgets = {
   default: "builddao.near/widget/Index",
   login: "builddao.near/widget/page.login.Index",
   logout: "builddao.near/widget/page.logout.Index",
-  trialAccountBanner: "buildhub.near/widget/TrialAccountBanner",
   onboardingFlow: "buildhub.near/widget/OnboardingFlow",
 
   image: "mob.near/widget/Image",

@@ -1,20 +1,12 @@
 import { Widget } from "near-social-vm";
 import React from "react";
-import { useLocation } from "react-router-dom";
 import OnboardingFlow from "../components/OnboardingFlow";
 import { useBosLoaderStore } from "../stores/bos-loader";
 
 export default function JoinPage({ signedIn, widgets, ...passProps }) {
   const redirectMapStore = useBosLoaderStore();
-  const location = useLocation();
-  const searchParams = new URLSearchParams(location.search);
-  const from = searchParams.get("from");
 
-  const CurrentView = signedIn
-    ? widgets.default
-    : from === "trial"
-      ? widgets.trialAccountBanner
-      : widgets.login;
+  const CurrentView = signedIn ? widgets.default : widgets.login;
 
   return (
     <>
