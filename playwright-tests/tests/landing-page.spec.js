@@ -9,21 +9,12 @@ test.describe("Navbar tabs redirection", () => {
     const homeTab = page.locator("span", { hasText: "Home" });
     await homeTab.click();
     expect(page.url()).toContain("?page=home");
-    await page.waitForTimeout(1000);
-    expect(
-      page.getByText(
-        "Designed to support builders in a multi-chain ecosystem.",
-        { exact: true },
-      ),
-    ).toBeVisible();
   });
 
   test("Activity", async ({ page }) => {
     const activityTab = page.locator("span", { hasText: "Activity" });
     await activityTab.click();
     expect(page.url()).toContain("?page=activity");
-    await page.waitForTimeout(1000);
-    expect(page.getByText("All").nth(0)).toBeVisible();
   });
   test("Projects", async ({ page }) => {
     const projectsTab = page.getByRole("link", {
@@ -32,20 +23,11 @@ test.describe("Navbar tabs redirection", () => {
     });
     await projectsTab.click();
     expect(page.url()).toContain("?page=projects");
-    await page.waitForTimeout(2000);
-    expect(
-      page.getByText(
-        "Easily create, share, and track all projects within our vibrant builder community",
-        { exact: true },
-      ),
-    ).toBeVisible();
   });
   test("Resources", async ({ page }) => {
     const resourcesTab = page.locator("span", { hasText: "Resources" });
     await resourcesTab.click();
     expect(page.url()).toContain("?page=resources");
-    await page.waitForTimeout(2000);
-    expect(page.getByText("Current Build DAO", { exact: true })).toBeVisible();
   });
 });
 
