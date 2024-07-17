@@ -1,6 +1,8 @@
 const image = props.image;
 const onChange = props.onChange;
-const { InputField } = VM.require("${config_account}/widget/components.Index") || {
+const { InputField } = VM.require(
+  "${config_account}/widget/components.Index",
+) || {
   InputField: () => <></>,
 };
 

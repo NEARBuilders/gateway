@@ -13,11 +13,7 @@ const StyledBullet = styled.div`
 function Bullet({ children, variant }) {
   const defaultVariant = variant || "default";
 
-  return (
-    <StyledBullet variant={defaultVariant}>
-      {children}
-    </StyledBullet>
-  );
+  return <StyledBullet variant={defaultVariant}>{children}</StyledBullet>;
 }
 
 return { Bullet };

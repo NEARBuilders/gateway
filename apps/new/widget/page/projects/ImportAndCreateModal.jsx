@@ -1,4 +1,6 @@
-const { Modal, Button } = VM.require("${config_account}/widget/components.Index") || {
+const { Modal, Button } = VM.require(
+  "${config_account}/widget/components.Index",
+) || {
   Modal: () => <></>,
   Button: () => <></>,
 };
