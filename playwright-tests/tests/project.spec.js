@@ -4,7 +4,6 @@ import { ROOT_SRC } from "../util/constants";
 const projectId = "meghagoel.testnet/project/testing-project-on-builddao";
 
 test.describe("?page=project&id=", () => {
-  
   test.beforeEach(async ({ page }) => {
     await page.goto(`/${ROOT_SRC}?page=project&id=${projectId}`);
   });
@@ -218,15 +217,26 @@ test.describe("?page=project&id=", () => {
 });
 
 test.describe("Feed Pages", () => {
-
   test.use({
     storageState: "playwright-tests/storage-states/wallet-connected.json",
   });
-  
+
   const pages = [
-    { name: "Activity", tab: "activity", expectedText: "Testing Project On Build DAO" },
-    { name: "Updates", tab: "updatesFeed", expectedText: "Testing Project On Build DAO Updates" },
-    { name: "Feedback", tab: "feedbackFeed", expectedText: "Testing Project On Build DAO Feedback" },
+    {
+      name: "Activity",
+      tab: "activity",
+      expectedText: "Testing Project On Build DAO",
+    },
+    {
+      name: "Updates",
+      tab: "updatesFeed",
+      expectedText: "Testing Project On Build DAO Updates",
+    },
+    {
+      name: "Feedback",
+      tab: "feedbackFeed",
+      expectedText: "Testing Project On Build DAO Feedback",
+    },
   ];
 
   pages.forEach(({ name, tab, expectedText }) => {
