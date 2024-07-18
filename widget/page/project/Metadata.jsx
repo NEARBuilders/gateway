@@ -171,16 +171,16 @@ const Metadata = ({
                     profile,
                   }}
                 />
-                {/* {isOwner && ( */}
+                {isOwner && (
                 <HyperLink
                   href="https://arizportfolio.near.page/"
                   className="btn btn-outline"
                   target="_blank"
                 >
                   {/* <img src="https://github.com/arizas/Ariz-Portfolio/blob/30ea2c2451b733aef3ce191f5d5272cf68e83fa8/Logo/Ariz-logo_svart-skrift.png" /> */}
-                  Ariz Portfolio
+                  Open Ariz Portfolio
                 </HyperLink>
-                {/* )} */}
+                )}
               </div>
             </div>
           </div>
