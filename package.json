@@ -1,6 +1,6 @@
 {
   "name": "builddao",
-  "version": "2.0.2",
+  "version": "2.0.5",
   "homepage": "/",
   "private": true,
   "scripts": {
@@ -8,9 +8,9 @@
     "fmt:check": "prettier --check '**/*.{js,jsx,ts,tsx,json}'",
     "bw": "bos-workspace",
     "webpack": "webpack",
-    "dev": "yarn bw ws dev",
-    "dev:mainnet": "yarn bw ws dev -n mainnet",
-    "dev:testnet": "yarn bw ws dev -n testnet",
+    "dev": "yarn dev:mainnet",
+    "dev:mainnet": "yarn bw dev -n mainnet",
+    "dev:testnet": "yarn bw dev -n testnet",
     "dev:gateway": "yarn run serve -- --env mode=development",
     "prod": "yarn webpack -- --env mode=production",
     "prod:analyze": "yarn prod -- --env presets=analyze",
