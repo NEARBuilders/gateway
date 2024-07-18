@@ -137,7 +137,10 @@ const config = {
 return (
   <Container>
     <CSS>
-      <Widget src="${alias_every}/widget/app.view" props={{ config, ...props }} />
+      <Widget
+        src="${alias_every}/widget/app.view"
+        props={{ config, ...props }}
+      />
     </CSS>
   </Container>
 );
