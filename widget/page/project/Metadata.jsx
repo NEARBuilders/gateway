@@ -94,6 +94,28 @@ const EditButton = ({ item }) => {
   );
 };
 
+const HyperLink = styled.a`
+  all: unset;
+  display: inline-flex;
+  padding: 8px 15px;
+  justify-content: center;
+  align-items: center;
+  gap: 4px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: normal;
+  font-family: "Poppins", sans-serif;
+
+  transition: all 300ms;
+  border: 1px solid #e2c58d;
+  cursor: pointer;
+  :hover {
+    background: #e2c58d;
+    color: #3d5443;
+  }
+`;
+
 const Metadata = ({
   profile,
   accountId,
@@ -101,6 +123,7 @@ const Metadata = ({
   projectAccountId,
   projectId,
 }) => {
+  const isOwner = accountId === projectAccountId;
   return (
     <div>
       <BackgroundImage>
@@ -140,13 +163,25 @@ const Metadata = ({
 
             <div className="links">
               <span>Links</span>
-              <Widget
-                src="${config_account}/widget/components.profile.Linktree"
-                loading=""
-                props={{
-                  profile,
-                }}
-              />
+              <div className="d-flex gap-2">
+                <Widget
+                  src="${alias_old}/widget/components.profile.Linktree"
+                  loading=""
+                  props={{
+                    profile,
+                  }}
+                />
+                {/* {isOwner && ( */}
+                <HyperLink
+                  href="https://arizportfolio.near.page/"
+                  className="btn btn-outline"
+                  target="_blank"
+                >
+                  {/* <img src="https://github.com/arizas/Ariz-Portfolio/blob/30ea2c2451b733aef3ce191f5d5272cf68e83fa8/Logo/Ariz-logo_svart-skrift.png" /> */}
+                  Ariz Portfolio
+                </HyperLink>
+                {/* )} */}
+              </div>
             </div>
           </div>
           <div
