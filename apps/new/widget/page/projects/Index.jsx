@@ -87,6 +87,6 @@ const config = {
 
 return (
   <div className="mt-3 container-xl">
-    <Widget src="${alias_old}/widget/app.view" props={{ config, ...props }} />
+    <Widget src="${alias_every}/widget/app.view" props={{ config, ...props }} />
   </div>
 );
