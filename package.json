@@ -8,7 +8,7 @@
     "fmt:check": "prettier --check '**/*.{js,jsx,ts,tsx,json}'",
     "bw": "bos-workspace",
     "webpack": "webpack",
-    "dev": "yarn dev:mainnet",
+    "dev": "yarn dev:mainnet -g https://ipfs.web4.near.page/ipfs/bafybeibe63hqugbqr4writdxgezgl5swgujay6t5uptw2px7q63r7crk2q",
     "dev:mainnet": "yarn bw dev -n mainnet",
     "dev:testnet": "yarn bw dev -n testnet",
     "dev:gateway": "yarn run serve -- --env mode=development",
