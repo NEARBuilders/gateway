@@ -7,6 +7,12 @@ const { Metadata } = VM.require(
 const { href } = VM.require("${alias_devs}/widget/lib.url") || {
   href: () => {},
 };
+
+const { Button } = VM.require("${config_account}/widget/components.Index") || {
+  Button: () => <></>,
+};
+
+
 const Layout = ({
   projectAccountId,
   projectId,
@@ -21,6 +27,7 @@ const Layout = ({
   if (!projectAccountId) {
     return <p className="fw-bold text-white">No Account ID</p>;
   }
+  const isOwner = accountId === projectAccountId;
   return (
     <>
       <div className="my-3 w-100">
@@ -37,6 +44,27 @@ const Layout = ({
             <i className="bi bi-chevron-left"></i> Back to Projects
           </span>
         </Link>
+        {!isOwner && (
+          <Button
+            href="https://arizportfolio.near.page/"
+            className=""
+            variant="primary"
+            target="_blank"
+            style={{
+              float: "right",
+              background: "#fff",
+              color: "#3d5443",
+              marginTop: -5,
+            }}
+          >
+            Open
+            <img
+              src="https://ipfs.near.social/ipfs/bafkreiewwaad6t7hhd6p4q6n7guranohznqaz634xuzgcgcoahxfayal5i"
+              width={"30px"}
+            />
+            Portfolio
+          </Button>
+        )}
       </div>
       <Metadata
         title={title}
