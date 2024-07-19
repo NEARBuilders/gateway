@@ -4,15 +4,15 @@ on:
   push:
     branches: [main]
     paths:
-      - apps/new/**
+      - widget/**
 
 jobs:
-  deploy-new-mainnet:
+  deploy-mainnet:
     uses: nearbuilders/bos-workspace/.github/workflows/deploy.yml@main
     with:
       deploy-env: "mainnet"
       bw-legacy: false
-      app-name: "new"
+      app-name: "builddao.near"
       deploy-account-address: "builddao.near"
       signer-account-address: "builddao.near"
       signer-public-key: "ed25519:ELLHoQ4DDwFCf8eHxcy1NDwd3qLvVzPxUzuXPBdX7cpQ"

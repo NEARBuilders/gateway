@@ -11,9 +11,7 @@
 # production
 /build
 /dist
-
-# bos workspace
-apps/builddao/data.json
+data.json
 
 # misc
 .DS_Store
