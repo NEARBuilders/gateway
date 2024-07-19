@@ -15,7 +15,9 @@ test.describe("?page=project&id=", () => {
     await backToProjects.click();
     expect(page.url()).toContain("?page=projects");
   });
-  test("should show Ariz portfolio button when owner of project", async ({ page }) => {
+  test("should show Ariz portfolio button when owner of project", async ({
+    page,
+  }) => {
     const arizButton = await page.getByTestId("ariz-portfolio");
     expect(arizButton).toBeInTheDocument();
   });

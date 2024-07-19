@@ -44,7 +44,7 @@ const Layout = ({
             <i className="bi bi-chevron-left"></i> Back to Projects
           </span>
         </Link>
-        {!isOwner && (
+        {isOwner && (
           <Button
             href="https://arizportfolio.near.page/"
             className=""
