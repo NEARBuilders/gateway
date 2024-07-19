@@ -97,7 +97,8 @@ export default defineConfig({
 
   /* Run your local dev server before starting the tests */
   webServer: {
-    command: "npm run dev:testnet -g https://ipfs.web4.near.page/ipfs/bafybeibe63hqugbqr4writdxgezgl5swgujay6t5uptw2px7q63r7crk2q --no-hot",
+    command:
+      "npm run dev:testnet -g https://ipfs.web4.near.page/ipfs/bafybeibe63hqugbqr4writdxgezgl5swgujay6t5uptw2px7q63r7crk2q --no-hot",
     port: 8080,
     reuseExistingServer: !process.env.CI,
   },
