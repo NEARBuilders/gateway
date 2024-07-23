@@ -220,13 +220,12 @@ test.describe("?page=project&id=", () => {
       const arizButton = await page.getByTestId("ariz-portfolio");
       expect(arizButton).toBeInTheDocument();
     });
-  
+
     test("should navigate to Ariz portfolio when clicked", async ({ page }) => {
       const arizButton = await page.getByTestId("ariz-portfolio");
       await arizButton.click();
       await expect(page).toHaveURL(/https:\/\/arizportfolio\.near\.page\//);
     });
-    
   });
 });
 
