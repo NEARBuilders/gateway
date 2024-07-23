@@ -141,7 +141,7 @@ const Metadata = ({
             <div className="links">
               <span>Links</span>
               <Widget
-                src="${alias_old}/widget/components.profile.Linktree"
+                src="${config_account}/widget/components.profile.Linktree"
                 loading=""
                 props={{
                   profile,
