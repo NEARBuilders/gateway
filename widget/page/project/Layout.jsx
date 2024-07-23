@@ -28,6 +28,7 @@ const Layout = ({
     return <p className="fw-bold text-white">No Account ID</p>;
   }
   const isOwner = accountId === projectAccountId;
+  
   return (
     <>
       <div className="my-3 w-100">
