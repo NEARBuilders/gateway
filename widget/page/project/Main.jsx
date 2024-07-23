@@ -72,7 +72,7 @@ const config = {
         init: {
           ...props,
         },
-        default: "true",
+        default: true,
       },
       activity: {
         path: "${config_account}/widget/page.project.tabs.Discussion",
