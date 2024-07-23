@@ -4,16 +4,16 @@ on:
   push:
     branches: [develop]
     paths:
-      - apps/new/**
+      - widget/**
 
 jobs:
-  deploy-new-testnet:
+  deploy-testnet:
     uses: nearbuilders/bos-workspace/.github/workflows/deploy.yml@main
     with:
       build-env: "testnet"
       deploy-env: "testnet"
       bw-legacy: false
-      app-name: "new"
+      app-name: "builddao.testnet"
       deploy-account-address: "builddao.testnet"
       signer-account-address: "builddao.testnet"
       signer-public-key: "ed25519:6ycWXZES2zEGPurZqP35AUQx92aAzuS7r9ea1GcSQQiT"

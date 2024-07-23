@@ -1,4 +1,0 @@
-[submodule "apps/devs.near"]
-	path = apps/devs.near
-	url = https://github.com/NEARBuilders/devs.near
-	branch = develop
