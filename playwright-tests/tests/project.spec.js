@@ -213,6 +213,19 @@ test.describe("?page=project&id=", () => {
         expect(transactionObj).toMatchObject(expectedTransactionData);
       });
     });
+
+    test("should show Ariz portfolio button when owner of project", async ({
+      page,
+    }) => {
+      const arizButton = await page.getByTestId("ariz-portfolio");
+      expect(arizButton).toBeInTheDocument();
+    });
+
+    test("should navigate to Ariz portfolio when clicked", async ({ page }) => {
+      const arizButton = await page.getByTestId("ariz-portfolio");
+      await arizButton.click();
+      await expect(page).toHaveURL(/https:\/\/arizportfolio\.near\.page\//);
+    });
   });
 });
 

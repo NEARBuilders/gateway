@@ -54,7 +54,7 @@ const config = {
           name: "Overview",
           icon: "bi bi-house",
         },
-        default: "true",
+        default: true,
       },
       tasks: {
         path: "${config_account}/widget/page.project.Main",
