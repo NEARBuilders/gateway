@@ -150,6 +150,8 @@ const { href } = VM.require("${config_account}/widget/lib.url") || {
   href: () => {},
 };
 
+const { gatewayOrigin } = VM.require("${alias_new}/widget/lib.gateway");
+
 return (
   <StyledDropdown className="dropdown">
     <button
@@ -191,10 +193,21 @@ return (
         </Link>
       </li>
       <li>
-        <Link className="dropdown-item" type="button" to={"/logout"}>
-          <LogOut />
-          Sign Out
-        </Link>
+        {gatewayOrigin && gatewayOrigin.includes("${alias_web4_url}") ? (
+          <Wallet
+            provides={({ signOut }) => (
+              <div className="dropdown-item" type="button" onClick={signOut}>
+                <LogOut />
+                Sign Out
+              </div>
+            )}
+          />
+        ) : (
+          <Link className="dropdown-item" type="button" to={"/logout"}>
+            <LogOut />
+            Sign Out
+          </Link>
+        )}
       </li>
     </ul>
   </StyledDropdown>

@@ -4,7 +4,7 @@ if (!context.accountId) {
       src="${config_account}/widget/components.LoginAction"
       loading=""
       props={{
-        text: "Please log in in order to see your projects!",
+        text: "Please log in in order to see your projects.",
       }}
     />
   );

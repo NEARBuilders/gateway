@@ -2,6 +2,8 @@ const { Button } = VM.require("${config_account}/widget/components.Index") || {
   Button: () => <></>,
 };
 
+const { gatewayOrigin } = VM.require("${alias_new}/widget/lib.gateway");
+
 const Logo =
   "https://ipfs.near.social/ipfs/bafkreihsuyli6i2wphsutag6xcxnyhyrn7wtkklvqebx4szgpz3ieqacxu";
 
@@ -34,8 +36,21 @@ return (
     <LogoStyle src={Logo} />
     <h4>You’re not connected</h4>
     {text && <h6>{text}</h6>}
-    <a href={"${alias_gateway_url}/join"} style={{ textDecoration: "none" }}>
-      <Button variant="primary">Connect</Button>
-    </a>
+    {gatewayOrigin && gatewayOrigin.includes("${alias_web4_url}") ? (
+      <Wallet
+        provides={({ signIn }) => (
+          <Button
+            variant="primary"
+            onClick={signIn}
+          >
+            Connect
+          </Button>
+        )}
+      />
+    ) : (
+      <Button variant="primary" href="${alias_gateway_url}/join" noLink={true}>
+        Connect
+      </Button>
+    )}
   </LoginContainer>
 );

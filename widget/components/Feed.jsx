@@ -36,6 +36,15 @@ customActions = [
   },
 ];
 
+const LoginContainer = styled.div`
+  background-color: #23242b;
+  width: 100%;
+  border-radius: 1rem;
+  padding: 1rem;
+  display: flex;
+  margin-bottom: 1rem;
+`;
+
 return (
   <div key={feedName}>
     <Header>{feedName}</Header>
@@ -50,13 +59,15 @@ return (
       }}
     />
     {!context.accountId ? ( // if not logged in
-      <Widget
-        src="${config_account}/widget/components.LoginAction"
-        loading=""
-        props={{
-          text: "Please login in order to post.",
-        }}
-      />
+      <LoginContainer>
+        <Widget
+          src="${config_account}/widget/components.LoginAction"
+          loading=""
+          props={{
+            text: "Please login in order to post.",
+          }}
+        />
+      </LoginContainer>
     ) : (
       <Widget
         loading={
