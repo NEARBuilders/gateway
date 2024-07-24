@@ -1,4 +1,3 @@
-import { setupKeypom } from "@keypom/selector";
 import { setupWalletSelector } from "@near-wallet-selector/core";
 import { setupHereWallet } from "@near-wallet-selector/here-wallet";
 import { setupMeteorWallet } from "@near-wallet-selector/meteor-wallet";
@@ -40,8 +39,6 @@ import EditorPage from "./pages/EditorPage";
 import Flags from "./pages/Flags";
 import JoinPage from "./pages/JoinPage";
 import Viewer from "./pages/Viewer";
-import { KEYPOM_OPTIONS } from "./utils/keypom-options";
-import { TrialAccountGenerator } from "./components/TrialAccountGenerator";
 import { Analytics } from "@vercel/analytics/react";
 import LogoutPage from "./pages/LogoutPage";
 
@@ -89,24 +86,6 @@ function App() {
               bundle: false,
             }),
             setupNightly(),
-            setupKeypom({
-              networkId: NetworkId,
-              signInContractId:
-                NetworkId == "testnet" ? "v1.social08.testnet" : "social.near",
-              trialAccountSpecs: {
-                url:
-                  NetworkId == "testnet"
-                    ? "https://test.nearbuilders.org/#trial-url/ACCOUNT_ID/SECRET_KEY"
-                    : "https://www.nearbuilders.org/join?from=trial/#trial-url/ACCOUNT_ID/SECRET_KEY",
-                modalOptions: KEYPOM_OPTIONS(NetworkId),
-              },
-              instantSignInSpecs: {
-                url:
-                  NetworkId == "testnet"
-                    ? "https://test.nearbuilders.org/#instant-url/ACCOUNT_ID/SECRET_KEY/MODULE_ID"
-                    : "https://nearbuilders.org/#instant-url/ACCOUNT_ID/SECRET_KEY/MODULE_ID",
-              },
-            }),
           ],
         }),
         customElements: {
@@ -123,9 +102,6 @@ function App() {
                   : "about:blank";
             }
             return <Link {...props} />;
-          },
-          TrialAccountGenerator: (props) => {
-            return <TrialAccountGenerator {...props} />;
           },
         },
         config: {

@@ -1,8 +1,9 @@
 import { expect, test } from "@playwright/test";
 import { ROOT_SRC } from "../util/constants";
 
+const projectId = "meghagoel.testnet/project/testing-project-on-builddao";
+
 test.describe("?page=project&id=", () => {
-  const projectId = "meghagoel.testnet/project/testing-project-on-builddao";
   test.beforeEach(async ({ page }) => {
     await page.goto(`/${ROOT_SRC}?page=project&id=${projectId}`);
   });
@@ -212,45 +213,62 @@ test.describe("?page=project&id=", () => {
         expect(transactionObj).toMatchObject(expectedTransactionData);
       });
     });
-  });
 
-  test.describe("Activity Page", () => {
-    test.beforeEach(async ({ page }) => {
-      await page.goto(`/${ROOT_SRC}?page=project&id=${projectId}&tab=activity`);
+    test("should show Ariz portfolio button when owner of project", async ({
+      page,
+    }) => {
+      const arizButton = await page.getByTestId("ariz-portfolio");
+      expect(arizButton).toBeInTheDocument();
     });
-    test("should display feed and post option", async ({ page }) => {
-      await expect(
-        page.getByText("Testing Project On Build DAO"),
-      ).toBeVisible();
-      await expect(page.getByText("Post")).toBeVisible();
-    });
-  });
 
-  test.describe("Updates Page", () => {
-    test.beforeEach(async ({ page }) => {
-      await page.goto(
-        `/${ROOT_SRC}?page=project&id=${projectId}&tab=updatesFeed`,
-      );
-    });
-    test("should display feed and post option", async ({ page }) => {
-      await expect(
-        page.getByText("Testing Project On Build DAO Updates"),
-      ).toBeVisible();
-      await expect(page.getByText("Post")).toBeVisible();
+    test("should navigate to Ariz portfolio when clicked", async ({ page }) => {
+      const arizButton = await page.getByTestId("ariz-portfolio");
+      await arizButton.click();
+      await expect(page).toHaveURL(/https:\/\/arizportfolio\.near\.page\//);
     });
   });
+});
 
-  test.describe("Feedback Page", () => {
-    test.beforeEach(async ({ page }) => {
-      await page.goto(
-        `/${ROOT_SRC}?page=project&id=${projectId}&tab=feedbackFeed`,
-      );
-    });
-    test("should display feed and post option", async ({ page }) => {
-      await expect(
-        page.getByText("Testing Project On Build DAO Feedback"),
-      ).toBeVisible();
-      await expect(page.getByText("Post")).toBeVisible();
+test.describe("Feed Pages", () => {
+  test.use({
+    storageState: "playwright-tests/storage-states/wallet-connected.json",
+  });
+
+  const pages = [
+    {
+      name: "Activity",
+      tab: "activity",
+      expectedText: "Testing Project On Build DAO",
+    },
+    {
+      name: "Updates",
+      tab: "updatesFeed",
+      expectedText: "Testing Project On Build DAO Updates",
+    },
+    {
+      name: "Feedback",
+      tab: "feedbackFeed",
+      expectedText: "Testing Project On Build DAO Feedback",
+    },
+  ];
+
+  pages.forEach(({ name, tab, expectedText }) => {
+    test.describe(`${name} Feed`, () => {
+      test.beforeEach(async ({ page }) => {
+        await page.goto(`/${ROOT_SRC}?page=project&id=${projectId}&tab=${tab}`);
+      });
+
+      test(`should display feed and post option`, async ({ page }) => {
+        await expect(async () => {
+          const element = await page.getByText(expectedText);
+          await expect(element).toBeVisible();
+        }).toPass();
+
+        await expect(async () => {
+          const postButton = await page.getByRole("button", { name: "Post" });
+          await expect(postButton).toBeVisible();
+        }).toPass();
+      });
     });
   });
 });
