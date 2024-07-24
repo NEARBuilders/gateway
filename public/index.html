@@ -308,14 +308,23 @@
       import { setupMintbaseWallet } from "@near-wallet-selector/mintbase-wallet";
 
       const selector = await setupWalletSelector({
-        network: "testnet",
+        network: "mainnet",
         modules: [
           setupMyNearWallet(),
-          setupHereWallet(),
-          setupMeteorWallet(),
           setupSender(),
+          setupHereWallet(),
+          setupMintbaseWallet({
+            networkId: "mainnet",
+            walletUrl: "https://wallet.mintbase.xyz",
+            callbackUrl: "https://www.nearbuilders.org",
+            deprecated: false,
+          }),
+          setupMeteorWallet(),
+          setupNeth({
+            gas: "300000000000000",
+            bundle: false,
+          }),
           setupNightly(),
-          setupMintbaseWallet(),
         ],
       });
 
