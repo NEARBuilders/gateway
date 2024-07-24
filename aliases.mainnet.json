@@ -7,5 +7,6 @@
   "new": "builddao.near",
   "old": "buildhub.near",
   "potlock": "potlock.near",
-  "every": "every.near"
+  "every": "every.near",
+  "web4_url": "builddao.near.page"
 }

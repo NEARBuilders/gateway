@@ -2,6 +2,8 @@ const { Button } = VM.require("${config_account}/widget/components.Index") || {
   Button: () => <></>,
 };
 
+const { gatewayOrigin } = VM.require("${alias_new}/widget/lib.gateway");
+
 const LogoutContainer = styled.div`
   background-color: #000000;
   color: #fff;
@@ -73,16 +75,33 @@ const LogoutView = () => {
           src="https://ipfs.near.social/ipfs/bafkreidij5nptpfck3xcppnp6qg6qqeq6lwgf2egyup44hxhgvx6bjnw5e"
           alt="Build DAO Logo"
         />
-        <Button
-          style={{
-            padding: "8px 20px",
-            width: "200px",
-          }}
-          variant="primary"
-          onClick={props.logOut}
-        >
-          Sign Out
-        </Button>
+        {gatewayOrigin && gatewayOrigin.includes("${alias_web4_url}") ? (
+          <Wallet
+            provides={({ signOut }) => (
+              <Button
+                style={{
+                  padding: "8px 20px",
+                  width: "200px",
+                }}
+                variant="primary"
+                onClick={signOut}
+              >
+                Sign Out
+              </Button>
+            )}
+          />
+        ) : (
+          <Button
+            style={{
+              padding: "8px 20px",
+              width: "200px",
+            }}
+            variant="primary"
+            onClick={props.logOut}
+          >
+            Sign Out
+          </Button>
+        )}
       </div>
       <BottomImage src="https://ipfs.near.social/ipfs/bafkreigsfqkniqq5le4e7dawmibmy3qpoo7bz6ldmuhdgzoqmbckda7nty" />
     </LogoutContainer>

@@ -2,6 +2,8 @@ const { Button } = VM.require("${config_account}/widget/components.Index") || {
   Button: () => <></>,
 };
 
+const { gatewayOrigin } = VM.require("${alias_new}/widget/lib.gateway");
+
 const LoginContainer = styled.div`
   background-color: #000000;
   color: #fff;
@@ -81,16 +83,33 @@ const LoginView = () => {
           Designed to <span> connect and empower builders </span>in a
           multi-chain ecosystem
         </h1>
-        <Button
-          style={{
-            padding: "8px 20px",
-            width: "200px",
-          }}
-          variant="primary"
-          onClick={props.requestSignIn}
-        >
-          Login
-        </Button>
+        {gatewayOrigin && gatewayOrigin.includes("${alias_web4_url}") ? (
+          <Wallet
+            provides={({ signOut }) => (
+              <Button
+                style={{
+                  padding: "8px 20px",
+                  width: "200px",
+                }}
+                variant="primary"
+                onClick={signOut}
+              >
+                Login
+              </Button>
+            )}
+          />
+        ) : (
+          <Button
+            style={{
+              padding: "8px 20px",
+              width: "200px",
+            }}
+            variant="primary"
+            onClick={props.requestSignIn}
+          >
+            Login
+          </Button>
+        )}
       </div>
       <BottomImage src="https://ipfs.near.social/ipfs/bafkreigsfqkniqq5le4e7dawmibmy3qpoo7bz6ldmuhdgzoqmbckda7nty" />
     </LoginContainer>
