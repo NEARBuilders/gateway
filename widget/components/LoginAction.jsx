@@ -39,10 +39,7 @@ return (
     {gatewayOrigin && gatewayOrigin.includes("${alias_web4_url}") ? (
       <Wallet
         provides={({ signIn }) => (
-          <Button
-            variant="primary"
-            onClick={signIn}
-          >
+          <Button variant="primary" onClick={signIn}>
             Connect
           </Button>
         )}
