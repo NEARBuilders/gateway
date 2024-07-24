@@ -24,16 +24,12 @@ Or start the development version in testnet:
 yarn dev:testnet
 ```
 
-This will start a gateway at http://127.0.0.1:8080 which will render your local widgets. The entry point for this app is [buildao.near/widget/Index](http://127.0.0.1:8080/buildao.near/widget/Index).
+This will start a gateway at http://127.0.0.1:8080 which will render your local widgets. The entry point for this app is [builddao.near/widget/Index](http://127.0.0.1:8080/builddao.near/widget/Index).
 
-### Community Page
+## Community
 
-[View Default](https://nearbuilders.org/build.sputnik-dao.near/widget/community)
+Have questions, comments or feedback? Join our Telegram group
 
-#### Features
+## Contributing
 
-- Customizable Settings
-- Onboarding Flow
-- Leaderboard
-- Groups
-- Projects
+Please see our [contributing guide](./CONTRIBUTING.md). Found a bug? Please [submit an issue](https://github.com/nearbuilders/gateway/issues/new).
