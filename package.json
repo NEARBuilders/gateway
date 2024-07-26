@@ -1,6 +1,6 @@
 {
   "name": "builddao",
-  "version": "2.0.5",
+  "version": "2.0.7",
   "homepage": "/",
   "private": true,
   "scripts": {
@@ -27,15 +27,6 @@
   },
   "dependencies": {
     "@monaco-editor/react": "^4.4.6",
-    "@near-js/accounts": "^0.1.3",
-    "@near-js/crypto": "^0.0.4",
-    "@near-js/keystores": "^0.0.4",
-    "@near-js/keystores-browser": "^0.0.4",
-    "@near-js/keystores-node": "^0.0.4",
-    "@near-js/transactions": "^0.2.0",
-    "@near-js/types": "^0.0.4",
-    "@near-js/utils": "^0.0.4",
-    "@near-js/wallet-account": "^0.0.6",
     "@near-wallet-selector/core": "^8.9.7",
     "@near-wallet-selector/here-wallet": "^8.9.7",
     "@near-wallet-selector/meteor-wallet": "^8.9.7",
