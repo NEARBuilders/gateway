@@ -1865,7 +1865,7 @@
     depd "^2.0.0"
     near-abi "0.1.1"
 
-"@near-js/accounts@0.1.4", "@near-js/accounts@^0.1.3":
+"@near-js/accounts@0.1.4":
   version "0.1.4"
   resolved "https://registry.npmjs.org/@near-js/accounts/-/accounts-0.1.4.tgz#ff557dc65c5064ee4ac2dbfdd39aa3e35ae4d222"
   integrity sha512-zHFmL4OUZ4qHXOE+dDBkYgTNHLWC5RmYUVp9LiuGciO5zFPp7WlxmowJL0QjgXqV1w+dNXq3mgmkfAgYVS8Xjw==
@@ -1902,7 +1902,7 @@
     lru_map "0.4.1"
     near-abi "0.1.1"
 
-"@near-js/crypto@0.0.4", "@near-js/crypto@^0.0.4":
+"@near-js/crypto@0.0.4":
   version "0.0.4"
   resolved "https://registry.npmjs.org/@near-js/crypto/-/crypto-0.0.4.tgz#7bb991da25f06096de51466c6331cb185314fad8"
   integrity sha512-2mSIVv6mZway1rQvmkktrXAFoUvy7POjrHNH3LekKZCMCs7qMM/23Hz2+APgxZPqoV2kjarSNOEYJjxO7zQ/rQ==
@@ -1945,7 +1945,7 @@
     borsh "1.0.0"
     randombytes "2.1.0"
 
-"@near-js/keystores-browser@0.0.4", "@near-js/keystores-browser@^0.0.4":
+"@near-js/keystores-browser@0.0.4":
   version "0.0.4"
   resolved "https://registry.npmjs.org/@near-js/keystores-browser/-/keystores-browser-0.0.4.tgz#9c1130e2c0becf6bb9cfaaa7594ad38ed25585bd"
   integrity sha512-bzwClm3jNlWJrb8wqMunP3rrcG1hS3rD58KKhDvHXy8Dtg9VVUgrfr3Csu9oTnjG+rAPZGOynunaoOQVqju/Aw==
@@ -1969,7 +1969,7 @@
     "@near-js/crypto" "1.2.1"
     "@near-js/keystores" "0.0.9"
 
-"@near-js/keystores-node@0.0.4", "@near-js/keystores-node@^0.0.4":
+"@near-js/keystores-node@0.0.4":
   version "0.0.4"
   resolved "https://registry.npmjs.org/@near-js/keystores-node/-/keystores-node-0.0.4.tgz#00187deef2d43afeb20c01a0e63ec50af77cfc85"
   integrity sha512-vOdVhAuQ8BVefEluj+TSNzjXHA/1xjEgK7pwBUA1kgpcY8/hZ0Jj4PcvPD17wQNSyP+NJF5H9ed3pP2h2VH+1A==
@@ -2001,7 +2001,7 @@
     "@near-js/crypto" "1.2.4"
     "@near-js/types" "0.2.1"
 
-"@near-js/keystores@0.0.4", "@near-js/keystores@^0.0.4":
+"@near-js/keystores@0.0.4":
   version "0.0.4"
   resolved "https://registry.npmjs.org/@near-js/keystores/-/keystores-0.0.4.tgz#da03069497bb14741a4d97f7ad4746baf9a09ea7"
   integrity sha512-+vKafmDpQGrz5py1liot2hYSjPGXwihveeN+BL11aJlLqZnWBgYJUWCXG+uyGjGXZORuy2hzkKK6Hi+lbKOfVA==
@@ -2129,7 +2129,7 @@
     borsh "^0.7.0"
     js-sha256 "^0.9.0"
 
-"@near-js/transactions@0.2.1", "@near-js/transactions@^0.2.0":
+"@near-js/transactions@0.2.1":
   version "0.2.1"
   resolved "https://registry.npmjs.org/@near-js/transactions/-/transactions-0.2.1.tgz#ab6d246e94e6f64b4e5a651fe6e9de03dd573521"
   integrity sha512-V9tXzkICDPruSxihKXkBhUgsI4uvW7TwXlnZS2GZpPsFFiIUeGrso0wo4uiQwB6miFA5q6fKaAtQa4F2v1s+zg==
@@ -2167,7 +2167,7 @@
     "@noble/hashes" "1.3.3"
     borsh "1.0.0"
 
-"@near-js/types@0.0.4", "@near-js/types@^0.0.4":
+"@near-js/types@0.0.4":
   version "0.0.4"
   resolved "https://registry.npmjs.org/@near-js/types/-/types-0.0.4.tgz#d941689df41c850aeeeaeb9d498418acec515404"
   integrity sha512-8TTMbLMnmyG06R5YKWuS/qFG1tOA3/9lX4NgBqQPsvaWmDsa+D+QwOkrEHDegped0ZHQwcjAXjKML1S1TyGYKg==
@@ -2179,7 +2179,7 @@
   resolved "https://registry.npmjs.org/@near-js/types/-/types-0.2.1.tgz#a298f0e70dbe059ee8c762dfac05c2eae3e0ae0e"
   integrity sha512-YygQEGMdFe6d2e/6dtNZer9paH396XeAdIKEhY/RPXDUnjDdfiDQ5DK4mM130sEeID2bAH9X1LQ+7vXGRjvyWw==
 
-"@near-js/utils@0.0.4", "@near-js/utils@^0.0.4":
+"@near-js/utils@0.0.4":
   version "0.0.4"
   resolved "https://registry.npmjs.org/@near-js/utils/-/utils-0.0.4.tgz#1a387f81974ebbfa4521c92590232be97e3335dd"
   integrity sha512-mPUEPJbTCMicGitjEGvQqOe8AS7O4KkRCxqd0xuE/X6gXF1jz1pYMZn4lNUeUz2C84YnVSGLAM0o9zcN6Y4hiA==
@@ -2210,7 +2210,7 @@
     depd "2.0.0"
     mustache "4.0.0"
 
-"@near-js/wallet-account@0.0.6", "@near-js/wallet-account@^0.0.6":
+"@near-js/wallet-account@0.0.6":
   version "0.0.6"
   resolved "https://registry.npmjs.org/@near-js/wallet-account/-/wallet-account-0.0.6.tgz#478ba16340a55ca2d28f4bf8e2566ee9842e36f1"
   integrity sha512-oyxQM6tf2WG4it+8IMu0ZQ6pa4OQhF1o+Q33Rb2+4Mb1Fm+L7MO7PJoCPcveCIFYVPOjSVk0oyoz1KbE3y62gA==
@@ -9610,9 +9610,9 @@ near-social-vm-types@^1.0.0:
   resolved "https://registry.npmjs.org/near-social-vm-types/-/near-social-vm-types-1.1.0.tgz#00ee2571ff365e4091c65f22407ddce86e3466c3"
   integrity sha512-4zLtDjkS1wYmIfDi0UeG++y3VPb691qTlJZ/pTMlyf5QVstGlIpMPIUvLpa/U4jvQDKPhsigQc8j8pvauX3Y2Q==
 
-"near-social-vm@git+https://github.com/NearSocial/VM.git#dev":
+"near-social-vm@git+https://github.com/NearSocial/VM.git#2.6.1":
   version "2.6.1"
-  resolved "git+https://github.com/NearSocial/VM.git#6c9808d77afe6f4e6243388b92f4fbb231d13bff"
+  resolved "git+https://github.com/NearSocial/VM.git#6047c6a9b96f3de14e600c1d2b96c432bbb76dd4"
   dependencies:
     "@radix-ui/react-accordion" "^1.1.1"
     "@radix-ui/react-alert-dialog" "^1.0.3"
