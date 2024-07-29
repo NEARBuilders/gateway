@@ -30,7 +30,7 @@ jobs:
           cache: "yarn"
       - name: Install dependencies
         run: |
-          yarn add bos-workspace@1.0.0-alpha.32
+          yarn add bos-workspace
           yarn playwright install-deps
           yarn playwright install
       - name: Run tests
