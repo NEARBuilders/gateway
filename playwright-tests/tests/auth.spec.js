@@ -29,7 +29,9 @@ test.describe("User is logged in", () => {
     await page.goto(`/${ROOT_SRC}`);
   });
 
-  test("should show user is logged in succesfully in user dropdown", async ({ page }) => {
+  test("should show user is logged in succesfully in user dropdown", async ({
+    page,
+  }) => {
     const LoggedInButton = page.getByRole("button", {
       name: "saswat_test.testnet",
     });
