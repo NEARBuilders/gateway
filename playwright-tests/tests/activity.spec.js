@@ -348,7 +348,7 @@ test.describe("User is logged in", () => {
       backgroundImage: {
         ipfs_cid: "bafkreifk42ibqsg5sfky5tlhkfty6rkup5leqite5koenhesnuwq55kufi",
       },
-      type: "buildhub.testnet/type/event",
+      type: "builddao.testnet/type/event",
     };
     expect(actualEventData.metadata).toMatchObject(expectedMetadata);
 
