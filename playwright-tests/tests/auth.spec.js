@@ -10,10 +10,10 @@ test.describe("User is not logged in", () => {
     await page.goto(`/${ROOT_SRC}`);
   });
 
-  test("To verify that the sign in button is visible in the home page and when clicked navigates to login page", async ({
+  test("should show sign in button and navigate to login page when clicked", async ({
     page,
   }) => {
-    const signInButton = page.getByRole("button", { name: "Sign in" }).nth(1);
+    const signInButton = page.getByRole("button", { name: "Sign In" }).nth(1);
     await expect(signInButton).toBeVisible();
     await signInButton.click();
     expect(page.url()).toContain("/join");
@@ -29,14 +29,14 @@ test.describe("User is logged in", () => {
     await page.goto(`/${ROOT_SRC}`);
   });
 
-  test("To verify that the user is logged in succesfully", async ({ page }) => {
+  test("should show user is logged in succesfully in user dropdown", async ({ page }) => {
     const LoggedInButton = page.getByRole("button", {
       name: "saswat_test.testnet",
     });
     await expect(LoggedInButton).toHaveText("saswat_test.testnet");
   });
 
-  test("To verify that the sign out button is visible in the dropdown and when clicked navigates to logout page", async ({
+  test("should show sign out button in the dropdown and navigate to logout page when clicked", async ({
     page,
   }) => {
     const LoggedInButton = page.getByRole("button", {
