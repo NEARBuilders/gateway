@@ -16,7 +16,7 @@ const clickAndAssertTab = async (page, tabName, urlFragment, textToAssert) => {
 test.describe("All tabs must be visible and redirected to respective pages", () => {
   test.beforeEach(async ({ page }) => {
     await page.goto(`/${ROOT_SRC}?page=activity`);
-    await page.waitForLoadState('load');
+    await page.waitForLoadState("load");
   });
 
   test("All Feed", async ({ page }) => {
