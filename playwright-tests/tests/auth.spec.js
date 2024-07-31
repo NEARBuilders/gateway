@@ -13,7 +13,7 @@ test.describe("User is not logged in", () => {
   test("should show sign in button and navigate to login page when clicked", async ({
     page,
   }) => {
-    const signInButton = page.getByRole("button", { name: "Sign In" }).nth(1);
+    const signInButton = page.getByRole("button", { name: "Sign In" });
     await expect(signInButton).toBeVisible();
     await signInButton.click();
     expect(page.url()).toContain("/join");

@@ -150,7 +150,7 @@ const { href } = VM.require("${config_account}/widget/lib.url") || {
   href: () => {},
 };
 
-const { gatewayOrigin } = VM.require("${alias_new}/widget/lib.gateway");
+const { gatewayOrigin } = VM.require("${config_account}/widget/lib.gateway");
 
 return (
   <StyledDropdown className="dropdown">
@@ -181,7 +181,7 @@ return (
           className="dropdown-item"
           type="button"
           to={href({
-            widgetSrc: "${alias_new}/widget/Index",
+            widgetSrc: "${config_account}/widget/Index",
             params: {
               page: "profile",
               accountId: context.accountId,

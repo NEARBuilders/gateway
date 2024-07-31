@@ -6,7 +6,7 @@ const { Footer } = VM.require("${config_account}/widget/components.Footer") || {
   Footer: () => <></>,
 };
 
-const { isNearSocial } = VM.require("${alias_new}/widget/lib.gateway") || {
+const { isNearSocial } = VM.require("${config_account}/widget/lib.gateway") || {
   isNearSocial: false,
 };
 

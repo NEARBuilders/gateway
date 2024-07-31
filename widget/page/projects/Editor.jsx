@@ -31,7 +31,7 @@ const { getProjectMeta, getProjectIdFromPath } = VM.require(
 };
 
 const { fetchCatalogProject } = VM.require(
-  "${alias_new}/widget/lib.projects",
+  "${config_account}/widget/lib.projects",
 ) || {
   fetchCatalogProject: () => {},
 };

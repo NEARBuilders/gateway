@@ -6,7 +6,7 @@ const { href } = VM.require("${alias_devs}/widget/lib.url") || {
   href: () => {},
 };
 
-const { isNearSocial } = VM.require("${alias_new}/widget/lib.gateway") || {
+const { isNearSocial } = VM.require("${config_account}/widget/lib.gateway") || {
   isNearSocial: false,
 };
 

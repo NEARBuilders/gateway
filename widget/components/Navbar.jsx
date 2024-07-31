@@ -6,7 +6,7 @@ const { href } = VM.require("${alias_devs}/widget/lib.url") || {
   href: () => {},
 };
 
-const { gatewayOrigin } = VM.require("${alias_new}/widget/lib.gateway");
+const { gatewayOrigin } = VM.require("${config_account}/widget/lib.gateway");
 
 const NavContainer = styled.div`
   display: flex;

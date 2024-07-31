@@ -23,6 +23,38 @@ test.describe("?page=project&id=", () => {
       await expect(page.getByText("Team Size")).toBeVisible();
       await expect(page.getByText("Contributors")).toBeVisible();
       await expect(page.getByText("Project Tags")).toBeVisible();
+      await expect(page.getByTestId("ariz-portfolio")).not.toBeVisible();
+    });
+
+    test.describe("Owner is logged in", () => {
+      test.use({
+        storageState:
+          "playwright-tests/storage-states/wallet-connected-project-owner.json",
+      });
+
+      test("should show Ariz portfolio button when owner of project", async ({
+        page,
+      }) => {
+        const arizButton = await page.getByTestId("ariz-portfolio");
+        await expect(arizButton).toBeVisible();
+      });
+
+      test("should navigate to Ariz portfolio when clicked", async ({
+        page,
+      }) => {
+        const [newPage] = await Promise.all([
+          page.waitForEvent("popup"),
+          page.getByTestId("ariz-portfolio").click(),
+        ]);
+
+        // Wait for the new page to load completely
+        await newPage.waitForLoadState("domcontentloaded");
+
+        // Assert that the new page has the expected URL
+        expect(newPage.url()).toContain(
+          "https://arizportfolio.near.page",
+        );
+      });
     });
   });
   test.describe("Tasks Page", () => {
@@ -212,19 +244,6 @@ test.describe("?page=project&id=", () => {
         );
         expect(transactionObj).toMatchObject(expectedTransactionData);
       });
-    });
-
-    test("should show Ariz portfolio button when owner of project", async ({
-      page,
-    }) => {
-      const arizButton = await page.getByTestId("ariz-portfolio");
-      expect(arizButton).toBeInTheDocument();
-    });
-
-    test("should navigate to Ariz portfolio when clicked", async ({ page }) => {
-      const arizButton = await page.getByTestId("ariz-portfolio");
-      await arizButton.click();
-      await expect(page).toHaveURL(/https:\/\/arizportfolio\.near\.page\//);
     });
   });
 });

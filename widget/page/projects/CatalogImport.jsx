@@ -3,16 +3,18 @@ const { Feed } = VM.require("${alias_devs}/widget/Feed") || {
 };
 
 const { CardSkeleton } = VM.require(
-  "${alias_new}/widget/page.projects.CardSkeleton",
+  "${config_account}/widget/page.projects.CardSkeleton",
 ) || {
   CardSkeleton: () => <></>,
 };
 
 const { fetchCatalogProjects } = VM.require(
-  "${alias_new}/widget/lib.projects",
-) || {
-  fetchCatalogProjects: () => {},
-};
+  "${config_account}/widget/lib.projects",
+);
+
+if (!fetchCatalogProjects) {
+  return <></>;
+}
 
 const projects = useCache(() => {
   return fetchCatalogProjects();
@@ -31,7 +33,7 @@ const [searchTerm, setSearch] = useState(null);
 const Search = useMemo(() => {
   return (
     <Widget
-      src={"${alias_new}/widget/page.projects.SearchBar"}
+      src={"${config_account}/widget/page.projects.SearchBar"}
       props={{
         title: sort,
         numItems: filteredProjects.length,
@@ -92,7 +94,7 @@ const [selectedProjectId, setSelectedProjectId] = useState(null);
 if (selectedProjectId) {
   return (
     <Widget
-      src="${alias_new}/widget/page.projects.Editor"
+      src="${config_account}/widget/page.projects.Editor"
       loading=""
       props={{
         catalogProjectId: selectedProjectId,
@@ -125,7 +127,7 @@ return (
       items={Object.keys(filteredProjects).map((projectId) => ({ projectId }))}
       Item={({ projectId }) => (
         <Widget
-          src={"${alias_new}/widget/page.projects.CatalogProjectCard"}
+          src={"${config_account}/widget/page.projects.CatalogProjectCard"}
           loading={<CardSkeleton varaint={"catalog"} />}
           props={{
             project: filteredProjects[projectId],
