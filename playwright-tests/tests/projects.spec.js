@@ -188,17 +188,16 @@ test.describe("?page=projects", () => {
         const editBtn = page.getByTestId("edit-btn");
         await expect(editBtn).toBeVisible({ timeout: 10000 });
         await editBtn.click();
-        expect(page.url()).toContain("?page=projects&tab=editor");
+
+        await expect(page.url()).toContain("?page=projects&tab=editor");
       });
 
       test("should be able to edit a project", async ({ page }) => {
-        // wait for data to be fetched
-        await page.waitForTimeout(5000);
         const expectedTransactionData = {
           "meghagoel.testnet": {
             project: {
               "testing-project-on-builddao": {
-                "": '{"title":"New project title","description":"New Project description","profileImage":{"ipfs_cid":"bafkreifk42ibqsg5sfky5tlhkfty6rkup5leqite5koenhesnuwq55kufi"},"backgroundImage":{"ipfs_cid":"bafkreidbfu7uxtr4is7wxileg3mrbajve6cgkfmrqemc6pxsr6nnczz7ly"},"tags":{"test":"", "custom":""},"linktree":{"twitter":"https://test.nearbuilders.org/","github":"https://test.nearbuilders.org/","telegram":"https://test.nearbuilders.org/","website":"https://test.nearbuilders.org/"},"contributors":["meghagoel.testnet"],"tabs":["overview","activity","tasks","updatesfeed","feedbackfeed"],"projectAccountId":"meghagoel.testnet","teamSize":"1-10","location":"New Location"}',
+                "": '{"title":"New project title","description":"New Project description","profileImage":{"ipfs_cid":"bafkreifk42ibqsg5sfky5tlhkfty6rkup5leqite5koenhesnuwq55kufi"},"backgroundImage":{"ipfs_cid":"bafkreidbfu7uxtr4is7wxileg3mrbajve6cgkfmrqemc6pxsr6nnczz7ly"},"tags":{"test":"","custom":""},"linktree":{"twitter":"https://test.nearbuilders.org/","github":"https://test.nearbuilders.org/","telegram":"https://test.nearbuilders.org/","website":"https://test.nearbuilders.org/"},"contributors":["meghagoel.testnet"],"tabs":["overview","activity","tasks","updatesfeed","feedbackfeed"],"projectAccountId":"meghagoel.testnet","teamSize":"1-10","location":"New Location"}',
                 metadata: {
                   name: "New project title",
                   description: "New Project description",
@@ -208,7 +207,7 @@ test.describe("?page=projects", () => {
           },
         };
         // update title, description and location
-        const titleInput = page.getByPlaceholder("Enter Project Title");
+        const titleInput = await page.getByPlaceholder("Enter Project Title");
         await expect(titleInput).toHaveValue("Testing project on Build DAO");
         titleInput.fill("New project title");
         const descriptionInput = await page
