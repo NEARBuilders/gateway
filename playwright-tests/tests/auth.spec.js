@@ -42,7 +42,7 @@ test.describe("User is not logged in", () => {
     const signInButton = page.getByRole("button", { name: "Sign In" });
     await expect(signInButton).toBeVisible();
     await signInButton.click();
-    expect(page.url()).toContain("/join");
+    expect(page.url()).toContain("?page=login");
   });
 });
 
@@ -90,6 +90,6 @@ test.describe("User is logged in", () => {
     const dropdownItems = await page.$$(".dropdown-item");
     const secondDropdownItem = dropdownItems[1];
     await secondDropdownItem.click();
-    expect(page.url()).toContain("/logout");
+    expect(page.url()).toContain("?page=logout");
   });
 });
