@@ -13,7 +13,9 @@
     "serve:web4": "http-server -p 3000 public",
     "test": "npx playwright test",
     "test:ui": "npx playwright test --ui",
-    "prepare": "simple-git-hooks"
+    "prepare": "simple-git-hooks",
+    "web4:deploy:mainnet": "NEAR_ENV=mainnet npx web4-deploy public builddao.near --nearfs",
+    "web4:deploy:testnet": "NEAR_ENV=testnet npx web4-deploy public builddao.testnet --nearfs"
   },
   "simple-git-hooks": {
     "pre-commit": "npx prettier --write '**/*.{js,jsx,ts,tsx,json}'"

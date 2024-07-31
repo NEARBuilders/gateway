@@ -1,18 +1,18 @@
-name: Deploy web4 contract to staging
+name: Deploy contract to staging
 on:
   pull_request:
     paths:
-      - web4contract/**
+      - contract/**
 
 defaults:
   run:
-    working-directory: ./web4contract
+    working-directory: ./contract
 
 jobs:
   test:
-    uses: ./.github/workflows/web4-test.yml
+    uses: ./.github/workflows/contract-test.yml
 
-  deploy-staging:
+  contract-deploy-staging:
     name: Deploy to staging subaccount
     permissions:
       pull-requests: write

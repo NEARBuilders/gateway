@@ -1,6 +1,8 @@
-# web4contract
+# contract
 
-web4contract for build dao gateway
+contract for build dao gateway
+
+currently responsible for web4
 
 ## How to Build Locally?
 

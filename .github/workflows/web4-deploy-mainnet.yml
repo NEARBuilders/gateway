@@ -1,0 +1,19 @@
+name: Deploy web4 to mainnet contract
+on:
+  push:
+    branches: [main]
+    paths:
+      - public/**
+
+jobs:
+  web4-deploy-mainnet:
+    name: Deploy web4 to mainnet contract
+    runs-on: ubuntu-latest
+    env:
+      NEAR_SIGNER_KEY: ${{ secrets.BOS_BUILDDAO_SIGNER_PRIVATE_KEY }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Call web4-deploy
+        run: |
+          yarn web4:deploy:mainnet 

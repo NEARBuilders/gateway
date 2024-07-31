@@ -1,13 +1,13 @@
-name: Undeploy web4 contract from staging
+name: Undeploy contract from staging
 on:
   pull_request:
     types: [closed]
     paths:
-      - web4contract/**
+      - contract/**
 
 defaults:
   run:
-    working-directory: ./web4contract
+    working-directory: ./contract
 
 jobs:
   cleanup-staging:
