@@ -15,6 +15,8 @@ jobs:
     runs-on: ubuntu-latest
     env:
       NEAR_CONTRACT_PR_STAGING_ACCOUNT_ID: gh-${{ github.event.number }}.${{ vars.BOS_TESTNET_SIGNER_ACCOUNT_ID }}
+      BOS_BUILDDAO_TESTNET_SIGNER_PUBLIC_KEY: "ed25519:6ycWXZES2zEGPurZqP35AUQx92aAzuS7r9ea1GcSQQiT"
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -26,6 +28,6 @@ jobs:
             beneficiary "${{ vars.BOS_TESTNET_SIGNER_ACCOUNT_ID }}" \
             network-config "testnet" \
             sign-with-plaintext-private-key \
-              --signer-public-key "${{ vars.BOS_TESTNET_SIGNER_PUBLIC_KEY }}" \
+              --signer-public-key "${{ env.BOS_BUILDDAO_TESTNET_SIGNER_PUBLIC_KEY }}" \
               --signer-private-key "${{ secrets.BOS_BUILDDAO_TESTNET_SIGNER_PRIVATE_KEY }}" \
             send
