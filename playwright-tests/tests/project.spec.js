@@ -51,9 +51,7 @@ test.describe("?page=project&id=", () => {
         await newPage.waitForLoadState("domcontentloaded");
 
         // Assert that the new page has the expected URL
-        expect(newPage.url()).toContain(
-          "https://arizportfolio.near.page",
-        );
+        expect(newPage.url()).toContain("https://arizportfolio.near.page");
       });
     });
   });

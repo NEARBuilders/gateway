@@ -4,7 +4,9 @@ const { Feed } = VM.require("${alias_devs}/widget/Feed") ?? {
 const { Post } = VM.require("${config_account}/widget/components.Index") || {
   Post: () => <></>,
 };
-const { getProjectMeta } = VM.require("${config_account}/widget/lib.projects") || {
+const { getProjectMeta } = VM.require(
+  "${config_account}/widget/lib.projects",
+) || {
   getProjectMeta: () => {},
 };
 

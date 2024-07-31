@@ -15,7 +15,9 @@ test.describe("?page=profile", () => {
     test("should show user profile page if no accountId is passed", async ({
       page,
     }) => {
-      const editProfile = await page.getByRole('button', { name: 'Edit Profile' });
+      const editProfile = await page.getByRole("button", {
+        name: "Edit Profile",
+      });
       await expect(editProfile).toBeVisible();
       const profileId = await page.getByText("saswat_test.testnet").nth(1);
       await expect(profileId).toBeVisible();
