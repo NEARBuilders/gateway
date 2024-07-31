@@ -45,7 +45,11 @@ return (
         )}
       />
     ) : (
-      <Button variant="primary" href="${alias_gateway_url}?page=login" noLink={true}>
+      <Button
+        variant="primary"
+        href="${alias_gateway_url}?page=login"
+        noLink={true}
+      >
         Connect
       </Button>
     )}

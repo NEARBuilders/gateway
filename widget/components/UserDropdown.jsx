@@ -203,7 +203,11 @@ return (
             )}
           />
         ) : (
-          <Link className="dropdown-item" type="button" to={"${alias_gateway_url}?page=logout"}>
+          <Link
+            className="dropdown-item"
+            type="button"
+            to={"${alias_gateway_url}?page=logout"}
+          >
             <LogOut />
             Sign Out
           </Link>

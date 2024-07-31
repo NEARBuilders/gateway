@@ -17,7 +17,7 @@ test.describe("User is not logged in", () => {
     await expect(loginButton).toBeVisible();
     await loginButton.click();
 
-    const modal = page.getByRole('heading', { name: 'Connect Your Wallet' })
+    const modal = page.getByRole("heading", { name: "Connect Your Wallet" });
     await expect(modal).toBeVisible();
   });
 

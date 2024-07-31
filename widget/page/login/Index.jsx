@@ -2,7 +2,9 @@ const { Button } = VM.require("${config_account}/widget/components.Index") || {
   Button: () => <></>,
 };
 
-const { isBuildDAO, gatewayOrigin } = VM.require("${config_account}/widget/lib.gateway");
+const { isBuildDAO, gatewayOrigin } = VM.require(
+  "${config_account}/widget/lib.gateway",
+);
 
 const LoginContainer = styled.div`
   background-color: #000000;
