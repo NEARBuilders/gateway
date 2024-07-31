@@ -171,7 +171,7 @@ test.describe("?page=projects", () => {
     test.describe("Wallet is not connected", () => {
       test("should see login screen'", async ({ page }) => {
         const requireLogin = await page.getByText(
-          "Please log in in order to see your projects!",
+          "Please log in in order to see your projects.",
         );
 
         await expect(requireLogin).toBeVisible();
@@ -198,7 +198,7 @@ test.describe("?page=projects", () => {
           "meghagoel.testnet": {
             project: {
               "testing-project-on-builddao": {
-                "": '{"title":"New project title","description":"New Project description","profileImage":{"ipfs_cid":"bafkreifk42ibqsg5sfky5tlhkfty6rkup5leqite5koenhesnuwq55kufi"},"backgroundImage":{"ipfs_cid":"bafkreidbfu7uxtr4is7wxileg3mrbajve6cgkfmrqemc6pxsr6nnczz7ly"},"tags":{"test":""},"linktree":{"twitter":"https://test.nearbuilders.org/","github":"https://test.nearbuilders.org/","telegram":"https://test.nearbuilders.org/","website":"https://test.nearbuilders.org/"},"contributors":["meghagoel.testnet"],"tabs":["overview","activity","tasks","updatesfeed","feedbackfeed"],"projectAccountId":"meghagoel.testnet","teamSize":"1-10","location":"New Location"}',
+                "": '{"title":"New project title","description":"New Project description","profileImage":{"ipfs_cid":"bafkreifk42ibqsg5sfky5tlhkfty6rkup5leqite5koenhesnuwq55kufi"},"backgroundImage":{"ipfs_cid":"bafkreidbfu7uxtr4is7wxileg3mrbajve6cgkfmrqemc6pxsr6nnczz7ly"},"tags":{"test":"", "custom":""},"linktree":{"twitter":"https://test.nearbuilders.org/","github":"https://test.nearbuilders.org/","telegram":"https://test.nearbuilders.org/","website":"https://test.nearbuilders.org/"},"contributors":["meghagoel.testnet"],"tabs":["overview","activity","tasks","updatesfeed","feedbackfeed"],"projectAccountId":"meghagoel.testnet","teamSize":"1-10","location":"New Location"}',
                 metadata: {
                   name: "New project title",
                   description: "New Project description",
@@ -271,7 +271,7 @@ test.describe("?page=projects", () => {
 
       test("should see login screen", async ({ page }) => {
         const requireLogin = await page.getByText(
-          "Please log in in order to see watchlist projects!",
+          "Please log in in order to see watchlist projects.",
         );
         await expect(requireLogin).toBeVisible();
       });
@@ -313,7 +313,7 @@ test.describe("?page=projects", () => {
       });
       test("should see login screen", async ({ page }) => {
         const requireLogin = await page.getByText(
-          "Please log in in order to see involved projects!",
+          "Please log in in order to see involved projects.",
         );
         await expect(requireLogin).toBeVisible();
       });

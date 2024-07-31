@@ -50,6 +50,7 @@ const Layout = ({
             className=""
             variant="primary"
             target="_blank"
+            data-testid="ariz-portfolio"
             style={{
               float: "right",
               background: "#fff",
