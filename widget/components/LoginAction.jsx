@@ -2,7 +2,7 @@ const { Button } = VM.require("${config_account}/widget/components.Index") || {
   Button: () => <></>,
 };
 
-const { gatewayOrigin } = VM.require("${config_account}/widget/lib.gateway");
+const { isBuildDAO } = VM.require("${config_account}/widget/lib.gateway");
 
 const Logo =
   "https://ipfs.near.social/ipfs/bafkreihsuyli6i2wphsutag6xcxnyhyrn7wtkklvqebx4szgpz3ieqacxu";
@@ -36,7 +36,7 @@ return (
     <LogoStyle src={Logo} />
     <h4>You’re not connected</h4>
     {text && <h6>{text}</h6>}
-    {gatewayOrigin && gatewayOrigin.includes("${alias_web4_url}") ? (
+    {isBuildDAO ? (
       <Wallet
         provides={({ signIn }) => (
           <Button variant="primary" onClick={signIn}>
@@ -45,7 +45,7 @@ return (
         )}
       />
     ) : (
-      <Button variant="primary" href="${alias_gateway_url}/join" noLink={true}>
+      <Button variant="primary" href="${alias_gateway_url}?page=login" noLink={true}>
         Connect
       </Button>
     )}

@@ -1,1 +1,14 @@
+/join /?page=login 302
+/logout /?page=logout 302
+/activity /?page=activity 302
+/home /?page=home 302
+/projects /?page=projects 302
+/project /?page=project 302
+/resources /?page=resources 302
+/notifications /?page=notifications 302
+/post /?page=post 302
+/comment /?page=comment 302
+/inspect /?page=inspect 302
+/profile /?page=profile 302
+/library /?page=library 302
 /*    /index.html   200

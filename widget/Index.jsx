@@ -130,6 +130,22 @@ const config = {
         },
         hide: true,
       },
+      login: {
+        path: "${config_account}/widget/page.login.Index",
+        blockHeight: "final",
+        init: {
+          name: "Login",
+        },
+        hide: true,
+      },
+      logout: {
+        path: "${config_account}/widget/page.logout.Index",
+        blockHeight: "final",
+        init: {
+          name: "Logout",
+        },
+        hide: true,
+      },
     },
   },
 };

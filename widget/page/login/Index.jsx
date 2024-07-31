@@ -2,7 +2,7 @@ const { Button } = VM.require("${config_account}/widget/components.Index") || {
   Button: () => <></>,
 };
 
-const { gatewayOrigin } = VM.require("${config_account}/widget/lib.gateway");
+const { isBuildDAO, gatewayOrigin } = VM.require("${config_account}/widget/lib.gateway");
 
 const LoginContainer = styled.div`
   background-color: #000000;
@@ -83,7 +83,7 @@ const LoginView = () => {
           Designed to <span> connect and empower builders </span>in a
           multi-chain ecosystem
         </h1>
-        {gatewayOrigin && gatewayOrigin.includes("${alias_web4_url}") ? (
+        {isBuildDAO ? (
           <Wallet
             provides={({ signOut }) => (
               <Button

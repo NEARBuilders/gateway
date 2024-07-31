@@ -6,7 +6,7 @@ const { href } = VM.require("${alias_devs}/widget/lib.url") || {
   href: () => {},
 };
 
-const { gatewayOrigin } = VM.require("${config_account}/widget/lib.gateway");
+const { isBuildDAO } = VM.require("${config_account}/widget/lib.gateway");
 
 const NavContainer = styled.div`
   display: flex;
@@ -254,7 +254,7 @@ function Navbar(props) {
 
   const SignInButton = () => (
     <>
-      {gatewayOrigin && gatewayOrigin.includes("${alias_web4_url}") ? (
+      {isBuildDAO ? (
         <Wallet
           provides={({ signIn }) => (
             <Button variant="primary" className="w-100" onClick={signIn}>
@@ -266,7 +266,7 @@ function Navbar(props) {
         <Button
           variant="primary"
           linkClassName="d-flex"
-          href="${alias_gateway_url}/join"
+          href="${alias_gateway_url}?page=login"
           noLink={true}
           className="w-100"
           onClick={() => setDropdown(false)}

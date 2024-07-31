@@ -2,7 +2,7 @@ const { Button } = VM.require("${config_account}/widget/components.Index") || {
   Button: () => <></>,
 };
 
-const { gatewayOrigin } = VM.require("${config_account}/widget/lib.gateway");
+const { isBuildDAO } = VM.require("${config_account}/widget/lib.gateway");
 
 const LogoutContainer = styled.div`
   background-color: #000000;
@@ -75,7 +75,7 @@ const LogoutView = () => {
           src="https://ipfs.near.social/ipfs/bafkreidij5nptpfck3xcppnp6qg6qqeq6lwgf2egyup44hxhgvx6bjnw5e"
           alt="Build DAO Logo"
         />
-        {gatewayOrigin && gatewayOrigin.includes("${alias_web4_url}") ? (
+        {isBuildDAO ? (
           <Wallet
             provides={({ signOut }) => (
               <Button

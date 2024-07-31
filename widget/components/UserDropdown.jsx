@@ -193,7 +193,7 @@ return (
         </Link>
       </li>
       <li>
-        {gatewayOrigin && gatewayOrigin.includes("${alias_web4_url}") ? (
+        {isBuildDAO ? (
           <Wallet
             provides={({ signOut }) => (
               <div className="dropdown-item" type="button" onClick={signOut}>
@@ -203,7 +203,7 @@ return (
             )}
           />
         ) : (
-          <Link className="dropdown-item" type="button" to={"/logout"}>
+          <Link className="dropdown-item" type="button" to={"${alias_gateway_url}?page=logout"}>
             <LogOut />
             Sign Out
           </Link>
