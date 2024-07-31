@@ -1,149 +1,87 @@
+#![allow(non_snake_case)]
+
 // Find all our documentation at https://docs.near.org
-use near_sdk::near;
+use near_sdk::env;
 use near_sdk::serde::{Deserialize, Serialize};
 use near_sdk::NearSchema;
-use near_sdk::{
-    base64::{
-        alphabet,
-        engine::{self, general_purpose},
-        Engine,
-    },
-    env,
-};
-use serde_json::json;
-
+use near_sdk::{near, AccountId};
 // Define the contract structure
 #[near(contract_state)]
-pub struct Contract {}
+pub struct Contract {
+    owner: AccountId,
+    static_url: String,
+}
 
 // Define the default, which automatically initializes the contract
 impl Default for Contract {
     fn default() -> Self {
-        Self {}
+        Self {
+            owner: env::current_account_id(),
+            static_url: "ipfs://bafybeidc4lvv4bld66h4rmy2jvgjdrgul5ub5s75vbqrcbjd3jeaqnyd5e"
+                .to_string(),
+        }
     }
 }
 
 #[near]
 impl Contract {
-    pub const BASE64_ENGINE: engine::GeneralPurpose =
-        engine::GeneralPurpose::new(&alphabet::URL_SAFE, general_purpose::PAD);
+    pub fn web4_setStaticUrl(&mut self, url: String) {
+        self.assert_self_or_owner();
+        if url.starts_with("ipfs:") {
+            self.static_url = url;
+        }
+    }
+
+    fn assert_self_or_owner(&self) {
+        let caller = env::predecessor_account_id();
+        assert!(
+            caller == env::current_account_id() || caller == self.owner,
+            "Caller is not authorized"
+        );
+    }
+
+    pub fn web4_setOwner(&mut self, owner_id: AccountId) {
+        self.assert_self_or_owner();
+        self.owner = owner_id;
+    }
 
     /// Learn more about web4 here: https://web4.near.page
     pub fn web4_get(&self, request: Web4Request) -> Web4Response {
-        let mut current_account_id = env::current_account_id().to_string();
-        let mut network = "mainnet";
-
-        // Check if current_account_id starts with "web4." and remove it if it does
-        if let Some(stripped) = current_account_id.strip_prefix("web4.") {
-            current_account_id = stripped.to_string();
-        }
-
-        if current_account_id.ends_with(".testnet") {
-            network = "testnet";
-        }
-
-        // it would be cool if this could hook into bos-workspace aliases
-        let social_near = if network == "testnet" {
-            "v1.social08.testnet"
+        // Check if the path is empty or contains invalid characters
+        let path = if let Some(p) = request.path.as_str().strip_prefix('/') {
+            p
         } else {
-            "social.near"
+            request.path.as_str()
         };
 
-        let path_parts: Vec<&str> = request.path.split('/').collect();
-
-        let metadata_preload_url = format!(
-            // web4 contract call for widget metadata
-            "/web4/contract/{}/get?keys.json=%5B%22{}/widget/Index/metadata/**%22%5D",
-            social_near, &current_account_id
-        );
-
-        let mut app_name = String::new();
-        let title = String::new();
-        let mut description = String::new();
-
-        let Some(preloads) = request.preloads else {
-            return Web4Response::PreloadUrls {
-                preload_urls: [metadata_preload_url.clone()].to_vec(),
+        // If the path is empty or just "/", return the static URL
+        if path.is_empty() {
+            return Web4Response::BodyUrl {
+                body_url: self.static_url.clone(),
+                status: 200,
             };
-        };
-
-        // populate title and description from widget metadata
-        if let Some(Web4Response::Body {
-            content_type: _,
-            body,
-        }) = preloads.get(&metadata_preload_url)
-        {
-            if let Ok(body_value) = serde_json::from_slice::<serde_json::Value>(
-                &Self::BASE64_ENGINE.decode(body).unwrap(),
-            ) {
-                if let Some(app_name_str) =
-                    body_value[&current_account_id]["widget"]["Index"]["metadata"]["name"].as_str()
-                {
-                    app_name = app_name_str.to_string();
-                }
-
-                if let Some(description_str) = body_value[&current_account_id]["widget"]["Index"]
-                    ["metadata"]["description"]
-                    .as_str()
-                {
-                    description = description_str.to_string();
-                }
-            }
         }
 
-        let image = format!(
-            "https://i.near.social/magic/large/https://near.social/magic/img/account/{}",
-            &current_account_id
-        );
+        // List of file extensions to check
+        let extensions = vec![
+            ".css", ".js", ".html", ".png", ".jpg", ".jpeg", ".gif", ".svg",
+        ];
 
-        let redirect_path = format!("{}/widget/Index", &current_account_id);
-        let initial_props_json = json!({"page": path_parts.get(2)});
+        // Check if the path ends with one of the specified extensions
+        let should_append_path = extensions.iter().any(|ext| path.ends_with(ext));
 
-        let app_name = html_escape::encode_text(&app_name).to_string();
-        let title = html_escape::encode_text(&title).to_string();
-        let description = html_escape::encode_text(&description).to_string();
+        if should_append_path {
+            let appended_url = format!("{}/{}", self.static_url, path);
+            return Web4Response::BodyUrl {
+                body_url: appended_url,
+                status: 200,
+            };
+        }
 
-        let body = format!(
-            r#"<!DOCTYPE html>
-    <html>
-    <head>
-        <title>{app_name}</title>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width,initial-scale=1">
-        <meta property="og:url" content="{url}" />
-        <meta property="og:type" content="website" />
-        <meta property="og:title" content="{app_name}{title}" />
-        <meta property="og:description" content="{description}" />
-        <meta property="og:image" content="{image}" />
-    
-        <meta name="twitter:card" content="summary_large_image">
-        <meta name="twitter:title" content="{app_name}{title}">
-        <meta name="twitter:description" content="{description}">
-        <meta name="twitter:image" content="{image}">
-        <script defer src="https://ipfs.web4.near.page/ipfs/bafybeiancp5im5nfkdki3cfvo7ownl2knjovqh7bseegk4zvzsl4buryoi/main.e3d28e0d8977da89f0c4.bundle.js"></script>
-        <script defer src="https://ipfs.web4.near.page/ipfs/bafybeiancp5im5nfkdki3cfvo7ownl2knjovqh7bseegk4zvzsl4buryoi/runtime.475541d9ed47b876d02e.bundle.js"></script>
-        <style>
-        body {{
-            margin: 0;
-            padding: 0;
-            height: 100%;
-            background-color: #000000 !important;
-            box-sizing: border-box;
-            overflow-x: hidden;
-            scroll-behavior: smooth;
-        }}
-        </style>
-    </head>
-    <body>
-        <near-social-viewer src="{current_account_id}/widget/Index" initialProps='{initial_props_json}' network="{network}"></near-social-viewer>
-    </body>
-    </html>"#,
-            url = redirect_path
-        );
-
-        Web4Response::Body {
-            content_type: "text/html; charset=UTF-8".to_owned(),
-            body: Self::BASE64_ENGINE.encode(body),
+        // Default to returning the static URL if no specific extension is matched
+        Web4Response::BodyUrl {
+            body_url: self.static_url.clone(),
+            status: 200,
         }
     }
 }
@@ -172,6 +110,7 @@ pub enum Web4Response {
     BodyUrl {
         #[serde(rename = "bodyUrl")]
         body_url: String,
+        status: u16,
     },
     PreloadUrls {
         #[serde(rename = "preloadUrls")]
@@ -187,159 +126,166 @@ pub enum Web4Response {
 mod tests {
     use super::*;
 
-    use near_sdk::{base64::Engine, test_utils::VMContextBuilder, testing_env};
-
-    const PRELOAD_URL: &str =
-        "/web4/contract/social.near/get?keys.json=%5B%22anybody.near/widget/Index/metadata/**%22%5D";
-
-    fn create_preload_result(title: String, description: String) -> serde_json::Value {
-        let body_string = serde_json::json!({"anybody.near":{"widget":{"Index":{"metadata":{
-        "description":description,
-        "image":{"ipfs_cid":"bafkreido4srg4aj7l7yg2tz22nbu3ytdidjczdvottfr5ek6gqorwg6v74"},
-        "name":title
-        }}}}})
-        .to_string();
-
-        let body_base64 = Contract::BASE64_ENGINE.encode(body_string);
-        return serde_json::json!({
-                String::from(PRELOAD_URL): {
-                    "contentType": "application/json",
-                    "body": body_base64
-                }
-        });
-    }
+    use near_sdk::{test_utils::VMContextBuilder, testing_env};
 
     fn view_test_env() {
         let contract: String = "anybody.near".to_string();
         let context = VMContextBuilder::new()
-            .current_account_id(contract.try_into().unwrap())
+            .current_account_id(contract.clone().try_into().unwrap())
+            .predecessor_account_id(contract.clone().try_into().unwrap())
             .build();
 
         testing_env!(context);
     }
 
-    #[test]
-    pub fn test_preload_url_response() {
-        view_test_env();
-        let contract = Contract {};
-
-        let response_before_preload = contract.web4_get(
-            serde_json::from_value(serde_json::json!({
-                "path": "/"
-            }))
-            .unwrap(),
-        );
-        match response_before_preload {
-            Web4Response::PreloadUrls { preload_urls } => {
-                assert_eq!(PRELOAD_URL, preload_urls.get(0).unwrap())
-            }
-            _ => {
-                panic!("Should return Web4Response::PreloadUrls");
-            }
-        }
-    }
-
-    #[test]
-    pub fn test_response_with_preload_content() {
-        view_test_env();
-        let contract = Contract {};
-
-        let response = contract.web4_get(
-            serde_json::from_value(serde_json::json!({
-                "path": "/",
-                "preloads": create_preload_result(String::from("Anybody"),String::from("A description of any widget")),
-            }))
-            .unwrap(),
-        );
-        match response {
-            Web4Response::Body { content_type, body } => {
-                assert_eq!("text/html; charset=UTF-8", content_type);
-
-                let body_string =
-                    String::from_utf8(Contract::BASE64_ENGINE.decode(body).unwrap()).unwrap();
-
-                assert!(body_string.contains(
-                    "<meta property=\"og:description\" content=\"A description of any widget\" />"
-                ));
-                assert!(body_string.contains("<meta property=\"og:title\" content=\"Anybody\" />"));
-            }
-            _ => {
-                panic!("Should return Web4Response::Body");
-            }
-        }
-    }
-
-    #[test]
-    pub fn test_web4_path() {
-        view_test_env();
-        let contract = Contract {};
-
-        for unknown_path in &["/", "/unknown", "/unknown/path"] {
-            let response = contract.web4_get(
-                serde_json::from_value(serde_json::json!({
-                    "path": unknown_path,
-                    "preloads": create_preload_result(String::from("Anything"), String::from("Anywhere")),
-                }))
-                .unwrap(),
-            );
-            match response {
-                Web4Response::Body { content_type, body } => {
-                    assert_eq!("text/html; charset=UTF-8", content_type);
-
-                    let body_string =
-                        String::from_utf8(Contract::BASE64_ENGINE.decode(body).unwrap()).unwrap();
-
-                    assert!(body_string
-                        .contains("<meta name=\"twitter:description\" content=\"Anywhere\">"));
-                    assert!(
-                        body_string.contains("<meta name=\"twitter:title\" content=\"Anything\">")
-                    );
-
-                    assert!(body_string
-                        .contains("<near-social-viewer src=\"anybody.near/widget/Index\""));
-                }
-                _ => {
-                    panic!(
-                        "Should return Web4Response::Body for '{}' path",
-                        unknown_path
-                    );
-                }
-            }
-        }
-    }
-
-    #[test]
-    pub fn test_network_param() {
-        let contract: String = "anybody.testnet".to_string();
+    fn set_caller(caller: &str) {
         let context = VMContextBuilder::new()
-            .current_account_id(contract.try_into().unwrap())
+            .predecessor_account_id(caller.to_string().try_into().unwrap())
             .build();
-
         testing_env!(context);
+    }
 
-        let contract = Contract {};
-        let response = contract.web4_get(
-                serde_json::from_value(serde_json::json!({
-                    "path": "/",
-                    "preloads": create_preload_result(String::from("Anything"), String::from("Anywhere")),
-                }))
-                .unwrap(),
-            );
+    #[test]
+    fn test_web4_set_static_url() {
+        view_test_env();
+        let mut contract = Contract::default();
+
+        // Set a new static URL
+        contract.web4_setStaticUrl("ipfs://newhash".to_string());
+        assert_eq!(contract.static_url, "ipfs://newhash");
+
+        // Set an invalid static URL (should not change)
+        contract.web4_setStaticUrl("http://notipfs".to_string());
+        assert_eq!(contract.static_url, "ipfs://newhash");
+    }
+
+    #[test]
+    fn test_web4_set_owner() {
+        view_test_env();
+        let mut contract = Contract::default();
+        let new_owner = "new_owner.near".to_string();
+
+        // Set a new owner
+        contract.web4_setOwner(new_owner.clone().try_into().unwrap());
+        assert_eq!(contract.owner, new_owner);
+    }
+
+    #[test]
+    #[should_panic(expected = "Caller is not authorized")]
+    fn test_web4_set_static_url_not_authorized() {
+        view_test_env();
+        let mut contract = Contract::default();
+
+        // Change the caller to someone other than the owner or the contract itself
+        set_caller("unauthorized.near");
+
+        // Attempt to set a new static URL (should panic)
+        contract.web4_setStaticUrl("ipfs://newhash".to_string());
+    }
+
+    #[test]
+    #[should_panic(expected = "Caller is not authorized")]
+    fn test_web4_set_owner_not_authorized() {
+        view_test_env();
+        let mut contract = Contract::default();
+        let new_owner = "new_owner.near".to_string();
+
+        // Change the caller to someone other than the owner or the contract itself
+        set_caller("unauthorized.near");
+
+        // Attempt to set a new owner (should panic)
+        contract.web4_setOwner(new_owner.clone().try_into().unwrap());
+    }
+
+    #[test]
+    fn test_web4_get_root() {
+        view_test_env();
+        let contract = Contract::default();
+
+        let request = Web4Request {
+            account_id: None,
+            path: "/".to_string(),
+            params: Default::default(),
+            query: Default::default(),
+            preloads: None,
+        };
+
+        let response = contract.web4_get(request);
         match response {
-            Web4Response::Body { content_type, body } => {
-                assert_eq!("text/html; charset=UTF-8", content_type);
-
-                let body_string =
-                    String::from_utf8(Contract::BASE64_ENGINE.decode(body).unwrap()).unwrap();
-
-                assert!(body_string
-                    .contains("<near-social-viewer src=\"anybody.testnet/widget/Index\""));
-
-                assert!(body_string.contains("network=\"testnet\""));
+            Web4Response::BodyUrl { body_url, status } => {
+                assert_eq!(body_url, contract.static_url);
+                assert_eq!(status, 200);
             }
-            _ => {
-                panic!("Should return Web4Response::Body for '{}' path", "/");
+            _ => panic!("Unexpected response type"),
+        }
+    }
+
+    #[test]
+    fn test_web4_get_with_extension() {
+        view_test_env();
+        let contract = Contract::default();
+
+        let request = Web4Request {
+            account_id: None,
+            path: "/styles.css".to_string(),
+            params: Default::default(),
+            query: Default::default(),
+            preloads: None,
+        };
+
+        let response = contract.web4_get(request);
+        match response {
+            Web4Response::BodyUrl { body_url, status } => {
+                assert_eq!(body_url, format!("{}/styles.css", contract.static_url));
+                assert_eq!(status, 200);
             }
+            _ => panic!("Unexpected response type"),
+        }
+    }
+
+    #[test]
+    fn test_web4_get_without_extension() {
+        view_test_env();
+        let contract = Contract::default();
+
+        let request = Web4Request {
+            account_id: None,
+            path: "/noextension".to_string(),
+            params: Default::default(),
+            query: Default::default(),
+            preloads: None,
+        };
+
+        let response = contract.web4_get(request);
+        match response {
+            Web4Response::BodyUrl { body_url, status } => {
+                assert_eq!(body_url, contract.static_url);
+                assert_eq!(status, 200);
+            }
+            _ => panic!("Unexpected response type"),
+        }
+    }
+
+    #[test]
+    fn test_web4_get_invalid_path() {
+        view_test_env();
+        let contract = Contract::default();
+
+        let request = Web4Request {
+            account_id: None,
+            path: "".to_string(),
+            params: Default::default(),
+            query: Default::default(),
+            preloads: None,
+        };
+
+        let response = contract.web4_get(request);
+        match response {
+            Web4Response::BodyUrl { body_url, status } => {
+                assert_eq!(body_url, contract.static_url);
+                assert_eq!(status, 200);
+            }
+            _ => panic!("Unexpected response type"),
         }
     }
 }
