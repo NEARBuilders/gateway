@@ -108,7 +108,7 @@ const Container = styled.div`
 const Search = useMemo(() => {
   return (
     <Widget
-      src={"${alias_new}/widget/page.projects.SearchBar"}
+      src={"${config_account}/widget/page.projects.SearchBar"}
       props={{
         title: sort,
         numItems: filteredProjects.length,
@@ -133,7 +133,7 @@ const ProjectsComponent = useMemo(() => {
       {(shuffledProjects || []).slice(0, 20).map((project) => {
         return (
           <Widget
-            src={"${alias_new}/widget/page.projects.PotlockProjectCard"}
+            src={"${config_account}/widget/page.projects.PotlockProjectCard"}
             loading={
               <div
                 style={{
@@ -162,7 +162,7 @@ const ProjectsComponent = useMemo(() => {
 if (showCreateModalProjectId) {
   return (
     <Widget
-      src="${alias_new}/widget/page.projects.Editor"
+      src="${config_account}/widget/page.projects.Editor"
       loading=""
       props={{
         poltlockProjectId: showCreateModalProjectId,

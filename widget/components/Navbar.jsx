@@ -6,6 +6,8 @@ const { href } = VM.require("${alias_devs}/widget/lib.url") || {
   href: () => {},
 };
 
+const { isBuildDAO } = VM.require("${config_account}/widget/lib.gateway");
+
 const NavContainer = styled.div`
   display: flex;
   padding: 24px 48px;
@@ -250,7 +252,32 @@ function Navbar(props) {
     setDropdown((prev) => !prev);
   };
 
-  const TestBtn = () => {
+  const SignInButton = () => (
+    <>
+      {isBuildDAO ? (
+        <Wallet
+          provides={({ signIn }) => (
+            <Button variant="primary" className="w-100" onClick={signIn}>
+              Sign In
+            </Button>
+          )}
+        />
+      ) : (
+        <Button
+          variant="primary"
+          linkClassName="d-flex"
+          href="${alias_gateway_url}?page=login"
+          noLink={true}
+          className="w-100"
+          onClick={() => setDropdown(false)}
+        >
+          Sign In
+        </Button>
+      )}
+    </>
+  );
+
+  const NetworkButton = () => {
     const { networkId } = context;
 
     const isTestnet = networkId === "testnet";
@@ -456,17 +483,9 @@ function Navbar(props) {
                 props={props}
               />
             ) : (
-              <Button
-                variant="primary"
-                linkClassName="d-flex"
-                href="${alias_gateway_url}/join"
-                noLink={true}
-                className="w-100"
-              >
-                Sign In
-              </Button>
+              <SignInButton />
             )}
-            <TestBtn />
+            <NetworkButton />
           </div>
         </Right>
         <MobileNavigation>
@@ -620,20 +639,9 @@ function Navbar(props) {
                     />
                   </div>
                 ) : (
-                  <>
-                    <Button
-                      variant="primary"
-                      linkClassName="d-flex"
-                      href="${alias_gateway_url}/join"
-                      noLink={true}
-                      className="w-100"
-                      onClick={() => setDropdown(false)}
-                    >
-                      Sign In
-                    </Button>
-                  </>
+                  <SignInButton />
                 )}
-                <TestBtn />
+                <NetworkButton />
               </div>
             </div>
           </MobileContent>

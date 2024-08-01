@@ -112,7 +112,7 @@ const Overlay = (props) => (
     className="link-dark text-truncate d-inline-flex mw-100"
     key={accountId}
     to={href({
-      widgetSrc: "${alias_new}/widget/Index",
+      widgetSrc: "${config_account}/widget/Index",
       params: {
         page: "profile",
         accountId,

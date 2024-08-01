@@ -1,10 +1,10 @@
-name: Test web4 contract
+name: Test contract
 on:
   workflow_call:
 
 defaults:
   run:
-    working-directory: ./web4contract
+    working-directory: ./contract
 
 jobs:
   code-formatting:

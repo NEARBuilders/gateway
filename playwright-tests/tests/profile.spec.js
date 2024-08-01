@@ -12,10 +12,14 @@ test.describe("?page=profile", () => {
       storageState: "playwright-tests/storage-states/wallet-connected.json",
     });
 
-    test("should show profile page if no accountId is passed", async ({
+    test("should show user profile page if no accountId is passed", async ({
       page,
     }) => {
-      const profileId = page.getByText("saswat_test.testnet").nth(2);
+      const editProfile = await page.getByRole("button", {
+        name: "Edit Profile",
+      });
+      await expect(editProfile).toBeVisible();
+      const profileId = await page.getByText("saswat_test.testnet").nth(1);
       await expect(profileId).toBeVisible();
     });
 

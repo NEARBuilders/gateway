@@ -11,23 +11,6 @@ const { Header } = VM.require("${config_account}/widget/components.Header") || {
   Header: () => <></>,
 };
 
-const LoginContainer = styled.div`
-  background-color: #23242b;
-  color: #fff;
-
-  width: 100%;
-  height: 16rem;
-  border-radius: 1rem;
-
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-  align-items: center;
-  justify-content: center;
-
-  margin-bottom: 1rem;
-`;
-
 const { feedName, template, requiredHashtags, customActions } = props;
 
 // for modals
@@ -53,6 +36,15 @@ customActions = [
   },
 ];
 
+const LoginContainer = styled.div`
+  background-color: #23242b;
+  width: 100%;
+  border-radius: 1rem;
+  padding: 1rem;
+  display: flex;
+  margin-bottom: 1rem;
+`;
+
 return (
   <div key={feedName}>
     <Header>{feedName}</Header>
@@ -68,13 +60,13 @@ return (
     />
     {!context.accountId ? ( // if not logged in
       <LoginContainer>
-        <p>Please login in order to post.</p>
-        <a
-          href={"${alias_gateway_url}/join"}
-          style={{ textDecoration: "none" }}
-        >
-          <Button variant="primary">Login</Button>
-        </a>
+        <Widget
+          src="${config_account}/widget/components.LoginAction"
+          loading=""
+          props={{
+            text: "Please login in order to post.",
+          }}
+        />
       </LoginContainer>
     ) : (
       <Widget

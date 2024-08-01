@@ -7,5 +7,6 @@
   "new": "builddao.testnet",
   "old": "buildhub.testnet",
   "potlock": "potlock.testnet",
-  "every": "allthethings.testnet"
+  "every": "allthethings.testnet",
+  "web4_url": "builddao.testnet.page"
 }

@@ -97,7 +97,7 @@ export default defineConfig({
 
   /* Run your local dev server before starting the tests */
   webServer: {
-    command: "yarn dev:testnet",
+    command: "yarn dev:testnet --no-hot",
     port: 8080,
     reuseExistingServer: !process.env.CI,
   },

@@ -6,7 +6,7 @@ const { Footer } = VM.require("${config_account}/widget/components.Footer") || {
   Footer: () => <></>,
 };
 
-const { isNearSocial } = VM.require("${alias_new}/widget/lib.gateway") || {
+const { isNearSocial } = VM.require("${config_account}/widget/lib.gateway") || {
   isNearSocial: false,
 };
 
@@ -127,6 +127,22 @@ const config = {
         blockHeight: "final",
         init: {
           name: "Library",
+        },
+        hide: true,
+      },
+      login: {
+        path: "${config_account}/widget/page.login.Index",
+        blockHeight: "final",
+        init: {
+          name: "Login",
+        },
+        hide: true,
+      },
+      logout: {
+        path: "${config_account}/widget/page.logout.Index",
+        blockHeight: "final",
+        init: {
+          name: "Logout",
         },
         hide: true,
       },

@@ -67,7 +67,7 @@ const processData = (data, type) => {
 };
 
 const fetchProjects = (props) => {
-  const app = props.app || "${alias_new}";
+  const app = props.app || "${config_account}";
   const type = props.type || "project";
 
   const data = fetchThings(props, app, type);

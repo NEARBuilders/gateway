@@ -11,7 +11,7 @@ const { normalize } = VM.require("${alias_devs}/widget/lib.stringUtils") || {
 };
 
 const { getProjectMeta, getProjectIdFromPath } = VM.require(
-  "${alias_new}/widget/lib.projects",
+  "${config_account}/widget/lib.projects",
 ) || {
   getProjectMeta: () => {},
   getProjectIdFromPath: () => {},

@@ -150,6 +150,8 @@ const { href } = VM.require("${config_account}/widget/lib.url") || {
   href: () => {},
 };
 
+const { gatewayOrigin } = VM.require("${config_account}/widget/lib.gateway");
+
 return (
   <StyledDropdown className="dropdown">
     <button
@@ -179,7 +181,7 @@ return (
           className="dropdown-item"
           type="button"
           to={href({
-            widgetSrc: "${alias_new}/widget/Index",
+            widgetSrc: "${config_account}/widget/Index",
             params: {
               page: "profile",
               accountId: context.accountId,
@@ -191,10 +193,25 @@ return (
         </Link>
       </li>
       <li>
-        <Link className="dropdown-item" type="button" to={"/logout"}>
-          <LogOut />
-          Sign Out
-        </Link>
+        {isBuildDAO ? (
+          <Wallet
+            provides={({ signOut }) => (
+              <div className="dropdown-item" type="button" onClick={signOut}>
+                <LogOut />
+                Sign Out
+              </div>
+            )}
+          />
+        ) : (
+          <Link
+            className="dropdown-item"
+            type="button"
+            to={"${alias_gateway_url}?page=logout"}
+          >
+            <LogOut />
+            Sign Out
+          </Link>
+        )}
       </li>
     </ul>
   </StyledDropdown>

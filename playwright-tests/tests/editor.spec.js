@@ -16,7 +16,7 @@ test.describe("?page=projects&tab=editor", () => {
 
       test("editor page should prompt user to log in", async ({ page }) => {
         const requireLogin = await page.getByText(
-          "Please log in in order to see create or edit a project.",
+          "Please log in in order to create or edit a project.",
         );
 
         await expect(requireLogin).toBeVisible();
@@ -355,7 +355,7 @@ test.describe("?page=projects&tab=editor", () => {
       storageState: "playwright-tests/storage-states/wallet-connected.json",
     });
 
-    test("Should show error if no projects found in search", async ({
+    test("should show error if no projects found in search", async ({
       page,
     }) => {
       await page.getByPlaceholder("Search projects").fill("Test");
@@ -366,7 +366,7 @@ test.describe("?page=projects&tab=editor", () => {
       await expect(errorText).toBeVisible();
     });
 
-    test("Should be able to create a new project from NEAR Catalog", async ({
+    test("should be able to create a new project from NEAR Catalog", async ({
       page,
     }) => {
       await page.getByPlaceholder("Search projects").fill("Build DAO");

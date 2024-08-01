@@ -5,7 +5,9 @@ const { User, Hashtag } = VM.require(
   Hashtag: () => <></>,
 };
 
-const { getProjectMeta } = VM.require("${alias_new}/widget/lib.projects") || {
+const { getProjectMeta } = VM.require(
+  "${config_account}/widget/lib.projects",
+) || {
   getProjectMeta: () => {},
 };
 
