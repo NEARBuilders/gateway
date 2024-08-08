@@ -9,7 +9,7 @@
 <br />
 <br />
   <p>
-    <strong>Designed to support builders in a multi-chain ecosystem.</strong>
+    <strong>Gateway designed to support builders in a multi-chain ecosystem.</strong>
   </p>
 
 </div>
