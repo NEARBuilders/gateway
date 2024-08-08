@@ -1,15 +1,40 @@
-# Build DAO Gateway
+<!-- markdownlint-disable MD014 -->
+<!-- markdownlint-disable MD033 -->
+<!-- markdownlint-disable MD041 -->
+<!-- markdownlint-disable MD029 -->
+
+<div align="center">
+
+<img src="https://builders.mypinata.cloud/ipfs/QmQBLcPwLaQfEdjVqpEFQ5K5VciEXPTBR9s6UbbcP3rzBW" alt="Build DAO" height="100" />
+<br />
+<br />
+  <p>
+    <strong>Designed to support builders in a multi-chain ecosystem.</strong>
+  </p>
+
+</div>
+
+<details>
+  <summary>Table of Contents</summary>
+
+- [Overview](#overview)
+- [Setup & Development](#setup--development)
+- [Contributing](#contributing)
+
+</details>
+
+## Overview
 
 Let's connect, collaborate, and create solutions together!
 
-This repository holds the front-end widgets for [Build DAO Gateway](https://nearbuilders.org/). This project is configured as a [bos-workspace](https://github.com/nearbuilders/bos-workspace).
+This repository holds the front-end widgets for [Build DAO Gateway](https://nearbuilders.org/). It is configured as a [bos-workspace](https://github.com/nearbuilders/bos-workspace).
 
 ## Setup & Development
 
-1. Initialize submodules and install packages:
+1. Install packages
 
 ```cmd
-yarn run init
+yarn install
 ```
 
 2. Start development version in mainnet:
@@ -24,16 +49,20 @@ Or start the development version in testnet:
 yarn dev:testnet
 ```
 
-This will start a gateway at http://127.0.0.1:8080 which will render your local widgets. The entry point for this app is [buildhub.near/widget/app](http://127.0.0.1:8080/buildhub.near/widget/app).
+This will start a gateway at <http://127.0.0.1:8080> which will render your local widgets. The entry point for this app is [builddao.near/widget/Index](http://127.0.0.1:8080/builddao.near/widget/Index).
 
-### Community Page
+## Contributing
 
-[View Default](https://nearbuilders.org/build.sputnik-dao.near/widget/community)
+Contributions are what make the open source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
 
-#### Features
+If you're interested in contributing to this project, please read the [contribution guide](./CONTRIBUTING).
 
-- Customizable Settings
-- Onboarding Flow
-- Leaderboard
-- Groups
-- Projects
+<div align="right">
+  <a href="https://nearbuilders.org" target="_blank">
+    <img
+      src="https://builders.mypinata.cloud/ipfs/QmWt1Nm47rypXFEamgeuadkvZendaUvAkcgJ3vtYf1rBFj"
+      alt="Near Builders"
+      height="40"
+    />
+  </a>
+</div>
