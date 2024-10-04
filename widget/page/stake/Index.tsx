@@ -82,19 +82,31 @@ const userLoggedIn = context.accountId;
 
 if (!userLoggedIn) {
   return (
-    <Tailwind>
-      <div className="mx-auto w-max pt-10 space-y-2">
-        <Alert>
-          <AlertTitle>Please login to continue!</AlertTitle>
-          <Wallet provides={({ signIn}) => <Button onClick={signIn}>Login</Button>} />
-        </Alert>
+    <div className="alert alert-warning rounded-4 mb-3">
+      <div className="d-flex justify-content-between align-items-center">
+        <div className="fw-bold">Sign in to start using near.social</div>
+        <div>
+          <i class="fs-1 text-danger bi bi-arrow-up" />
+        </div>
       </div>
-    </Tailwind>
+    </div>
   );
+  // return (
+  //   <Tailwind>
+  //     <div className="mx-auto w-max pt-10 space-y-2">
+  //       <Alert>
+  //         <AlertTitle>Please login to continue!</AlertTitle>
+  //         <Wallet
+  //           provides={({ signIn }) => <Button onClick={signIn}>Login</Button>}
+  //         />
+  //       </Alert>
+  //     </div>
+  //   </Tailwind>
+  // );
 }
 
 const balanceResp = fetch(
-  `https://api3.nearblocks.io/v1/account/${userLoggedIn}`
+  `https://api3.nearblocks.io/v1/account/${userLoggedIn}`,
 );
 const nearBalance = Big(balanceResp?.body?.account?.[0]?.amount ?? "0")
   .div(Big(10).pow(24))
@@ -117,7 +129,7 @@ const unstakedBalance = convertAmountToReadableFormat(unstakedBalanceResp);
 const allowedToWithdraw = Near.view(
   account,
   "is_account_unstaked_balance_available",
-  { account_id: userLoggedIn }
+  { account_id: userLoggedIn },
 );
 
 const Container = styled.div`
