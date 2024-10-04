@@ -1,8 +1,0 @@
-{
-  "rewrites": [
-    {
-      "source": "/agency/:path*",
-      "destination": "https://elliotbraem-buildagency.web.val.run/"
-    }
-  ]
-}
