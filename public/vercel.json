@@ -1,0 +1,8 @@
+{
+  "rewrites": [
+    {
+      "source": "/agency/:path*"
+      "destination": "https://elliotbraem-intellectualaquallama.web.val.run/"
+    }
+  ]
+}
