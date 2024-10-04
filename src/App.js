@@ -228,7 +228,15 @@ function App() {
               <EditorPage {...passProps} />
             </Route>
             <Route path={"/agency"}>
-              <iframe width="100%" height="100%" src="https://elliotbraem-buildagency.web.val.run" title="Val Town" frameborder="0" allow="web-share" allowfullscreen></iframe>
+              <iframe
+                width="100%"
+                height="100%"
+                src="https://elliotbraem-buildagency.web.val.run"
+                title="Val Town"
+                frameborder="0"
+                allow="web-share"
+                allowfullscreen
+              ></iframe>
             </Route>
             <Route path={"/:path*"}>
               <BosLoaderBanner />
