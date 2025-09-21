@@ -46,6 +46,29 @@ export const refreshAllowanceObj = {};
 const documentationHref = "https://docs.near.org/bos/overview";
 const currentGateway = "nearbuilders";
 
+const getNetworkPreset = (networkId) => {
+  switch (networkId) {
+    case "mainnet":
+      return {
+        networkId,
+        nodeUrl: "https://free.rpc.fastnear.com",
+        helperUrl: "https://helper.mainnet.near.org",
+        explorerUrl: "https://nearblocks.io",
+        indexerUrl: "https://api.kitwallet.app",
+      };
+    case "testnet":
+      return {
+        networkId,
+        nodeUrl: "https://test.rpc.fastnear.com",
+        helperUrl: "https://helper.testnet.near.org",
+        explorerUrl: "https://testnet.nearblocks.io",
+        indexerUrl: "https://testnet-api.kitwallet.app",
+      };
+    default:
+      throw Error(`Failed to find config for: '${networkId}'`);
+  }
+};
+
 function App() {
   const [connected, setConnected] = useState(false);
   const [signedIn, setSignedIn] = useState(false);
@@ -65,6 +88,9 @@ function App() {
   const accountId = account.accountId;
 
   useEffect(() => {
+    const walletSelectorNetwork = getNetworkPreset(NetworkId);
+    const rpcUrl = walletSelectorNetwork.nodeUrl;
+    
     initNear &&
       initNear({
         networkId: NetworkId,
@@ -106,6 +132,7 @@ function App() {
         },
         config: {
           defaultFinality: undefined,
+          nodeUrl: rpcUrl,
         },
         features: {
           enableComponentSrcDataKey: true, // adds data-component attribute, helpful during inspect element
