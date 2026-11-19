@@ -11,6 +11,7 @@ defaults:
 
 jobs:
   cleanup-staging:
+    timeout-minutes: 60
     name: Cleanup staging account
     runs-on: ubuntu-latest
     env:
