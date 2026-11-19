@@ -9,6 +9,7 @@ permissions:
 
 jobs:
   pull-request:
+    timeout-minutes: 60
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/develop'
     steps:
